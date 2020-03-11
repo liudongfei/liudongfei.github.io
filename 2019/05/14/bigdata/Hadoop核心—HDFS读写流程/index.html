@@ -85,14 +85,14 @@
 <meta property="og:url" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="hdfs写数据文件流程hdfs写入数据流程图如下：流程：  client连接namenode存数据文件。 namenode记录一条数据位置信息（元数据，一个元数据大概150b），告诉client存哪里。 client用hdfs的api将数据块（默认128M）存储到datanode上（选择最近的一个datanode建立网络连接）。 datanode将数据水平备份（客户端决定该文件的副本数量）。并且备">
-<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/15578143876943.jpg">
-<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/15578144308325.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/media/15578143876943.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/media/15578144308325.jpg">
 <meta property="article:published_time" content="2019-05-14T05:21:21.434Z">
 <meta property="article:modified_time" content="2020-03-11T04:24:39.561Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hadoop">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/15578143876943.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/media/15578143876943.jpg">
 
 
 
@@ -390,7 +390,7 @@
       
 
       
-        <h2 id="hdfs写数据文件流程"><a href="#hdfs写数据文件流程" class="headerlink" title="hdfs写数据文件流程"></a>hdfs写数据文件流程</h2><p>hdfs写入数据流程图如下：<br><img src="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/15578143876943.jpg" alt><br>流程：</p>
+        <h2 id="hdfs写数据文件流程"><a href="#hdfs写数据文件流程" class="headerlink" title="hdfs写数据文件流程"></a>hdfs写数据文件流程</h2><p>hdfs写入数据流程图如下：<br><img src="media/15578143876943.jpg" alt=""><br>流程：</p>
 <ol>
 <li>client连接namenode存数据文件。</li>
 <li>namenode记录一条数据位置信息（元数据，一个元数据大概150b），告诉client存哪里。</li>
@@ -402,7 +402,7 @@
 </ol>
 <a id="more"></a>
 
-<h2 id="hdfs读取数据文件流程"><a href="#hdfs读取数据文件流程" class="headerlink" title="hdfs读取数据文件流程"></a>hdfs读取数据文件流程</h2><p>hdfs读取数据流程图如下：<br><img src="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/15578144308325.jpg" alt><br>流程：</p>
+<h2 id="hdfs读取数据文件流程"><a href="#hdfs读取数据文件流程" class="headerlink" title="hdfs读取数据文件流程"></a>hdfs读取数据文件流程</h2><p>hdfs读取数据流程图如下：<br><img src="media/15578144308325.jpg" alt=""><br>流程：</p>
 <ol>
 <li>client连接namenode，查看元数据，找到数据文件的存储位置。</li>
 <li>client通过hdfs的api并发读取数据（选择最近的datanode建立网络连接）。</li>
