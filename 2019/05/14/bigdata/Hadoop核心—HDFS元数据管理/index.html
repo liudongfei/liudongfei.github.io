@@ -85,13 +85,13 @@
 <meta property="og:url" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="##概述Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。##元数据管理元数据管理流程图：流程：  Client端跟nn（namenode）交互会造成nn元数据的更新，同时基">
-<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/media/15581935879583.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg">
 <meta property="article:published_time" content="2019-05-14T05:32:58.768Z">
 <meta property="article:modified_time" content="2020-03-11T03:36:20.789Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hadoop">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/media/15581935879583.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg">
 
 
 
@@ -389,7 +389,7 @@
       
 
       
-        <p>##概述<br>Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。<br>##元数据管理<br>元数据管理流程图：<br><img src="media/15581935879583.jpg" alt=""><br>流程：</p>
+        <p>##概述<br>Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。<br>##元数据管理<br>元数据管理流程图：<br><img src="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg" alt><br>流程：</p>
 <ol>
 <li>Client端跟nn（namenode）交互会造成nn元数据的更新，同时基于WAL思想，所有涉及到更新元数据的操作都会写入编辑日志中（edits-in-progress文件）。</li>
 <li>snn（secondarynamenode）的进程会定期向nn的进程发起合并edits和fsimage的请求。</li>
