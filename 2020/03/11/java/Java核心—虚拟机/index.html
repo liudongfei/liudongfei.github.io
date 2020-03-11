@@ -82,37 +82,37 @@
 <meta name="description" content="Java运行时内存区域###JDK1.8之前： JDK1.8: 线程私有的：    ▪    程序计数器    ▪    虚拟机栈    ▪    本地方法栈 线程共享的：    ▪    堆    ▪    方法区    ▪    直接内存 (非运行时数据区的一部分)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java核心—虚拟机">
-<meta property="og:url" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html">
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="Java运行时内存区域###JDK1.8之前： JDK1.8: 线程私有的：    ▪    程序计数器    ▪    虚拟机栈    ▪    本地方法栈 线程共享的：    ▪    堆    ▪    方法区    ▪    直接内存 (非运行时数据区的一部分)">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079420446.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079514890.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079715935.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079786447.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080006282.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080088640.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080184685.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080300272.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080556848.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080643724.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080742204.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080897998.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080972902.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081084786.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081199069.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081288922.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081477728.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081665480.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081810835.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081908436.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082032494.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082207362.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079420446.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079514890.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079715935.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079786447.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080006282.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080088640.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080184685.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080300272.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080556848.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080643724.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080742204.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080897998.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839080972902.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081084786.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081199069.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081288922.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081477728.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081665480.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081810835.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839081908436.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082032494.jpg">
+<meta property="og:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082207362.jpg">
 <meta property="article:published_time" content="2020-03-11T06:24:46.170Z">
 <meta property="article:modified_time" content="2020-03-11T07:58:45.000Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079420446.jpg">
+<meta name="twitter:image" content="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079420446.jpg">
 
 
 
@@ -142,7 +142,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/03/11/java/Java核心—虚拟机/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/11/java/Java核心—虚拟机/"/>
 
 
 
@@ -309,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -517,7 +517,7 @@ VisualVM 基于 NetBeans 平台开发，因此他一开始就具备了插件扩�
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="Java核心—虚拟机">http://yoursite.com/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/</a>
+    <a href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="Java核心—虚拟机">https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
