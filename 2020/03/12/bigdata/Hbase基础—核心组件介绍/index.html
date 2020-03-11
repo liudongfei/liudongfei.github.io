@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="hbase," />
 
 
 
@@ -79,11 +79,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="琅琊的博客">
-<meta property="og:url" content="https://liudongfei.github.io/categories/java/index.html">
+<meta name="description" content="Client整个Hbase集群的访问入口  使用HbaseRPC机制与HMaster和HRegionServer进行通信  与HMaster进行通信进行管理类操作  与HRegionServer进行数据读写类操作  包含访问Hbase的接口，并维护cache类加快对HBase的访问 Hmaster没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一  管理用户对table的增删">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hbase基础—核心组件介绍">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="琅琊的博客">
+<meta property="og:description" content="Client整个Hbase集群的访问入口  使用HbaseRPC机制与HMaster和HRegionServer进行通信  与HMaster进行通信进行管理类操作  与HRegionServer进行数据读写类操作  包含访问Hbase的接口，并维护cache类加快对HBase的访问 Hmaster没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一  管理用户对table的增删">
+<meta property="article:published_time" content="2020-03-11T17:04:15.745Z">
+<meta property="article:modified_time" content="2020-03-11T17:05:45.883Z">
 <meta property="article:author" content="dongfeiliu">
+<meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
 
 
@@ -114,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/categories/java/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/12/bigdata/Hbase基础—核心组件介绍/"/>
 
 
 
 
 
-  <title>Category: java | 琅琊的博客</title>
+  <title>Hbase基础—核心组件介绍 | 琅琊的博客</title>
   
 
 
@@ -139,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,311 +272,231 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>java<small>Category</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%9B%BE%E8%AE%BA/" itemprop="url">
-              
-                <span itemprop="name">Java算法——图论</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Hbase基础—核心组件介绍</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:46:33+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:04:15+08:00">
+                2020-03-12
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:05:45+08:00">
+                2020-03-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">
-              
-                <span itemprop="name">Java算法——排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:45:51+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" itemprop="url">
-              
-                <span itemprop="name">Java算法——布隆过滤器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:45:35+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/" itemprop="url">
-              
-                <span itemprop="name">Java数据结构——树</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:45:02+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/" itemprop="url">
-              
-                <span itemprop="name">Java数据结构——堆</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:43:32+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8%E3%80%81%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97/" itemprop="url">
-              
-                <span itemprop="name">Java数据结构——表、栈、队列</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:42:46+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/" itemprop="url">
-              
-                <span itemprop="name">Java核心—java8新特性</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:36:07+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url">
-              
-                <span itemprop="name">Java核心—虚拟机</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:24:46+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">Java核心—并发编程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:19:33+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">Java核心—网络编程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:15:55+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+        <h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><pre><code>整个Hbase集群的访问入口 
+使用HbaseRPC机制与HMaster和HRegionServer进行通信 
+与HMaster进行通信进行管理类操作 
+与HRegionServer进行数据读写类操作 
+包含访问Hbase的接口，并维护cache类加快对HBase的访问 </code></pre><h2 id="Hmaster"><a href="#Hmaster" class="headerlink" title="Hmaster"></a>Hmaster</h2><pre><code>没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一 
+管理用户对table的增删改查操作 
+管理HRegionServer的负载均衡，调整Region 分布 
+Region Split后，负责新Region的分布 
+在HRegionServer停机后，负责失效HRegionServer迁移工作 
+向zk请求在线的regionserver 
+管理regionserver </code></pre><h2 id="RegionServer"><a href="#RegionServer" class="headerlink" title="RegionServer"></a>RegionServer</h2><pre><code> 维护HRegion，处理对这些HRegion的IO请求 
+ 负责切分在运行过程中变得过大的HRegion 
+Client访问HBase上的数据的过程并不需要master参与（寻址访问zk和HRegionServer，数据读写访问HRegionServer） 
+ HMaster仅仅维护table和Region的元数据信息，负载很低</code></pre><h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><pre><code>保证任何时候，集群只有一个Hmaster 
+存储所有HRegion的寻址入口 
+实时监控HRegionServer的上线和下线信息，并实时通知给HMaster 
+存储HBase的schema和table元数据 
+存储meta表地址、HMaster地址 
+HMaster与HRegionServer启动时会向zk注册 
+/hbase 
+    /running    存储master的位置 
+    /rs        存活的regionserver 
+    /meta-region-server    meta表的regionserver的位置 
+    /table    表元数据信息 
+    /namespace    命名空间信息</code></pre>
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    dongfeiliu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="Hbase基础—核心组件介绍">https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hbase/" rel="tag"># hbase</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" rel="next" title="Hbase基础—配置详解">
+                <i class="fa fa-chevron-left"></i> Hbase基础—配置详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" rel="prev" title="Hbase基础—核心概念">
+                Hbase基础—核心概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/java/page/2/">2</a><a class="extend next" rel="next" href="/categories/java/page/2/">&gt;</a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -579,6 +504,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -599,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -660,6 +598,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Client"><span class="nav-number">1.</span> <span class="nav-text">Client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hmaster"><span class="nav-number">2.</span> <span class="nav-text">Hmaster</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RegionServer"><span class="nav-number">3.</span> <span class="nav-text">RegionServer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zookeeper"><span class="nav-number">4.</span> <span class="nav-text">Zookeeper</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -812,6 +766,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

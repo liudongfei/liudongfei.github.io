@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="hbase," />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="title: git常用命令 categories: util tags: [git]—– git的四部分构成 git常用命令初始化仓库：git init从远程仓库克隆项目到本地：git clone git@github.com:git帐号名&#x2F;仓库名.git 拉取远程分支到本地仓库：git checkout -b 本地分支 远程分支 # 会在本地新建分支，并自动切换到该分支git fetch">
+<meta name="description" content="Hbase配置文件参数hbase.rootdir这个目录是 regionserver 的共享目录，用来持久化 Hbase。URL需要是’完全正确’的， 还要包含文件系统的 scheme。例如，要表示 hdfs中的’&#x2F;hbase’目录，namenode 运行在 namenode.example.org 的 9090 端口 。则需要设置为 hdfs:&#x2F;&#x2F;namenode.example.org:900">
 <meta property="og:type" content="article">
-<meta property="og:title" content="util&#x2F;git常用命令">
-<meta property="og:url" content="https://liudongfei.github.io/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:title" content="Hbase基础—配置详解">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="title: git常用命令 categories: util tags: [git]—– git的四部分构成 git常用命令初始化仓库：git init从远程仓库克隆项目到本地：git clone git@github.com:git帐号名&#x2F;仓库名.git 拉取远程分支到本地仓库：git checkout -b 本地分支 远程分支 # 会在本地新建分支，并自动切换到该分支git fetch">
-<meta property="og:image" content="https://liudongfei.github.io/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg">
-<meta property="article:published_time" content="2019-05-17T01:44:57.097Z">
-<meta property="article:modified_time" content="2020-03-11T16:28:20.420Z">
+<meta property="og:description" content="Hbase配置文件参数hbase.rootdir这个目录是 regionserver 的共享目录，用来持久化 Hbase。URL需要是’完全正确’的， 还要包含文件系统的 scheme。例如，要表示 hdfs中的’&#x2F;hbase’目录，namenode 运行在 namenode.example.org 的 9090 端口 。则需要设置为 hdfs:&#x2F;&#x2F;namenode.example.org:900">
+<meta property="article:published_time" content="2020-03-11T17:02:30.997Z">
+<meta property="article:modified_time" content="2020-03-11T17:05:07.719Z">
 <meta property="article:author" content="dongfeiliu">
+<meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://liudongfei.github.io/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/2019/05/17/util/git常用命令/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/12/bigdata/Hbase基础—配置详解/"/>
 
 
 
 
 
-  <title>util/git常用命令 | 琅琊的博客</title>
+  <title>Hbase基础—配置详解 | 琅琊的博客</title>
   
 
 
@@ -287,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -304,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">util/git常用命令</h1>
+          <h1 class="post-title" itemprop="name headline">Hbase基础—配置详解</h1>
         
 
         <div class="post-meta">
@@ -316,8 +315,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-17T09:44:57+08:00">
-                2019-05-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:02:30+08:00">
+                2020-03-12
               </time>
             
 
@@ -332,12 +331,34 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:28:20+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:05:07+08:00">
                 2020-03-12
               </time>
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -371,24 +392,8 @@
       
 
       
-        <hr>
-<p> title: git常用命令<br> categories: util<br> tags: [git]<br>—–</p>
-<h2 id="git的四部分构成"><a href="#git的四部分构成" class="headerlink" title="git的四部分构成"></a>git的四部分构成</h2><p><img src="/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg" alt></p>
-<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><p>初始化仓库：git init<br>从远程仓库克隆项目到本地：<br>git clone <a href="mailto:git@github.com">git@github.com</a>:git帐号名/仓库名.git</p>
-<p>拉取远程分支到本地仓库：<br>git checkout -b 本地分支 远程分支 # 会在本地新建分支，并自动切换到该分支<br>git fetch origin : 远程分支 本地分支 # 会在本地新建分支，但不会自动切换，还需checkout<br>git branch –set-upstream 本地分支 远程分支 #建立本地分支与远程分支之间的连接</p>
-<p>将文件添加都暂存区：<br>git add 文件名 #将工作区的某个文件添加到暂存区<br>git add -u #添加所有被tracked文件中被修改或删除的文件信息暂存区，不处理untracked的文件<br>git add -A #添加所有被tracked文件中被修改或删除的文件信息暂存区，包括untracked的文件<br>git add . #将工作区中的所有文件添加到暂存区<br>git add -i #进入交互界面，按需添加文件到缓存区</p>
-<p>将暂存区的文件提交到本地仓库：<br>git commit -m “提交说明“ #将暂存区的文件提交到本地仓库<br>git commit -a -m “提交说明“ #跳过缓存区操作，直接将工作区的所有文件提交到本地仓库</p>
-<p>查看仓库当前状态：<br>git status </p>
-<p>比较文件异同：<br>git diff #工作区和暂存区的差异<br>git diff 分支名 #工作区与某分支的差异，远程分支这样写：remotes/origin/分支名<br>git diff HEAD #工作区与HEAD指针指向内容的差异<br>git diff 提交id 文件路径 #工作区某文件当前版本和历史版本的差异<br>git diff –stage #工作区文件和上次提交的差异，（1.6版本前用–cached）<br>git diff 版本TAG #查看某个版本后的改动内容<br>git diff 分支A 分支B #比较分支A和B的差异（也支持比较TAG）</p>
-<p>查看历史记录：<br>git log #查看所有commit记录(SHA-A校验和，作者名称，邮箱，提交时间，提交说明)<br>git log -p -次数 #查看最近多少次的提交记录<br>git log –stat #简略显示每次提交的内容修改<br>git log –name-only #仅显示已修改的文件清单<br>git log –name-status #显示新增，修改，删除的文件清单<br>git log –oneline #让提交的文件以一行输出<br>git log -graph -all –oneline #图形展示分支的合并历史<br>git log –author=作者 #查询作者的提交记录（和grep使用时要加–all-match参数）<br>git log –grep=过滤信息 #列出提交信息中包含过滤信息的提交记录<br>git log filename #查看某文件的提交记录<br>代码回滚：<br>git reset HEAD^ #恢复成上次提交的版本<br>git reset HEAD^^ #恢复成上上次提交的版本，就是多个^，以此类推或者用 ～次数</p>
-<p>同步本地仓库到远程仓库：<br>git push -u origin master<br>git push origin localBranch:remoteBranch    从本地的指定分支推送到远程指定分支<br>git pull origin remoteBranch:localBranch    从远程的指定分支拉取到本地指定分支 </p>
-<p>本地仓库内容推送到远程仓库：<br>git remote add origin <a href="mailto:git@github.com">git@github.com</a>:帐号名/仓库名.git</p>
-<p>分支管理：<br>git branch    查看本地分支<br>git branch -r    查看远程分支<br>git branch newBranchName    创建新的本地分支，不切换<br>git branch -b    newBranchName    创建新的本地分支，切换到新建的分支<br>git checkout branchName    切换到指定的分支<br>git branch -d branchName    删除合并过的分支<br>git branch -D banchName    强制删除分支<br>git merge branchName    将指定的分支合并到当前分支 </p>
-<p>git push origin localBranch    将本地分支推送到远成分支<br>git push origin :remoteBranch    删除远程分支 </p>
-<p>查看分支合并图：<br>git log –graph –pretty=oneline –abbrev-commit</p>
-<p>查看远程仓库地址：<br>git remote<br>// -v 显示更详细的信息</p>
-<p>撤销某次提交：<br>git revert HEAD #撤销最近的一个提交<br>git revert 版本号 #撤销某次commit</p>
-<p>打标签：<br>git tag 标签 #打标签命令，默认为HEAD<br>git tag #显示所有标签<br>git tag 标签 版本号 #给某个commit版本添加标签<br>git show tag #显示某个标签的详细信息<br>忽略文件及文件夹：<br>    在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可。</p>
+        <h2 id="Hbase配置文件参数"><a href="#Hbase配置文件参数" class="headerlink" title="Hbase配置文件参数"></a>Hbase配置文件参数</h2><p>hbase.rootdir<br>这个目录是 regionserver 的共享目录，用来持久化 Hbase。URL需要是’完全正确’的， 还要包含文件系统的 scheme。例如，要表示 hdfs中的’/hbase’目录，namenode 运行在 namenode.example.org 的 9090 端口 。则需要设置为 hdfs://namenode.example.org:9000 /hbase 。默认情况下 Hbase 是写到/tmp 的。 不改这个配置，数据会在重启的时候丢失。 默认:file:///tmp/hbase -${user.name}/hbase<br>hbase.master.port<br>Hbase 的 Master 的端口.<br>默认: 60000<br>hbase.cluster.distributed<br>Hbase 的运行模式。false 是单机模式，true 是分布式模式。若为 false,Hbase 和 Zookeeper 会运行在同一个 JVM 里面。<br>默认: false<br>hbase.tmp.dir<br>本地文件系统的临时文件夹。可以修改到一个更为持久的目录上。(/tmp 会在重启时清楚)<br>默认:/tmp/hbase-${user.name}<br>hbase.master.info.port<br>HBase Master web 界面端口. 设置为-1 意味着你不想让他运行。<br>默认: 60010<br>hbase.master.info.bindAddress<br>HBase Master web 界面绑定的端口<br>默认:0.0.0.0<br>hbase.client.write.buffer<br>HTable客户端的写缓冲的默认大小。这个值越大，需要消耗的内存越大。因为缓冲在客户端和服务端都有实例，所以需要消耗客户端和服务端两个地方的内存。得到的好处是，可 以 减 少 RPC 的 次 数 。<br>可以这样估算服务器端被占用的内存 ： hbase.client.write.buffer * hbase.regionserver.handler.count<br>默认:2097152<br>hbase.regionserver.port<br>HBaseRegionServer 绑定的端口<br>默认: 60020<br>hbase.regionserver.info.port<br>HBaseRegionServer web 界 面 绑 定 的 端 口 RegionServer 界面，设置为-1意味不想运行.<br>默认: 60030<br>hbase.regionserver.info.bindAddress<br>HBaseRegionServer web 界面的 IP 地址<br>默认:0.0.0.0<br>hbase.regionserver.class<br>RegionServer 使用的接口。客户端打开代理来连接 regionserver 的时候会使用到。<br>默认:org.apache.hadoop.hbase.ipc.HRegionInterface<br>hbase.client.pause<br>通常的客户端暂停时间。最多的用法是客户端在重试前的等待时间。比如失败的 get 操作 和 region 查询操作等都很可能用到。<br>默认: 1000<br>hbase.client.retries.number<br>最大重试次数。例如region查询，Get操作，Update 操作等等都可能发生错误，需要重试。这是最大重试错误的值。<br>默认: 10<br>hbase.client.scanner.caching<br>当调Scanner的next方法，而值又不在缓存里时，从服务端一次获取的行数。值越大意味着Scanner会快一些，但会占用更多的内存。当缓冲被占满的时候，next方法调用会越来越慢。慢到一定程度，可能会导致超时，例如超过了 hbase.regionserver.lease.period。<br>默认: 1<br>hbase.client.keyvalue.maxsize<br>一个KeyValue实例的最大size。这个是用来设置存储文件中的单个entry的大小上界。因为一个KeyValue 是不能分割的，所以可以避免因为 数据过大导致 region 不可分割。 明智的做法是把它设为可以被最大 region size 整除的数。如果设置为 0 或者更小，就 会禁用这个检查。默认 10MB。<br>默认:10485760<br>hbase.regionserver.lease.period<br>客户端租用HRegionserver期限，即超时阀值。单位是毫秒。默认情况下，客户端必须在这个时间内发一条信息，否则视为死掉。<br>默认: 60000<br>hbase.regionserver.handler.count<br>RegionServers 受理的 RPCServer 实例数量。对于 Master 来说，这个属性是 Master 受理的 handler 数量<br>默认: 10<br>hbase.regionserver.msginterval<br>RegionServer 发消息给 Master 时间间隔，单位是毫秒<br>默认: 3000<br>hbase.regionserver.optionallogflushinterval<br>Hlog同步到HDFS的间隔。如果Hlog没有积累到一定的数量，到了时间也会触发同步。默认是1秒，单位毫秒。<br>默认: 1000<br>hbase.regionserver.regionSplitLimit<br>region的数量到了这个值后就不会在分裂了。这不是一个 region 数量的硬性限制。但是起到了一定指导性的作用，到了这个值就该停止分裂了。默认是 MAX_INT。就是说不阻止分 裂。<br>默认:2147483647<br>hbase.regionserver.logroll.period<br>提交commitlog的间隔，不管有没有写足够的值。<br>默认:3600000<br>hbase.regionserver.hlog.reader.impl<br>HLog file reader 的实现.<br>默 认:org.apache.hadoop.hbase.regionserver.wal.SequenceFileLogReader<br>hbase.regionserver.hlog.writer.impl<br>HLog file writer 的实现.<br>默认:org.apache.hadoop.hbase.regionserver.wal.SequenceFileLogWriter<br>hbase.regionserver.thread.splitcompactcheckfrequency<br>regionserver多久执行一次 split/compaction 检查.<br>默认: 20000<br>hbase.zookeeper.dns.interface<br>当使用 DNS 的时候，Zookeeper 用来上报的 IP 地址的网络接口名字。<br>默认: default<br>hbase.zookeeper.dns.nameserver<br>当使用 DNS 的时候，Zookeepr 使用的 DNS 的域名或者 IP 地址，Zookeeper 用它来确定 和 master 用来进行通讯的域名.<br>默认:default<br>hbase.regionserver.dns.interface<br>当使用 DNS 的时候，RegionServer 用来上报的 IP 地址的网络接口名字。<br>默认:default<br>hbase.regionserver.dns.nameserver<br>当使用 DNS 的时候，RegionServer 使用的 DNS 的域名或者 IP 地址，RegionServer 用它来确定和 master 用来进行通讯的域名.<br>默认:default<br>hbase.master.dns.interface<br>当使用 DNS 的时候，Master 用来上报的 IP 地址的网络接口名字。<br>默认:default<br>hbase.master.dns.nameserver<br>当使用 DNS 的时候，RegionServer 使用的 DNS 的域名或者 IP 地址，Master 用它来确 定用来进行通讯的域名.<br>默认:default<br>hbase.balancer.period<br>Master 执行 regionbalancer 的间隔。<br>默认: 300000<br>hbase.regions.slop<br>当任一regionserver有average + (average * slop) 个 region 是会执行Rebalance<br>默认: 0<br>hbase.master.logcleaner.ttl<br>Hlog 存在于.oldlogdir 文件夹的最长时间, 超过了就会被 Master 的线程清理掉.<br>默认: 600000<br>hbase.master.logcleaner.plugins<br>LogsCleaner服务会执行的一组LogCleanerDelegat，值用逗号间隔的文本表示。这些WAL/HLog cleaners 会按顺序调用。可以把先调用的放在前面。你可以实现自己的 LogCleanerDelegat，加到 Classpath 下，然后在这里写下类的全称。一般都是加在 默认值的前面。<br>默认:org.apache.hadoop.hbase.master.TimeToLiveLogCleaner<br>hbase.regionserver.global.memstore.upperLimit<br>单个regionserver的全部memtores的最大值。超过这个值，一个新的update操作会被挂起，强制执行flush操作。<br>默认: 0.4<br>hbase.regionserver.global.memstore.lowerLimit<br>当强制执行flush操作的时候，当低于这个值的时候，flush会停止。默认是堆大小的 35% . 如果这个值和hbase.regionserver.global.memstore.upperLimit相同就意味着当update操作因为内存限制被挂起时，会尽量少的执行 flush(译者注:一旦执行 flush，值就会比下限要低，不再执行)<br>默认: 0.35<br>hbase.server.thread.wakefre quency<br>service工作的sleep间隔，单位毫秒。可以作为 service 线程的 sleep 间隔，比如 log roller.<br>默认: 10000<br>hbase.hregion.memstore.flush.size<br>当memstore的大小超过这个值的时候，会flush到磁盘。 这个值被一个线程每隔<br>hbase.server.thread.wakefrequency检查一下。<br>默认:67108864<br>hbase.hregion.preclose.flush.size<br>当一个region中的memstore的大小大于这个值的时候，我们又触发了close，会先运行“pre-flush”操作清理这个需要关闭的memstore，然后将这个region下线。当一个region下线了，我们无法再进行任何写操作。如果一个memstore很大的时候，flush 操作会消耗很多时间。”pre-flush”操作意味着在region下线之前，会先把 memstore 清空。这样在最终执行 close 操作的时 候，flush 操作会很快。<br>默认:5242880<br>hbase.hregion.memstore.block.multiplier<br>如果memstore有 hbase.hregion.memstore.block.multiplier 倍数的hbase.hregion.flush.size 的大小，就会阻塞 update操作。这是为了预防在update高峰期会导致的失控。如果不设上界，flush的时候会花很长的时间来合并或者分割，最 坏的情况就是引发 out of memory 异常。(译者注:内存操作的速度和磁盘不匹配，需要 等一等。原文似乎有误)<br>默认: 2<br>hbase.hregion.memstore.mslab.enabled<br>体验特性：启用 memStore 分配本地缓冲区。这个特性是为了防止在大量写负载的时候堆的碎片过多。这可以减少GC操作的频率。(GC有可能会 Stopthe world)(译者注：实现的原理相当于预分配内存，而不是每一个值都要从堆里分配)<br>默认: false<br>hbase.hregion.max.filesize<br>最大HStoreFile大小。若某个Column families的HStoreFile增长达到这个值，这个Hegion会被切成两个。 Default: 256M.<br>默认:268435456<br>hbase.hstore.compaction.Threshold<br>当一个HStore含有多于这个值的 HStoreFiles(每一个 memstore flush 产生一个 HStoreFile)的时候，会执行一个合并操作，把这 HStoreFiles写成一个。这个值越大， 需要合并的时间就越长。<br>默认: 3<br>hbase.hstore.blockingStoreFiles<br>当一个 HStore 含有多于这个值的 HStoreFiles(每一个 memstore flush 产生一个 HStoreFile)的时候，会执行一个合并操作，update 会阻塞直到合并完成，直到超过了 hbase.hstore.blockingWaitTime 的值<br>默认: 7<br>hbase.hstore.blockingWaitTime<br>hbase.hstore.blockingStoreFiles 所限制的 StoreFile 数量会导致 update 阻塞，这个时间是来限制阻塞时间的。当超过了这个时间，HRegion 会停止阻塞 update 操作， 不过合并还有没有完成。默认为 90s.<br>默认: 90000<br>hbase.hstore.compaction.max<br>每个“小”合并的 HStoreFiles 最大数量。<br>默认: 10<br>hbase.hregion.majorcompaction<br>一个 Region 中的所有 HStoreFile 的 major compactions 的时间间隔。默认是 1 天。 设置为 0 就是禁用这个功能。<br>默认:86400000<br>hbase.mapreduce.hfileoutputformat.blocksize<br>MapReduce中HFileOutputFormat可以写storefiles/hfiles. 这个值是hfile的blocksize的最小值。通常在 Hbase 写Hfile的时候，blocksize是由 table schema(HColumnDescriptor)决定的，但是在mapreduce写的时候，我们无法获取schema中blocksize。这个值越小，你的索引就越大，你随机访问需要获取的数据就越小。如果你的 cell 都很小，而且你需要更快的随机访问，可以把这个值调低。<br>默认: 65536<br>hfile.block.cache.size<br>分配给HFile/StoreFile的blockcache占最大堆(-Xmx setting)的比例。默认是 20%，设置为 0 就是不分配。<br>默认: 0.2<br>hbase.hash.type<br>哈希函数使用的哈希算法。可以选择两个值: murmur jenkins(JenkinsHash). 这个哈希是给bloom filters用的.<br>默认: murmur<br>hbase.master.keytab.file<br>(MurmurHash)和HMaster server验证登录使用的kerberoskeytab文件路径。(译者注：Hbase 使用 Kerberos 实现安全)<br>默认:hbase.master.kerberos.principal<br>例 如 .”hbase/<a href="mailto:_HOST@EXAMPLE.COM">_HOST@EXAMPLE.COM</a>“. HMaster 运 行 需 要 使 用 kerberos principal name. principal name 可以在:user/hostname@DOMAIN 中获取. 如 果”_HOST” 被用做 hostname portion ，需要使用实际运行的 hostname 来替代它。<br>默认:hbase.regionserver.keytab.file<br>HRegionServer 验证登录使用的 kerberoskeytab 文件路径。<br>默认:hbase.regionserver.kerberos.principal<br>例如 .”hbase/<a href="mailto:_HOST@EXAMPLE.COM">_HOST@EXAMPLE.COM</a>“. HRegionServer 运行需要使用 kerberos principalname. principal name 可以在: user/hostname@DOMAIN 中获取. 如 果 “_HOST” 被用做 hostname portion，需要使用实际运行的 hostname 来替代它。 在这个文件中必须要有一个 entry 来描述 hbase.regionserver.keytab.file<br>默认:<br>zookeeper.session.timeout<br>ZooKeeper 会话超时.Hbase 把这个值传递改 zk 集群，向他推荐一个会话的最大超时时 间 。 详 见 <a href="http://hadoop.apache.org/zookeeper/docs/current/zookeeperProgramm" target="_blank" rel="noopener">http://hadoop.apache.org/zookeeper/docs/current/zookeeperProgramm</a> ers.html#ch_zkSessions “The client sends a requestedtimeout, theserver responds with the timeout that it can givethe client. “ 。 单位是毫秒<br>默认: 180000<br>zookeeper.znode.parent<br>ZooKeeper 中的 Hbase 的根 ZNode。所有的 Hbase 的 ZooKeeper 会用这个目录配置相 对路径。默认情况下，所有的 Hbase 的 ZooKeeper 文件路径是用相对路径，所以他们会 都去这个目录下面。<br>默认: /hbase<br>zookeeper.znode.rootserver<br>ZNode 保存的 根 region 的路径. 这个值是由 Master 来写，client 和 regionserver 来读的。如果设为一个相对地址，父目录就是 ${zookeeper.znode.parent}. 默认情 形下，意味着根 region 的路径存储在/hbase/root-region- server.<br>默认:root-region-server<br>hbase.zookeeper.quorum<br>Zookeeper集群的地址列表，用逗号分割。例如”host1.mydomain.com,host2.mydomain.com”.默认是 localhost, 是给伪分布式用的。 要修改才能在完全分布式的情况下使用。 如果在 hbase-env.sh 设置了 HBASE_MANAGES_ZK，这些 ZooKeeper节点就会和Hbase一 起启动。<br>默认:localhost<br>hbase.zookeeper.peerport<br>ZooKeeper节点使用的端口。<br>默认: 2888<br>hbase.zookeeper.leaderport<br>ZooKeeper 用来选择 Leader 的端口<br>默认: 3888<br>hbase.zookeeper.property.initLimit<br>ZooKeeper 的 zoo.conf 中的配置。初始化 synchronization 阶段的 ticks 数量限制<br>默认: 10<br>hbase.zookeeper.property.syncLimit<br>ZooKeeper 的 zoo.conf 中的配置。发送一个请求到获得承认之间的 ticks 的数量限制<br>默认: 5<br>hbase.zookeeper.property.dataDir<br>ZooKeeper 的 zoo.conf 中的配置。快照的存储位置<br>默认:${hbase.tmp.dir}/zookeeper<br>hbase.zookeeper.property.clientPort<br>ZooKeeper 的 zoo.conf 中的配置。客户端连接的端口<br>默认: 2181<br>hbase.zookeeper.property.maxClientCnxns<br>ZooKeeper的zoo.conf中的配置。ZooKeeper集群中的单个节点接受的单个Client(以IP区分)的请求的并发数。这个值可以调高一点，防止在单机和伪分布式模式中出问题。<br>默认: 2000<br>hbase.rest.port<br>HBase RESTserver的端口<br>默认: 8080<br>hbase.rest.readonly<br>定义REST server的运行模式。可以设置成如下的值：false:所有的 HTTP 请求都是被允许的 - GET/PUT/POST/DELETE. true:只有 GET 请求是被允许的<br>默认: false<br>hbase.client.write.buffer<br>描述：这个参数可以设置写入数据缓冲区的大小，当客户端和服务器端传输数据，服务器为了提高系统运行性能开辟一个写的缓冲区来处理它，这个参数设置如果设置的大了，将会对系统的内存有一定的要求，直接影响系统的性能。<br>hbasta.thread.rescanfrequency<br>描述：多长时间 HMaster 对系统表 root 和 meta 扫描一次，这个参数可以设置的长一 些，降低系统的能耗。<br>hbase.regionserveunt<br>描述：由于 HBase/Hadoop 的Server是采用 Multiplexed, non-blocking I/O 方式而设计的，所以它可以透过一个Thread来完成处理，但是由于处理Client端所呼叫的方法是BlockingI/O，所以它的设计会将Client 所传递过来的物件先放置在 Queue， 并在启动 Server 时就先产生一堆 Handler(Thread)，该 Handler 会透过 Polling 的方式来取得该物件并执行对应的方法，默认为 25，根据实际场景可以设置大一些。<br>hbase.regionserver.thread.splitcompactcheckfrequency<br>描述：这个参数是表示多久去 RegionServer 服务器运行一次 split/compaction 的时 间间隔， 当然 split 之前会先进行一个 compact 操作. 这个 compact 操作可能是 minorcompact 也可能是 major compact.compact 后,会从所有的 Store 下的所有 StoreFile 文件最大的那个取 midkey.这个 midkey 可能并不处于全部数据的 mid 中. 一个 row-key 的下面的数据可能会跨不同的 HRegion。<br>hbase.hregion.max.filesize<br>HRegion 中的 HStoreFile 最大值，任何表中的列族一旦超过这个大小将会被切分， 而 HStroeFile 的默认大小是 256M。<br>hfile.block.cache.size<br>指定 HFile/StoreFile 缓存在 JVM 堆中分配的百分比，默认值是 0.2，意思就 是 20%，而如果你设置成 0，就表示对该选项屏蔽。<br>hbase.zookeeper.property.maxClientCnxns<br>描述：这项配置的选项就是从 zookeeper 中来的，表示 ZooKeeper 客户端同时访问的并 发连接数，ZooKeeper 对于 HBase 来说就是一个入口这个参数的值可以适当放大些。<br>hbase.regionservemstore.upper Limit<br>在 Region Server 中所有 memstores 占用堆的大小参数配置，默认值是 0.4， 表示 40%，如果设置为 0，就是对选项进行屏蔽。<br>hbasmstore.flush.size<br>Memstore中缓存的内容超过配置的范围后将会写到磁盘上，例如：删除操作是先写入MemStore里做个标记，指示那个value,column或family等下是要删除的，HBase会定期对存储文件做一个major compaction，在那时 HBase 会把 MemStore 刷入一个 新的 HFile 存储 文件中。 如果在一定时间范围内没有做 major compaction ， 而 Memstore 中超出的范围就写入磁盘上了。</p>
+<h2 id="HBase中log4j的日志"><a href="#HBase中log4j的日志" class="headerlink" title="HBase中log4j的日志"></a>HBase中log4j的日志</h2><pre><code>HBase中日志输出等级默认状态下是把debug、info级别的日志打开的，可以根据自己的需要调整log级别 ，HBase的log4j日志配置文件在hbase\conf\log4j.properties目录下。</code></pre><h2 id="Hbase的JVM配置"><a href="#Hbase的JVM配置" class="headerlink" title="Hbase的JVM配置"></a>Hbase的JVM配置</h2><pre><code>修改hbase-env.sh 文件中的配 置参数， 根 据你的机 器硬件和当 前操作系统 的 JVM(32/64 位)配置适当的参数：</code></pre><p>HBASE_HEAPSIZE 4000 HBase 使用的 JVM 堆的大小<br>HBASE_OPTS “‐server‐XX:+UseConcMarkSweepGC”JVMGC 选项</p>
 
       
     </div>
@@ -409,7 +414,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="util/git常用命令">https://liudongfei.github.io/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a>
+    <a href="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" title="Hbase基础—配置详解">https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -422,6 +427,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/hbase/" rel="tag"># hbase</a>
+          
+        </div>
+      
 
       
       
@@ -431,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/" rel="next" title="hadoop核心技术（四）—MR的shuffle过程剖析">
-                <i class="fa fa-chevron-left"></i> hadoop核心技术（四）—MR的shuffle过程剖析
+              <a href="/2020/03/12/database/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/" rel="next" title="数据持久化—磁盘阵列">
+                <i class="fa fa-chevron-left"></i> 数据持久化—磁盘阵列
               </a>
             
           </div>
@@ -441,8 +452,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/03/bigdata/Hadoop%E5%9F%BA%E7%A1%80%E2%80%94Hadoop%E4%BB%8B%E7%BB%8D/" rel="prev" title="hadoop学习笔记（一）">
-                hadoop学习笔记（一） <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" rel="prev" title="Hbase基础—核心组件介绍">
+                Hbase基础—核心组件介绍 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -575,7 +586,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#git的四部分构成"><span class="nav-number">1.</span> <span class="nav-text">git的四部分构成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git常用命令"><span class="nav-number">1.1.</span> <span class="nav-text">git常用命令</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase配置文件参数"><span class="nav-number">1.</span> <span class="nav-text">Hbase配置文件参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HBase中log4j的日志"><span class="nav-number">2.</span> <span class="nav-text">HBase中log4j的日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase的JVM配置"><span class="nav-number">3.</span> <span class="nav-text">Hbase的JVM配置</span></a></li></ol></div>
             
 
           </div>

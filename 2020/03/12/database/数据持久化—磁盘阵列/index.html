@@ -79,10 +79,14 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="琅琊的博客">
-<meta property="og:url" content="https://liudongfei.github.io/categories/java/index.html">
+<meta name="description" content="为啥用raid把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能优点：提高存储系统的吞吐量；通过数据校验提供容错功能 RAID0如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2 RAID1正因为RAID 0太不可靠，所以衍生出了RAID 1。如果你有n块磁盘，把其中n&#x2F;2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据持久化—磁盘阵列">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/12/database/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/index.html">
 <meta property="og:site_name" content="琅琊的博客">
+<meta property="og:description" content="为啥用raid把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能优点：提高存储系统的吞吐量；通过数据校验提供容错功能 RAID0如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2 RAID1正因为RAID 0太不可靠，所以衍生出了RAID 1。如果你有n块磁盘，把其中n&#x2F;2">
+<meta property="article:published_time" content="2020-03-11T17:00:26.488Z">
+<meta property="article:modified_time" content="2020-03-11T17:01:27.846Z">
 <meta property="article:author" content="dongfeiliu">
 <meta name="twitter:card" content="summary">
 
@@ -114,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/categories/java/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/12/database/数据持久化—磁盘阵列/"/>
 
 
 
 
 
-  <title>Category: java | 琅琊的博客</title>
+  <title>数据持久化—磁盘阵列 | 琅琊的博客</title>
   
 
 
@@ -139,7 +143,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,311 +271,207 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>java<small>Category</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/database/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%9B%BE%E8%AE%BA/" itemprop="url">
-              
-                <span itemprop="name">Java算法——图论</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">数据持久化—磁盘阵列</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:46:33+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:00:26+08:00">
+                2020-03-12
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:01:27+08:00">
+                2020-03-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">
-              
-                <span itemprop="name">Java算法——排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:45:51+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" itemprop="url">
-              
-                <span itemprop="name">Java算法——布隆过滤器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:45:35+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/" itemprop="url">
-              
-                <span itemprop="name">Java数据结构——树</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:45:02+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/" itemprop="url">
-              
-                <span itemprop="name">Java数据结构——堆</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:43:32+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8%E3%80%81%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97/" itemprop="url">
-              
-                <span itemprop="name">Java数据结构——表、栈、队列</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:42:46+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/" itemprop="url">
-              
-                <span itemprop="name">Java核心—java8新特性</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:36:07+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url">
-              
-                <span itemprop="name">Java核心—虚拟机</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:24:46+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">Java核心—并发编程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:19:33+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">Java核心—网络编程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T14:15:55+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h2 id="为啥用raid"><a href="#为啥用raid" class="headerlink" title="为啥用raid"></a>为啥用raid</h2><p>把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能<br>优点：提高存储系统的吞吐量；通过数据校验提供容错功能</p>
+<h2 id="RAID0"><a href="#RAID0" class="headerlink" title="RAID0"></a>RAID0</h2><p>如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2</p>
+<h2 id="RAID1"><a href="#RAID1" class="headerlink" title="RAID1"></a>RAID1</h2><p>正因为RAID 0太不可靠，所以衍生出了RAID 1。如果你有n块磁盘，把其中n/2块磁盘作为镜像磁盘，在往其中一块磁盘写入数据时，也同时往另一块写数据。坏了其中一块时，镜像磁盘自动顶上，可靠性最佳，但空间利用率太低。n最少为2</p>
+<h2 id="RAID3"><a href="#RAID3" class="headerlink" title="RAID3"></a>RAID3</h2><p>若你有n块盘，其中1块盘作为校验盘，剩余n-1块盘相当于作RAID 0同时读写，当其中一块盘坏掉时，可以通过校验码还原出坏掉盘的原始数据。这个校验方式比较特别，奇偶检验，1 XOR 0 XOR 1=0，0 XOR 1 XOR 0=1，最后的数据时校验数据，当中间缺了一个数据时，可以通过其他盘的数据和校验数据推算出来。但是这有个问题，由于n-1块盘做了RAID 0，每一次读写都要牵动所有盘来为它服务，而且万一校验盘坏掉就完蛋了。最多允许坏一块盘。n最少为3.</p>
+<h2 id="RAID5"><a href="#RAID5" class="headerlink" title="RAID5"></a>RAID5</h2><p>在RAID 3的基础上有所区别，同样是相当于是1块盘的大小作为校验盘，n-1块盘的大小作为数据盘，但校验码分布在各个磁盘中，不是单独的一块磁盘，也就是分布式校验盘，这样做好处多多。最多坏一块盘。n最少为3</p>
+<h2 id="RAID6"><a href="#RAID6" class="headerlink" title="RAID6"></a>RAID6</h2><p>在RAID 5的基础上，又增加了一种校验码，和解方程似的，一种校验码一个方程，最多有两个未知数，也就是最多坏两块盘</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    dongfeiliu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://liudongfei.github.io/2020/03/12/database/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/" title="数据持久化—磁盘阵列">https://liudongfei.github.io/2020/03/12/database/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/12/database/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%B8%89%E8%8C%83%E5%BC%8F/" rel="next" title="数据持久化—列存储与行存储">
+                <i class="fa fa-chevron-left"></i> 数据持久化—列存储与行存储
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" rel="prev" title="Hbase基础—配置详解">
+                Hbase基础—配置详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/java/page/2/">2</a><a class="extend next" rel="next" href="/categories/java/page/2/">&gt;</a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -579,6 +479,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -599,8 +503,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -660,6 +573,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为啥用raid"><span class="nav-number">1.</span> <span class="nav-text">为啥用raid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID0"><span class="nav-number">2.</span> <span class="nav-text">RAID0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID1"><span class="nav-number">3.</span> <span class="nav-text">RAID1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID3"><span class="nav-number">4.</span> <span class="nav-text">RAID3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID5"><span class="nav-number">5.</span> <span class="nav-text">RAID5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID6"><span class="nav-number">6.</span> <span class="nav-text">RAID6</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -812,6 +741,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
