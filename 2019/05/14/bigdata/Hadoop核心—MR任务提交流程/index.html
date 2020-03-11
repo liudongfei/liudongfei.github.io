@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="hadoop," />
 
 
 
@@ -79,12 +79,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="琅琊的博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta name="description" content="MR任务提交流程  流程：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop核心技术（三）—MR任务提交流程">
+<meta property="og:url" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
+<meta property="og:description" content="MR任务提交流程  流程：">
+<meta property="og:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/media/15586840729303.jpg">
+<meta property="article:published_time" content="2019-05-14T05:34:38.199Z">
+<meta property="article:modified_time" content="2020-03-11T03:36:20.807Z">
 <meta property="article:author" content="dongfeiliu">
+<meta property="article:tag" content="hadoop">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/media/15586840729303.jpg">
 
 
 
@@ -114,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/14/bigdata/Hadoop核心—MR任务提交流程/"/>
 
 
 
 
 
-  <title>Archive | 琅琊的博客</title>
+  <title>hadoop核心技术（三）—MR任务提交流程 | 琅琊的博客</title>
   
 
 
@@ -139,7 +146,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,416 +274,222 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">hadoop核心技术（三）—MR任务提交流程</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-14T13:34:38+08:00">
+                2019-05-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T11:36:20+08:00">
+                2020-03-11
+              </time>
+            
+          </span>
+
           
-        
-        Um..! 12 posts in total. Keep on posting.
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T12:53:26+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/11/java/Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/" itemprop="url">
-              
-                <span itemprop="name">Java易错点总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-11T12:08:44+08:00"
-              content="2020-03-11" >
-          03-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/03/bigdata/Hadoop%E5%9F%BA%E7%A1%80%E2%80%94Hadoop%E4%BB%8B%E7%BB%8D/" itemprop="url">
-              
-                <span itemprop="name">hadoop学习笔记（一）</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-06-03T23:23:39+08:00"
-              content="2019-06-03" >
-          06-03
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/17/util/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">
-              
-                <span itemprop="name">git常用命令</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-17T09:44:57+08:00"
-              content="2019-05-17" >
-          05-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
+      
+        <blockquote>
+<p>MR任务提交流程</p>
+</blockquote>
+<p><img src="media/15586840729303.jpg" alt=""><br>流程：</p>
+<a id="more"></a>
 
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">hadoop核心技术（四）—MR的shuffle过程剖析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-14T13:35:20+08:00"
-              content="2019-05-14" >
-          05-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+<ol>
+<li>Client端通过hadoop命令提交mapreduce应用，通过main方法中的waitforcomplete命令创建jobsubmiter与rm的applicationmanager请求</li>
+<li>Applicationmanager返回客户端响应的applicationid和上传文件的路径</li>
+<li>客户端生成该application相关的切片文件和参数文件，然后上传到hdfs的指定路径</li>
+<li>客户端请求rm的applicationmanager创建AM（应用管理进程）</li>
+<li>rm随机在一个nm上创建AM</li>
+<li>AM获取该应用相关的文件</li>
+<li>AM连接rm的resourcescheduler，申请启动map任务的相应资源</li>
+<li>AM向指定的container发送任务，并启动container</li>
+<li>mapcontainer执行过程中，不断向AM汇报进度，同时将任务执行结果写入本地磁盘</li>
+<li>AM启动reducecontainer，reduce任务远程到map任务的机器上获取上一步结果</li>
+<li>Reducertask不断向AM反馈任务执行进度</li>
+<li>任务执行结束，AM销毁，rm回收所有资源</li>
+</ol>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">hadoop核心技术（三）—MR任务提交流程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-14T13:34:38+08:00"
-              content="2019-05-14" >
-          05-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/" itemprop="url">
-              
-                <span itemprop="name">hadoop核心技术（二）—hdfs元数据管理剖析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-14T13:32:58+08:00"
-              content="2019-05-14" >
-          05-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/" itemprop="url">
-              
-                <span itemprop="name">hadoop核心技术（一）—hdfs读写流程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-14T13:21:21+08:00"
-              content="2019-05-14" >
-          05-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/13/util/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">
-              
-                <span itemprop="name">linux常用命令</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-13T23:32:54+08:00"
-              content="2019-05-13" >
-          05-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/12/util/Markdown%20syntax%20guide/" itemprop="url">
-              
-                <span itemprop="name">Markdown syntax guide</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-12T18:48:40+08:00"
-              content="2019-05-12" >
-          05-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    dongfeiliu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/" title="hadoop核心技术（三）—MR任务提交流程">http://yoursite.com/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/" rel="next" title="hadoop核心技术（二）—hdfs元数据管理剖析">
+                <i class="fa fa-chevron-left"></i> hadoop核心技术（二）—hdfs元数据管理剖析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/" rel="prev" title="hadoop核心技术（四）—MR的shuffle过程剖析">
+                hadoop核心技术（四）—MR的shuffle过程剖析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -684,6 +497,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -897,6 +714,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
