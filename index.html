@@ -282,6 +282,369 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/12/bigdata/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/" itemprop="url">Flink核心—WaterMark和Window</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:17:57+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:20:58+08:00">
+                2020-03-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Flink的Time类型"><a href="#Flink的Time类型" class="headerlink" title="Flink的Time类型"></a>Flink的Time类型</h2><pre><code>◦    事件时间
+◦    接入时间
+◦    处理时间</code></pre><h2 id="Flink的WaterMark机制"><a href="#Flink的WaterMark机制" class="headerlink" title="Flink的WaterMark机制"></a>Flink的WaterMark机制</h2><h3 id="WaterMark的类型"><a href="#WaterMark的类型" class="headerlink" title="WaterMark的类型"></a>WaterMark的类型</h3><pre><code>⁃    Periodic WaterMark：根据固定的时间间隔，周期性的生成WaterMark
+⁃    Punctuated WaterMark：根据某些条件生成WaterMark</code></pre><h2 id="Flink的Window类型"><a href="#Flink的Window类型" class="headerlink" title="Flink的Window类型"></a>Flink的Window类型</h2><h3 id="Window组成"><a href="#Window组成" class="headerlink" title="Window组成"></a>Window组成</h3><pre><code>•    Window Assigner：窗口分配器
+▪    时间窗口
+⁃    滚动窗口
+⁃    滑动窗口
+⁃    会话窗口
+⁃    全局窗口
+▪    计数窗口
+•    Window Trigger：窗口触发器
+⁃    EventTimeTrigger
+⁃    ProcessTimeTrigger
+⁃    CountTrigger
+⁃    DeltaTrigger
+⁃    …
+•    Window Function：窗口函数
+⁃    ReduceFunction
+⁃    AggregateFunction
+⁃    FlodFunction
+⁃    ProcessWindowFunction
+•    Window Evictor：窗口数据剔除器
+⁃    CountEvictor
+⁃    DeltaEvictor
+⁃    TimeEvictor</code></pre><p>注：延迟数据处理，Flink默认会丢弃处理，可以采用Allowed Lateness机制进行处理</p>
+<h3 id="窗口计算"><a href="#窗口计算" class="headerlink" title="窗口计算"></a>窗口计算</h3><pre><code>◦    独立窗口计算
+◦    连续窗口计算
+◦    Windows多流合并
+⁃    滚动窗口关联
+⁃    滑动窗口关联
+⁃    间隔关联</code></pre><h2 id="Flink的状态管理"><a href="#Flink的状态管理" class="headerlink" title="Flink的状态管理"></a>Flink的状态管理</h2><h3 id="状态类型"><a href="#状态类型" class="headerlink" title="状态类型"></a>状态类型</h3><pre><code>•    keyed state
+•    operator state</code></pre><h3 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h3><pre><code>◦    托管状态（Managed state）：由Flink Runtime中控制和管理状态数据
+◦    原生状态（Raw state）：由算子自己管理数据结构</code></pre><p>注：Flink中推荐用户使用第一种方式进行状态管理</p>
+<h3 id="状态管理器（StateBackend）"><a href="#状态管理器（StateBackend）" class="headerlink" title="状态管理器（StateBackend）"></a>状态管理器（StateBackend）</h3><pre><code>▪    MemoryStateBackend：状态数据全部存储在内存，不建议生产环境使用
+▪    FsStateBackend：状态数据存储在文件系统，比较稳定
+▪    RockedDBStateBackend：第三方状态管理器</code></pre><p>Querable State<br>可查询的状态服务</p>
+<h3 id="Managed-Keyed-State"><a href="#Managed-Keyed-State" class="headerlink" title="Managed Keyed State"></a>Managed Keyed State</h3><pre><code>⁃    ValueState[T]
+⁃    ListState[T]
+⁃    ReducingState[T]
+⁃    AggregatingState[IN,OUT]
+⁃    MapState[UK,UV]</code></pre><h3 id="ManagedOperator-State"><a href="#ManagedOperator-State" class="headerlink" title="ManagedOperator State"></a>ManagedOperator State</h3><pre><code>⁃    CheckpointedFunction
+⁃    ListCheckpointed</code></pre><h2 id="Flink的Checkpoint和Savepoint"><a href="#Flink的Checkpoint和Savepoint" class="headerlink" title="Flink的Checkpoint和Savepoint"></a>Flink的Checkpoint和Savepoint</h2><pre><code>◦    Checkpoint机制
+◦    SavePoint机制</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/12/bigdata/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Flink基础—编程模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:11:26+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:20:25+08:00">
+                2020-03-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><pre><code>a.    原生数据类型
+b.    Java Tuples类型
+c.    Scala Case Class类型
+d.    POJOs类型
+e.    Flink Value类型
+f.    特殊数据类型</code></pre><h2 id="Flink的Datasource"><a href="#Flink的Datasource" class="headerlink" title="Flink的Datasource"></a>Flink的Datasource</h2><pre><code>•    内置数据源
+⁃    文件数据源
+⁃    Socket数据源
+⁃    集合数据源
+•    外部数据源
+⁃    数据源连接器
+⁃    自定义数据源连接器</code></pre><h2 id="Flink的Transform"><a href="#Flink的Transform" class="headerlink" title="Flink的Transform"></a>Flink的Transform</h2><pre><code>◦    单个DataStream操作
+◦    多个DataStream操作
+◦    物理分区操作</code></pre><h2 id="Flink的Sink"><a href="#Flink的Sink" class="headerlink" title="Flink的Sink"></a>Flink的Sink</h2><pre><code>▪    基本数据输出
+▪    第三方数据输出</code></pre><h2 id="Flink配置说明"><a href="#Flink配置说明" class="headerlink" title="Flink配置说明"></a>Flink配置说明</h2><p><strong>基础配置</strong><br> #jobManger的IP地址<br> #jobmanager.rpc.address:localhost<br> #jobManager的rpc端口号<br> #jobmanager.rpc.port:6123<br> #jobmanager JVM heap内存大小<br> #jobmanager.heap.mb: 1024<br> #taskManager JVM heap 内存大小<br> #taskmanager.heap.mb: 1024<br> #每个taskmanager提供的任务slots数量大小<br> #taskmanager.numberOfTaskSlots: 1<br> #程序默认并发计算的个数<br> #parallelism.default: 1<br><strong>高可用配置</strong><br> #高可用配置，可以选择‘NONE’ 或者’zookeeper‘<br> #high-availability: zookeeper<br> #存储路径，让Flink在高可用设置中持久化元数据<br> #high-availability.storageDir: hdfs:///flink/ha/<br> #zookeeper协调服务地址<br> #high-availability.zookeeper.quorum: localhost:2181<br> #zookeeper ACL机制<br> #high-availability.zookeeper.client.acl: open<br><strong>容错和检查点配置</strong><br> #用于存储和检查点状态<br> #state.backend: filesystem<br> #存储检查点的数据文件和元数据的默认目录<br> #state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints<br><strong>web前端配置</strong><br> #基于web的运行时监视器的侦听的地址<br> #jobmanager.web.address: 0.0.0.0<br> #web的运行时监视器端口<br> #jobmanager.web.port: 8080<br> #是否从基于 web的jobmanager启用作业提交<br> #jobmanager.web.submit.enable: false</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1546,314 +1909,6 @@ spark-submit封装了spark-class，—verbose打印详细的配置及调试信�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/" itemprop="url">Java数据结构——树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:45:02+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 待补充中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/" itemprop="url">Java数据结构——堆</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:43:32+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 待补充中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1904,7 +1959,7 @@ spark-submit封装了spark-class，—verbose打印详细的配置及调试信�
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1926,7 +1981,7 @@ spark-submit封装了spark-class，—verbose打印详细的配置及调试信�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
