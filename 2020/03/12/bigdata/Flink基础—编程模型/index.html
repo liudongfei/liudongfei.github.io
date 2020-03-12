@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="Flink的数据类型 原生数据类型 Java Tuples类型 Scala Case Class类型 POJOs类型 Flink Value类型 特殊数据类型Flink的Datasource 内置数据源- 文件数据源 - Socket数据源 - 集合数据源 外部数据源- 数据源连接器 - 自定义数据源连接器Flink的Transform 单个DataStream操作 多个DataStream操作">
 <meta property="article:published_time" content="2020-03-11T16:11:26.336Z">
-<meta property="article:modified_time" content="2020-03-12T15:47:46.384Z">
+<meta property="article:modified_time" content="2020-03-12T15:49:54.148Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="flink">
 <meta name="twitter:card" content="summary">
@@ -331,7 +331,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:47:46+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:49:54+08:00">
                 2020-03-12
               </time>
             
@@ -410,8 +410,12 @@
 <li>基本数据输出</li>
 <li>第三方数据输出<h2 id="Flink配置说明"><a href="#Flink配置说明" class="headerlink" title="Flink配置说明"></a>Flink配置说明</h2></li>
 </ul>
-<p><strong>基础配置</strong><br> ···<br> #jobManger的IP地址<br> #jobmanager.rpc.address:localhost<br> #jobManager的rpc端口号<br> #jobmanager.rpc.port:6123<br> #jobmanager JVM heap内存大小<br> #jobmanager.heap.mb: 1024<br> #taskManager JVM heap 内存大小<br> #taskmanager.heap.mb: 1024<br> #每个taskmanager提供的任务slots数量大小<br> #taskmanager.numberOfTaskSlots: 1<br> #程序默认并发计算的个数<br> #parallelism.default: 1<br> ···<br><strong>高可用配置</strong><br>···<br> #高可用配置，可以选择‘NONE’ 或者’zookeeper‘<br> #high-availability: zookeeper<br> #存储路径，让Flink在高可用设置中持久化元数据<br> #high-availability.storageDir: hdfs:///flink/ha/<br> #zookeeper协调服务地址<br> #high-availability.zookeeper.quorum: localhost:2181<br> #zookeeper ACL机制<br> #high-availability.zookeeper.client.acl: open<br> ···<br><strong>容错和检查点配置</strong><br>···<br> #用于存储和检查点状态<br> #state.backend: filesystem<br> #存储检查点的数据文件和元数据的默认目录<br> #state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints<br> ···<br><strong>web前端配置</strong><br>···<br> #基于web的运行时监视器的侦听的地址<br> #jobmanager.web.address: 0.0.0.0<br> #web的运行时监视器端口<br> #jobmanager.web.port: 8080<br> #是否从基于 web的jobmanager启用作业提交<br> #jobmanager.web.submit.enable: false<br> ···</p>
-
+<p><strong>基础配置</strong><br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#jobManger的IP地址</span><br><span class="line">#jobmanager.rpc.address:localhost</span><br><span class="line">#jobManager的rpc端口号</span><br><span class="line">#jobmanager.rpc.port:6123</span><br><span class="line">#jobmanager JVM heap内存大小</span><br><span class="line">#jobmanager.heap.mb: 1024</span><br><span class="line">#taskManager JVM heap 内存大小</span><br><span class="line">#taskmanager.heap.mb: 1024</span><br><span class="line">#每个taskmanager提供的任务slots数量大小</span><br><span class="line">#taskmanager.numberOfTaskSlots: 1</span><br><span class="line">#程序默认并发计算的个数</span><br><span class="line">#parallelism.default: 1</span><br></pre></td></tr></table></figure><br><strong>高可用配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#高可用配置，可以选择‘NONE’ 或者’zookeeper‘</span><br><span class="line">#high-availability: zookeeper</span><br><span class="line">#存储路径，让Flink在高可用设置中持久化元数据</span><br><span class="line">#high-availability.storageDir: hdfs:&#x2F;&#x2F;&#x2F;flink&#x2F;ha&#x2F;</span><br><span class="line">#zookeeper协调服务地址</span><br><span class="line">#high-availability.zookeeper.quorum: localhost:2181</span><br><span class="line">#zookeeper ACL机制</span><br><span class="line">#high-availability.zookeeper.client.acl: open</span><br></pre></td></tr></table></figure>
+<p><strong>容错和检查点配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#用于存储和检查点状态</span><br><span class="line">#state.backend: filesystem</span><br><span class="line">#存储检查点的数据文件和元数据的默认目录</span><br><span class="line">#state.checkpoints.dir: hdfs:&#x2F;&#x2F;namenode-host:port&#x2F;flink-checkpoints</span><br></pre></td></tr></table></figure>
+<p><strong>web前端配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#基于web的运行时监视器的侦听的地址</span><br><span class="line">#jobmanager.web.address: 0.0.0.0</span><br><span class="line">#web的运行时监视器端口</span><br><span class="line">#jobmanager.web.port: 8080</span><br><span class="line">#是否从基于 web的jobmanager启用作业提交</span><br><span class="line">#jobmanager.web.submit.enable: false</span><br></pre></td></tr></table></figure>
       
     </div>
     
