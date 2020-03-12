@@ -282,6 +282,471 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E7%B1%BB/" itemprop="url">Hbase核心—自带工具类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:22:43+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:23:41+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>查看hbase-server*.jar包含哪些工具：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_CLASSPATH&#x3D;·hbase mapredcp&#96; yarn jar $&#123;HBASE_HOME&#125;&#x2F;lib&#x2F;hbase-server*.jar</span><br><span class="line">	CellCounter: Count cells in HBase table.</span><br><span class="line">  	WALPlayer: Replay WAL files.</span><br><span class="line">  	completebulkload: Complete a bulk data load.</span><br><span class="line">  	copytable: Export a table from local cluster to peer cluster.</span><br><span class="line">  	export: Write table data to HDFS.</span><br><span class="line">  	exportsnapshot: Export the specific snapshot to a given FileSystem.</span><br><span class="line">  	import: Import data written by Export.</span><br><span class="line">  	importtsv: Import data in TSV format.</span><br><span class="line">  	rowcounter: Count rows in HBase table.</span><br><span class="line">  	verifyrep: Compare the data from tables in two different clusters.</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94filter%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94filter%E4%BB%8B%E7%BB%8D/" itemprop="url">Hbase核心—filter介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:21:28+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:22:19+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>FilterList<br>    FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：FilterList.Operator.MUST_PASS_ALL<br>或关系（符合任一）：FilterList.Operator.MUST_PASS_ONE</p>
+<p>使用方法：<br>FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ONE);<br>Scan s1 = new Scan();<br>filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”), Comp areOp.EQUAL,Bytes.toBytes(“v1”) ) );<br>filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c2”), Compa reOp.EQUAL,Bytes.toBytes(“v2”) ) ); // 添加下面这一行后，则只返回指定的 cell，同一行中的其他 cell 不返回 s1.addColumn(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”));<br>s1.setFilter(filterList); //设置 filter ResultScanner ResultScannerFilterList = table.getScanner(s1); //返回结果列表<br>过滤器的种类<br>    ·    列值过滤器—SingleColumnValueFilter：过滤列值的相等、不等、范围等<br>    •    列名前缀过滤器—ColumnPrefixFilter：过滤指定前缀的列名<br>    •    多个列名前缀过滤器—MultipleColumnPrefixFilter：过滤多个指定前缀的列名<br>    •    rowKey 过滤器—RowFilter：通过正则，过滤 rowKey 值。<br>列植过滤器 —SingleColumnValueFilter<br>SingleColumnValueFilter 列值判断<br>相等 (CompareOp.EQUAL ),<br>不等(CompareOp.NOT_EQUAL),<br>范围 (e.g., CompareOp.GREATER)…………<br>下面示例检查列值和字符串’values’ 相等…<br>SingleColumnValueFilter f = new SingleColumnValueFilter( Bytes.toBytes(“cFamily”) Bytes.toBytes(“column”),CompareFilter.CompareOp.EQUAL, Bytes.toBytes(“values”));<br>s1.setFilter(f);<br>注意：如果过滤器过滤的列在数据表中有的行中不存在，那么这个过滤器对此行无法过滤。<br>列名前缀过滤器 —ColumnPrefixFilter<br>过滤器—ColumnPrefixFilter ColumnPrefixFilter 用于指定列名前缀值相等<br>ColumnPrefixFilter f = new ColumnPrefixFilter(Bytes.toBytes(“values”));<br>s1.setFilter(f);<br>多个列值前缀过滤器 —MultipleColumnPrefixFilter<br>MultipleColumnPrefixFilter 和 ColumnPrefixFilter 行为差不多，但可以指定多个前缀<br>byte[][] prefixes = new byte[][]{Bytes.toBytes(“value1”),Bytes.toBytes(“value2”)};<br>Filter f = new MultipleColumnPrefixFilter(prefixes);<br>s1.setFilter(f);<br>rowKey过滤器—RowFilter<br>RowFilter 是 rowkey 过滤器 通常根据 rowkey 来指定范围时，使用 scan 扫描器的 StartRow 和 StopRow 方法比较好。<br>Filter f = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(“^1234”)); //匹配以 1234 开头的<br>rowkey s1.setFilter(f);</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/" itemprop="url">Hive核心—UDF编程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:18:27+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:19:50+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Hive的UDF类型<br>    1.    UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型<br>    2.    UDAF：多进一出<br>    3.    UDTF：一进多出<br>使用说明，语法：<br>    1.    加载 jar：add jar jarpath<br>    2.    查看jar：list jars<br>    3.    创建function：create [temporary] function funcname as “full class name” USING JAR ’hdfs：//jarpath’<br>    4.    使用function<br>调用py脚本<br>Hive 的 TRANSFORM 关键字 提供了在 SQL 中调用自写脚本的功能<br>使用步骤：<br>    1)    编写py脚本<br>    2)    add file filepath<br>    3)    select transform(col,col…) using’xxx.py’ as (col, col, …)<br>使用样例：<br>CREATE TABLE u_data_new ( movieid INT, rating INT, weekday INT, userid INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘\t’;</p>
+<p>add FILE weekday_mapper.py;</p>
+<p>INSERT OVERWRITE TABLE u_data_new SELECTTRANSFORM (movieid, rating, unixtime,userid) USING ‘python weekday_mapper.py’ AS (movieid, rating, weekday,userid) FROM u_data;<br>其中 weekday_mapper.py 内容如下：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> #!&#x2F;bin&#x2F;python import sys import datetime</span><br><span class="line">for line in sys.stdin:</span><br><span class="line">line &#x3D; line.strip() movieid, rating, unixtime,userid &#x3D; line.split(&#39;\t&#39;) weekday &#x3D; datetime.datetime.fromtimestamp(float(unixtime)).isoweekday() print &#39;\t&#39;.join([movieid, rating, str(weekday),userid])</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1390,537 +1855,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/" itemprop="url">Hive基础—HQL语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:53:25+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:58:56+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="DDL操作"><a href="#DDL操作" class="headerlink" title="DDL操作"></a>DDL操作</h2><p>创建表，建表语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name</span><br><span class="line">	[(col_name data_type [COMMENT col_comment], ...)] </span><br><span class="line">	[COMMENT table_comment] </span><br><span class="line">	[PARTITIONED BY (col_name data_type [COMMENT col_comment], ...)] </span><br><span class="line">	[CLUSTERED BY (col_name, col_name, ...)</span><br><span class="line">	[SORTED BY (col_name [ASC|DESC], ...)] INTO num_buckets BUCKETS] </span><br><span class="line">	[ROW FORMAT row_format]</span><br><span class="line">	[STORED AS file_format]</span><br><span class="line">	[LOCATION hdfs_path]</span><br><span class="line">CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name</span><br><span class="line">	[(col_name data_type [COMMENT col_comment], ...)] </span><br><span class="line">	[COMMENT table_comment]</span><br><span class="line">	AS select_statement</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>EXTERNAL关键字可以让用户创建一个外部表，在建表的同时指定一个指向实际数据的路径（LOCATION），Hive 创建内部表时，会将数据移动到数据仓库指向的路径；若创建外部表，仅记录数据所在的路径，不对数据的位置做任何改变。在删除表的时候，内部表的元数据和数据会被一起删除，而外部表只删除元数据，不删除数据。 </li>
-<li>LIKE 允许用户复制现有的表结构，但是不复制数据。</li>
-<li>ROW FORMAT row format DELIMITED [FIELDS TERMINATED BY char] [COLLECTION ITEMS TERMINATED BY char] [MAP KEYS TERMINATED BY char] [LINES TERMINATED BY char] | SERDE serde_name [WITH SERDEPROPERTIES (property_name=property_value,  …)] 用户在建表的时候可以自定义 SerDe 或者使用自带的 SerDe。如果没有指定 ROW FORMAT 或者 ROW FORMAT DELIMITED，将会使用自带的 SerDe。在建表的时候，用户还需要为表指定列，用户在指定表的列的同时也会指定自定义的 SerDe，Hive 通过SerDe确定表的具体的列的数据。</li>
-</ol>
-<p>增加或删除分区，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name ADD [IF NOT EXISTS] | DROP PARTITION (partition_col &#x3D; partition_col_value, partition_col &#x3D; partiton_col_value, ...)</span><br></pre></td></tr></table></figure>
-<p>修改表名，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name RENAME TO new_table_name</span><br></pre></td></tr></table></figure>
-
-<p>删除数据库，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database name cascade</span><br></pre></td></tr></table></figure>
-
-<p>显示命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show tables；</span><br><span class="line">show databases；</span><br><span class="line">show partitions t_name； </span><br><span class="line">show functions； </span><br><span class="line">desc extended t_name; </span><br><span class="line">desc formatted t_name；</span><br></pre></td></tr></table></figure>
-<h2 id="DML操作"><a href="#DML操作" class="headerlink" title="DML操作"></a>DML操作</h2><p>加载数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA [LOCAL] INPATH &#39;filepath&#39; [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1&#x3D;val1, partcol2&#x3D;val2 ...)]</span><br></pre></td></tr></table></figure>
-<p>插入数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT OVERWRITE TABLE tablename1 [PARTITION (partcol1&#x3D;val1, partcol2&#x3D;val2 ...)] select_statement1 FROM from_statemen</span><br></pre></td></tr></table></figure>
-<p>导出表数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT OVERWRITE [LOCAL] DIRECTORY directory1 SELECT ... FROM ...</span><br></pre></td></tr></table></figure>
-<p>查询数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT [ALL | DISTINCT] select_expr, select_expr, ... FROM table_reference </span><br><span class="line">	[WHERE where_condition] </span><br><span class="line">	[GROUP BY col_list [HAVING condition]] </span><br><span class="line">	[CLUSTER BY col_list | [DISTRIBUTE BY col_list] </span><br><span class="line">	[SORT BY| ORDER BY col_list] ] [LIMIT number]</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>order by会对输入做全局排序，因此只有一个reducer，会导致当输入规模较大时，需要较长的计算时间。 </li>
-<li>sort by不是全局排序，其在数据进入 reducer 前完成排序。因此，如果用 sort by 进行排 序，并且设置 mapred.reduce.tasks&gt;1，则 sort by只保证每个reducer的输出有序，不保证全局有序。 </li>
-<li>distribute by根据distribute by指定的内容将数据分到同一个 reducer。 </li>
-<li>Cluster by除了具有Distribute by的功能外，还会对该字段进行排序。因此，常常认为 cluster by = distribute by + sort by。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/util/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/util/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Linux常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:38:58+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:42:19+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>网络命令：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsof -i :3306 #查看3306端口</span><br><span class="line">nc -lk 9999 #创建一个socket端口，端口9999</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/util/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/util/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Git常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:38:03+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:42:16+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="git的四部分构成"><a href="#git的四部分构成" class="headerlink" title="git的四部分构成"></a>git的四部分构成</h2><p><img src="/2020/03/12/util/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg" alt></p>
-<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><p>初始化仓库：<code>git init</code><br>从远程仓库克隆项目到本地：<br><code>git clone git@github.com:git帐号名/仓库名.git</code></p>
-<p>拉取远程分支到本地仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b 本地分支 远程分支  # 会在本地新建分支，并自动切换到该分支</span><br><span class="line">git fetch origin : 远程分支 本地分支  # 会在本地新建分支，但不会自动切换，还需checkout</span><br><span class="line">git branch --set-upstream 本地分支 远程分支  #建立本地分支与远程分支之间的连接</span><br></pre></td></tr></table></figure>
-
-<p>将文件添加都暂存区：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add 文件名  #将工作区的某个文件添加到暂存区</span><br><span class="line">git add -u  #添加所有被tracked文件中被修改或删除的文件信息暂存区，不处理untracked的文件</span><br><span class="line">git add -A  #添加所有被tracked文件中被修改或删除的文件信息暂存区，包括untracked的文件</span><br><span class="line">git add .  #将工作区中的所有文件添加到暂存区</span><br><span class="line">git add -i  #进入交互界面，按需添加文件到缓存区</span><br></pre></td></tr></table></figure>
-
-<p>将暂存区的文件提交到本地仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit -m “提交说明“  #将暂存区的文件提交到本地仓库</span><br><span class="line">git commit -a -m “提交说明“  #跳过缓存区操作，直接将工作区的所有文件提交到本地仓库</span><br></pre></td></tr></table></figure>
-<p>查看仓库当前状态：<br><code>git status</code></p>
-<p>比较文件异同：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git diff  #工作区和暂存区的差异</span><br><span class="line">git diff 分支名  #工作区与某分支的差异，远程分支这样写：remotes&#x2F;origin&#x2F;分支名</span><br><span class="line">git diff HEAD  #工作区与HEAD指针指向内容的差异</span><br><span class="line">git diff 提交id 文件路径  #工作区某文件当前版本和历史版本的差异</span><br><span class="line">git diff --stage  #工作区文件和上次提交的差异，（1.6版本前用--cached）</span><br><span class="line">git diff 版本TAG  #查看某个版本后的改动内容</span><br><span class="line">git diff 分支A 分支B  #比较分支A和B的差异（也支持比较TAG）</span><br></pre></td></tr></table></figure>
-
-<p>查看历史记录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git log  #查看所有commit记录(SHA-A校验和，作者名称，邮箱，提交时间，提交说明)</span><br><span class="line">git log -p -次数  #查看最近多少次的提交记录</span><br><span class="line">git log --stat  #简略显示每次提交的内容修改</span><br><span class="line">git log --name-only  #仅显示已修改的文件清单</span><br><span class="line">git log --name-status  #显示新增，修改，删除的文件清单</span><br><span class="line">git log --oneline  #让提交的文件以一行输出</span><br><span class="line">git log -graph -all --oneline  #图形展示分支的合并历史</span><br><span class="line">git log --author&#x3D;作者  #查询作者的提交记录（和grep使用时要加--all-match参数）</span><br><span class="line">git log --grep&#x3D;过滤信息  #列出提交信息中包含过滤信息的提交记录</span><br><span class="line">git log filename #查看某文件的提交记录</span><br></pre></td></tr></table></figure>
-<p>代码回滚：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD^  #恢复成上次提交的版本</span><br><span class="line">git reset HEAD^^  #恢复成上上次提交的版本，就是多个^，以此类推或者用 ～次数</span><br></pre></td></tr></table></figure>
-
-<p>同步本地仓库到远程仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br><span class="line">git push origin localBranch:remoteBranch    #从本地的指定分支推送到远程指定分支 </span><br><span class="line">git pull origin remoteBranch:localBranch    #从远程的指定分支拉取到本地指定分支</span><br></pre></td></tr></table></figure>
-
-<p>本地仓库内容推送到远程仓库：<br><code>git remote add origin git@github.com:帐号名/仓库名.git</code></p>
-<p>分支管理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git branch    #查看本地分支 </span><br><span class="line">git branch -r    #查看远程分支 </span><br><span class="line">git branch newBranchName    #创建新的本地分支，不切换 </span><br><span class="line">git branch -b    newBranchName    #创建新的本地分支，切换到新建的分支 </span><br><span class="line">git checkout branchName    #切换到指定的分支 </span><br><span class="line">git branch -d branchName    #删除合并过的分支 </span><br><span class="line">git branch -D banchName    #强制删除分支 </span><br><span class="line">git merge branchName    #将指定的分支合并到当前分支 </span><br><span class="line">git push origin localBranch    #将本地分支推送到远成分支 </span><br><span class="line">git push origin :remoteBranch    #删除远程分支</span><br></pre></td></tr></table></figure>
-
-<p>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
-<p>查看远程仓库地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote </span><br><span class="line">&#x2F;&#x2F; -v 显示更详细的信息</span><br></pre></td></tr></table></figure>
-
-<p>撤销某次提交：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git revert HEAD  #撤销最近的一个提交</span><br><span class="line">git revert 版本号 #撤销某次commit</span><br></pre></td></tr></table></figure>
-
-<p>打标签：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git tag 标签 #打标签命令，默认为HEAD</span><br><span class="line">git tag #显示所有标签</span><br><span class="line">git tag 标签 版本号 #给某个commit版本添加标签</span><br><span class="line">git show tag #显示某个标签的详细信息</span><br></pre></td></tr></table></figure>
-<p>忽略文件及文件夹：<br>    在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1971,7 +1905,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

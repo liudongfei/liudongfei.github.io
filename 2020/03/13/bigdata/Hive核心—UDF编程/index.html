@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="hive," />
 
 
 
@@ -79,11 +79,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="琅琊的博客">
-<meta property="og:url" content="https://liudongfei.github.io/tags/mac/index.html">
+<meta name="description" content="Hive的UDF类型    1.    UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型    2.    UDAF：多进一出    3.    UDTF：一进多出使用说明，语法：    1.    加载 jar：add jar jarpath    2.    查看jar：list jars    3.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive核心—UDF编程">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
+<meta property="og:description" content="Hive的UDF类型    1.    UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型    2.    UDAF：多进一出    3.    UDTF：一进多出使用说明，语法：    1.    加载 jar：add jar jarpath    2.    查看jar：list jars    3.">
+<meta property="article:published_time" content="2020-03-12T16:18:27.701Z">
+<meta property="article:modified_time" content="2020-03-12T16:19:50.307Z">
 <meta property="article:author" content="dongfeiliu">
+<meta property="article:tag" content="hive">
 <meta name="twitter:card" content="summary">
 
 
@@ -114,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/tags/mac/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/13/bigdata/Hive核心—UDF编程/"/>
 
 
 
 
 
-  <title>Tag: mac | 琅琊的博客</title>
+  <title>Hive核心—UDF编程 | 琅琊的博客</title>
   
 
 
@@ -139,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,82 +272,210 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>mac<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/03/12/util/Sublime%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/" itemprop="url">
-              
-                <span itemprop="name">Sublime常用快捷键（Mac）</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Hive核心—UDF编程</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-12T00:32:36+08:00"
-              content="2020-03-12" >
-          03-12
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:18:27+08:00">
+                2020-03-13
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:19:50+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/12/util/Idea%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%EF%BC%89/" itemprop="url">
-              
-                <span itemprop="name">Idea常用快捷键（Mac）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-12T16:22:02+08:00"
-              content="2019-05-12" >
-          05-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>Hive的UDF类型<br>    1.    UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型<br>    2.    UDAF：多进一出<br>    3.    UDTF：一进多出<br>使用说明，语法：<br>    1.    加载 jar：add jar jarpath<br>    2.    查看jar：list jars<br>    3.    创建function：create [temporary] function funcname as “full class name” USING JAR ’hdfs：//jarpath’<br>    4.    使用function<br>调用py脚本<br>Hive 的 TRANSFORM 关键字 提供了在 SQL 中调用自写脚本的功能<br>使用步骤：<br>    1)    编写py脚本<br>    2)    add file filepath<br>    3)    select transform(col,col…) using’xxx.py’ as (col, col, …)<br>使用样例：<br>CREATE TABLE u_data_new ( movieid INT, rating INT, weekday INT, userid INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘\t’;</p>
+<p>add FILE weekday_mapper.py;</p>
+<p>INSERT OVERWRITE TABLE u_data_new SELECTTRANSFORM (movieid, rating, unixtime,userid) USING ‘python weekday_mapper.py’ AS (movieid, rating, weekday,userid) FROM u_data;<br>其中 weekday_mapper.py 内容如下：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> #!&#x2F;bin&#x2F;python import sys import datetime</span><br><span class="line">for line in sys.stdin:</span><br><span class="line">line &#x3D; line.strip() movieid, rating, unixtime,userid &#x3D; line.split(&#39;\t&#39;) weekday &#x3D; datetime.datetime.fromtimestamp(float(unixtime)).isoweekday() print &#39;\t&#39;.join([movieid, rating, str(weekday),userid])</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    dongfeiliu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/" title="Hive核心—UDF编程">https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hive/" rel="tag"># hive</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/13/bigdata/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/" rel="next" title="Impala基础—安装impala">
+                <i class="fa fa-chevron-left"></i> Impala基础—安装impala
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/13/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94filter%E4%BB%8B%E7%BB%8D/" rel="prev" title="Hbase核心—filter介绍">
+                Hbase核心—filter介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -350,6 +483,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -583,6 +720,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
