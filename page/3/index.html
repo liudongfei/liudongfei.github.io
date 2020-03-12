@@ -282,6 +282,663 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/" itemprop="url">Spark核心—任务提交</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T20:02:29+08:00">
+                2020-03-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T20:07:13+08:00">
+                2020-03-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Spark的Shuffle过程原理剖析及源码分析"><a href="#Spark的Shuffle过程原理剖析及源码分析" class="headerlink" title="Spark的Shuffle过程原理剖析及源码分析"></a>Spark的Shuffle过程原理剖析及源码分析</h2><p>什么情况下会发生shuffle？<br>    在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。<br>默认情况下的shuffle原理剖析<br>    默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283267877.jpg" alt></p>
+<pre><code>每一个ShuffleMapTask都会为每一个ResultTask创建一份bucket缓存及ShuffleBlockFile磁盘文件。ShuffleMapTask的输出封装成MapStatus，发送到DagScheduler的MapOutputTrackerMaster中，其中包含了每个ResultTask要拉取的数据的大小。每个ResultTask会用BlockStoreShuffleFetcher去MapOutputTrackerMaster拉取自己要拉取的文件信息，然后底层通过BlockerManger将数据拉取过来，每个ResultTask拉取过来的数据就会组成一个内部的RDD，叫ShuffleRDD，优先放入内存，如果内存不够，则写入磁盘，然后每个RDD进行聚合形成新的MapPartitionsRDD。 
+如果一个节点上有100个maptask，100个resulttask，则会在本地产生10000个文件，磁盘IO过多性能下降。 
+第一个特点，在spark早起版本中，那个bucket的缓存非常重要，因为需要将一个ShuffleMapTask的所有数据都写入缓存后，才会刷新到磁盘，如果task的数据过多，那么很容易造成数据内存溢出，所以，新版本中默认的内存是100kb，若写入数据达到刷新磁盘的阈值时，就会将数据一点一点刷入磁盘。这种操作的特点是，不容易发生内存溢出。缺点在于如果内存缓存过小则会产生大量的IO操作，所以这里的内存缓存是可以根据实际情况进行优化的。 
+第二个特点，与MR不同，MR是必须将所有数据都写入本地磁盘后，才能启动MR操作，因为MR要实现默认的排序。但是Spark不需要，默认情况下，Spark是不需要进行排序的。因此maptask每写入一点数据，resulttask就可以拉取一点数据。 这种特点的好处就是比MR快速。但是，MR提供的reduce可以直接处理每个key上的value很方便。而Spark由于实时拉取的机制，因此无法直接处理key对应的values的算子，只能通过groupBykey先shuffle然后使用map算子进行value处理，没有MR方便。</code></pre><h2 id="优化后的shuffle原理剖析"><a href="#优化后的shuffle原理剖析" class="headerlink" title="优化后的shuffle原理剖析"></a>优化后的shuffle原理剖析</h2><pre><code>新版本优化后，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：</code></pre><p><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283372755.jpg" alt></p>
+<pre><code>在spark的新版本中，引入了consolidation，也就是提出了ShuffleGroup的概念，一个节点上的一批并行的ShuffleMapTask执行完毕时，后续的ShuffleMaptask会复用之前的一批task的bucket的缓存，将数据写入对应的同一个文件中。每个磁盘文件包含多个ShuffleMapTask的数据（segment）此外会通过索引和偏移量进行不同task之间的数据区分，这个优化参数可以通过SparkConf的参数开启。如果一个节点上有2Core，有100个maptask，100个resulttask，开启consolidation后，会产生200个本地文件。 
+shuffle不会对每个分区的数据进行排序，如需要对shuffle后的数据进行排序，可以使用mappartition进行分区内的数据排序，不会出现shuffle。</code></pre><h2 id="BlockManger原理剖析与源码分析"><a href="#BlockManger原理剖析与源码分析" class="headerlink" title="BlockManger原理剖析与源码分析"></a>BlockManger原理剖析与源码分析</h2><p>Driver上有BlockMangerMaster，管理各个节点的BlockManger的内部的元数据。包含BlockMangerInfo，BlockerStatus<br>    节点上有BlockManger，包含DiskStroe（负责磁盘数据读写），MemeryStroe（负责内存数据读写），BlockerTransferService（负责blockManger到其他节点BlockerManger的数据的读写），ConnectionManger（负责blockManger到其他节点BlockerManger的连接）。<br>每个BM创建之后，都会想BMM进行注册，此时BMM会为其创建对应的BMInfo。<br>BM进行写操作时，如RDD的中间数据，优先写入内存DS，内存不够时写入磁盘MS。<br>RDD的persist时，会使用CM同其他BM建立连接，使用BTS将数据备份到其他的BM上<br>BM进行读操作时，本地数据先从DS读内存，MS读磁盘，远程数据先使用CM与其他BM简练连接，然后BTS从其他BM上读取数据 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" itemprop="url">Spark核心—架构详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T19:50:12+08:00">
+                2020-03-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T20:00:52+08:00">
+                2020-03-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Spark-Standalone模式的Master和Worker启动脚本详解"><a href="#Spark-Standalone模式的Master和Worker启动脚本详解" class="headerlink" title="Spark Standalone模式的Master和Worker启动脚本详解"></a>Spark Standalone模式的Master和Worker启动脚本详解</h2><p>为啥要单独启动？<br>在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark://host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态<br>配置参数启动<br>        -c CORES，仅限worker，spark的作业能够使用的cpu总数<br>        -m MEMORY，仅限worker，spark作业能够使用的memory总数<br>        等等，<br>单独关闭Master和Worker，顺序相反 </p>
+<h3 id="worker节点的配置及spark-env-sh的配置参数详解"><a href="#worker节点的配置及spark-env-sh的配置参数详解" class="headerlink" title="worker节点的配置及spark-env.sh的配置参数详解"></a>worker节点的配置及spark-env.sh的配置参数详解</h3><p>配置conf/slaves文件，默认没有<br>配置hostname或ip，一台机器一行<br>master和worker是通过ssh连接，因此要配置免密<br>spark-env.sh，是spark最核心的配置文件 </p>
+<h2 id="Master主备切换原理剖析"><a href="#Master主备切换原理剖析" class="headerlink" title="Master主备切换原理剖析"></a>Master主备切换原理剖析</h2><pre><code>Master的主备切换机制有两种：一种是文件系统，一种是基于zookeeper的。基于文件系统的机制需要在主Master挂掉后，手动的切换到standby上，而基于zookeeper机制的可以实现自动切换。</code></pre><p><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839276926892.jpg" alt></p>
+<h2 id="Master的注册机制与源码分析"><a href="#Master的注册机制与源码分析" class="headerlink" title="Master的注册机制与源码分析"></a>Master的注册机制与源码分析</h2><p>注册机制包含如下几个部分：<br>    •    Worker启动后向Master注册<br>    •    Driver向Master注册<br>    •    Application向Master注册<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839277273439.jpg" alt></p>
+<h2 id="Master状态改变机制源码分析"><a href="#Master状态改变机制源码分析" class="headerlink" title="Master状态改变机制源码分析"></a>Master状态改变机制源码分析</h2><p>状态改变包含如下几部分：<br>    •    Driver状态改变<br>    •    Executor状态改变</p>
+<h2 id="Master资源调度机制源码分析"><a href="#Master资源调度机制源码分析" class="headerlink" title="Master资源调度机制源码分析"></a>Master资源调度机制源码分析</h2><p>资源调度包含如下几部分：<br>    •    Driver的调度<br>    •    Executor的调度</p>
+<h3 id="Spark的Master资源调度算法"><a href="#Spark的Master资源调度算法" class="headerlink" title="Spark的Master资源调度算法"></a>Spark的Master资源调度算法</h3><p>首先判断Master的状态，standby不会进行资源调度。<br>Random.shuffle对于传入的集合进行随机的打乱，对状态为alive的worker进行随机打乱，<br>    Driver的调度机制，只有cluster模式时候才会注册Driver，遍历等待调度的Driver队列，取出待调度Driver，遍历所有可用的worker进行资源判断是否启动Driver，资源足够，启动Driver，否则进行下一个woker循环启动Driver时，将worker加入driver的内存结构中，同时将driver加入到worker的内存结构中，更新worker的资源使用数量，发送消息给对应的worker启动这个drvier。<br>    Application的调度机制，调度算法有两种，一种是spreadOutApps（平均分配算法），另外一种是非spreadOutApps（将app分配到尽可能少的worker上），可以在配置文件中配置使用哪个算法，遍历可用的worker，可以被app使用的worker，根据剩余的cpu数量倒序排列，针对选出的worker进行资源分配，创建excutor，启动excutor，设置application的状态为running。</p>
+<h2 id="Worker原理剖析和源码分析"><a href="#Worker原理剖析和源码分析" class="headerlink" title="Worker原理剖析和源码分析"></a>Worker原理剖析和源码分析</h2><p>Worker进程的主要工作：<br>    •    启动Driver<br>    •    启动Executor<br>Driver和Executor的启动过程如下：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839278553428.jpg" alt></p>
+<pre><code>启动Driver请求，创建DriverRunner，启动一个线程，创建Driver的工作目录，封装启动Driver进程命令（使用ProcessBuilder启动），DriverRunner对Driver进程进行管理 
+启动Excutor请求，创建ExcutorRunner，启动一个线程，创建Executor的工作目录，封装启动Executor进命令（使用ProcessBuilder启动），Executor启动后，会到Driver进行反向注册自己，到此SparkContext初始化完成。 </code></pre><h2 id="Executor的原理剖析与源码分析"><a href="#Executor的原理剖析与源码分析" class="headerlink" title="Executor的原理剖析与源码分析"></a>Executor的原理剖析与源码分析</h2><h3 id="Executor的反向注册机制"><a href="#Executor的反向注册机制" class="headerlink" title="Executor的反向注册机制"></a>Executor的反向注册机制</h3><p>Worker会首先启动executor进程，就是CoarseGrainedExecotorBackend，进程启动就会发送消息到driver，在接收到driver的消息后，会创建Executor作为执行句柄。</p>
+<h3 id="Task的启动机制"><a href="#Task的启动机制" class="headerlink" title="Task的启动机制"></a>Task的启动机制</h3><pre><code>Exector接收到消息后，反序列化，使用执行句柄发送 </code></pre><h2 id="Task的原理剖析与源码分析"><a href="#Task的原理剖析与源码分析" class="headerlink" title="Task的原理剖析与源码分析"></a>Task的原理剖析与源码分析</h2><p>Spark的task主要包含两种类型的task：<br>    •    ShuffleMapTask<br>    •    ResultTask<br> <img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839279353218.jpg" alt></p>
+<pre><code>TaskRunner入口，对序列化的数据进行反序列化得到需要拷贝的文件、jar及task内容，拷贝需要的文件、jar包等（获取hadoop的配置文件），通过task字节码及当前线程的类加载器反序列化为task。开始执行task.run()，创建taskContext即task执行的上下文，调用抽象方法runTask（子类ShuffleMapTask、ResultTask），使用ShuffleMapTask的runTask方法，获取ShuffleManager，进行rdd.iterator方法计算任务算子，对结果使用ShuffleManger进行分区后写入磁盘，返回MapStatus到Task .run()，如果下一个还是ShuffleMapTask，就会去联系MapoutputTasktracker获取上一个的结果，ResultTask也是一样的。然后对MapStatus进行序列化及封装，计算task的统计信息，调用execbackend更行task状态 </code></pre><h2 id="Spark的CacheManger的原理剖析与源码分析"><a href="#Spark的CacheManger的原理剖析与源码分析" class="headerlink" title="Spark的CacheManger的原理剖析与源码分析"></a>Spark的CacheManger的原理剖析与源码分析</h2><pre><code>task在执行算子操作时，如果该RDD之前时持久化过的，就会调用CacheManger去帮助直接读取持久化的数据，连接BlockManger先从本地获取，找不到会去找之前checkpoint的数据，如果还是找不到，只能利用父RDD重新计算一份，再持久化一次 </code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/" itemprop="url">Spark核心—任务提交</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T19:46:16+08:00">
+                2020-03-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T19:54:18+08:00">
+                2020-03-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Spark的spark-submit脚本详解"><a href="#Spark的spark-submit脚本详解" class="headerlink" title="Spark的spark-submit脚本详解"></a>Spark的spark-submit脚本详解</h2><pre><code>需要将spark需要的第三方jar打入spark工程jar，将spark和hadoop的依赖配置成provided，仅仅在开发和编译时有效，打包时不会打入这些jar，集群管理器会提供这些jar。
+spark-submit封装了spark-class，—verbose打印详细的配置及调试信息 </code></pre><h2 id="Spark应用提交模式"><a href="#Spark应用提交模式" class="headerlink" title="Spark应用提交模式"></a>Spark应用提交模式</h2><pre><code>⁃    local模式
+⁃    standalone模式 
+⁃    yarn-client模式 
+⁃    yarn-cluster模式 </code></pre><h2 id="Spark核心组件"><a href="#Spark核心组件" class="headerlink" title="Spark核心组件"></a>Spark核心组件</h2><pre><code>⁃    Driver（进程），我们编写的spark程序就是在该进程中运行的
+⁃    Master（进程），负责资源的调度和分配，还有集群的监控等职责 
+⁃    Worker（进程），用自己的内存存储RDD，启动其他进程或线程对RDD上的partition进行计算 
+⁃    Executor（进程），对RDD中的partiton进行执行
+⁃    Task（线程），并发执行partition中的计算任务</code></pre><h2 id="Spark的local模式提交任务"><a href="#Spark的local模式提交任务" class="headerlink" title="Spark的local模式提交任务"></a>Spark的local模式提交任务</h2><h3 id="local模式的基本原理"><a href="#local模式的基本原理" class="headerlink" title="local模式的基本原理"></a>local模式的基本原理</h3><p>没有所谓的master和worker的概念，相当于启动一个本地进程，然后在一个进程内，模拟spark集群中运行作业，一个spark作业就对应了一个或者多个executor进程。</p>
+<h2 id="Spark的standalone-client模式提交任务"><a href="#Spark的standalone-client模式提交任务" class="headerlink" title="Spark的standalone-client模式提交任务"></a>Spark的standalone-client模式提交任务</h2><p>—master spark：//host_ip:port<br>默认就是clinet模式<br>会在后台启动进程如下：<br>SparkSubmit进程，Driver进程<br>CoarseGrainedExecutorBackend进程，Executor进程<br>    Spark的standalone模式，即是基于Spark的Master-Worker集群。spark基于standalone模式的任务提交过程如下图：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/15839273158700.jpg" alt></p>
+<p>具体提交步骤如下：<br>    1.    spark-submit脚本通过反射的方式，创建和构造一个DriverActor进程，即Driver进行<br>    2.    进行SparkContext的初始化过程，创建DagScheduler和TaskSchedulerImpl。DagScehduler主要用于将提交的job划分为多个Stage，将Stage封装成Taskset提交给TaskScheduler。TaskScheduler主要负责把每个TaskSet里的task提交到Executor执行。<br>    3.    TaskScheduler创建SparkDeploySchedulerBackend与Master进行通讯，请求Master进行Application的注册和资源调度（资源调度算法）<br>    4.    Master根据Driver的请求，在各个Worker上进行资源调度，即划分资源运行Executor。<br>    5.    Worker进行启动Executor的执行。<br>    6.    Executor启动后，反向注册到Driver的TaskScheduler。结束SparkContext初始化，继续执行自己编写的代码。<br>    7.    每执行到一个Action操作时就会创建一个job，然后提交给DAGScheduler。DagScehduler主要将提交的job划分为多个Stage，将Stage封装成Taskset提交给TaskScheduler。<br>    8.    TaskScheduler主要负责把每个TaskSet里的task提交到Executor执行。<br>    9.    Executor每接受一个task，会封装成TaskRunner，然后从线程池中取出一个线程，执行这个task。<br>    10.    TaskRunner将我们编写的代码，也就是执行的算子以及函数拷贝，反序列化，然后执行task。 Task有两种，ShuffleMapTask和ResultTask，只有最后一个Stage的task是ResultTask，之前的Stage都是ShuffleMapTask，<br>总结：spark程序的执行就是stage分批次作为taskset提交到executor执行，每个task针对Rdd的一个Partition执行定义的算子和函数</p>
+<h2 id="standalone模式下的多作业资源调度"><a href="#standalone模式下的多作业资源调度" class="headerlink" title="standalone模式下的多作业资源调度"></a>standalone模式下的多作业资源调度</h2><pre><code>该模式下默认是FIFO策略，对多个作业同时执行的支持并不好，因为先提交上来的每一个作业都会尝试使用集群中所有的可用cpu资源，可以通过spark.cores.max进行限制每个作业的最大cpu数量， 建议使用—conf的方式，在spark-submit中进行配置，避免在sparkConf中使用硬编码进行设置 </code></pre><h2 id="standalone模式下的作业监控和日志记录"><a href="#standalone模式下的作业监控和日志记录" class="headerlink" title="standalone模式下的作业监控和日志记录"></a>standalone模式下的作业监控和日志记录</h2><pre><code>通过spark的web ui进行监控，作业运行完毕后就看不到了，这个跟history server有关，在每个算子中打印出来的信息位于对应的worker节点的工作目录中，默认是位于Spark_home/work目录下，在web中也是可以看到的。</code></pre><p>Spark的standalone-cluster模式提交任务<br>支持监控driver进程，使用—supervise标识，通常用于sparkstreaming中的drver的HA，可以通过spark-class方式杀掉对应的driver。<br>sparksubmit一闪而过，仅仅是将driver注册到master上，就停止了。在worker节点会启动<br>DriverWraper进程<br>CoarseGrainedExecutorBackend进程 </p>
+<h2 id="Spark的yarn-client模式提交任务"><a href="#Spark的yarn-client模式提交任务" class="headerlink" title="Spark的yarn-client模式提交任务"></a>Spark的yarn-client模式提交任务</h2><pre><code>Spark的yarn-client模式，即基于Yarn资源管理集群。通过client的方式提交应用到yarn集群，提交过程如下：</code></pre><p><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/15839274392179.jpg" alt></p>
+<p>具体提交步骤如下：<br>    1.    Spark-submit在客户端启动AM，其实只是ExecutorLancher，client会启动Driver。<br>    2.    Driver进行SparkContext的初始化，开始向Yarn的RM进行应用注册与资源请求<br>    3.    RM在NM上分配资源给Container运行<br>    4.    NM在Container中启动Executor<br>    5.    Executor会反向往client节点注册，SparkContext初始化完成<br>    6.    运行spark的代码，提交任务到Container的Executor进行任务执行<br>Spark的yarn-cluter模式提交任务<br>    Spark的yarn-cluster模式，即基于Yarn资源管理集群。通过cluster的方式提交应用到yarn集群，提交过程如下：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/15839274524594.jpg" alt></p>
+<p>具体步骤如下：<br>    1.    Spark-submit提交应用到RM，请求启动AM<br>    2.    RM分配Container资源用于运行AM，即Driver<br>    3.    NM启动AM<br>    4.    AM进行SparkContext初始化，请求RM，进行应用注册与资源调度<br>    5.    RM在NM上分配资源给Container运行<br>    6.    NM在Container中启动Executor<br>    7.    Executor会反向往client节点注册，SparkContext初始化完成<br>    8.    运行spark的代码，提交任务到Container的Executor进行任务执行 </p>
+<h2 id="yarn-client-VS-yarn-cluster"><a href="#yarn-client-VS-yarn-cluster" class="headerlink" title="yarn-client VS yarn-cluster"></a>yarn-client VS yarn-cluster</h2><pre><code>•    yarn-client用于测试，因为driver运行在本地客户端，负责调度Application，会与yarn集群产生超大量的网络通讯，导致网卡流量激增，好处是本地可以看到log，便于调试。 
+•    yarn-cluster用于生产，因为driver运行在随机的NM上，不存在网卡流量激增的模式。缺点是看不到日志。只能通过yarn application来查看
+•    yarn-client模式下AM（executorluncher）只是负责申请资源，然后启动executor，任务调度还是driver，yarn-cluster模式下AM和driver是一起的 </code></pre><h2 id="yarn模式下的日志查看详解"><a href="#yarn模式下的日志查看详解" class="headerlink" title="yarn模式下的日志查看详解"></a>yarn模式下的日志查看详解</h2><p>第一种聚合日志方式：<br>将散落在集群中各个节点的日志，最后都给聚合，打开聚合日志需要配置yarn.log-aggregation-enable,container的日志会拷贝到hdfs上，可以使用yarn logs appId查看，还可以通过hdfs方式查看<br>yarn.nodemanager.remote-app-log-dir<br>yarn.nodemanager.remote-app-log-dir-suffix<br>第二种方式web ui：<br>需要运行spark 的history server和mapreduce的history server，在程序结束还可以通过web ui查看 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/" itemprop="url">Spark基础—生态圈</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T19:41:28+08:00">
+                2020-03-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T19:44:11+08:00">
+                2020-03-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Spark生态圈介绍"><a href="#Spark生态圈介绍" class="headerlink" title="Spark生态圈介绍"></a>Spark生态圈介绍</h2><ul>
+<li>Spark Core：核心模块，基于Rdd处理数据</li>
+<li>Spark SQL：sql处理模块，基于dataframe的处理结构化数据</li>
+<li>Spark Streaming：流处理模块，用于处理流式数据的组件</li>
+<li>Spark MLLib：机器学习模块</li>
+<li>Spark Graphx: 图计算模块</li>
+</ul>
+<h2 id="Spark-Core模块介绍"><a href="#Spark-Core模块介绍" class="headerlink" title="Spark-Core模块介绍"></a>Spark-Core模块介绍</h2><p>//待补充<br>Spark-Sql模块介绍<br>//待补充</p>
+<h2 id="Spark-Streaming模块介绍"><a href="#Spark-Streaming模块介绍" class="headerlink" title="Spark-Streaming模块介绍"></a>Spark-Streaming模块介绍</h2><p>基础编程模型<br>将输入的数据源源不断的加入到input table中去，默认1s出发一次batch，然后对input table进行计算和转换操作，插入到result table中，最后可以输出到外部存储，输出模式有3种，complete mode，append mode，update mode（2.0不支持）<br>event-time指嵌入数据内部自身的时间，即这条数据产生的时间<br>late-date延迟化数据<br>解决难题<br>        需要跟历史数据整合起来的聚合操作<br>        基于event-time自动进行延迟到达数据的聚合结果的纠正计算<br>        自动完成一次且仅一次的语义 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1197,644 +1854,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8%E3%80%81%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8%E3%80%81%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97/" itemprop="url">Java数据结构——表、栈、队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:42:46+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 待补充中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/" itemprop="url">Java核心—java8新特性</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:36:07+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:56:02+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Java8新特性"><a href="#Java8新特性" class="headerlink" title="Java8新特性"></a>Java8新特性</h2><h3 id="接口的默认方法-Default-Methods-for-Interfaces"><a href="#接口的默认方法-Default-Methods-for-Interfaces" class="headerlink" title="接口的默认方法(Default Methods for Interfaces)"></a>接口的默认方法(Default Methods for Interfaces)</h3><pre><code>Java 8使我们能够通过使用 default 关键字向接口添加非抽象方法实现。</code></pre><h3 id="Lambda表达式-Lambda-expressions"><a href="#Lambda表达式-Lambda-expressions" class="headerlink" title="Lambda表达式(Lambda expressions)"></a>Lambda表达式(Lambda expressions)</h3><pre><code>在Java 8中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：</code></pre><p>Collections.sort(names, (String a, String b) -&gt; {<br>    return b.compareTo(a);<br>});<br>可以看出，代码变得更段且更具有可读性，但是实际上还可以写得更短：<br>Collections.sort(names, (String a, String b) -&gt; b.compareTo(a));<br>对于函数体只有一行代码的，你可以去掉大括号{}以及return关键字，但是你还可以写得更短点：<br>names.sort((a, b) -&gt; b.compareTo(a));</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url">Java核心—虚拟机</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:24:46+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T15:58:45+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Java运行时内存区域"><a href="#Java运行时内存区域" class="headerlink" title="Java运行时内存区域"></a>Java运行时内存区域</h2><p>###JDK1.8之前：<br><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079420446.jpg" alt></p>
-<h3 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8:"></a>JDK1.8:</h3><p><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079514890.jpg" alt></p>
-<p>线程私有的：<br>    ▪    程序计数器<br>    ▪    虚拟机栈<br>    ▪    本地方法栈</p>
-<p>线程共享的：<br>    ▪    堆<br>    ▪    方法区<br>    ▪    直接内存 (非运行时数据区的一部分)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">Java核心—并发编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:19:33+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T15:51:59+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15839076314700.jpg" alt="-w581"></p>
-<h2 id="线程死锁"><a href="#线程死锁" class="headerlink" title="线程死锁"></a>线程死锁</h2><pre><code>线程 A 持有资源 2，线程 B 持有资源 1，他们同时都想申请对方的资源，所以这两个线程就会互相等待而进入死锁状态。</code></pre><p><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15839076443981.jpg" alt></p>
-<h2 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h2><pre><code>synchronized关键字加到static静态方法和synchronized(class)代码块上都是是给Class类上锁。synchronized关键字加到实例方法上是给对象实例上锁。尽量不要使用synchronized(String a)因为JVM中，字符串常量池具有缓存功能！</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
   </nav>
 
 
@@ -1880,7 +1904,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
