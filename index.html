@@ -282,6 +282,318 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EHive%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/bigdata/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EHive%E9%9B%86%E6%88%90/" itemprop="url">Hbase核心—与Hive集成</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:26:22+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:27:00+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>与Hive的集成<br>        表的数据存储在hbase中，元数据存储在hive中<br>        两种方式<br>            管理表<br>                创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除<br>            外部表<br>                现在已经存在Hbase表，需要对表中的数据进行分析<br>        集成配置<br>            1）修改hive-site.xml配置文件，添加配置属<br>        <property><br>            <name>hbase.zookeeper.quorum</name><br>            <value>mincdh:2181</value><br>        </property><br>            2）修改hive-env.sh文件<br>    # 添加一个环境变量<br>    export HIVE_CLASSPATH=$HIVE_CLASSPATH:/hadoop/hbase/lib/*<br>            3）创建hbase表及插入数据<br>    create ‘hbase_hive’, ‘info’<br>   put ‘hbase_hive’, ‘001’, ‘info:name’, ‘zhao’<br>    put ‘hbase_hive’, ‘002’, ‘info:name’, ‘qian’<br>    put ‘hbase_hive’, ‘003’, ‘into:nmae’, ‘sun’<br>            4）创建并关联hive表<br>        create EXTERNAL TABLE hive_hbase (<br>        rowkey string,<br>        name string<br>        ) STORED BY ‘org.apache.hadoop.hive.hbase.HBaseStorageHandler’<br>        WITH SERDEPROPERTIES (“hbase.columns.mapping” = “:key,info:name”)<br>        TBLPROPERTIES (“hbase.table.name” = “hbase_hive”);<br>         5）查询hive表，查看hbase中插入的数据<br>     select * from hbase_hive<br>       6）从hive表中插入数据<br>            insert into hbase_hive select rowkey, name from test;<br>      7）查询hbase，查看hive中插入的数据</p>
+<pre><code>应用场景 
+    日志文件利用正则表达式，存储在hive表中 
+    创建hive和hbase关联表，将源日志表中的数据加工后 
+    insert到hive和hbase的关联表中 
+    使用hbase进行交互式查询 </code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E9%AB%98%E7%BA%A7%E2%80%94compact%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/bigdata/Hbase%E9%AB%98%E7%BA%A7%E2%80%94compact%E4%BB%8B%E7%BB%8D/" itemprop="url">Hbase核心—compact介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:25:25+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:25:58+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>compact过程：<br>            两种compact机制：<br>            minor合并：将多个小文件从写为数量较少的大文件，多路归并算法，只受磁<br>                盘IO的性能影响<br>            major压缩合并，讲一个region中一个列簇的若干个HFile重写为一个新的HFile<br>                含有更独特的功能，能扫描所有的键/值对，顺序重写全部数据，重写<br>                过程略过删除标记的数据、超过版本号限制的数据、生存时间到期的<br>                数据。该操作属于重量级compact，会阻塞所有客户端对该操作所属region<br>                的请求，直到合并结束<br>            storefile随着memstore被刷新越来越多，当storefile的数量满足一定的条件时，会<br>            触发minor compact操作，合并成一个大storefile文件，当文件大小超过单个文件<br>            配置的最大限制时，触发region的自动分割 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1513,348 +1825,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/" itemprop="url">Hive核心—分区和分桶</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:01:52+08:00">
-                2020-03-13
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:07:19+08:00">
-                2020-03-13
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h2><pre><code>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。
-当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是有可能。存储日志，其 中必然有个属性是日志产生的日期。在产生分区时，就可以按照日志产生的日期列进行划分。把每 一天的日志当作一个分区。
-将数据组织成分区，主要可以提高数据的查询速度。至于用户存储的每一条记录到底放到哪个分 区，由用户决定。即用户在加载数据的时候必须显示的指定该部分数据放到哪个分区。</code></pre><p><strong>实现细节</strong>：</p>
-<ol>
-<li>一个表可以拥有一个或者多个分区，每个分区以文件夹的形式单独存在表文件夹的目录下。</li>
-<li>表和列名不区分大小写。</li>
-<li>分区是以字段的形式在表结构中存在，通过describetable命令可以查看到字段存在， 但是该字段不存放实际的数据内容，仅仅是分区的表示（伪列） 。</li>
-</ol>
-<p><strong>语法</strong>：</p>
-<ol>
-<li>创建一个分区表，以ds为分区列<br><code>create table invites(id int, name string) partitioned by (ds string) row format delimited ﬁeldsterminated by &#39; &#39; stored as textﬁle;</code></li>
-<li>将数据添加到时间为2013-08-16这个分区中：<br><code>load data local inpath&#39;/home/hadoop/Desktop/data.txt&#39; overwrite into table invites partition(ds=&#39;2013-08-16&#39;);</code></li>
-<li>从一个分区中查询数据：<br><code>select * from inviteswhere ds =&#39;2013-08-12&#39;;</code><br>4、往一个分区表的某一个分区中添加数据：<br><code>insert overwrite tableinvites partition (ds=&#39;2013-08-12&#39;) select id,max(name) from test group by id;</code><h2 id="分桶-Bucket"><a href="#分桶-Bucket" class="headerlink" title="分桶(Bucket)"></a>分桶(Bucket)</h2><pre><code>对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方 式决定该条记录存放在哪个桶当中。</code></pre>把表（或者分区）组织成桶（Bucket）有两个理由：</li>
-<li>获得更高的查询处理效率。桶为表加上了额外的结构，Hive 在处理有些查询时能利用这个结构。具体而言，连接两个在（包含连接列的）相同列上划分了桶的表，可以使用 Map 端连接 （Map-side join）高效的实现。比如JOIN操作。对于JOIN操作两个表有一个相同的列，如果对这两个表都进行了桶操作。那么将保存相同列值的桶进行JOIN操作就可以，可以大大较少JOIN的数据量。</li>
-<li>使取样（sampling）更高效。在处理大规模数据集时，在开发和修改查询的阶段，如果能在 数据集的一小部分数据上试运行查询，会带来很多方便。</li>
-</ol>
-<p><strong>创建带桶的 table</strong> ：<br><code>create tablebucketed_user(id int,name string)clustered by (id) sorted by(name) into 4buckets row format delimited ﬁelds terminated by &#39; &#39; stored as textﬁle;</code><br>        首先，我们来看如何告诉—个表应该被划分成桶。我们使用CLUSTERED BY 子句来指定划分桶所用的列和要划分的桶的个 数：<br><code>CREATE TABLE bucketed_user(id INT) name STRING) CLUSTERED BY (id) INTO 4BUCKETS;</code><br>        在这里，我们使用用户ID来确定如何划分桶(Hive使用对值进行哈希并将结果除 以桶的个数取余数。这样，任何一桶里都会 有一个随机的用户集合（PS：其实也能说是随机，不是吗？）。<br><strong>往表中插入数据</strong>：<br><code>INSERT OVERWRITE TABLEbucketed_users SELECT * FROM users;</code><br>        物理上，每个桶就是表(或分区）目录里的一个文件。它的文件名并不重要，但是桶 n 是按照字典序排列的第 n 个文件。事实上，桶对应于 MapReduce的输出文件分区：一个作业产生的桶(输出文件)和reduce任务个数相同.<br>        总结一句话： 分区按照我们指定列范围进行分区（层级文件夹 ），而分桶是按照列值的hash值,这样想同值都会在一个桶内（一级文件夹内不同文件区别不同的桶） ，便于join操作。<br>        对两个划分了桶的表进行连接，处理左边表内某个桶的 mapper知道右边表内相匹配的行在对应的桶内。因此，mapper只需要获取那个桶 (这只是右边表内存储数据的一小部分)即可进行连接。这一优化方法并不一定要求两个表必须桶的个数相同，两个表的桶个数是倍数关系也可以。桶中的数据可以根据一个或多个列另外进行排序。由于这样对每个桶的连接变成了高效的归并排 序(merge-sort),因此可以进一步提升map端连接的效率。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" itemprop="url">Hive基础—数据类型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:59:18+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:00:58+08:00">
-                2020-03-13
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>原生类型： </p>
-<ul>
-<li>tinyint：1byte </li>
-<li>smallint：2byte </li>
-<li>int：4byte </li>
-<li>bigint：8byte </li>
-<li>float：4byte </li>
-<li>double：8byte </li>
-<li>decimal： </li>
-<li>timestamp： </li>
-<li>date： </li>
-<li>string： </li>
-<li>varchar： </li>
-<li>char：<br>复合类型：</li>
-<li>array_type：数组类型</li>
-<li>map_type：map类型</li>
-<li>struct_type：结构化类型 </li>
-<li>union_type：联合类型</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1905,7 +1875,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

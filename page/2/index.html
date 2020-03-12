@@ -282,6 +282,348 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/" itemprop="url">Hive核心—分区和分桶</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:01:52+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:07:19+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h2><pre><code>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。
+当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是有可能。存储日志，其 中必然有个属性是日志产生的日期。在产生分区时，就可以按照日志产生的日期列进行划分。把每 一天的日志当作一个分区。
+将数据组织成分区，主要可以提高数据的查询速度。至于用户存储的每一条记录到底放到哪个分 区，由用户决定。即用户在加载数据的时候必须显示的指定该部分数据放到哪个分区。</code></pre><p><strong>实现细节</strong>：</p>
+<ol>
+<li>一个表可以拥有一个或者多个分区，每个分区以文件夹的形式单独存在表文件夹的目录下。</li>
+<li>表和列名不区分大小写。</li>
+<li>分区是以字段的形式在表结构中存在，通过describetable命令可以查看到字段存在， 但是该字段不存放实际的数据内容，仅仅是分区的表示（伪列） 。</li>
+</ol>
+<p><strong>语法</strong>：</p>
+<ol>
+<li>创建一个分区表，以ds为分区列<br><code>create table invites(id int, name string) partitioned by (ds string) row format delimited ﬁeldsterminated by &#39; &#39; stored as textﬁle;</code></li>
+<li>将数据添加到时间为2013-08-16这个分区中：<br><code>load data local inpath&#39;/home/hadoop/Desktop/data.txt&#39; overwrite into table invites partition(ds=&#39;2013-08-16&#39;);</code></li>
+<li>从一个分区中查询数据：<br><code>select * from inviteswhere ds =&#39;2013-08-12&#39;;</code><br>4、往一个分区表的某一个分区中添加数据：<br><code>insert overwrite tableinvites partition (ds=&#39;2013-08-12&#39;) select id,max(name) from test group by id;</code><h2 id="分桶-Bucket"><a href="#分桶-Bucket" class="headerlink" title="分桶(Bucket)"></a>分桶(Bucket)</h2><pre><code>对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方 式决定该条记录存放在哪个桶当中。</code></pre>把表（或者分区）组织成桶（Bucket）有两个理由：</li>
+<li>获得更高的查询处理效率。桶为表加上了额外的结构，Hive 在处理有些查询时能利用这个结构。具体而言，连接两个在（包含连接列的）相同列上划分了桶的表，可以使用 Map 端连接 （Map-side join）高效的实现。比如JOIN操作。对于JOIN操作两个表有一个相同的列，如果对这两个表都进行了桶操作。那么将保存相同列值的桶进行JOIN操作就可以，可以大大较少JOIN的数据量。</li>
+<li>使取样（sampling）更高效。在处理大规模数据集时，在开发和修改查询的阶段，如果能在 数据集的一小部分数据上试运行查询，会带来很多方便。</li>
+</ol>
+<p><strong>创建带桶的 table</strong> ：<br><code>create tablebucketed_user(id int,name string)clustered by (id) sorted by(name) into 4buckets row format delimited ﬁelds terminated by &#39; &#39; stored as textﬁle;</code><br>        首先，我们来看如何告诉—个表应该被划分成桶。我们使用CLUSTERED BY 子句来指定划分桶所用的列和要划分的桶的个 数：<br><code>CREATE TABLE bucketed_user(id INT) name STRING) CLUSTERED BY (id) INTO 4BUCKETS;</code><br>        在这里，我们使用用户ID来确定如何划分桶(Hive使用对值进行哈希并将结果除 以桶的个数取余数。这样，任何一桶里都会 有一个随机的用户集合（PS：其实也能说是随机，不是吗？）。<br><strong>往表中插入数据</strong>：<br><code>INSERT OVERWRITE TABLEbucketed_users SELECT * FROM users;</code><br>        物理上，每个桶就是表(或分区）目录里的一个文件。它的文件名并不重要，但是桶 n 是按照字典序排列的第 n 个文件。事实上，桶对应于 MapReduce的输出文件分区：一个作业产生的桶(输出文件)和reduce任务个数相同.<br>        总结一句话： 分区按照我们指定列范围进行分区（层级文件夹 ），而分桶是按照列值的hash值,这样想同值都会在一个桶内（一级文件夹内不同文件区别不同的桶） ，便于join操作。<br>        对两个划分了桶的表进行连接，处理左边表内某个桶的 mapper知道右边表内相匹配的行在对应的桶内。因此，mapper只需要获取那个桶 (这只是右边表内存储数据的一小部分)即可进行连接。这一优化方法并不一定要求两个表必须桶的个数相同，两个表的桶个数是倍数关系也可以。桶中的数据可以根据一个或多个列另外进行排序。由于这样对每个桶的连接变成了高效的归并排 序(merge-sort),因此可以进一步提升map端连接的效率。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" itemprop="url">Hive基础—数据类型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:59:18+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:00:58+08:00">
+                2020-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原生类型： </p>
+<ul>
+<li>tinyint：1byte </li>
+<li>smallint：2byte </li>
+<li>int：4byte </li>
+<li>bigint：8byte </li>
+<li>float：4byte </li>
+<li>double：8byte </li>
+<li>decimal： </li>
+<li>timestamp： </li>
+<li>date： </li>
+<li>string： </li>
+<li>varchar： </li>
+<li>char：<br>复合类型：</li>
+<li>array_type：数组类型</li>
+<li>map_type：map类型</li>
+<li>struct_type：结构化类型 </li>
+<li>union_type：联合类型</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/bigdata/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1616,324 +1958,6 @@ HMaster与HRegionServer启动时会向zk注册
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/database/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%B8%89%E8%8C%83%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/database/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%B8%89%E8%8C%83%E5%BC%8F/" itemprop="url">数据持久化—列存储与行存储</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:57:44+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:58:22+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数据库三范式"><a href="#数据库三范式" class="headerlink" title="数据库三范式"></a>数据库三范式</h2><p>第一范式(1NF):字段具有原子性,不可再分。所有关系型数据库系统都满足第一范式)<br>    数据库表中的字段都是单一属性的，不可再分。例如，姓名字段，其中的姓和名必 须作为一个整体，无法区分哪部分是姓，哪部分是名，如果要区分出姓和名，必须设计成两 个独立的字段。<br>    第二范式(2NF): 第二范式(2NF)是在第一范式(1NF)的基础上建立起来的，即满足第二范式(2NF)必<br>须先满足第一范式(1NF)。<br>    要求数据库表中的每个实例或行必须可以被惟一地区分。通常需要为表加上一个列，以存储 各个实例的惟一标识。这个惟一属性列被称为主关键字或主键。<br>    第二范式(2NF)要求实体的属性完全依赖于主关键字。所谓完全依赖是指不能存在仅依赖 主关键字一部分的属性，如果存在，那么这个属性和主关键字的这一部分应该分离出来形成 一个新的实体，新实体与原实体之间是一对多的关系。为实现区分通常需要为表加上一个列， 以存储各个实例的惟一标识。简而言之，第二范式就是非主属性非部分依赖于主关键字。<br>第三范式的要求如下:<br>满足第三范式(3NF)必须先满足第二范式(2NF)。简而言之，第三范式(3NF)要求一 个数据库表中不包含已在其它表中已包含的非主关键字信息。<br>所以第三范式具有如下特征:<br>1，每一列只有一个值。<br>2，每一行都能区分。<br>3，每一个表都不包含其他表已经包含的非主关键字信息。<br>    例如，帖子表中只能出现发帖人的 id，而不能出现发帖人的 id，还同时出现发帖人姓名， 否则，只要出现同一发帖人 id 的所有记录，它们中的姓名部分都必须严格保持一致，这就是数据冗余。 </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/database/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%BA%8B%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/database/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%BA%8B%E5%8A%A1/" itemprop="url">数据持久化—列存储与行存储</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:43:28+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:44:31+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h2><p>事务是逻辑上的一组操作，要么都执行，要么都不执行。</p>
-<h3 id="事物的四大特性-ACID"><a href="#事物的四大特性-ACID" class="headerlink" title="事物的四大特性(ACID)"></a>事物的四大特性(ACID)</h3><pre><code>1.    原子性（Atomicity）：事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；
-2.    一致性（Consistency）：执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；
-3.    隔离性（Isolation）：并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；
-4.    持久性（Durability）：一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</code></pre><h3 id="并发事务带来的问题"><a href="#并发事务带来的问题" class="headerlink" title="并发事务带来的问题"></a>并发事务带来的问题</h3><pre><code>在典型的应用程序中，多个事务并发运行，经常会操作相同的数据来完成各自的任务（多个用户对同一数据进行操作）。并发虽然是必须的，但可能会导致以下的问题。
-▪    脏读（Dirty read）: 当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是不正确的。
-▪    丢失修改（Lost to modify）: 指在一个事务读取一个数据时，另外一个事务也访问了该数据，那么在第一个事务中修改了这个数据后，第二个事务也修改了这个数据。这样第一个事务内的修改结果就被丢失，因此称为丢失修改。    例如：事务1读取某表中的数据A=20，事务2也读取A=20，事务1修改A=A-1，事务2也修改A=A-1，最终结果A=19，事务1的修改被丢失。
-▪    不可重复读（Unrepeatableread）: 指在一个事务内多次读同一数据。在这个事务还没有结束时，另一个事务也访问该数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改导致第一个事务两次读取的数据可能不太一样。这就发生了在一个事务内两次读到的数据是不一样的情况，因此称为不可重复读。
-▪    幻读（Phantom read）: 幻读与不可重复读类似。它发生在一个事务（T1）读取了几行数据，接着另一个并发事务（T2）插入了一些数据时。在随后的查询中，第一个事务（T1）就会发现多了一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。</code></pre><h3 id="不可重复读和幻读区别："><a href="#不可重复读和幻读区别：" class="headerlink" title="不可重复读和幻读区别："></a>不可重复读和幻读区别：</h3><pre><code>不可重复读的重点是修改比如多次读取一条记录发现其中某些列的值被修改，幻读的重点在于新增或者删除比如多次读取一条记录发现记录增多或减少了。</code></pre><h3 id="SQL-标准定义了四个隔离级别："><a href="#SQL-标准定义了四个隔离级别：" class="headerlink" title="SQL 标准定义了四个隔离级别："></a>SQL 标准定义了四个隔离级别：</h3><pre><code>▪    READ-UNCOMMITTED(读取未提交)：最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。
-▪    READ-COMMITTED(读取已提交)：允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。
-▪    REPEATABLE-READ(可重复读)：对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。
-▪    SERIALIZABLE(可串行化)：最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1984,7 +2008,7 @@ HMaster与HRegionServer启动时会向zk注册
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
