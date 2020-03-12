@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Flink的数据类型a.    原生数据类型 b.    Java Tuples类型 c.    Scala Case Class类型 d.    POJOs类型 e.    Flink Value类型 f.    特殊数据类型Flink的Datasource•    内置数据源 ⁃    文件数据源 ⁃    Socket数据源 ⁃    集合数据源 •    外部数据源 ⁃    数据源连接器">
+<meta name="description" content="Flink的数据类型 原生数据类型 Java Tuples类型 Scala Case Class类型 POJOs类型 Flink Value类型 特殊数据类型Flink的Datasource 内置数据源- 文件数据源 - Socket数据源 - 集合数据源 外部数据源- 数据源连接器 - 自定义数据源连接器Flink的Transform 单个DataStream操作 多个DataStream操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink基础—编程模型">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/12/bigdata/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Flink的数据类型a.    原生数据类型 b.    Java Tuples类型 c.    Scala Case Class类型 d.    POJOs类型 e.    Flink Value类型 f.    特殊数据类型Flink的Datasource•    内置数据源 ⁃    文件数据源 ⁃    Socket数据源 ⁃    集合数据源 •    外部数据源 ⁃    数据源连接器">
+<meta property="og:description" content="Flink的数据类型 原生数据类型 Java Tuples类型 Scala Case Class类型 POJOs类型 Flink Value类型 特殊数据类型Flink的Datasource 内置数据源- 文件数据源 - Socket数据源 - 集合数据源 外部数据源- 数据源连接器 - 自定义数据源连接器Flink的Transform 单个DataStream操作 多个DataStream操作">
 <meta property="article:published_time" content="2020-03-11T16:11:26.336Z">
-<meta property="article:modified_time" content="2020-03-11T16:20:25.049Z">
+<meta property="article:modified_time" content="2020-03-12T15:47:46.384Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="flink">
 <meta name="twitter:card" content="summary">
@@ -331,7 +331,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:20:25+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:47:46+08:00">
                 2020-03-12
               </time>
             
@@ -392,21 +392,25 @@
       
 
       
-        <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><pre><code>a.    原生数据类型
-b.    Java Tuples类型
-c.    Scala Case Class类型
-d.    POJOs类型
-e.    Flink Value类型
-f.    特殊数据类型</code></pre><h2 id="Flink的Datasource"><a href="#Flink的Datasource" class="headerlink" title="Flink的Datasource"></a>Flink的Datasource</h2><pre><code>•    内置数据源
-⁃    文件数据源
-⁃    Socket数据源
-⁃    集合数据源
-•    外部数据源
-⁃    数据源连接器
-⁃    自定义数据源连接器</code></pre><h2 id="Flink的Transform"><a href="#Flink的Transform" class="headerlink" title="Flink的Transform"></a>Flink的Transform</h2><pre><code>◦    单个DataStream操作
-◦    多个DataStream操作
-◦    物理分区操作</code></pre><h2 id="Flink的Sink"><a href="#Flink的Sink" class="headerlink" title="Flink的Sink"></a>Flink的Sink</h2><pre><code>▪    基本数据输出
-▪    第三方数据输出</code></pre><h2 id="Flink配置说明"><a href="#Flink配置说明" class="headerlink" title="Flink配置说明"></a>Flink配置说明</h2><p><strong>基础配置</strong><br> #jobManger的IP地址<br> #jobmanager.rpc.address:localhost<br> #jobManager的rpc端口号<br> #jobmanager.rpc.port:6123<br> #jobmanager JVM heap内存大小<br> #jobmanager.heap.mb: 1024<br> #taskManager JVM heap 内存大小<br> #taskmanager.heap.mb: 1024<br> #每个taskmanager提供的任务slots数量大小<br> #taskmanager.numberOfTaskSlots: 1<br> #程序默认并发计算的个数<br> #parallelism.default: 1<br><strong>高可用配置</strong><br> #高可用配置，可以选择‘NONE’ 或者’zookeeper‘<br> #high-availability: zookeeper<br> #存储路径，让Flink在高可用设置中持久化元数据<br> #high-availability.storageDir: hdfs:///flink/ha/<br> #zookeeper协调服务地址<br> #high-availability.zookeeper.quorum: localhost:2181<br> #zookeeper ACL机制<br> #high-availability.zookeeper.client.acl: open<br><strong>容错和检查点配置</strong><br> #用于存储和检查点状态<br> #state.backend: filesystem<br> #存储检查点的数据文件和元数据的默认目录<br> #state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints<br><strong>web前端配置</strong><br> #基于web的运行时监视器的侦听的地址<br> #jobmanager.web.address: 0.0.0.0<br> #web的运行时监视器端口<br> #jobmanager.web.port: 8080<br> #是否从基于 web的jobmanager启用作业提交<br> #jobmanager.web.submit.enable: false</p>
+        <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><ul>
+<li>原生数据类型</li>
+<li>Java Tuples类型</li>
+<li>Scala Case Class类型</li>
+<li>POJOs类型</li>
+<li>Flink Value类型</li>
+<li>特殊数据类型<h2 id="Flink的Datasource"><a href="#Flink的Datasource" class="headerlink" title="Flink的Datasource"></a>Flink的Datasource</h2></li>
+<li>内置数据源<pre><code>- 文件数据源
+- Socket数据源
+- 集合数据源</code></pre></li>
+<li>外部数据源<pre><code>- 数据源连接器
+- 自定义数据源连接器</code></pre><h2 id="Flink的Transform"><a href="#Flink的Transform" class="headerlink" title="Flink的Transform"></a>Flink的Transform</h2></li>
+<li>单个DataStream操作</li>
+<li>多个DataStream操作</li>
+<li>物理分区操作<h2 id="Flink的Sink"><a href="#Flink的Sink" class="headerlink" title="Flink的Sink"></a>Flink的Sink</h2></li>
+<li>基本数据输出</li>
+<li>第三方数据输出<h2 id="Flink配置说明"><a href="#Flink配置说明" class="headerlink" title="Flink配置说明"></a>Flink配置说明</h2></li>
+</ul>
+<p><strong>基础配置</strong><br> ···<br> #jobManger的IP地址<br> #jobmanager.rpc.address:localhost<br> #jobManager的rpc端口号<br> #jobmanager.rpc.port:6123<br> #jobmanager JVM heap内存大小<br> #jobmanager.heap.mb: 1024<br> #taskManager JVM heap 内存大小<br> #taskmanager.heap.mb: 1024<br> #每个taskmanager提供的任务slots数量大小<br> #taskmanager.numberOfTaskSlots: 1<br> #程序默认并发计算的个数<br> #parallelism.default: 1<br> ···<br><strong>高可用配置</strong><br>···<br> #高可用配置，可以选择‘NONE’ 或者’zookeeper‘<br> #high-availability: zookeeper<br> #存储路径，让Flink在高可用设置中持久化元数据<br> #high-availability.storageDir: hdfs:///flink/ha/<br> #zookeeper协调服务地址<br> #high-availability.zookeeper.quorum: localhost:2181<br> #zookeeper ACL机制<br> #high-availability.zookeeper.client.acl: open<br> ···<br><strong>容错和检查点配置</strong><br>···<br> #用于存储和检查点状态<br> #state.backend: filesystem<br> #存储检查点的数据文件和元数据的默认目录<br> #state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints<br> ···<br><strong>web前端配置</strong><br>···<br> #基于web的运行时监视器的侦听的地址<br> #jobmanager.web.address: 0.0.0.0<br> #web的运行时监视器端口<br> #jobmanager.web.port: 8080<br> #是否从基于 web的jobmanager启用作业提交<br> #jobmanager.web.submit.enable: false<br> ···</p>
 
       
     </div>
