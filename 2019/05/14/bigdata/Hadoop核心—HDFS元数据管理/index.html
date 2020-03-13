@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hadoop," />
+  <meta name="keywords" content="hadoop，hdfs," />
 
 
 
@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="##概述Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。##元数据管理元数据管理流程图：流程：  Client端跟nn（namenode）交互会造成nn元数据的更新，同时基">
+<meta name="description" content="概述Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。元数据管理下图是元数据管理流程图：流程：  Client端跟nn（namenode）交互会造成nn元数据的更新，同时基于">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hadoop核心技术（二）—hdfs元数据管理剖析">
+<meta property="og:title" content="Hadoop核心—HDFS元数据管理">
 <meta property="og:url" content="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="##概述Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。##元数据管理元数据管理流程图：流程：  Client端跟nn（namenode）交互会造成nn元数据的更新，同时基">
+<meta property="og:description" content="概述Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。元数据管理下图是元数据管理流程图：流程：  Client端跟nn（namenode）交互会造成nn元数据的更新，同时基于">
 <meta property="og:image" content="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg">
 <meta property="article:published_time" content="2019-05-14T05:32:58.768Z">
-<meta property="article:modified_time" content="2020-03-11T07:41:28.205Z">
+<meta property="article:modified_time" content="2020-03-13T04:21:28.337Z">
 <meta property="article:author" content="dongfeiliu">
-<meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="hadoop，hdfs">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg">
 
@@ -127,7 +127,7 @@
 
 
 
-  <title>hadoop核心技术（二）—hdfs元数据管理剖析 | 琅琊的博客</title>
+  <title>Hadoop核心—HDFS元数据管理 | 琅琊的博客</title>
   
 
 
@@ -305,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hadoop核心技术（二）—hdfs元数据管理剖析</h1>
+          <h1 class="post-title" itemprop="name headline">Hadoop核心—HDFS元数据管理</h1>
         
 
         <div class="post-meta">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T15:41:28+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T12:21:28+08:00">
+                2020-03-13
               </time>
             
           </span>
@@ -394,19 +394,16 @@
       
 
       
-        <p>##概述<br>Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。<br>##元数据管理<br>元数据管理流程图：<br><img src="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg" alt><br>流程：</p>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><pre><code>Hdfs的元数据存储在namenode的内存中，为了防止namenode宕机导致所有的元数据丢失，需要定期备份内存中的数据到硬盘，但如果元数据内容过大，则在dump时会耗费很长时间并且会影响hdfs的性能，因此出现了secondnamenode的角色。二者配合进行元数据管理。</code></pre><h2 id="元数据管理"><a href="#元数据管理" class="headerlink" title="元数据管理"></a>元数据管理</h2><p>下图是元数据管理流程图：<br><img src="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/15581935879583.jpg" alt><br>流程：</p>
 <ol>
-<li>Client端跟nn（namenode）交互会造成nn元数据的更新，同时基于WAL思想，所有涉及到更新元数据的操作都会写入编辑日志中（edits-in-progress文件）。</li>
-<li>snn（secondarynamenode）的进程会定期向nn的进程发起合并edits和fsimage的请求。</li>
-<li><ol>
-<li>nn根据时间和edits文件大小进行判断是否需要合并</li>
-<li>如果需要进行合并则先触发edits文件（图中的edits-in-progress-0009-000X）的回滚操作，生成需要合并的edits文件（edits-0009-0012）和新的edits文件（edits-in-progress-0013-000X）</li>
-<li>nn将需要合并的edits文件（edits-0009-0012）发送到snn</li>
-<li>snn将上一次dump的fsimage（fsimage-0008）加载到内存中，然后将收到的edits文件（edits-0009-0012）依次加载到内存中</li>
-<li>snn将内存中的元数据dump成新的fsimage（fsimage-0012）写入磁盘</li>
-<li>Snn将新的fsimage发送给nn，nn接收成功后清除旧的fsimage和edits文件</li>
-</ol>
-</li>
+<li>Client端跟nn（namenode）交互会造成nn元数据的更新，同时基于WAL思想，所有涉及到更新元数据的操作都会写入编辑日志中（edits-in-progress文件）；</li>
+<li>snn（secondarynamenode）的进程会定期向nn的进程发起合并edits和fsimage的请求；</li>
+<li>nn根据时间和edits文件大小进行判断是否需要合并；</li>
+<li>如果需要进行合并则先触发edits文件（图中的edits-in-progress-0009-000X）的回滚操作，生成需要合并的edits文件（edits-0009-0012）和新的edits文件（edits-in-progress-0013-000X）；</li>
+<li>nn将需要合并的edits文件（edits-0009-0012）发送到snn；</li>
+<li>snn将上一次dump的fsimage（fsimage-0008）加载到内存中，然后将收到的edits文件（edits-0009-0012）依次加载到内存中；</li>
+<li>snn将内存中的元数据dump成新的fsimage（fsimage-0012）写入磁盘；</li>
+<li>Snn将新的fsimage发送给nn，nn接收成功后清除旧的fsimage和edits文件。</li>
 </ol>
 
       
@@ -428,7 +425,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/" title="hadoop核心技术（二）—hdfs元数据管理剖析">https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</a>
+    <a href="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/" title="Hadoop核心—HDFS元数据管理">https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -443,7 +440,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+            <a href="/tags/hadoop%EF%BC%8Chdfs/" rel="tag"># hadoop，hdfs</a>
           
         </div>
       
@@ -456,8 +453,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/" rel="next" title="hadoop核心技术（一）—hdfs读写流程">
-                <i class="fa fa-chevron-left"></i> hadoop核心技术（一）—hdfs读写流程
+              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/" rel="next" title="Hadoop核心—HDFS读写流程">
+                <i class="fa fa-chevron-left"></i> Hadoop核心—HDFS读写流程
               </a>
             
           </div>
@@ -466,8 +463,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/" rel="prev" title="hadoop核心技术（三）—MR任务提交流程">
-                hadoop核心技术（三）—MR任务提交流程 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/" rel="prev" title="Hadoop核心—MR任务提交流程">
+                Hadoop核心—MR任务提交流程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -520,8 +517,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -558,7 +564,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -581,6 +587,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元数据管理"><span class="nav-number">2.</span> <span class="nav-text">元数据管理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

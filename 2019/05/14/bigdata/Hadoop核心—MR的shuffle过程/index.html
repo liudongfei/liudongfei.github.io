@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hadoop," />
+  <meta name="keywords" content="hadoop,mr," />
 
 
 
@@ -81,15 +81,16 @@
 
 <meta name="description" content="map端执行逻辑（多个task并行处理进行）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hadoop核心技术（四）—MR的shuffle过程剖析">
+<meta property="og:title" content="Hadoop核心—MR的shuffle过程">
 <meta property="og:url" content="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="map端执行逻辑（多个task并行处理进行）">
 <meta property="og:image" content="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/15582565850842.jpg">
 <meta property="article:published_time" content="2019-05-14T05:35:20.791Z">
-<meta property="article:modified_time" content="2020-03-11T13:40:09.228Z">
+<meta property="article:modified_time" content="2020-03-13T04:24:31.909Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="mr">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/15582565850842.jpg">
 
@@ -127,7 +128,7 @@
 
 
 
-  <title>hadoop核心技术（四）—MR的shuffle过程剖析 | 琅琊的博客</title>
+  <title>Hadoop核心—MR的shuffle过程 | 琅琊的博客</title>
   
 
 
@@ -305,7 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hadoop核心技术（四）—MR的shuffle过程剖析</h1>
+          <h1 class="post-title" itemprop="name headline">Hadoop核心—MR的shuffle过程</h1>
         
 
         <div class="post-meta">
@@ -333,8 +334,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T21:40:09+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T12:24:31+08:00">
+                2020-03-13
               </time>
             
           </span>
@@ -395,20 +396,11 @@
 
       
         <p><img src="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/15582565850842.jpg" alt></p>
-<blockquote>
-<p>map端执行逻辑（多个task并行处理进行） </p>
-</blockquote>
-<a id="more"></a>
-
-<p>map的并行度由数据切片决定，（默认的一个切片大小为block的大小，且一个切片只能包含一个文件），Math.max(minsize, Math.min(maxsize, block size))，当设置切片maxsize&lt;blocksize时，切片大小为maxsize，如果有大量小文件，可以先合并小文件，或使用combinefileinputformat<br>InputFormat默认TextFileInputFormat调用RecoredReader的read方法返回K-V将K-V提交到自定义的Mapper.map（K，V）处理完成交由内部的OutPutCollector，将数据写入环形缓冲区（默认100M）由环形缓冲区（80%）spill到磁盘，分区（Partitioner）和排序（CompareTo）调用combiner，写出的文件有多个，最后merge排序调用combiner合并成大文件。map到reduce的分区策略，默认hashpartitioner<br>maptask的output会存放在memory， 达到一定程度spill，溢写到磁盘，这个过程中按照key分区，确定reduce ，按照key排序 生成的很多小文件后 进行merge，合并进行排序形成大文件（可设置压缩，combiner），放在maptask运行的本地磁盘 </p>
-<blockquote>
-<p>reduce端执行逻辑</p>
-</blockquote>
-<p>reduce到mapper上download文件，然后进行merge排序成一个文件调用groupingcomparetor<br>(k,nextkey)（可以自定义）将相同的key和values传给自定义的reducer，处理完成调用OutPutFormat（默认TextOutputFormat）调用RecordWriter的write方法写出到磁盘。<br>reducetask通过网络向map的磁盘copy ，对拷贝回来的数据进行merge进行排序分组 将相同的key进行合并 进行reduce任务处理 </p>
-<blockquote>
-<p>mr的shuffle过程优化 </p>
-</blockquote>
-<pre><code>•    设置分区 
+<h3 id="map端执行逻辑（多个task并行处理进行）"><a href="#map端执行逻辑（多个task并行处理进行）" class="headerlink" title="map端执行逻辑（多个task并行处理进行）"></a>map端执行逻辑（多个task并行处理进行）</h3><a id="more"></a>
+<pre><code>map的并行度由数据切片决定，（默认的一个切片大小为block的大小，且一个切片只能包含一个文件），Math.max(minsize, Math.min(maxsize, block size))，当设置切片maxsize&lt;blocksize时，切片大小为maxsize，如果有大量小文件，可以先合并小文件，或使用combinefileinputformat
+InputFormat默认TextFileInputFormat调用RecoredReader的read方法返回K-V将K-V提交到自定义的Mapper.map（K，V）处理完成交由内部的OutPutCollector，将数据写入环形缓冲区（默认100M）由环形缓冲区（80%）spill到磁盘，分区（Partitioner）和排序（CompareTo）调用combiner，写出的文件有多个，最后merge排序调用combiner合并成大文件。map到reduce的分区策略，默认hashpartitioner
+maptask的output会存放在memory， 达到一定程度spill，溢写到磁盘，这个过程中按照key分区，确定reduce ，按照key排序 生成的很多小文件后 进行merge，合并进行排序形成大文件（可设置压缩，combiner），放在maptask运行的本地磁盘 </code></pre><h3 id="reduce端执行逻辑"><a href="#reduce端执行逻辑" class="headerlink" title="reduce端执行逻辑"></a>reduce端执行逻辑</h3><pre><code>reduce到mapper上download文件，然后进行merge排序成一个文件调用groupingcomparetor(k,nextkey)（可以自定义）将相同的key和values传给自定义的reducer，处理完成调用OutPutFormat（默认TextOutputFormat）调用RecordWriter的write方法写出到磁盘。
+reducetask通过网络向map的磁盘copy ，对拷贝回来的数据进行merge进行排序分组，将相同的key进行合并进行reduce任务处理 </code></pre><h3 id="mr的shuffle过程优化"><a href="#mr的shuffle过程优化" class="headerlink" title="mr的shuffle过程优化"></a>mr的shuffle过程优化</h3><pre><code>•    设置分区 
 •    设置排序比较器 
 •    设置combiner（可选） 
 •    设置分组比较器 
@@ -437,7 +429,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/" title="hadoop核心技术（四）—MR的shuffle过程剖析">https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/</a>
+    <a href="https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/" title="Hadoop核心—MR的shuffle过程">https://liudongfei.github.io/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%9A%84shuffle%E8%BF%87%E7%A8%8B/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -454,6 +446,8 @@
           
             <a href="/tags/hadoop/" rel="tag"># hadoop</a>
           
+            <a href="/tags/mr/" rel="tag"># mr</a>
+          
         </div>
       
 
@@ -465,8 +459,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/" rel="next" title="hadoop核心技术（三）—MR任务提交流程">
-                <i class="fa fa-chevron-left"></i> hadoop核心技术（三）—MR任务提交流程
+              <a href="/2019/05/14/bigdata/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%B5%81%E7%A8%8B/" rel="next" title="Hadoop核心—MR任务提交流程">
+                <i class="fa fa-chevron-left"></i> Hadoop核心—MR任务提交流程
               </a>
             
           </div>
@@ -475,8 +469,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/03/bigdata/Hadoop%E5%9F%BA%E7%A1%80%E2%80%94Hadoop%E4%BB%8B%E7%BB%8D/" rel="prev" title="hadoop学习笔记（一）">
-                hadoop学习笔记（一） <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/03/bigdata/Hadoop%E5%9F%BA%E7%A1%80%E2%80%94Hadoop%E4%BB%8B%E7%BB%8D/" rel="prev" title="Hadoop基础—Hadoop介绍">
+                Hadoop基础—Hadoop介绍 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -529,8 +523,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -567,7 +570,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -590,6 +593,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#map端执行逻辑（多个task并行处理进行）"><span class="nav-number">1.</span> <span class="nav-text">map端执行逻辑（多个task并行处理进行）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduce端执行逻辑"><span class="nav-number">2.</span> <span class="nav-text">reduce端执行逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mr的shuffle过程优化"><span class="nav-number">3.</span> <span class="nav-text">mr的shuffle过程优化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
