@@ -329,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:27:00+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:23:54+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -387,12 +387,22 @@
       
         
           
-            <p>与Hive的集成<br>        表的数据存储在hbase中，元数据存储在hive中<br>        两种方式<br>            管理表<br>                创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除<br>            外部表<br>                现在已经存在Hbase表，需要对表中的数据进行分析<br>        集成配置<br>            1）修改hive-site.xml配置文件，添加配置属<br>        <property><br>            <name>hbase.zookeeper.quorum</name><br>            <value>mincdh:2181</value><br>        </property><br>            2）修改hive-env.sh文件<br>    # 添加一个环境变量<br>    export HIVE_CLASSPATH=$HIVE_CLASSPATH:/hadoop/hbase/lib/*<br>            3）创建hbase表及插入数据<br>    create ‘hbase_hive’, ‘info’<br>   put ‘hbase_hive’, ‘001’, ‘info:name’, ‘zhao’<br>    put ‘hbase_hive’, ‘002’, ‘info:name’, ‘qian’<br>    put ‘hbase_hive’, ‘003’, ‘into:nmae’, ‘sun’<br>            4）创建并关联hive表<br>        create EXTERNAL TABLE hive_hbase (<br>        rowkey string,<br>        name string<br>        ) STORED BY ‘org.apache.hadoop.hive.hbase.HBaseStorageHandler’<br>        WITH SERDEPROPERTIES (“hbase.columns.mapping” = “:key,info:name”)<br>        TBLPROPERTIES (“hbase.table.name” = “hbase_hive”);<br>         5）查询hive表，查看hbase中插入的数据<br>     select * from hbase_hive<br>       6）从hive表中插入数据<br>            insert into hbase_hive select rowkey, name from test;<br>      7）查询hbase，查看hive中插入的数据</p>
-<pre><code>应用场景 
-    日志文件利用正则表达式，存储在hive表中 
-    创建hive和hbase关联表，将源日志表中的数据加工后 
-    insert到hive和hbase的关联表中 
-    使用hbase进行交互式查询 </code></pre>
+            <h2 id="与Hive的集成"><a href="#与Hive的集成" class="headerlink" title="与Hive的集成"></a>与Hive的集成</h2><p>表的数据存储在hbase中，元数据存储在hive中<br>两种方式</p>
+<ul>
+<li>管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除 </li>
+<li>外部表：现在已经存在Hbase表，需要对表中的数据进行分析 <h3 id="集成配置"><a href="#集成配置" class="headerlink" title="集成配置"></a>集成配置</h3>1）修改hive-site.xml配置文件，添加配置属<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    	&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">    	&lt;value&gt;mincdh:2181&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+2）修改hive-env.sh文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 添加一个环境变量</span><br><span class="line">export HIVE_CLASSPATH&#x3D;$HIVE_CLASSPATH:&#x2F;hadoop&#x2F;hbase&#x2F;lib&#x2F;*</span><br></pre></td></tr></table></figure>
+3）创建hbase表及插入数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create ‘hbase_hive’, ‘info’</span><br><span class="line">put ‘hbase_hive’, ‘001’, ‘info:name’, ‘zhao’</span><br><span class="line">put ‘hbase_hive’, ‘002’, ‘info:name’, ‘qian’</span><br><span class="line">put ‘hbase_hive’, ‘003’, ‘into:nmae’, ‘sun’</span><br></pre></td></tr></table></figure>
+4）创建并关联hive表<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   create EXTERNAL TABLE hive_hbase (</span><br><span class="line">rowkey string,</span><br><span class="line">name string</span><br><span class="line">   ) STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">   WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;:key,info:name&quot;)</span><br><span class="line">   TBLPROPERTIES (&quot;hbase.table.name&quot; &#x3D; &quot;hbase_hive&quot;);</span><br></pre></td></tr></table></figure>
+5）查询hive表，查看hbase中插入的数据<br><code>select * from hbase_hive</code><br>6）从hive表中插入数据<br><code>insert into hbase_hive select rowkey, name from test;</code><br>7）查询hbase，查看hive中插入的数据<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3></li>
+</ul>
+<ul>
+<li>日志文件利用正则表达式，存储在hive表中 </li>
+<li>创建hive和hbase关联表，将源日志表中的数据加工后 </li>
+<li>insert到hive和hbase的关联表中 </li>
+<li>使用hbase进行交互式查询 </li>
+</ul>
+
           
         
       
@@ -487,8 +497,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:25:58+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:16:58+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -545,7 +555,8 @@
       
         
           
-            <p>compact过程：<br>            两种compact机制：<br>            minor合并：将多个小文件从写为数量较少的大文件，多路归并算法，只受磁<br>                盘IO的性能影响<br>            major压缩合并，讲一个region中一个列簇的若干个HFile重写为一个新的HFile<br>                含有更独特的功能，能扫描所有的键/值对，顺序重写全部数据，重写<br>                过程略过删除标记的数据、超过版本号限制的数据、生存时间到期的<br>                数据。该操作属于重量级compact，会阻塞所有客户端对该操作所属region<br>                的请求，直到合并结束<br>            storefile随着memstore被刷新越来越多，当storefile的数量满足一定的条件时，会<br>            触发minor compact操作，合并成一个大storefile文件，当文件大小超过单个文件<br>            配置的最大限制时，触发region的自动分割 </p>
+            <h2 id="Compact类型"><a href="#Compact类型" class="headerlink" title="Compact类型"></a>Compact类型</h2><h3 id="minor合并"><a href="#minor合并" class="headerlink" title="minor合并"></a>minor合并</h3><p>将多个小文件从写为数量较少的大文件，多路归并算法，只受磁盘IO的性能影响。Storefile随着Memstore被刷新越来越多，当Storefile的数量满足一定的条件时，会触发minor compact操作，合并成一个大Storefile文件，当文件大小超过单个文件配置的最大限制时，触发region的自动分割。</p>
+<h3 id="major合并"><a href="#major合并" class="headerlink" title="major合并"></a>major合并</h3><p>将一个region中一个列簇的若干个HFile重写为一个新的HFile。同时，含有更独特的功能，能扫描所有的键/值对，顺序重写全部数据，重写 过程略过删除标记的数据、超过版本号限制的数据、生存时间到期的数据。该操作属于重量级compact，会阻塞所有客户端对该操作所属region的请求，直到合并结束。</p>
 
           
         
@@ -641,8 +652,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:23:41+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:10:14+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -795,8 +806,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:22:19+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:07:39+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -853,8 +864,23 @@
       
         
           
-            <p>FilterList<br>    FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：FilterList.Operator.MUST_PASS_ALL<br>或关系（符合任一）：FilterList.Operator.MUST_PASS_ONE</p>
-<p>使用方法：<br>FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ONE);<br>Scan s1 = new Scan();<br>filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”), Comp areOp.EQUAL,Bytes.toBytes(“v1”) ) );<br>filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c2”), Compa reOp.EQUAL,Bytes.toBytes(“v2”) ) ); // 添加下面这一行后，则只返回指定的 cell，同一行中的其他 cell 不返回 s1.addColumn(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”));<br>s1.setFilter(filterList); //设置 filter ResultScanner ResultScannerFilterList = table.getScanner(s1); //返回结果列表<br>过滤器的种类<br>    ·    列值过滤器—SingleColumnValueFilter：过滤列值的相等、不等、范围等<br>    •    列名前缀过滤器—ColumnPrefixFilter：过滤指定前缀的列名<br>    •    多个列名前缀过滤器—MultipleColumnPrefixFilter：过滤多个指定前缀的列名<br>    •    rowKey 过滤器—RowFilter：通过正则，过滤 rowKey 值。<br>列植过滤器 —SingleColumnValueFilter<br>SingleColumnValueFilter 列值判断<br>相等 (CompareOp.EQUAL ),<br>不等(CompareOp.NOT_EQUAL),<br>范围 (e.g., CompareOp.GREATER)…………<br>下面示例检查列值和字符串’values’ 相等…<br>SingleColumnValueFilter f = new SingleColumnValueFilter( Bytes.toBytes(“cFamily”) Bytes.toBytes(“column”),CompareFilter.CompareOp.EQUAL, Bytes.toBytes(“values”));<br>s1.setFilter(f);<br>注意：如果过滤器过滤的列在数据表中有的行中不存在，那么这个过滤器对此行无法过滤。<br>列名前缀过滤器 —ColumnPrefixFilter<br>过滤器—ColumnPrefixFilter ColumnPrefixFilter 用于指定列名前缀值相等<br>ColumnPrefixFilter f = new ColumnPrefixFilter(Bytes.toBytes(“values”));<br>s1.setFilter(f);<br>多个列值前缀过滤器 —MultipleColumnPrefixFilter<br>MultipleColumnPrefixFilter 和 ColumnPrefixFilter 行为差不多，但可以指定多个前缀<br>byte[][] prefixes = new byte[][]{Bytes.toBytes(“value1”),Bytes.toBytes(“value2”)};<br>Filter f = new MultipleColumnPrefixFilter(prefixes);<br>s1.setFilter(f);<br>rowKey过滤器—RowFilter<br>RowFilter 是 rowkey 过滤器 通常根据 rowkey 来指定范围时，使用 scan 扫描器的 StartRow 和 StopRow 方法比较好。<br>Filter f = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(“^1234”)); //匹配以 1234 开头的<br>rowkey s1.setFilter(f);</p>
+            <h3 id="FilterList"><a href="#FilterList" class="headerlink" title="FilterList"></a>FilterList</h3><p>FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：<code>FilterList.Operator.MUST_PASS_ALL</code><br>或关系（符合任一）：<code>FilterList.Operator.MUST_PASS_ONE</code><br>使用方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FilterList filterList &#x3D; new FilterList(FilterList.Operator.MUST_PASS_ONE); </span><br><span class="line">Scan s1 &#x3D; new Scan(); </span><br><span class="line">filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”), Comp areOp.EQUAL,Bytes.toBytes(“v1”) ) ); </span><br><span class="line">filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c2”), Compa reOp.EQUAL,Bytes.toBytes(“v2”) ) );</span><br><span class="line">&#x2F;&#x2F; 添加下面这一行后，则只返回指定的 cell，同一行中的其他 cell 不返回 </span><br><span class="line">s1.addColumn(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”)); </span><br><span class="line">s1.setFilter(filterList); </span><br><span class="line">&#x2F;&#x2F; 设置 filter </span><br><span class="line">ResultScanner ResultScannerFilterList &#x3D; table.getScanner(s1); &#x2F;&#x2F;返回结果列表</span><br></pre></td></tr></table></figure>
+<p>过滤器的种类</p>
+<ul>
+<li>列值过滤器—SingleColumnValueFilter：过滤列值的相等、不等、范围等 </li>
+<li>列名前缀过滤器—ColumnPrefixFilter：过滤指定前缀的列名</li>
+<li>多个列名前缀过滤器—MultipleColumnPrefixFilter：过滤多个指定前缀的列名 </li>
+<li>rowKey 过滤器—RowFilter：通过正则，过滤 rowKey 值。    <h3 id="列植过滤器-—SingleColumnValueFilter"><a href="#列植过滤器-—SingleColumnValueFilter" class="headerlink" title="列植过滤器 —SingleColumnValueFilter"></a>列植过滤器 —SingleColumnValueFilter</h3>SingleColumnValueFilter 列值判断:</li>
+</ul>
+<ul>
+<li>相等 (CompareOp.EQUAL ), </li>
+<li>不等(CompareOp.NOT_EQUAL), </li>
+<li>范围 (e.g., CompareOp.GREATER)<br>下面示例检查列值和字符串’values’ 相等:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SingleColumnValueFilter f &#x3D; new SingleColumnValueFilter( Bytes.toBytes(&quot;cFamily&quot;) Bytes.toBytes(&quot;column&quot;),CompareFilter.CompareOp.EQUAL, Bytes.toBytes(&quot;values&quot;)); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
+注意：如果过滤器过滤的列在数据表中有的行中不存在，那么这个过滤器对此行无法过滤。<h3 id="列名前缀过滤器-—ColumnPrefixFilter"><a href="#列名前缀过滤器-—ColumnPrefixFilter" class="headerlink" title="列名前缀过滤器 —ColumnPrefixFilter"></a>列名前缀过滤器 —ColumnPrefixFilter</h3>ColumnPrefixFilter 用于指定列名前缀值相等。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ColumnPrefixFilter f &#x3D; new ColumnPrefixFilter(Bytes.toBytes(&quot;values&quot;)); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
+<h3 id="多个列值前缀过滤器-—MultipleColumnPrefixFilter"><a href="#多个列值前缀过滤器-—MultipleColumnPrefixFilter" class="headerlink" title="多个列值前缀过滤器 —MultipleColumnPrefixFilter"></a>多个列值前缀过滤器 —MultipleColumnPrefixFilter</h3>MultipleColumnPrefixFilter 和 ColumnPrefixFilter 行为差不多，但可以指定多个前缀。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">byte[][] prefixes &#x3D; new byte[][]&#123;Bytes.toBytes(&quot;value1&quot;),Bytes.toBytes(&quot;value2&quot;)&#125;; </span><br><span class="line">Filter f &#x3D; new MultipleColumnPrefixFilter(prefixes); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
+<h3 id="rowKey过滤器—RowFilter"><a href="#rowKey过滤器—RowFilter" class="headerlink" title="rowKey过滤器—RowFilter"></a>rowKey过滤器—RowFilter</h3>RowFilter 是 rowkey 过滤器 通常根据 rowkey 来指定范围时，使用 scan 扫描器的 StartRow 和 StopRow 方法比较好。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Filter f &#x3D; new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(&quot;^1234&quot;)); </span><br><span class="line">&#x2F;&#x2F;匹配以 1234 开头的 </span><br><span class="line">rowkey s1.setFilter(f);</span><br></pre></td></tr></table></figure></li>
+</ul>
 
           
         
@@ -950,8 +976,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:19:50+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:25:59+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1008,9 +1034,16 @@
       
         
           
-            <p>Hive的UDF类型<br>    1.    UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型<br>    2.    UDAF：多进一出<br>    3.    UDTF：一进多出<br>使用说明，语法：<br>    1.    加载 jar：add jar jarpath<br>    2.    查看jar：list jars<br>    3.    创建function：create [temporary] function funcname as “full class name” USING JAR ’hdfs：//jarpath’<br>    4.    使用function<br>调用py脚本<br>Hive 的 TRANSFORM 关键字 提供了在 SQL 中调用自写脚本的功能<br>使用步骤：<br>    1)    编写py脚本<br>    2)    add file filepath<br>    3)    select transform(col,col…) using’xxx.py’ as (col, col, …)<br>使用样例：<br>CREATE TABLE u_data_new ( movieid INT, rating INT, weekday INT, userid INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘\t’;</p>
-<p>add FILE weekday_mapper.py;</p>
-<p>INSERT OVERWRITE TABLE u_data_new SELECTTRANSFORM (movieid, rating, unixtime,userid) USING ‘python weekday_mapper.py’ AS (movieid, rating, weekday,userid) FROM u_data;<br>其中 weekday_mapper.py 内容如下：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> #!&#x2F;bin&#x2F;python import sys import datetime</span><br><span class="line">for line in sys.stdin:</span><br><span class="line">line &#x3D; line.strip() movieid, rating, unixtime,userid &#x3D; line.split(&#39;\t&#39;) weekday &#x3D; datetime.datetime.fromtimestamp(float(unixtime)).isoweekday() print &#39;\t&#39;.join([movieid, rating, str(weekday),userid])</span><br></pre></td></tr></table></figure></p>
+            <h3 id="Hive的UDF类型"><a href="#Hive的UDF类型" class="headerlink" title="Hive的UDF类型"></a>Hive的UDF类型</h3><ol>
+<li>UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型 </li>
+<li>UDAF：多进一出</li>
+<li>UDTF：一进多出<br>使用说明，语法：</li>
+<li>加载 jar：<code>add jar jarpath</code></li>
+<li>查看jar：<code>list jars</code></li>
+<li>创建function：<code>create [temporary] function funcname as “full class name” USING JAR ’hdfs：//jarpath’</code></li>
+<li>使用function。<h3 id="调用py脚本"><a href="#调用py脚本" class="headerlink" title="调用py脚本"></a>调用py脚本</h3>Hive 的 TRANSFORM 关键字提供了在 SQL 中调用自写脚本的功能<br>使用步骤：<br> 1)    编写py脚本<br> 2)    add file filepath<br> 3)    select transform(col,col…) using’xxx.py’ as (col, col, …)<br>使用样例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE u_data_new ( movieid INT, rating INT, weekday INT, userid INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;\t&#39;;</span><br><span class="line">add FILE weekday_mapper.py;</span><br><span class="line">INSERT OVERWRITE TABLE u_data_new SELECTTRANSFORM (movieid, rating, unixtime,userid) USING &#39;python weekday_mapper.py&#39; AS (movieid, rating, weekday,userid) FROM u_data;</span><br></pre></td></tr></table></figure>
+其中 weekday_mapper.py 内容如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> #!&#x2F;bin&#x2F;python import sys import datetime</span><br><span class="line">for line in sys.stdin:</span><br><span class="line">line &#x3D; line.strip() movieid, rating, unixtime,userid &#x3D; line.split(&#39;\t&#39;) weekday &#x3D; datetime.datetime.fromtimestamp(float(unixtime)).isoweekday() print &#39;\t&#39;.join([movieid, rating, str(weekday),userid])</span><br></pre></td></tr></table></figure></li>
+</ol>
 
           
         
@@ -1261,8 +1294,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:14:20+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:27:18+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1319,7 +1352,22 @@
       
         
           
-            <p>Hive的join类型<br>        内连接 inner join<br>            左连接 left join<br>            右连接 right join<br>            全连接 full join<br>Join操作注意事项<br>    1.    只支持等值join<br>    2.    Join可以多于2张表<br>    3.    如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map/reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1)这个sql被转换成一个map / reduce作业，因为只有b的key1列参与了连接。另一方面，SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2)，这个sql被转换成两个map/reduce作业<br>    4.    join 时，每次 map/reduce 任务的逻辑： reducer 会缓存 join 序列中除了最后一个表的所有表的记录，再通过最后一个表将结果序列化，通过流式传输到文件系统。因此，通过组织这些表使得最大的表出现在最后一个序列中，可以减少reduce中用于缓冲特定连接键值的行所需的内存。实践中，应该把最 大的那个表写在最后（否则会因为缓存浪费大量内存）。例如： SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1) 所有表都使用同一个 join key（使用 1 次 map/reduce 任务计算）。Reduce 端会缓存 a 表 和 b 表的记录，然后每次取得一个 c 表的记录就计算一次 join 结果，类似的还有：SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2) 这里用了 2 次 map/reduce 任务。第一次缓存 a 表，用 b 表序列化；第二次缓存第一次 map/reduce 任务的结果，然后用 c 表序列化。<br>    5.    Join和where同时存在时，要先执行where后join。因此，如果要限制连接的OUTPUT，则需要在WHERE子句中，否则应该在JOIN子句中。这个问题的一大困惑是分区表：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key) WHERE a.ds=’2009-07-07’ AND b.ds=’2009-07-07’上面的sql将中对a和b进行连接，产生a.val和b.val的列表。但是，WHERE子句也可以引用连接输出中的a和b的其他列，然后将其过滤掉。但是，每当JOIN的某行为b找到一个键而没有键时，b的所有列都将为NULL，包括ds列。这就是说，你将过滤掉没有有效的b.key的所有连接输出行，因此你已经超出了你的LEFT OUTER要求。换句话说，如果在WHERE子句中引用b的任何一列，则连接的LEFT OUTER部分是无关紧要的。相反，当外部连接时，使用下面的语法：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key AND b.ds=’2009-07-07’ AND a.ds=’2009-07-07’)结果是连接的输出被预先过滤，并且您将不会得到有一个有效的a.key但没有匹配的b.key行的后过 滤的麻烦。相同的逻辑适用于右和全连接。<br>    6.    如果除了一个连接的表之外的所有表都很小，则连接可以作为仅map工作来执行。SELECT /<em>+ MAPJOIN(b) */ a.key, a.value FROM a JOIN b ON a.key = b.key，上面的查询不需要reduce。对于每个mapper，a，b都被完全读取。限制是不能执行FULL / RIGHT OUTER JOIN b。<br>    7.    如果被连接的表在连接列上被分桶，并且一个表中的桶的数量是另一个表中的桶的数量的倍 数，则桶可以彼此连接。如果表A有4个桶，而表B有4个桶，则下列联接SELECT /</em>+ MAPJOIN(b) <em>/ a.key, a.value FROM A a JOIN B b ON a.key = b.key仅仅在mapper上即可完成连接完成。不是为每个A的mapper去完全获取B，而只是获取所需的 桶。对于上面的查询，A的映射器处理存储桶1将仅取出B的桶1.它不是默认的行为，可以使用以下set hive.optimize.bucketmapjoin = true<br>    8.    如果连接的表在连接列上进行排序和分桶，并且具有相同数量的存储桶，则可以执行sort-merge连接。相应的桶在mapper上相互连接。如果A和B都有4个桶，SELECT /</em>+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key，上面的功能尽在mapper即可完成。A的桶的映射器将遍历B的相应桶。这不是默认行为，需要设置 以下参数：<br>    ⁃    set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;<br>    ⁃    set hive.optimize.bucketmapjoin = true;<br>    ⁃    set hive.optimize.bucketmapjoin.sortedmerge = true;</p>
+            <h3 id="Hive的join类型"><a href="#Hive的join类型" class="headerlink" title="Hive的join类型"></a>Hive的join类型</h3><ul>
+<li>内连接 inner join </li>
+<li>左连接 left join </li>
+<li>右连接 right join </li>
+<li>全连接 full join<br>Join操作注意事项</li>
+</ul>
+<ol>
+<li>只支持等值join</li>
+<li>Join可以多于2张表</li>
+<li>如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map/reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1)这个sql被转换成一个map / reduce作业，因为只有b的key1列参与了连接。另一方面，SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2)，这个sql被转换成两个map/reduce作业</li>
+<li>join 时，每次 map/reduce 任务的逻辑： reducer 会缓存 join 序列中除了最后一个表的所有表的记录，再通过最后一个表将结果序列化，通过流式传输到文件系统。因此，通过组织这些表使得最大的表出现在最后一个序列中，可以减少reduce中用于缓冲特定连接键值的行所需的内存。实践中，应该把最 大的那个表写在最后（否则会因为缓存浪费大量内存）。例如： SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1) 所有表都使用同一个 join key（使用 1 次 map/reduce 任务计算）。Reduce 端会缓存 a 表 和 b 表的记录，然后每次取得一个 c 表的记录就计算一次 join 结果，类似的还有：SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2) 这里用了 2 次 map/reduce 任务。第一次缓存 a 表，用 b 表序列化；第二次缓存第一次 map/reduce 任务的结果，然后用 c 表序列化。</li>
+<li>Join和where同时存在时，要先执行where后join。因此，如果要限制连接的OUTPUT，则需要在WHERE子句中，否则应该在JOIN子句中。这个问题的一大困惑是分区表：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key) WHERE a.ds=’2009-07-07’ AND b.ds=’2009-07-07’上面的sql将中对a和b进行连接，产生a.val和b.val的列表。但是，WHERE子句也可以引用连接输出中的a和b的其他列，然后将其过滤掉。但是，每当JOIN的某行为b找到一个键而没有键时，b的所有列都将为NULL，包括ds列。这就是说，你将过滤掉没有有效的b.key的所有连接输出行，因此你已经超出了你的LEFT OUTER要求。换句话说，如果在WHERE子句中引用b的任何一列，则连接的LEFT OUTER部分是无关紧要的。相反，当外部连接时，使用下面的语法：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key AND b.ds=’2009-07-07’ AND a.ds=’2009-07-07’)结果是连接的输出被预先过滤，并且您将不会得到有一个有效的a.key但没有匹配的b.key行的后过 滤的麻烦。相同的逻辑适用于右和全连接。</li>
+<li>如果除了一个连接的表之外的所有表都很小，则连接可以作为仅map工作来执行。SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM a JOIN b ON a.key = b.key，上面的查询不需要reduce。对于每个mapper，a，b都被完全读取。限制是不能执行FULL / RIGHT OUTER JOIN b。</li>
+<li>如果被连接的表在连接列上被分桶，并且一个表中的桶的数量是另一个表中的桶的数量的倍 数，则桶可以彼此连接。如果表A有4个桶，而表B有4个桶，则下列联接SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key仅仅在mapper上即可完成连接完成。不是为每个A的mapper去完全获取B，而只是获取所需的 桶。对于上面的查询，A的映射器处理存储桶1将仅取出B的桶1.它不是默认的行为，可以使用以下set hive.optimize.bucketmapjoin = true</li>
+<li>如果连接的表在连接列上进行排序和分桶，并且具有相同数量的存储桶，则可以执行sort-merge连接。相应的桶在mapper上相互连接。如果A和B都有4个桶，SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key，上面的功能尽在mapper即可完成。A的桶的映射器将遍历B的相应桶。这不是默认行为，需要设置 以下参数：<br> ⁃    set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;<br> ⁃    set hive.optimize.bucketmapjoin = true;<br> ⁃    set hive.optimize.bucketmapjoin.sortedmerge = true;</li>
+</ol>
 
           
         
@@ -1569,8 +1617,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:16:20+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:54:46+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1627,8 +1675,24 @@
       
         
           
-            <p>Hive性能优化<br>首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？<br>1、数据量大不是问题，数据倾斜是个问题。<br>2、jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。<br>3、sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优化，使数据倾斜不成问 题。<br>4、count(distinct ),在数据量大的情况下，效率较低，如果是多count(distinct )效率更低，因为 count(distinct)是按group by 字段分组，按distinct字段排序，一般这种分布方式是很倾斜的。举 个例子：比如男uv,女uv，像淘宝一天30亿的pv，如果按性别分组，分配2个reduce,每个reduce处理 15亿数据。<br>解决方法<br>了解数据分布，自己动手解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true; 这是通用的算法优化，但算法优化有时不能适应特定业务背景，开发人员了解业务，了解数据，可以 通过业务逻辑精确有效的解决数据倾斜问题。<br>数据量较大的情况下，慎用count(distinct)，count(distinct)容易产生倾斜问题。<br>对小文件进行合并，是行至有效的提高调度效率的方法，假如所有的作业设置合理的文件数，对云梯 的整体调度效率也会产生积极的正向影响。<br>FetchTask：<br>不执行mapreduce，提高速度<br>set hive.fetch.task.conversion=more;</p>
-<p>大表拆分子表：<br>    将原始的表中数据，依据业务需求提取出要分析的字段，数据放入到对应的业务表(子表)中，实际的业务针对业务表进行分析。<br>外部表、分区表：<br>    外部表、分区表 结合使用 多级分区<br>    数据 存储格式（textﬁle、orcﬁle、parquet） 数据压缩(snappy)<br>JVM重用：<br>    VM重用是hadoop调优参数的内容，对hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生 JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job 包含有成千上万个task任务的情况。<br>    JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml 文件中进行设置<br>mapred.job.reuse.jvm.num.tasks 1<br>    JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成 后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的 时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结 束了才会释放。<br>推测执行：<br>    推测式任务，也叫做Speculative task。它是一种以空间换时间的策略。 当所有task都开始运行之后，任务对应的ApplicationMaster会统计所有任务的平均进度，如果某个task所在的task node机器配置比较低或者CPU load很高（原因很多），导致任务执行比总体任务 的平均执行要慢，的平均执行要慢， 此时AM会启动一个新的任务（Speculative task），原有任务和新任务哪个先执行完就把另外一个kill掉，这也是我们经常在RM页面看到任务执行成功，但是总有些task被kill，就是这个原因。<br>目的：是通过加快获取单个 task 的结果以及进行侦测将执行慢的 TaskTracker 加入到黑名单的方 式来提高整体的任务执行效率<br>set hive.mapred.reduce.tasks.speculative.execution=true;<br>Map数目：</p>
+            <h2 id="Hive性能优化"><a href="#Hive性能优化" class="headerlink" title="Hive性能优化"></a>Hive性能优化</h2><p>首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？</p>
+<ol>
+<li>数据量大不是问题，数据倾斜是个问题。</li>
+<li>jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。</li>
+<li>sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优化，使数据倾斜不成问题。</li>
+<li>count(distinct ),在数据量大的情况下，效率较低，如果是多count(distinct )效率更低，因为 count(distinct)是按group by 字段分组，按distinct字段排序，一般这种分布方式是很倾斜的。举 个例子：比如男uv,女uv，像淘宝一天30亿的pv，如果按性别分组，分配2个reduce,每个reduce处理 15亿数据。<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3></li>
+</ol>
+<ul>
+<li>了解数据分布，自己动手解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true; 这是通用的算法优化，但算法优化有时不能适应特定业务背景，开发人员了解业务，了解数据，可以 通过业务逻辑精确有效的解决数据倾斜问题。数据量较大的情况下，慎用count(distinct)，count(distinct)容易产生倾斜问题。</li>
+<li>对小文件进行合并，是行至有效的提高调度效率的方法，假如所有的作业设置合理的文件数，对整体调度效率也会产生积极的正向影响。</li>
+<li>FetchTask：不执行mapreduce，提高速度<br><code>set hive.fetch.task.conversion=more;</code></li>
+<li>大表拆分子表。将原始的表中数据，依据业务需求提取出要分析的字段，数据放入到对应的业务表(子表)中，实际的业务针对业务表进行分析。</li>
+<li>外部表、分区表：外部表、分区表结合使用，多级分区</li>
+<li>数据存储格式（textﬁle、orcﬁle、parquet），数据压缩(snappy)</li>
+<li>JVM重用。VM重用是hadoop调优参数的内容，对hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生 JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job 包含有成千上万个task任务的情况。JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml 文件中进行设置：<br><code>mapred.job.reuse.jvm.num.tasks 1</code><br>JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成 后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的 时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结 束了才会释放。</li>
+<li>推测执行。推测式任务，也叫做Speculative task。它是一种以空间换时间的策略。 当所有task都开始运行之后，任务对应的ApplicationMaster会统计所有任务的平均进度，如果某个task所在的task node机器配置比较低或者CPU load很高（原因很多），导致任务执行比总体任务 的平均执行要慢，的平均执行要慢， 此时AM会启动一个新的任务（Speculative task），原有任务和新任务哪个先执行完就把另外一个kill掉，这也是我们经常在RM页面看到任务执行成功，但是总有些task被kill，就是这个原因。目的：是通过加快获取单个 task 的结果以及进行侦测将执行慢的 TaskTracker 加入到黑名单的方 式来提高整体的任务执行效率。配置：<br><code>set hive.mapred.reduce.tasks.speculative.execution=true;</code></li>
+</ul>
+<p>Map数目：</p>
 <ol>
 <li>dfs.block.size=268435456</li>
 <li>hive.merge.mapfiles=true</li>
@@ -1731,8 +1795,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:11:50+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:27:51+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1789,7 +1853,9 @@
       
         
           
-            <p>Hive数据压缩<br>    hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：<br>    1.    Snappy：，最常用<br>    2.    Lzo：压缩，较常用<br>    3.    Zlib：压缩<br>    4.    Bzip2：压缩<br>压缩比：bzip2 &gt; gzip &gt; lzo<br>Mapreduce配置压缩：<br>设置支持压缩<br>mapreduce.map.output.compress=true<br>设置压缩格式<br>mapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.SnappyCodec<br>Hive配置表压缩：<br>create table mytable(a int,b int) stored as parquet tblproperties (‘parquet.compression’=’SNAPPY’);<br>Hive数据存储<br>行存储<br>    ⁃    textfile<br>    ⁃    sequencefile<br>列存储<br>    ⁃    rcfile：<br>    ⁃    orc：对rcfile格式的优化，较常用，存储最小<br>    ⁃    parquet格式，较常用， 数据压缩，默认是zlib，可以使用snappy </p>
+            <h3 id="Hive数据压缩"><a href="#Hive数据压缩" class="headerlink" title="Hive数据压缩"></a>Hive数据压缩</h3><p>hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：<br>    1.    Snappy：，最常用<br>    2.    Lzo：压缩，较常用<br>    3.    Zlib：压缩<br>    4.    Bzip2：压缩<br>压缩比：bzip2 &gt; gzip &gt; lzo<br>Mapreduce配置压缩：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 设置支持压缩</span><br><span class="line">mapreduce.map.output.compress&#x3D;true </span><br><span class="line"># 设置压缩格式</span><br><span class="line">mapreduce.map.output.compress.codec&#x3D;org.apache.hadoop.io.compress.SnappyCodec </span><br><span class="line"># Hive配置表压缩：</span><br><span class="line">create table mytable(a int,b int) stored as parquet tblproperties (&#39;parquet.compression&#39;&#x3D;&#39;SNAPPY&#39;);</span><br></pre></td></tr></table></figure>
+<h3 id="Hive数据存储"><a href="#Hive数据存储" class="headerlink" title="Hive数据存储"></a>Hive数据存储</h3><p><strong>行存储</strong><br>    ⁃    textfile<br>    ⁃    sequencefile<br><strong>列存储</strong><br>    ⁃    rcfile：<br>    ⁃    orc：对rcfile格式的优化，较常用，存储最小<br>    ⁃    parquet格式，较常用， 数据压缩，默认是zlib，可以使用snappy </p>
 
           
         

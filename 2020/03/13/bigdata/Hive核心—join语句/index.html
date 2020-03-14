@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Hive的join类型        内连接 inner join            左连接 left join            右连接 right join            全连接 full joinJoin操作注意事项    1.    只支持等值join    2.    Join可以多于2张表    3.    如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连">
+<meta name="description" content="Hive的join类型 内连接 inner join  左连接 left join  右连接 right join  全连接 full joinJoin操作注意事项   只支持等值join Join可以多于2张表 如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map&#x2F;reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive核心—join语句">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Hive的join类型        内连接 inner join            左连接 left join            右连接 right join            全连接 full joinJoin操作注意事项    1.    只支持等值join    2.    Join可以多于2张表    3.    如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连">
+<meta property="og:description" content="Hive的join类型 内连接 inner join  左连接 left join  右连接 right join  全连接 full joinJoin操作注意事项   只支持等值join Join可以多于2张表 如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map&#x2F;reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON">
 <meta property="article:published_time" content="2020-03-12T16:13:37.114Z">
-<meta property="article:modified_time" content="2020-03-12T16:14:20.399Z">
+<meta property="article:modified_time" content="2020-03-14T07:27:18.702Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hive">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:14:20+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:27:18+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,7 +392,22 @@
       
 
       
-        <p>Hive的join类型<br>        内连接 inner join<br>            左连接 left join<br>            右连接 right join<br>            全连接 full join<br>Join操作注意事项<br>    1.    只支持等值join<br>    2.    Join可以多于2张表<br>    3.    如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map/reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1)这个sql被转换成一个map / reduce作业，因为只有b的key1列参与了连接。另一方面，SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2)，这个sql被转换成两个map/reduce作业<br>    4.    join 时，每次 map/reduce 任务的逻辑： reducer 会缓存 join 序列中除了最后一个表的所有表的记录，再通过最后一个表将结果序列化，通过流式传输到文件系统。因此，通过组织这些表使得最大的表出现在最后一个序列中，可以减少reduce中用于缓冲特定连接键值的行所需的内存。实践中，应该把最 大的那个表写在最后（否则会因为缓存浪费大量内存）。例如： SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1) 所有表都使用同一个 join key（使用 1 次 map/reduce 任务计算）。Reduce 端会缓存 a 表 和 b 表的记录，然后每次取得一个 c 表的记录就计算一次 join 结果，类似的还有：SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2) 这里用了 2 次 map/reduce 任务。第一次缓存 a 表，用 b 表序列化；第二次缓存第一次 map/reduce 任务的结果，然后用 c 表序列化。<br>    5.    Join和where同时存在时，要先执行where后join。因此，如果要限制连接的OUTPUT，则需要在WHERE子句中，否则应该在JOIN子句中。这个问题的一大困惑是分区表：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key) WHERE a.ds=’2009-07-07’ AND b.ds=’2009-07-07’上面的sql将中对a和b进行连接，产生a.val和b.val的列表。但是，WHERE子句也可以引用连接输出中的a和b的其他列，然后将其过滤掉。但是，每当JOIN的某行为b找到一个键而没有键时，b的所有列都将为NULL，包括ds列。这就是说，你将过滤掉没有有效的b.key的所有连接输出行，因此你已经超出了你的LEFT OUTER要求。换句话说，如果在WHERE子句中引用b的任何一列，则连接的LEFT OUTER部分是无关紧要的。相反，当外部连接时，使用下面的语法：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key AND b.ds=’2009-07-07’ AND a.ds=’2009-07-07’)结果是连接的输出被预先过滤，并且您将不会得到有一个有效的a.key但没有匹配的b.key行的后过 滤的麻烦。相同的逻辑适用于右和全连接。<br>    6.    如果除了一个连接的表之外的所有表都很小，则连接可以作为仅map工作来执行。SELECT /<em>+ MAPJOIN(b) */ a.key, a.value FROM a JOIN b ON a.key = b.key，上面的查询不需要reduce。对于每个mapper，a，b都被完全读取。限制是不能执行FULL / RIGHT OUTER JOIN b。<br>    7.    如果被连接的表在连接列上被分桶，并且一个表中的桶的数量是另一个表中的桶的数量的倍 数，则桶可以彼此连接。如果表A有4个桶，而表B有4个桶，则下列联接SELECT /</em>+ MAPJOIN(b) <em>/ a.key, a.value FROM A a JOIN B b ON a.key = b.key仅仅在mapper上即可完成连接完成。不是为每个A的mapper去完全获取B，而只是获取所需的 桶。对于上面的查询，A的映射器处理存储桶1将仅取出B的桶1.它不是默认的行为，可以使用以下set hive.optimize.bucketmapjoin = true<br>    8.    如果连接的表在连接列上进行排序和分桶，并且具有相同数量的存储桶，则可以执行sort-merge连接。相应的桶在mapper上相互连接。如果A和B都有4个桶，SELECT /</em>+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key，上面的功能尽在mapper即可完成。A的桶的映射器将遍历B的相应桶。这不是默认行为，需要设置 以下参数：<br>    ⁃    set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;<br>    ⁃    set hive.optimize.bucketmapjoin = true;<br>    ⁃    set hive.optimize.bucketmapjoin.sortedmerge = true;</p>
+        <h3 id="Hive的join类型"><a href="#Hive的join类型" class="headerlink" title="Hive的join类型"></a>Hive的join类型</h3><ul>
+<li>内连接 inner join </li>
+<li>左连接 left join </li>
+<li>右连接 right join </li>
+<li>全连接 full join<br>Join操作注意事项</li>
+</ul>
+<ol>
+<li>只支持等值join</li>
+<li>Join可以多于2张表</li>
+<li>如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map/reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1)这个sql被转换成一个map / reduce作业，因为只有b的key1列参与了连接。另一方面，SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2)，这个sql被转换成两个map/reduce作业</li>
+<li>join 时，每次 map/reduce 任务的逻辑： reducer 会缓存 join 序列中除了最后一个表的所有表的记录，再通过最后一个表将结果序列化，通过流式传输到文件系统。因此，通过组织这些表使得最大的表出现在最后一个序列中，可以减少reduce中用于缓冲特定连接键值的行所需的内存。实践中，应该把最 大的那个表写在最后（否则会因为缓存浪费大量内存）。例如： SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1) 所有表都使用同一个 join key（使用 1 次 map/reduce 任务计算）。Reduce 端会缓存 a 表 和 b 表的记录，然后每次取得一个 c 表的记录就计算一次 join 结果，类似的还有：SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2) 这里用了 2 次 map/reduce 任务。第一次缓存 a 表，用 b 表序列化；第二次缓存第一次 map/reduce 任务的结果，然后用 c 表序列化。</li>
+<li>Join和where同时存在时，要先执行where后join。因此，如果要限制连接的OUTPUT，则需要在WHERE子句中，否则应该在JOIN子句中。这个问题的一大困惑是分区表：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key) WHERE a.ds=’2009-07-07’ AND b.ds=’2009-07-07’上面的sql将中对a和b进行连接，产生a.val和b.val的列表。但是，WHERE子句也可以引用连接输出中的a和b的其他列，然后将其过滤掉。但是，每当JOIN的某行为b找到一个键而没有键时，b的所有列都将为NULL，包括ds列。这就是说，你将过滤掉没有有效的b.key的所有连接输出行，因此你已经超出了你的LEFT OUTER要求。换句话说，如果在WHERE子句中引用b的任何一列，则连接的LEFT OUTER部分是无关紧要的。相反，当外部连接时，使用下面的语法：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key AND b.ds=’2009-07-07’ AND a.ds=’2009-07-07’)结果是连接的输出被预先过滤，并且您将不会得到有一个有效的a.key但没有匹配的b.key行的后过 滤的麻烦。相同的逻辑适用于右和全连接。</li>
+<li>如果除了一个连接的表之外的所有表都很小，则连接可以作为仅map工作来执行。SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM a JOIN b ON a.key = b.key，上面的查询不需要reduce。对于每个mapper，a，b都被完全读取。限制是不能执行FULL / RIGHT OUTER JOIN b。</li>
+<li>如果被连接的表在连接列上被分桶，并且一个表中的桶的数量是另一个表中的桶的数量的倍 数，则桶可以彼此连接。如果表A有4个桶，而表B有4个桶，则下列联接SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key仅仅在mapper上即可完成连接完成。不是为每个A的mapper去完全获取B，而只是获取所需的 桶。对于上面的查询，A的映射器处理存储桶1将仅取出B的桶1.它不是默认的行为，可以使用以下set hive.optimize.bucketmapjoin = true</li>
+<li>如果连接的表在连接列上进行排序和分桶，并且具有相同数量的存储桶，则可以执行sort-merge连接。相应的桶在mapper上相互连接。如果A和B都有4个桶，SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key，上面的功能尽在mapper即可完成。A的桶的映射器将遍历B的相应桶。这不是默认行为，需要设置 以下参数：<br> ⁃    set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;<br> ⁃    set hive.optimize.bucketmapjoin = true;<br> ⁃    set hive.optimize.bucketmapjoin.sortedmerge = true;</li>
+</ol>
 
       
     </div>
@@ -505,8 +520,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -566,6 +590,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive的join类型"><span class="nav-number">1.</span> <span class="nav-text">Hive的join类型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

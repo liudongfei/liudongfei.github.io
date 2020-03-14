@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="compact过程：            两种compact机制：            minor合并：将多个小文件从写为数量较少的大文件，多路归并算法，只受磁                盘IO的性能影响            major压缩合并，讲一个region中一个列簇的若干个HFile重写为一个新的HFile                含有更独特的功能，能扫描所有的键&#x2F;值对，顺">
+<meta name="description" content="Compact类型minor合并将多个小文件从写为数量较少的大文件，多路归并算法，只受磁盘IO的性能影响。Storefile随着Memstore被刷新越来越多，当Storefile的数量满足一定的条件时，会触发minor compact操作，合并成一个大Storefile文件，当文件大小超过单个文件配置的最大限制时，触发region的自动分割。 major合并将一个region中一个列簇的若干个H">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase核心—compact介绍">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E9%AB%98%E7%BA%A7%E2%80%94compact%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="compact过程：            两种compact机制：            minor合并：将多个小文件从写为数量较少的大文件，多路归并算法，只受磁                盘IO的性能影响            major压缩合并，讲一个region中一个列簇的若干个HFile重写为一个新的HFile                含有更独特的功能，能扫描所有的键&#x2F;值对，顺">
+<meta property="og:description" content="Compact类型minor合并将多个小文件从写为数量较少的大文件，多路归并算法，只受磁盘IO的性能影响。Storefile随着Memstore被刷新越来越多，当Storefile的数量满足一定的条件时，会触发minor compact操作，合并成一个大Storefile文件，当文件大小超过单个文件配置的最大限制时，触发region的自动分割。 major合并将一个region中一个列簇的若干个H">
 <meta property="article:published_time" content="2020-03-12T16:25:25.953Z">
-<meta property="article:modified_time" content="2020-03-12T16:25:58.260Z">
+<meta property="article:modified_time" content="2020-03-14T07:16:58.349Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:25:58+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:16:58+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,7 +392,8 @@
       
 
       
-        <p>compact过程：<br>            两种compact机制：<br>            minor合并：将多个小文件从写为数量较少的大文件，多路归并算法，只受磁<br>                盘IO的性能影响<br>            major压缩合并，讲一个region中一个列簇的若干个HFile重写为一个新的HFile<br>                含有更独特的功能，能扫描所有的键/值对，顺序重写全部数据，重写<br>                过程略过删除标记的数据、超过版本号限制的数据、生存时间到期的<br>                数据。该操作属于重量级compact，会阻塞所有客户端对该操作所属region<br>                的请求，直到合并结束<br>            storefile随着memstore被刷新越来越多，当storefile的数量满足一定的条件时，会<br>            触发minor compact操作，合并成一个大storefile文件，当文件大小超过单个文件<br>            配置的最大限制时，触发region的自动分割 </p>
+        <h2 id="Compact类型"><a href="#Compact类型" class="headerlink" title="Compact类型"></a>Compact类型</h2><h3 id="minor合并"><a href="#minor合并" class="headerlink" title="minor合并"></a>minor合并</h3><p>将多个小文件从写为数量较少的大文件，多路归并算法，只受磁盘IO的性能影响。Storefile随着Memstore被刷新越来越多，当Storefile的数量满足一定的条件时，会触发minor compact操作，合并成一个大Storefile文件，当文件大小超过单个文件配置的最大限制时，触发region的自动分割。</p>
+<h3 id="major合并"><a href="#major合并" class="headerlink" title="major合并"></a>major合并</h3><p>将一个region中一个列簇的若干个HFile重写为一个新的HFile。同时，含有更独特的功能，能扫描所有的键/值对，顺序重写全部数据，重写 过程略过删除标记的数据、超过版本号限制的数据、生存时间到期的数据。该操作属于重量级compact，会阻塞所有客户端对该操作所属region的请求，直到合并结束。</p>
 
       
     </div>
@@ -505,8 +506,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -566,6 +576,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Compact类型"><span class="nav-number">1.</span> <span class="nav-text">Compact类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#minor合并"><span class="nav-number">1.1.</span> <span class="nav-text">minor合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#major合并"><span class="nav-number">1.2.</span> <span class="nav-text">major合并</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

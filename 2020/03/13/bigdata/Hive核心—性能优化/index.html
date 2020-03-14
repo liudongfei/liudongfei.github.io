@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Hive性能优化首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？1、数据量大不是问题，数据倾斜是个问题。2、jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。3、sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合">
+<meta name="description" content="Hive性能优化首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？  数据量大不是问题，数据倾斜是个问题。 jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。 sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive核心—性能优化">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Hive性能优化首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？1、数据量大不是问题，数据倾斜是个问题。2、jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。3、sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合">
+<meta property="og:description" content="Hive性能优化首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？  数据量大不是问题，数据倾斜是个问题。 jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。 sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优">
 <meta property="article:published_time" content="2020-03-12T16:11:12.946Z">
-<meta property="article:modified_time" content="2020-03-12T16:16:20.288Z">
+<meta property="article:modified_time" content="2020-03-14T07:54:46.356Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hive">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:16:20+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:54:46+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,8 +392,24 @@
       
 
       
-        <p>Hive性能优化<br>首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？<br>1、数据量大不是问题，数据倾斜是个问题。<br>2、jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。<br>3、sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优化，使数据倾斜不成问 题。<br>4、count(distinct ),在数据量大的情况下，效率较低，如果是多count(distinct )效率更低，因为 count(distinct)是按group by 字段分组，按distinct字段排序，一般这种分布方式是很倾斜的。举 个例子：比如男uv,女uv，像淘宝一天30亿的pv，如果按性别分组，分配2个reduce,每个reduce处理 15亿数据。<br>解决方法<br>了解数据分布，自己动手解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true; 这是通用的算法优化，但算法优化有时不能适应特定业务背景，开发人员了解业务，了解数据，可以 通过业务逻辑精确有效的解决数据倾斜问题。<br>数据量较大的情况下，慎用count(distinct)，count(distinct)容易产生倾斜问题。<br>对小文件进行合并，是行至有效的提高调度效率的方法，假如所有的作业设置合理的文件数，对云梯 的整体调度效率也会产生积极的正向影响。<br>FetchTask：<br>不执行mapreduce，提高速度<br>set hive.fetch.task.conversion=more;</p>
-<p>大表拆分子表：<br>    将原始的表中数据，依据业务需求提取出要分析的字段，数据放入到对应的业务表(子表)中，实际的业务针对业务表进行分析。<br>外部表、分区表：<br>    外部表、分区表 结合使用 多级分区<br>    数据 存储格式（textﬁle、orcﬁle、parquet） 数据压缩(snappy)<br>JVM重用：<br>    VM重用是hadoop调优参数的内容，对hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生 JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job 包含有成千上万个task任务的情况。<br>    JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml 文件中进行设置<br>mapred.job.reuse.jvm.num.tasks 1<br>    JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成 后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的 时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结 束了才会释放。<br>推测执行：<br>    推测式任务，也叫做Speculative task。它是一种以空间换时间的策略。 当所有task都开始运行之后，任务对应的ApplicationMaster会统计所有任务的平均进度，如果某个task所在的task node机器配置比较低或者CPU load很高（原因很多），导致任务执行比总体任务 的平均执行要慢，的平均执行要慢， 此时AM会启动一个新的任务（Speculative task），原有任务和新任务哪个先执行完就把另外一个kill掉，这也是我们经常在RM页面看到任务执行成功，但是总有些task被kill，就是这个原因。<br>目的：是通过加快获取单个 task 的结果以及进行侦测将执行慢的 TaskTracker 加入到黑名单的方 式来提高整体的任务执行效率<br>set hive.mapred.reduce.tasks.speculative.execution=true;<br>Map数目：</p>
+        <h2 id="Hive性能优化"><a href="#Hive性能优化" class="headerlink" title="Hive性能优化"></a>Hive性能优化</h2><p>首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？</p>
+<ol>
+<li>数据量大不是问题，数据倾斜是个问题。</li>
+<li>jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。</li>
+<li>sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优化，使数据倾斜不成问题。</li>
+<li>count(distinct ),在数据量大的情况下，效率较低，如果是多count(distinct )效率更低，因为 count(distinct)是按group by 字段分组，按distinct字段排序，一般这种分布方式是很倾斜的。举 个例子：比如男uv,女uv，像淘宝一天30亿的pv，如果按性别分组，分配2个reduce,每个reduce处理 15亿数据。<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3></li>
+</ol>
+<ul>
+<li>了解数据分布，自己动手解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true; 这是通用的算法优化，但算法优化有时不能适应特定业务背景，开发人员了解业务，了解数据，可以 通过业务逻辑精确有效的解决数据倾斜问题。数据量较大的情况下，慎用count(distinct)，count(distinct)容易产生倾斜问题。</li>
+<li>对小文件进行合并，是行至有效的提高调度效率的方法，假如所有的作业设置合理的文件数，对整体调度效率也会产生积极的正向影响。</li>
+<li>FetchTask：不执行mapreduce，提高速度<br><code>set hive.fetch.task.conversion=more;</code></li>
+<li>大表拆分子表。将原始的表中数据，依据业务需求提取出要分析的字段，数据放入到对应的业务表(子表)中，实际的业务针对业务表进行分析。</li>
+<li>外部表、分区表：外部表、分区表结合使用，多级分区</li>
+<li>数据存储格式（textﬁle、orcﬁle、parquet），数据压缩(snappy)</li>
+<li>JVM重用。VM重用是hadoop调优参数的内容，对hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生 JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job 包含有成千上万个task任务的情况。JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml 文件中进行设置：<br><code>mapred.job.reuse.jvm.num.tasks 1</code><br>JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成 后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的 时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结 束了才会释放。</li>
+<li>推测执行。推测式任务，也叫做Speculative task。它是一种以空间换时间的策略。 当所有task都开始运行之后，任务对应的ApplicationMaster会统计所有任务的平均进度，如果某个task所在的task node机器配置比较低或者CPU load很高（原因很多），导致任务执行比总体任务 的平均执行要慢，的平均执行要慢， 此时AM会启动一个新的任务（Speculative task），原有任务和新任务哪个先执行完就把另外一个kill掉，这也是我们经常在RM页面看到任务执行成功，但是总有些task被kill，就是这个原因。目的：是通过加快获取单个 task 的结果以及进行侦测将执行慢的 TaskTracker 加入到黑名单的方 式来提高整体的任务执行效率。配置：<br><code>set hive.mapred.reduce.tasks.speculative.execution=true;</code></li>
+</ul>
+<p>Map数目：</p>
 <ol>
 <li>dfs.block.size=268435456</li>
 <li>hive.merge.mapfiles=true</li>
@@ -513,8 +529,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -574,6 +599,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive性能优化"><span class="nav-number">1.</span> <span class="nav-text">Hive性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">1.1.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

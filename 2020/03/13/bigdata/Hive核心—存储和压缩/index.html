@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Hive数据压缩    hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：    1.    Snappy：，最常用    2.    Lzo：压缩，较常用    3.    Zlib：压缩    4.    Bzip2：压缩压缩比：bzip2 &gt; gzip &gt; lzoMapreduce配置压缩：设置支持压缩mapreduce.ma">
+<meta name="description" content="Hive数据压缩hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：    1.    Snappy：，最常用    2.    Lzo：压缩，较常用    3.    Zlib：压缩    4.    Bzip2：压缩压缩比：bzip2 &gt; gzip &gt; lzoMapreduce配置压缩： 123456# 设置支持压缩mapredu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive核心—存储和压缩">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%AD%98%E5%82%A8%E5%92%8C%E5%8E%8B%E7%BC%A9/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Hive数据压缩    hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：    1.    Snappy：，最常用    2.    Lzo：压缩，较常用    3.    Zlib：压缩    4.    Bzip2：压缩压缩比：bzip2 &gt; gzip &gt; lzoMapreduce配置压缩：设置支持压缩mapreduce.ma">
+<meta property="og:description" content="Hive数据压缩hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：    1.    Snappy：，最常用    2.    Lzo：压缩，较常用    3.    Zlib：压缩    4.    Bzip2：压缩压缩比：bzip2 &gt; gzip &gt; lzoMapreduce配置压缩： 123456# 设置支持压缩mapredu">
 <meta property="article:published_time" content="2020-03-12T16:10:19.904Z">
-<meta property="article:modified_time" content="2020-03-12T16:11:50.348Z">
+<meta property="article:modified_time" content="2020-03-14T07:27:51.828Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hive">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:11:50+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:27:51+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,7 +392,9 @@
       
 
       
-        <p>Hive数据压缩<br>    hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：<br>    1.    Snappy：，最常用<br>    2.    Lzo：压缩，较常用<br>    3.    Zlib：压缩<br>    4.    Bzip2：压缩<br>压缩比：bzip2 &gt; gzip &gt; lzo<br>Mapreduce配置压缩：<br>设置支持压缩<br>mapreduce.map.output.compress=true<br>设置压缩格式<br>mapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.SnappyCodec<br>Hive配置表压缩：<br>create table mytable(a int,b int) stored as parquet tblproperties (‘parquet.compression’=’SNAPPY’);<br>Hive数据存储<br>行存储<br>    ⁃    textfile<br>    ⁃    sequencefile<br>列存储<br>    ⁃    rcfile：<br>    ⁃    orc：对rcfile格式的优化，较常用，存储最小<br>    ⁃    parquet格式，较常用， 数据压缩，默认是zlib，可以使用snappy </p>
+        <h3 id="Hive数据压缩"><a href="#Hive数据压缩" class="headerlink" title="Hive数据压缩"></a>Hive数据压缩</h3><p>hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：<br>    1.    Snappy：，最常用<br>    2.    Lzo：压缩，较常用<br>    3.    Zlib：压缩<br>    4.    Bzip2：压缩<br>压缩比：bzip2 &gt; gzip &gt; lzo<br>Mapreduce配置压缩：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 设置支持压缩</span><br><span class="line">mapreduce.map.output.compress&#x3D;true </span><br><span class="line"># 设置压缩格式</span><br><span class="line">mapreduce.map.output.compress.codec&#x3D;org.apache.hadoop.io.compress.SnappyCodec </span><br><span class="line"># Hive配置表压缩：</span><br><span class="line">create table mytable(a int,b int) stored as parquet tblproperties (&#39;parquet.compression&#39;&#x3D;&#39;SNAPPY&#39;);</span><br></pre></td></tr></table></figure>
+<h3 id="Hive数据存储"><a href="#Hive数据存储" class="headerlink" title="Hive数据存储"></a>Hive数据存储</h3><p><strong>行存储</strong><br>    ⁃    textfile<br>    ⁃    sequencefile<br><strong>列存储</strong><br>    ⁃    rcfile：<br>    ⁃    orc：对rcfile格式的优化，较常用，存储最小<br>    ⁃    parquet格式，较常用， 数据压缩，默认是zlib，可以使用snappy </p>
 
       
     </div>
@@ -505,8 +507,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -566,6 +577,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive数据压缩"><span class="nav-number">1.</span> <span class="nav-text">Hive数据压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive数据存储"><span class="nav-number">2.</span> <span class="nav-text">Hive数据存储</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

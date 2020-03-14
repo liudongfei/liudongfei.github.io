@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Hbase原理 •    Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。 •    Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上  •    一">
+<meta name="description" content="Hbase原理  Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。 Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上  一个RegionServer管">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase核心—架构原理">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Hbase原理 •    Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。 •    Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上  •    一">
+<meta property="og:description" content="Hbase原理  Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。 Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上  一个RegionServer管">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/15839465523319.jpg">
 <meta property="article:published_time" content="2020-03-11T17:08:27.033Z">
-<meta property="article:modified_time" content="2020-03-11T17:11:00.535Z">
+<meta property="article:modified_time" content="2020-03-14T07:09:23.614Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:11:00+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:09:23+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -395,16 +395,25 @@
 
       
         <h2 id="Hbase原理"><a href="#Hbase原理" class="headerlink" title="Hbase原理"></a>Hbase原理</h2><p><img src="/2020/03/12/bigdata/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/15839465523319.jpg" alt></p>
-<pre><code>•    Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。
-•    Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上 
-•    一个RegionServer管理多个Region ，一个RegionServer有一个或多个HLog，一般设置为只有一个 
-•    Region虽然时分布式存储的最小单元，但并不是存储的最小单元，Region由一个 或者多个Store组成，每个store保存一个column family，每个store又由一个memStore。和0到多个StoreFile组成。memStore存储在内存中，StoreFile存储在hdfs上，HFile。</code></pre><h3 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h3><pre><code>1.    client就是连接zk， 找到meta表的region及regionserver 向 hregionserver 发送写请求。
-2.    hregionserver 将数据写到 hlog（write ahead log）。为了数据的持久化和恢复。
-3.    hregionserver 将数据写到内存（memstore），达到指定阈值，溢写（flush）到磁盘，写成许多Hfile（二进制格式小文件）。增长到一定阈值，许多的Hfile进行compact合并操作，多个Hfile合并成 一个Hfile，同时进行版本合并和数据删除，当单个的Hfile过大时，会触发Split操作，把当前的region split成为2个region，当前region会下线，新的2个region会被Hmaster分配到相应的HRegionServer上。
-4.    反馈 client 写成功。</code></pre><p>注：Hbase只是增加数据，所有的更新和删除操作，都是在Compact阶段完成的，所以用户的操作只需要进入内存即可立即返回，从而保证IO高性能。</p>
-<h3 id="数据-flush-过程"><a href="#数据-flush-过程" class="headerlink" title="数据 flush 过程"></a>数据 flush 过程</h3><pre><code>1.    当 memstore 数据达到阈值（默认是 64M），将数据刷到硬盘，将内存中的数据删除，同 时删除 Hlog 中的历史数据。 
-2.    并将数据存储到 hdfs 中。 
-3.    在 hlog 中做标记点。</code></pre><p>数据合并过程<br>    1.    当数据块达到 4 块，hmaster 将数据块加载到本地，进行合并<br>    2.    当合并的数据超过 256M，进行拆分，将拆分后的 region 分配给不同的 hregionserver 管理<br>    3.    当 hregionser 宕机后，将 hregionserver上的 hlog 拆分，然后分配给不同的hregionserver<br>    4.    加载，修改.META.</p>
+<ul>
+<li>Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。</li>
+<li>Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上 </li>
+<li>一个RegionServer管理多个Region ，一个RegionServer有一个或多个HLog，一般设置为只有一个 </li>
+<li>Region虽然时分布式存储的最小单元，但并不是存储的最小单元，Region由一个 或者多个Store组成，每个store保存一个column family，每个store又由一个memStore。和0到多个StoreFile组成。memStore存储在内存中，StoreFile存储在hdfs上，HFile。<h3 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h3></li>
+</ul>
+<ol>
+<li>client就是连接zk， 找到meta表的region及regionserver 向 hregionserver 发送写请求。</li>
+<li>hregionserver 将数据写到 hlog（write ahead log）。为了数据的持久化和恢复。</li>
+<li>hregionserver 将数据写到内存（memstore），达到指定阈值，溢写（flush）到磁盘，写成许Hfile（二进制格式小文件）。增长到一定阈值，许多的Hfile进行compact合并操作，多个Hfile合并成 一个Hfile，同时进行版本合并和数据删除，当单个的Hfile过大时，会触发Split操作，把当前的region split成为2个region，当前region会下线，新的2个region会被Hmaster分配到相应的HRegionServer上。</li>
+<li>反馈 client 写成功。<br>注：Hbase只是增加数据，所有的更新和删除操作，都是在Compact阶段完成的，所以用户的操作只需要进入内存即可立即返回，从而保证IO高性能。<h3 id="数据-flush-过程"><a href="#数据-flush-过程" class="headerlink" title="数据 flush 过程"></a>数据 flush 过程</h3></li>
+<li>当 memstore 数据达到阈值（默认是 64M），将数据刷到硬盘，将内存中的数据删除，同 时删除 Hlog 中的历史数据。 </li>
+<li>并将数据存储到 hdfs 中。 </li>
+<li>在 hlog 中做标记点。<h3 id="数据合并过程"><a href="#数据合并过程" class="headerlink" title="数据合并过程"></a>数据合并过程</h3></li>
+<li>当数据块达到 4 块，hmaster 将数据块加载到本地，进行合并</li>
+<li>当合并的数据超过 256M，进行拆分，将拆分后的 region 分配给不同的 hregionserver 管理</li>
+<li>当 hregionser 宕机后，将 hregionserver上的 hlog 拆分，然后分配给不同的hregionserver</li>
+<li>加载，修改.META.</li>
+</ol>
 
       
     </div>
@@ -597,7 +606,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase原理"><span class="nav-number">1.</span> <span class="nav-text">Hbase原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写流程"><span class="nav-number">1.1.</span> <span class="nav-text">写流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据-flush-过程"><span class="nav-number">1.2.</span> <span class="nav-text">数据 flush 过程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase原理"><span class="nav-number">1.</span> <span class="nav-text">Hbase原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写流程"><span class="nav-number">1.1.</span> <span class="nav-text">写流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据-flush-过程"><span class="nav-number">1.2.</span> <span class="nav-text">数据 flush 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据合并过程"><span class="nav-number">1.3.</span> <span class="nav-text">数据合并过程</span></a></li></ol></li></ol></div>
             
 
           </div>

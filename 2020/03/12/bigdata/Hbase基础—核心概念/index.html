@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族&#x2F;列簇(columnfamily)。 例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 column2。t1:ab">
+<meta name="description" content="Hbase核心概念HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族&#x2F;列簇(columnfamily)。例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 colum">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase基础—核心概念">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/12/bigdata/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族&#x2F;列簇(columnfamily)。 例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 column2。t1:ab">
+<meta property="og:description" content="Hbase核心概念HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族&#x2F;列簇(columnfamily)。例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 colum">
 <meta property="article:published_time" content="2020-03-11T17:06:20.667Z">
-<meta property="article:modified_time" content="2020-03-11T17:07:15.517Z">
+<meta property="article:modified_time" content="2020-03-14T06:57:12.450Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:07:15+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T14:57:12+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,15 +392,14 @@
       
 
       
-        <pre><code>HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族/列簇(columnfamily)。
-例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 column2。t1:abc,t2:gdxdf 是由 rowkey1和 column-family1-column1唯一确定的一个单元 cell，这个 cell 中有两个数据，abc和gdxdf，两个值的时间戳分别是 t1,t2,。hbase会返回最新时间的值给请求者。</code></pre><h2 id="RowKey"><a href="#RowKey" class="headerlink" title="RowKey"></a>RowKey</h2><pre><code>与 nosql数据库一样，rowkey是用来检索记录的主键。访问 hbase table 中的行，只有三种方式：
-•    通过单个rowkey 访问，速度最快
-•    通过 rowkey的 range，速度较快
-•    全表扫描，速度最慢
-Rowkey可以是任意字符串(最大长度是64KB，实际应用中长度一般为10-100bytes)，在hbase内部保存为字节数组。存储时，数据按照 Rowkey 的字典序(byte order)排序存储。设计key时，要充分排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)</code></pre><p>注意：字典排序对int排序的结果是1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,…,9,91,92,93,94,95,96,97,98,99。要保持整形的自然序，行键必须用0作左填充。<br>    行的一次读写是原子操作(不论一次读写多少列)。这个设计决策能够使用户很容易的理解程序在对同一个行进行并发更新操作时的行为。</p>
-<h2 id="ColumnFamily"><a href="#ColumnFamily" class="headerlink" title="ColumnFamily"></a>ColumnFamily</h2><pre><code>HBase表中的每个列都归属与某个列族。列族是表的schema的一部分(而列不是)，必须在使用表之前定义。列名都以列族作为前缀，例如 courses:history，courses:math 都属于 courses 这个列族。
-访问控制、磁盘和内存的使用统计都是在列族层面进行的。实际应用中，列族上的控制权限能帮助我们管理不同类型的应用：我们允许一些应用可以添加新的基本数据、一些应用可以读取基本数据并创建继承的列族、一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）。</code></pre><h2 id="Cell"><a href="#Cell" class="headerlink" title="Cell"></a>Cell</h2><pre><code>HBase中通过row和columns确定一个存贮单元，称为cell。由{rowkey,column(=&lt;family&gt;+&lt;label&gt;), version} 唯一确定的单元。cell中的数据是没有类型的，全部是字节码形式存贮。</code></pre><h2 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h2><pre><code>每个cell都保存着同一份数据的多个版本，版本通过时间戳来索引，时间戳的类型是64位整型。时间戳可以由 hbase(在数据写入时自动 )赋值，此时时间戳是当前系统时间，可以精确到毫秒。时间戳也可以由客户显式赋值。如果应用程序要避免数据版本冲突，就必须自己生成具有唯一性的时间戳。每个 cell 中，不同版本的数据按照时间倒序排序，即最新的数据排在最前面。
-为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，hbase 提供了两种数据版本回收方式。一是保存数据的最后n个版本；二是保存最近一段时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。</code></pre>
+        <h2 id="Hbase核心概念"><a href="#Hbase核心概念" class="headerlink" title="Hbase核心概念"></a>Hbase核心概念</h2><p>HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族/列簇(columnfamily)。例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 column2。t1:abc,t2:gdxdf 是由 rowkey1和 column-family1-column1唯一确定的一个单元 cell，这个 cell 中有两个数据，abc和gdxdf，两个值的时间戳分别是 t1,t2,。hbase会返回最新时间的值给请求者。</p>
+<h3 id="RowKey"><a href="#RowKey" class="headerlink" title="RowKey"></a>RowKey</h3><p>与 nosql数据库一样，rowkey是用来检索记录的主键。访问 hbase table 中的行，只有三种方式：</p>
+<ul>
+<li>通过单个rowkey 访问，速度最快</li>
+<li>通过 rowkey的 range，速度较快</li>
+<li>全表扫描，速度最慢<br>Rowkey可以是任意字符串(最大长度是64KB，实际应用中长度一般为10-100bytes)，在hbase内部保存为字节数组。存储时，数据按照 Rowkey 的字典序(byte order)排序存储。设计key时，要充分排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)<br>注意：字典排序对int排序的结果是1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,…,9,91,96,97,98,99。要保持整形的自然序，行键必须用0作左填充。<br>行的一次读写是原子操作(不论一次读写多少列)。这个设计决策能够使用户很容易的理解程序在对同一个行进行并发更新操作时的行为。<h3 id="ColumnFamily"><a href="#ColumnFamily" class="headerlink" title="ColumnFamily"></a>ColumnFamily</h3>HBase表中的每个列都归属与某个列族。列族是表的schema的一部分(而列不是)，必须在使用表之前定义。列名都以列族作为前缀，例如 courses:history，courses:math 都属于 courses 这个列族。<br>访问控制、磁盘和内存的使用统计都是在列族层面进行的。实际应用中，列族上的控制权限能帮助我们管理不同类型的应用：我们允许一些应用可以添加新的基本数据、一些应用可以读取基本数据并创建继承的列族、一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）。<h3 id="Cell"><a href="#Cell" class="headerlink" title="Cell"></a>Cell</h3>HBase中通过row和columns确定一个存贮单元，称为cell。由{rowkey,column(=<family>+<label>), version} 唯一确定的单元。cell中的数据是没有类型的，全部是字节码形式存贮。<h3 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h3>每个cell都保存着同一份数据的多个版本，版本通过时间戳来索引，时间戳的类型是64位整型。时间戳可以由 hbase(在数据写入时自动 )赋值，此时时间戳是当前系统时间，可以精确到毫秒。时间戳也可以由客户显式赋值。如果应用程序要避免数据版本冲突，就必须自己生成具有唯一性的时间戳。每个 cell 中，不同版本的数据按照时间倒序排序，即最新的数据排在最前面。<br>为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，hbase 提供了两种数据版本回收方式。一是保存数据的最后n个版本；二是保存最近一段时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。</label></family></li>
+</ul>
+
       
     </div>
     
@@ -592,7 +591,7 @@ Rowkey可以是任意字符串(最大长度是64KB，实际应用中长度一般
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RowKey"><span class="nav-number">1.</span> <span class="nav-text">RowKey</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ColumnFamily"><span class="nav-number">2.</span> <span class="nav-text">ColumnFamily</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cell"><span class="nav-number">3.</span> <span class="nav-text">Cell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Timestamp"><span class="nav-number">4.</span> <span class="nav-text">Timestamp</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase核心概念"><span class="nav-number">1.</span> <span class="nav-text">Hbase核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RowKey"><span class="nav-number">1.1.</span> <span class="nav-text">RowKey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ColumnFamily"><span class="nav-number">1.2.</span> <span class="nav-text">ColumnFamily</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cell"><span class="nav-number">1.3.</span> <span class="nav-text">Cell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Timestamp"><span class="nav-number">1.4.</span> <span class="nav-text">Timestamp</span></a></li></ol></li></ol></div>
             
 
           </div>

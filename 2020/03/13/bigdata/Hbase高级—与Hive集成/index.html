@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="与Hive的集成        表的数据存储在hbase中，元数据存储在hive中        两种方式            管理表                创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除            外部表                现在已经存在Hbase表，需要对表中的数据进行分析        集成配置">
+<meta name="description" content="与Hive的集成表的数据存储在hbase中，元数据存储在hive中两种方式  管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除  外部表：现在已经存在Hbase表，需要对表中的数据进行分析 集成配置1）修改hive-site.xml配置文件，添加配置属1234&lt;property&gt;    	&lt;name&gt;hbase.zoo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase核心—与Hive集成">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EHive%E9%9B%86%E6%88%90/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="与Hive的集成        表的数据存储在hbase中，元数据存储在hive中        两种方式            管理表                创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除            外部表                现在已经存在Hbase表，需要对表中的数据进行分析        集成配置">
+<meta property="og:description" content="与Hive的集成表的数据存储在hbase中，元数据存储在hive中两种方式  管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除  外部表：现在已经存在Hbase表，需要对表中的数据进行分析 集成配置1）修改hive-site.xml配置文件，添加配置属1234&lt;property&gt;    	&lt;name&gt;hbase.zoo">
 <meta property="article:published_time" content="2020-03-12T16:26:22.382Z">
-<meta property="article:modified_time" content="2020-03-12T16:27:00.552Z">
+<meta property="article:modified_time" content="2020-03-14T07:23:54.323Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:27:00+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:23:54+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,12 +392,22 @@
       
 
       
-        <p>与Hive的集成<br>        表的数据存储在hbase中，元数据存储在hive中<br>        两种方式<br>            管理表<br>                创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除<br>            外部表<br>                现在已经存在Hbase表，需要对表中的数据进行分析<br>        集成配置<br>            1）修改hive-site.xml配置文件，添加配置属<br>        <property><br>            <name>hbase.zookeeper.quorum</name><br>            <value>mincdh:2181</value><br>        </property><br>            2）修改hive-env.sh文件<br>    # 添加一个环境变量<br>    export HIVE_CLASSPATH=$HIVE_CLASSPATH:/hadoop/hbase/lib/*<br>            3）创建hbase表及插入数据<br>    create ‘hbase_hive’, ‘info’<br>   put ‘hbase_hive’, ‘001’, ‘info:name’, ‘zhao’<br>    put ‘hbase_hive’, ‘002’, ‘info:name’, ‘qian’<br>    put ‘hbase_hive’, ‘003’, ‘into:nmae’, ‘sun’<br>            4）创建并关联hive表<br>        create EXTERNAL TABLE hive_hbase (<br>        rowkey string,<br>        name string<br>        ) STORED BY ‘org.apache.hadoop.hive.hbase.HBaseStorageHandler’<br>        WITH SERDEPROPERTIES (“hbase.columns.mapping” = “:key,info:name”)<br>        TBLPROPERTIES (“hbase.table.name” = “hbase_hive”);<br>         5）查询hive表，查看hbase中插入的数据<br>     select * from hbase_hive<br>       6）从hive表中插入数据<br>            insert into hbase_hive select rowkey, name from test;<br>      7）查询hbase，查看hive中插入的数据</p>
-<pre><code>应用场景 
-    日志文件利用正则表达式，存储在hive表中 
-    创建hive和hbase关联表，将源日志表中的数据加工后 
-    insert到hive和hbase的关联表中 
-    使用hbase进行交互式查询 </code></pre>
+        <h2 id="与Hive的集成"><a href="#与Hive的集成" class="headerlink" title="与Hive的集成"></a>与Hive的集成</h2><p>表的数据存储在hbase中，元数据存储在hive中<br>两种方式</p>
+<ul>
+<li>管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除 </li>
+<li>外部表：现在已经存在Hbase表，需要对表中的数据进行分析 <h3 id="集成配置"><a href="#集成配置" class="headerlink" title="集成配置"></a>集成配置</h3>1）修改hive-site.xml配置文件，添加配置属<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    	&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">    	&lt;value&gt;mincdh:2181&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+2）修改hive-env.sh文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 添加一个环境变量</span><br><span class="line">export HIVE_CLASSPATH&#x3D;$HIVE_CLASSPATH:&#x2F;hadoop&#x2F;hbase&#x2F;lib&#x2F;*</span><br></pre></td></tr></table></figure>
+3）创建hbase表及插入数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create ‘hbase_hive’, ‘info’</span><br><span class="line">put ‘hbase_hive’, ‘001’, ‘info:name’, ‘zhao’</span><br><span class="line">put ‘hbase_hive’, ‘002’, ‘info:name’, ‘qian’</span><br><span class="line">put ‘hbase_hive’, ‘003’, ‘into:nmae’, ‘sun’</span><br></pre></td></tr></table></figure>
+4）创建并关联hive表<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   create EXTERNAL TABLE hive_hbase (</span><br><span class="line">rowkey string,</span><br><span class="line">name string</span><br><span class="line">   ) STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">   WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;:key,info:name&quot;)</span><br><span class="line">   TBLPROPERTIES (&quot;hbase.table.name&quot; &#x3D; &quot;hbase_hive&quot;);</span><br></pre></td></tr></table></figure>
+5）查询hive表，查看hbase中插入的数据<br><code>select * from hbase_hive</code><br>6）从hive表中插入数据<br><code>insert into hbase_hive select rowkey, name from test;</code><br>7）查询hbase，查看hive中插入的数据<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3></li>
+</ul>
+<ul>
+<li>日志文件利用正则表达式，存储在hive表中 </li>
+<li>创建hive和hbase关联表，将源日志表中的数据加工后 </li>
+<li>insert到hive和hbase的关联表中 </li>
+<li>使用hbase进行交互式查询 </li>
+</ul>
+
       
     </div>
     
@@ -505,8 +515,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -566,6 +585,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#与Hive的集成"><span class="nav-number">1.</span> <span class="nav-text">与Hive的集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成配置"><span class="nav-number">1.1.</span> <span class="nav-text">集成配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">1.2.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
