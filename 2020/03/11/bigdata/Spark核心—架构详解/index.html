@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839278553428.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839279353218.jpg">
 <meta property="article:published_time" content="2020-03-11T11:50:12.521Z">
-<meta property="article:modified_time" content="2020-03-11T12:00:52.847Z">
+<meta property="article:modified_time" content="2020-03-14T08:39:10.762Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -336,8 +336,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T20:00:52+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:39:10+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -403,12 +403,14 @@
 <h2 id="Master的注册机制与源码分析"><a href="#Master的注册机制与源码分析" class="headerlink" title="Master的注册机制与源码分析"></a>Master的注册机制与源码分析</h2><p>注册机制包含如下几个部分：<br>    •    Worker启动后向Master注册<br>    •    Driver向Master注册<br>    •    Application向Master注册<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839277273439.jpg" alt></p>
 <h2 id="Master状态改变机制源码分析"><a href="#Master状态改变机制源码分析" class="headerlink" title="Master状态改变机制源码分析"></a>Master状态改变机制源码分析</h2><p>状态改变包含如下几部分：<br>    •    Driver状态改变<br>    •    Executor状态改变</p>
 <h2 id="Master资源调度机制源码分析"><a href="#Master资源调度机制源码分析" class="headerlink" title="Master资源调度机制源码分析"></a>Master资源调度机制源码分析</h2><p>资源调度包含如下几部分：<br>    •    Driver的调度<br>    •    Executor的调度</p>
-<h3 id="Spark的Master资源调度算法"><a href="#Spark的Master资源调度算法" class="headerlink" title="Spark的Master资源调度算法"></a>Spark的Master资源调度算法</h3><p>首先判断Master的状态，standby不会进行资源调度。<br>Random.shuffle对于传入的集合进行随机的打乱，对状态为alive的worker进行随机打乱，<br>    Driver的调度机制，只有cluster模式时候才会注册Driver，遍历等待调度的Driver队列，取出待调度Driver，遍历所有可用的worker进行资源判断是否启动Driver，资源足够，启动Driver，否则进行下一个woker循环启动Driver时，将worker加入driver的内存结构中，同时将driver加入到worker的内存结构中，更新worker的资源使用数量，发送消息给对应的worker启动这个drvier。<br>    Application的调度机制，调度算法有两种，一种是spreadOutApps（平均分配算法），另外一种是非spreadOutApps（将app分配到尽可能少的worker上），可以在配置文件中配置使用哪个算法，遍历可用的worker，可以被app使用的worker，根据剩余的cpu数量倒序排列，针对选出的worker进行资源分配，创建excutor，启动excutor，设置application的状态为running。</p>
+<h3 id="Spark的Master资源调度算法"><a href="#Spark的Master资源调度算法" class="headerlink" title="Spark的Master资源调度算法"></a>Spark的Master资源调度算法</h3><p>首先判断Master的状态，standby不会进行资源调度。<br>Random.shuffle对于传入的集合进行随机的打乱，对状态为alive的worker进行随机打乱， Driver的调度机制，只有cluster模式时候才会注册Driver，遍历等待调度的Driver队列，取出待调度Driver，遍历所有可用的worker进行资源判断是否启动Driver，资源足够，启动Driver，否则进行下一个woker循环启动Driver时，将worker加入driver的内存结构中，同时将driver加入到worker的内存结构中，更新worker的资源使用数量，发送消息给对应的worker启动这个drvier。<br>Application的调度机制，调度算法有两种，一种是spreadOutApps（平均分配算法），另外一种是非spreadOutApps（将app分配到尽可能少的worker上），可以在配置文件中配置使用哪个算法，遍历可用的worker，可以被app使用的worker，根据剩余的cpu数量倒序排列，针对选出的worker进行资源分配，创建excutor，启动excutor，设置application的状态为running。</p>
 <h2 id="Worker原理剖析和源码分析"><a href="#Worker原理剖析和源码分析" class="headerlink" title="Worker原理剖析和源码分析"></a>Worker原理剖析和源码分析</h2><p>Worker进程的主要工作：<br>    •    启动Driver<br>    •    启动Executor<br>Driver和Executor的启动过程如下：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839278553428.jpg" alt></p>
-<pre><code>启动Driver请求，创建DriverRunner，启动一个线程，创建Driver的工作目录，封装启动Driver进程命令（使用ProcessBuilder启动），DriverRunner对Driver进程进行管理 
-启动Excutor请求，创建ExcutorRunner，启动一个线程，创建Executor的工作目录，封装启动Executor进命令（使用ProcessBuilder启动），Executor启动后，会到Driver进行反向注册自己，到此SparkContext初始化完成。 </code></pre><h2 id="Executor的原理剖析与源码分析"><a href="#Executor的原理剖析与源码分析" class="headerlink" title="Executor的原理剖析与源码分析"></a>Executor的原理剖析与源码分析</h2><h3 id="Executor的反向注册机制"><a href="#Executor的反向注册机制" class="headerlink" title="Executor的反向注册机制"></a>Executor的反向注册机制</h3><p>Worker会首先启动executor进程，就是CoarseGrainedExecotorBackend，进程启动就会发送消息到driver，在接收到driver的消息后，会创建Executor作为执行句柄。</p>
+<p>启动Driver请求，创建DriverRunner，启动一个线程，创建Driver的工作目录，封装启动Driver进程命令（使用ProcessBuilder启动），DriverRunner对Driver进程进行管理<br>启动Excutor请求，创建ExcutorRunner，启动一个线程，创建Executor的工作目录，封装启动Executor进命令（使用ProcessBuilder启动），Executor启动后，会到Driver进行反向注册自己，到此SparkContext初始化完成。 </p>
+<h2 id="Executor的原理剖析与源码分析"><a href="#Executor的原理剖析与源码分析" class="headerlink" title="Executor的原理剖析与源码分析"></a>Executor的原理剖析与源码分析</h2><h3 id="Executor的反向注册机制"><a href="#Executor的反向注册机制" class="headerlink" title="Executor的反向注册机制"></a>Executor的反向注册机制</h3><p>Worker会首先启动executor进程，就是CoarseGrainedExecotorBackend，进程启动就会发送消息到driver，在接收到driver的消息后，会创建Executor作为执行句柄。</p>
 <h3 id="Task的启动机制"><a href="#Task的启动机制" class="headerlink" title="Task的启动机制"></a>Task的启动机制</h3><pre><code>Exector接收到消息后，反序列化，使用执行句柄发送 </code></pre><h2 id="Task的原理剖析与源码分析"><a href="#Task的原理剖析与源码分析" class="headerlink" title="Task的原理剖析与源码分析"></a>Task的原理剖析与源码分析</h2><p>Spark的task主要包含两种类型的task：<br>    •    ShuffleMapTask<br>    •    ResultTask<br> <img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839279353218.jpg" alt></p>
-<pre><code>TaskRunner入口，对序列化的数据进行反序列化得到需要拷贝的文件、jar及task内容，拷贝需要的文件、jar包等（获取hadoop的配置文件），通过task字节码及当前线程的类加载器反序列化为task。开始执行task.run()，创建taskContext即task执行的上下文，调用抽象方法runTask（子类ShuffleMapTask、ResultTask），使用ShuffleMapTask的runTask方法，获取ShuffleManager，进行rdd.iterator方法计算任务算子，对结果使用ShuffleManger进行分区后写入磁盘，返回MapStatus到Task .run()，如果下一个还是ShuffleMapTask，就会去联系MapoutputTasktracker获取上一个的结果，ResultTask也是一样的。然后对MapStatus进行序列化及封装，计算task的统计信息，调用execbackend更行task状态 </code></pre><h2 id="Spark的CacheManger的原理剖析与源码分析"><a href="#Spark的CacheManger的原理剖析与源码分析" class="headerlink" title="Spark的CacheManger的原理剖析与源码分析"></a>Spark的CacheManger的原理剖析与源码分析</h2><pre><code>task在执行算子操作时，如果该RDD之前时持久化过的，就会调用CacheManger去帮助直接读取持久化的数据，连接BlockManger先从本地获取，找不到会去找之前checkpoint的数据，如果还是找不到，只能利用父RDD重新计算一份，再持久化一次 </code></pre>
+<p>TaskRunner入口，对序列化的数据进行反序列化得到需要拷贝的文件、jar及task内容，拷贝需要的文件、jar包等（获取hadoop的配置文件），通过task字节码及当前线程的类加载器反序列化为task。开始执行task.run()，创建taskContext即task执行的上下文，调用抽象方法runTask（子类ShuffleMapTask、ResultTask），使用ShuffleMapTask的runTask方法，获取ShuffleManager，进行rdd.iterator方法计算任务算子，对结果使用ShuffleManger进行分区后写入磁盘，返回MapStatus到Task .run()，如果下一个还是ShuffleMapTask，就会去联系MapoutputTasktracker获取上一个的结果，ResultTask也是一样的。然后对MapStatus进行序列化及封装，计算task的统计信息，调用execbackend更行task状态 </p>
+<h2 id="Spark的CacheManger的原理剖析与源码分析"><a href="#Spark的CacheManger的原理剖析与源码分析" class="headerlink" title="Spark的CacheManger的原理剖析与源码分析"></a>Spark的CacheManger的原理剖析与源码分析</h2><p>task在执行算子操作时，如果该RDD之前时持久化过的，就会调用CacheManger去帮助直接读取持久化的数据，连接BlockManger先从本地获取，找不到会去找之前checkpoint的数据，如果还是找不到，只能利用父RDD重新计算一份，再持久化一次 </p>
+
       
     </div>
     

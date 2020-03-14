@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="Spark的Shuffle过程原理剖析及源码分析什么情况下会发生shuffle？    在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。默认情况下的shuffle原理剖析    默认情况下，Spark的shuffle原理图如下，如果该节点有2">
+<meta name="description" content="Spark的Shuffle过程原理剖析及源码分析什么情况下会发生shuffle在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。 默认情况下的shuffle原理剖析默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark核心—任务提交">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Spark的Shuffle过程原理剖析及源码分析什么情况下会发生shuffle？    在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。默认情况下的shuffle原理剖析    默认情况下，Spark的shuffle原理图如下，如果该节点有2">
+<meta property="og:description" content="Spark的Shuffle过程原理剖析及源码分析什么情况下会发生shuffle在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。 默认情况下的shuffle原理剖析默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283267877.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283372755.jpg">
 <meta property="article:published_time" content="2020-03-11T12:02:29.830Z">
-<meta property="article:modified_time" content="2020-03-11T12:07:13.736Z">
+<meta property="article:modified_time" content="2020-03-14T08:37:27.748Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T20:07:13+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:37:27+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -395,13 +395,12 @@
       
 
       
-        <h2 id="Spark的Shuffle过程原理剖析及源码分析"><a href="#Spark的Shuffle过程原理剖析及源码分析" class="headerlink" title="Spark的Shuffle过程原理剖析及源码分析"></a>Spark的Shuffle过程原理剖析及源码分析</h2><p>什么情况下会发生shuffle？<br>    在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。<br>默认情况下的shuffle原理剖析<br>    默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283267877.jpg" alt></p>
-<pre><code>每一个ShuffleMapTask都会为每一个ResultTask创建一份bucket缓存及ShuffleBlockFile磁盘文件。ShuffleMapTask的输出封装成MapStatus，发送到DagScheduler的MapOutputTrackerMaster中，其中包含了每个ResultTask要拉取的数据的大小。每个ResultTask会用BlockStoreShuffleFetcher去MapOutputTrackerMaster拉取自己要拉取的文件信息，然后底层通过BlockerManger将数据拉取过来，每个ResultTask拉取过来的数据就会组成一个内部的RDD，叫ShuffleRDD，优先放入内存，如果内存不够，则写入磁盘，然后每个RDD进行聚合形成新的MapPartitionsRDD。 
-如果一个节点上有100个maptask，100个resulttask，则会在本地产生10000个文件，磁盘IO过多性能下降。 
-第一个特点，在spark早起版本中，那个bucket的缓存非常重要，因为需要将一个ShuffleMapTask的所有数据都写入缓存后，才会刷新到磁盘，如果task的数据过多，那么很容易造成数据内存溢出，所以，新版本中默认的内存是100kb，若写入数据达到刷新磁盘的阈值时，就会将数据一点一点刷入磁盘。这种操作的特点是，不容易发生内存溢出。缺点在于如果内存缓存过小则会产生大量的IO操作，所以这里的内存缓存是可以根据实际情况进行优化的。 
-第二个特点，与MR不同，MR是必须将所有数据都写入本地磁盘后，才能启动MR操作，因为MR要实现默认的排序。但是Spark不需要，默认情况下，Spark是不需要进行排序的。因此maptask每写入一点数据，resulttask就可以拉取一点数据。 这种特点的好处就是比MR快速。但是，MR提供的reduce可以直接处理每个key上的value很方便。而Spark由于实时拉取的机制，因此无法直接处理key对应的values的算子，只能通过groupBykey先shuffle然后使用map算子进行value处理，没有MR方便。</code></pre><h2 id="优化后的shuffle原理剖析"><a href="#优化后的shuffle原理剖析" class="headerlink" title="优化后的shuffle原理剖析"></a>优化后的shuffle原理剖析</h2><pre><code>新版本优化后，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：</code></pre><p><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283372755.jpg" alt></p>
-<pre><code>在spark的新版本中，引入了consolidation，也就是提出了ShuffleGroup的概念，一个节点上的一批并行的ShuffleMapTask执行完毕时，后续的ShuffleMaptask会复用之前的一批task的bucket的缓存，将数据写入对应的同一个文件中。每个磁盘文件包含多个ShuffleMapTask的数据（segment）此外会通过索引和偏移量进行不同task之间的数据区分，这个优化参数可以通过SparkConf的参数开启。如果一个节点上有2Core，有100个maptask，100个resulttask，开启consolidation后，会产生200个本地文件。 
-shuffle不会对每个分区的数据进行排序，如需要对shuffle后的数据进行排序，可以使用mappartition进行分区内的数据排序，不会出现shuffle。</code></pre><h2 id="BlockManger原理剖析与源码分析"><a href="#BlockManger原理剖析与源码分析" class="headerlink" title="BlockManger原理剖析与源码分析"></a>BlockManger原理剖析与源码分析</h2><p>Driver上有BlockMangerMaster，管理各个节点的BlockManger的内部的元数据。包含BlockMangerInfo，BlockerStatus<br>    节点上有BlockManger，包含DiskStroe（负责磁盘数据读写），MemeryStroe（负责内存数据读写），BlockerTransferService（负责blockManger到其他节点BlockerManger的数据的读写），ConnectionManger（负责blockManger到其他节点BlockerManger的连接）。<br>每个BM创建之后，都会想BMM进行注册，此时BMM会为其创建对应的BMInfo。<br>BM进行写操作时，如RDD的中间数据，优先写入内存DS，内存不够时写入磁盘MS。<br>RDD的persist时，会使用CM同其他BM建立连接，使用BTS将数据备份到其他的BM上<br>BM进行读操作时，本地数据先从DS读内存，MS读磁盘，远程数据先使用CM与其他BM简练连接，然后BTS从其他BM上读取数据 </p>
+        <h2 id="Spark的Shuffle过程原理剖析及源码分析"><a href="#Spark的Shuffle过程原理剖析及源码分析" class="headerlink" title="Spark的Shuffle过程原理剖析及源码分析"></a>Spark的Shuffle过程原理剖析及源码分析</h2><h3 id="什么情况下会发生shuffle"><a href="#什么情况下会发生shuffle" class="headerlink" title="什么情况下会发生shuffle"></a>什么情况下会发生shuffle</h3><p>在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。</p>
+<h3 id="默认情况下的shuffle原理剖析"><a href="#默认情况下的shuffle原理剖析" class="headerlink" title="默认情况下的shuffle原理剖析"></a>默认情况下的shuffle原理剖析</h3><p>默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283267877.jpg" alt></p>
+<p>每一个ShuffleMapTask都会为每一个ResultTask创建一份bucket缓存及ShuffleBlockFile磁盘文件。ShuffleMapTask的输出封装成MapStatus，发送到DagScheduler的MapOutputTrackerMaster中，其中包含了每个ResultTask要拉取的数据的大小。每个ResultTask会用BlockStoreShuffleFetcher去MapOutputTrackerMaster拉取自己要拉取的文件信息，然后底层通过BlockerManger将数据拉取过来，每个ResultTask拉取过来的数据就会组成一个内部的RDD，叫ShuffleRDD，优先放入内存，如果内存不够，则写入磁盘，然后每个RDD进行聚合形成新的MapPartitionsRDD。<br>如果一个节点上有100个maptask，100个resulttask，则会在本地产生10000个文件，磁盘IO过多性能下降。<br>第一个特点，在spark早起版本中，那个bucket的缓存非常重要，因为需要将一个ShuffleMapTask的所有数据都写入缓存后，才会刷新到磁盘，如果task的数据过多，那么很容易造成数据内存溢出，所以，新版本中默认的内存是100kb，若写入数据达到刷新磁盘的阈值时，就会将数据一点一点刷入磁盘。这种操作的特点是，不容易发生内存溢出。缺点在于如果内存缓存过小则会产生大量的IO操作，所以这里的内存缓存是可以根据实际情况进行优化的。<br>第二个特点，与MR不同，MR是必须将所有数据都写入本地磁盘后，才能启动MR操作，因为MR要实现默认的排序。但是Spark不需要，默认情况下，Spark是不需要进行排序的。因此maptask每写入一点数据，resulttask就可以拉取一点数据。 这种特点的好处就是比MR快速。但是，MR提供的reduce可以直接处理每个key上的value很方便。而Spark由于实时拉取的机制，因此无法直接处理key对应的values的算子，只能通过groupBykey先shuffle然后使用map算子进行value处理，没有MR方便。</p>
+<h3 id="优化后的shuffle原理剖析"><a href="#优化后的shuffle原理剖析" class="headerlink" title="优化后的shuffle原理剖析"></a>优化后的shuffle原理剖析</h3><p>新版本优化后，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：<br><img src="/2020/03/11/bigdata/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/15839283372755.jpg" alt></p>
+<p>在spark的新版本中，引入了consolidation，也就是提出了ShuffleGroup的概念，一个节点上的一批并行的ShuffleMapTask执行完毕时，后续的ShuffleMaptask会复用之前的一批task的bucket的缓存，将数据写入对应的同一个文件中。每个磁盘文件包含多个ShuffleMapTask的数据（segment）此外会通过索引和偏移量进行不同task之间的数据区分，这个优化参数可以通过SparkConf的参数开启。如果一个节点上有2Core，有100个maptask，100个resulttask，开启consolidation后，会产生200个本地文件。<br>shuffle不会对每个分区的数据进行排序，如需要对shuffle后的数据进行排序，可以使用mappartition进行分区内的数据排序，不会出现shuffle。</p>
+<h2 id="BlockManger原理剖析与源码分析"><a href="#BlockManger原理剖析与源码分析" class="headerlink" title="BlockManger原理剖析与源码分析"></a>BlockManger原理剖析与源码分析</h2><p>Driver上有BlockMangerMaster，管理各个节点的BlockManger的内部的元数据。包含BlockMangerInfo，BlockerStatus<br>节点上有BlockManger，包含DiskStroe（负责磁盘数据读写），MemeryStroe（负责内存数据读写），BlockerTransferService（负责blockManger到其他节点BlockerManger的数据的读写），ConnectionManger（负责blockManger到其他节点BlockerManger的连接）。<br>每个BM创建之后，都会想BMM进行注册，此时BMM会为其创建对应的BMInfo。<br>BM进行写操作时，如RDD的中间数据，优先写入内存DS，内存不够时写入磁盘MS。<br>RDD的persist时，会使用CM同其他BM建立连接，使用BTS将数据备份到其他的BM上<br>BM进行读操作时，本地数据先从DS读内存，MS读磁盘，远程数据先使用CM与其他BM简练连接，然后BTS从其他BM上读取数据 </p>
 
       
     </div>
@@ -594,7 +593,7 @@ shuffle不会对每个分区的数据进行排序，如需要对shuffle后的数
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark的Shuffle过程原理剖析及源码分析"><span class="nav-number">1.</span> <span class="nav-text">Spark的Shuffle过程原理剖析及源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化后的shuffle原理剖析"><span class="nav-number">2.</span> <span class="nav-text">优化后的shuffle原理剖析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BlockManger原理剖析与源码分析"><span class="nav-number">3.</span> <span class="nav-text">BlockManger原理剖析与源码分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark的Shuffle过程原理剖析及源码分析"><span class="nav-number">1.</span> <span class="nav-text">Spark的Shuffle过程原理剖析及源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么情况下会发生shuffle"><span class="nav-number">1.1.</span> <span class="nav-text">什么情况下会发生shuffle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认情况下的shuffle原理剖析"><span class="nav-number">1.2.</span> <span class="nav-text">默认情况下的shuffle原理剖析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化后的shuffle原理剖析"><span class="nav-number">1.3.</span> <span class="nav-text">优化后的shuffle原理剖析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BlockManger原理剖析与源码分析"><span class="nav-number">2.</span> <span class="nav-text">BlockManger原理剖析与源码分析</span></a></li></ol></div>
             
 
           </div>

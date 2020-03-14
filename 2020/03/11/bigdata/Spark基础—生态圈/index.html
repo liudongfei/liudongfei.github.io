@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Spark生态圈介绍 Spark Core：核心模块，基于Rdd处理数据 Spark SQL：sql处理模块，基于dataframe的处理结构化数据 Spark Streaming：流处理模块，用于处理流式数据的组件 Spark MLLib：机器学习模块 Spark Graphx: 图计算模块  Spark-Core模块介绍&#x2F;&#x2F;待补充Spark-Sql模块介绍&#x2F;&#x2F;待补充 Spark-Streami">
+<meta name="description" content="Spark生态圈介绍 Spark Core：核心模块，基于Rdd处理数据 Spark SQL：sql处理模块，基于dataframe的处理结构化数据 Spark Streaming：流处理模块，用于处理流式数据的组件 Spark MLLib：机器学习模块 Spark Graphx: 图计算模块Spark-Core模块介绍&#x2F;&#x2F;待补充Spark-Sql模块介绍&#x2F;&#x2F;待补充Spark-Streaming模">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark基础—生态圈">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Spark生态圈介绍 Spark Core：核心模块，基于Rdd处理数据 Spark SQL：sql处理模块，基于dataframe的处理结构化数据 Spark Streaming：流处理模块，用于处理流式数据的组件 Spark MLLib：机器学习模块 Spark Graphx: 图计算模块  Spark-Core模块介绍&#x2F;&#x2F;待补充Spark-Sql模块介绍&#x2F;&#x2F;待补充 Spark-Streami">
+<meta property="og:description" content="Spark生态圈介绍 Spark Core：核心模块，基于Rdd处理数据 Spark SQL：sql处理模块，基于dataframe的处理结构化数据 Spark Streaming：流处理模块，用于处理流式数据的组件 Spark MLLib：机器学习模块 Spark Graphx: 图计算模块Spark-Core模块介绍&#x2F;&#x2F;待补充Spark-Sql模块介绍&#x2F;&#x2F;待补充Spark-Streaming模">
 <meta property="article:published_time" content="2020-03-11T11:41:28.080Z">
-<meta property="article:modified_time" content="2020-03-11T11:44:11.767Z">
+<meta property="article:modified_time" content="2020-03-14T08:36:09.026Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T19:44:11+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:36:09+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -397,10 +397,14 @@
 <li>Spark SQL：sql处理模块，基于dataframe的处理结构化数据</li>
 <li>Spark Streaming：流处理模块，用于处理流式数据的组件</li>
 <li>Spark MLLib：机器学习模块</li>
-<li>Spark Graphx: 图计算模块</li>
+<li>Spark Graphx: 图计算模块<h3 id="Spark-Core模块介绍"><a href="#Spark-Core模块介绍" class="headerlink" title="Spark-Core模块介绍"></a>Spark-Core模块介绍</h3>//待补充<br>Spark-Sql模块介绍<br>//待补充<h3 id="Spark-Streaming模块介绍"><a href="#Spark-Streaming模块介绍" class="headerlink" title="Spark-Streaming模块介绍"></a>Spark-Streaming模块介绍</h3>基础编程模型<br>将输入的数据源源不断的加入到input table中去，默认1s出发一次batch，然后对input table进行计算和转换操作，插入到result table中，最后可以输出到外部存储，输出模式有3种，complete mode，append mode，update mode（2.0不支持）<br>event-time指嵌入数据内部自身的时间，即这条数据产生的时间<br>late-date延迟化数据 </li>
 </ul>
-<h2 id="Spark-Core模块介绍"><a href="#Spark-Core模块介绍" class="headerlink" title="Spark-Core模块介绍"></a>Spark-Core模块介绍</h2><p>//待补充<br>Spark-Sql模块介绍<br>//待补充</p>
-<h2 id="Spark-Streaming模块介绍"><a href="#Spark-Streaming模块介绍" class="headerlink" title="Spark-Streaming模块介绍"></a>Spark-Streaming模块介绍</h2><p>基础编程模型<br>将输入的数据源源不断的加入到input table中去，默认1s出发一次batch，然后对input table进行计算和转换操作，插入到result table中，最后可以输出到外部存储，输出模式有3种，complete mode，append mode，update mode（2.0不支持）<br>event-time指嵌入数据内部自身的时间，即这条数据产生的时间<br>late-date延迟化数据<br>解决难题<br>        需要跟历史数据整合起来的聚合操作<br>        基于event-time自动进行延迟到达数据的聚合结果的纠正计算<br>        自动完成一次且仅一次的语义 </p>
+<p><strong>解决难题</strong>：</p>
+<ul>
+<li>需要跟历史数据整合起来的聚合操作 </li>
+<li>基于event-time自动进行延迟到达数据的聚合结果的纠正计算 </li>
+<li>自动完成一次且仅一次的语义 </li>
+</ul>
 
       
     </div>
@@ -593,7 +597,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark生态圈介绍"><span class="nav-number">1.</span> <span class="nav-text">Spark生态圈介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Core模块介绍"><span class="nav-number">2.</span> <span class="nav-text">Spark-Core模块介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Streaming模块介绍"><span class="nav-number">3.</span> <span class="nav-text">Spark-Streaming模块介绍</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark生态圈介绍"><span class="nav-number">1.</span> <span class="nav-text">Spark生态圈介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark-Core模块介绍"><span class="nav-number">1.1.</span> <span class="nav-text">Spark-Core模块介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark-Streaming模块介绍"><span class="nav-number">1.2.</span> <span class="nav-text">Spark-Streaming模块介绍</span></a></li></ol></li></ol></div>
             
 
           </div>

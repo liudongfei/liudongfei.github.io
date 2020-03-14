@@ -329,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T19:39:59+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:35:15+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -390,8 +390,13 @@
             <h2 id="RDD的概念"><a href="#RDD的概念" class="headerlink" title="RDD的概念"></a>RDD的概念</h2><p>弹性分布式数据集，抽象的数据集合；含有多个分区，分区散落在不同的节点上，可以并发执行；内存优先存放，若内存放不下时，会缓存到磁盘；具有容错性。</p>
 <h2 id="RDD的创建"><a href="#RDD的创建" class="headerlink" title="RDD的创建"></a>RDD的创建</h2><p>集合创建，本地文件创建，HDFS文件创建（spark默认会为hdfs的每个block创建一个partition，手动指定时只能比block多</p>
 <h2 id="RDD的操作"><a href="#RDD的操作" class="headerlink" title="RDD的操作"></a>RDD的操作</h2><p>操作分为transformation和action，transformation特点是lazy特性，在没遇到action操作时不会真正执行，在执行到action时，Driver进程才会提交大量的task到注册过的woker上去。<br><img src="/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/15839267361015.jpg" alt></p>
-<h2 id="RDD的持久化策略"><a href="#RDD的持久化策略" class="headerlink" title="RDD的持久化策略"></a>RDD的持久化策略</h2><p>多种持久化策略，选择在于平衡CPU和内存消耗之间的平衡，<br>MEMERY_LONLY，以非序列化方式存储与内存中，占用空间大，无CPU消耗<br>MEMERY_ONLY_SER 以序列化方式存储于内存中，占用空间小，消耗内存<br>如需进行快速失败恢复，建议使用后缀为_2的策略<br>尽量不要使用DISK相关的策略，有时候还不如重新运行一次 </p>
-<h2 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h2><pre><code>窄依赖，一个Rdd，对它的父RDD，只是简单的一对一关系 </code></pre><p>   宽依赖，每一个父RDD的partition中的数据，都可能传输一部分到下一个Rdd中的每个partition中，此时父子RDD就会出现错综复杂的关系，就是shuffle </p>
+<h2 id="RDD的持久化策略"><a href="#RDD的持久化策略" class="headerlink" title="RDD的持久化策略"></a>RDD的持久化策略</h2><p>多种持久化策略，选择在于平衡CPU和内存消耗之间的平衡:</p>
+<ul>
+<li>MEMERY_LONLY，以非序列化方式存储与内存中，占用空间大，无CPU消耗 </li>
+<li>MEMERY_ONLY_SER 以序列化方式存储于内存中，占用空间小，消耗内存<br>如需进行快速失败恢复，建议使用后缀为_2的策略。尽量不要使用DISK相关的策略，有时候还不如重新运行一次 <h2 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h2></li>
+<li>窄依赖，一个Rdd，对它的父RDD，只是简单的一对一关系 </li>
+<li>宽依赖，每一个父RDD的partition中的数据，都可能传输一部分到下一个Rdd中的每个partition中，此时父子RDD就会出现错综复杂的关系，就是shuffle </li>
+</ul>
 
           
         

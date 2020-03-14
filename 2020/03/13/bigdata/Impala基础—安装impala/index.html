@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="安装impala准备：    1.    使用root用户或者具有sudo权限的普通用户    2.    下载安装包和依赖包impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-debuginfo-2.6.">
+<meta name="description" content="安装impala准备：使用root用户或者具有sudo权限的普通用户。下载安装包和依赖包： 12345678impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-debuginfo-2.6.0+cdh5.8.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Impala基础—安装impala">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/bigdata/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="安装impala准备：    1.    使用root用户或者具有sudo权限的普通用户    2.    下载安装包和依赖包impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-debuginfo-2.6.">
+<meta property="og:description" content="安装impala准备：使用root用户或者具有sudo权限的普通用户。下载安装包和依赖包： 12345678impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpmimpala-debuginfo-2.6.0+cdh5.8.">
 <meta property="article:published_time" content="2020-03-12T16:15:16.589Z">
-<meta property="article:modified_time" content="2020-03-12T16:16:27.837Z">
+<meta property="article:modified_time" content="2020-03-14T08:32:17.093Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="impala">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:16:27+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:32:17+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -392,8 +392,20 @@
       
 
       
-        <p>安装impala<br>准备：<br>    1.    使用root用户或者具有sudo权限的普通用户<br>    2.    下载安装包和依赖包<br>impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>bigtop-utils-0.7.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.noarch.rpm<br>安装master节点：<br>rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>安装slaver节点：</p>
-<p>rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm<br>修复/usr/lib/impala/lib下的软链接：<br>配置impala，修改hdfs-site.xml，添加以下内容：<br><property><br>    <name>dfs.client.read.shortcircuit</name><br>    <value>true</value><br></property><br><property><br>    <name>dfs.domain.socket.path</name><br>    <value>/var/run/hdfs-sockets/dn._PORT</value><br></property><br><property><br>    <name>dfs.client.file-block-storage-locations.timeout.millis</name><br>    <value>10000</value><br></property><br><property><br>  <name>dfs.datanode.hdfs-blocks-metadata.enabled</name><br>  <value>true</value><br></property><br>配置impala，修改/etc/default/impala<br>修改impala的运行用户：<br>    mpala默认以impala用户执行，可以在三个文件中修改 /etc/init.d/impala-state-store、/etc/init.d/impala-server、/etc/init.d/impala-catalog<br>SVC_USER=”hadoop”<br>install -d -m 0755 -o hadoop -g hadoop /var/run/impala 1&gt;/dev/null 2&gt;&amp;1 || :<br>修改日志目录权限：<br>chmod -R 777 /var/log/impala/<br>补充依赖jar包：<br>将$HIVE_HOME/lib/mysql-connector-java-5.1.40-bin.jar 复制到 /usr/lib/impala/lib下<br>管理impala<br>启动Master：<br>1、mkdir /var/run/hdfs-sockets<br>2、service impala-state-store start<br>3、service impala-catalog start<br>启动Slave：<br>service impala-server start<br>查看日志：<br>启动后，在/var/log/impala目录下会产生对应服务的日志</p>
+        <h2 id="安装impala"><a href="#安装impala" class="headerlink" title="安装impala"></a>安装impala</h2><p>准备：<br>使用root用户或者具有sudo权限的普通用户。<br>下载安装包和依赖包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">bigtop-utils-0.7.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>安装master节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>安装slaver节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>修复/usr/lib/impala/lib下的软链接。<br>配置impala，修改hdfs-site.xml，添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.client.read.shortcircuit&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.domain.socket.path&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;&#x2F;var&#x2F;run&#x2F;hdfs-sockets&#x2F;dn._PORT&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.client.file-block-storage-locations.timeout.millis&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;10000&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">  &lt;name&gt;dfs.datanode.hdfs-blocks-metadata.enabled&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+<p>配置impala，修改/etc/default/impala。<br>修改impala的运行用户。mpala默认以impala用户执行，可以在三个文件中修改 /etc/init.d/impala-state-store、/etc/init.d/impala-server、/etc/init.d/impala-catalog</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SVC_USER&#x3D;”hadoop”</span><br><span class="line">install -d -m 0755 -o hadoop -g hadoop &#x2F;var&#x2F;run&#x2F;impala 1&gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 || :</span><br></pre></td></tr></table></figure>
+<p>修改日志目录权限：<br><code>chmod -R 777 /var/log/impala/</code><br>补充依赖jar包：<br><code>将$HIVE_HOME/lib/mysql-connector-java-5.1.40-bin.jar 复制到 /usr/lib/impala/lib下</code></p>
+<h3 id="管理impala"><a href="#管理impala" class="headerlink" title="管理impala"></a>管理impala</h3><p>启动Master：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;var&#x2F;run&#x2F;hdfs-sockets</span><br><span class="line">service impala-state-store start</span><br><span class="line">service impala-catalog start</span><br></pre></td></tr></table></figure>
+<p>启动Slave：<br><code>service impala-server start</code><br>查看日志：<br>启动后，在/var/log/impala目录下会产生对应服务的日志</p>
 
       
     </div>
@@ -506,8 +518,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -567,6 +588,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装impala"><span class="nav-number">1.</span> <span class="nav-text">安装impala</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#管理impala"><span class="nav-number">1.1.</span> <span class="nav-text">管理impala</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
