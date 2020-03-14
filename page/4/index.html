@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/" itemprop="url">Spark基础—RDD</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E7%B1%BB/" itemprop="url">Hbase核心—自带工具类</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T19:35:20+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:22:43+08:00">
+                2020-03-13
               </time>
             
 
@@ -329,7 +329,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:35:15+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:10:14+08:00">
                 2020-03-14
               </time>
             
@@ -387,15 +387,176 @@
       
         
           
-            <h2 id="RDD的概念"><a href="#RDD的概念" class="headerlink" title="RDD的概念"></a>RDD的概念</h2><p>弹性分布式数据集，抽象的数据集合；含有多个分区，分区散落在不同的节点上，可以并发执行；内存优先存放，若内存放不下时，会缓存到磁盘；具有容错性。</p>
-<h2 id="RDD的创建"><a href="#RDD的创建" class="headerlink" title="RDD的创建"></a>RDD的创建</h2><p>集合创建，本地文件创建，HDFS文件创建（spark默认会为hdfs的每个block创建一个partition，手动指定时只能比block多</p>
-<h2 id="RDD的操作"><a href="#RDD的操作" class="headerlink" title="RDD的操作"></a>RDD的操作</h2><p>操作分为transformation和action，transformation特点是lazy特性，在没遇到action操作时不会真正执行，在执行到action时，Driver进程才会提交大量的task到注册过的woker上去。<br><img src="/2020/03/11/bigdata/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/15839267361015.jpg" alt></p>
-<h2 id="RDD的持久化策略"><a href="#RDD的持久化策略" class="headerlink" title="RDD的持久化策略"></a>RDD的持久化策略</h2><p>多种持久化策略，选择在于平衡CPU和内存消耗之间的平衡:</p>
+            <p>查看hbase-server*.jar包含哪些工具：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_CLASSPATH&#x3D;·hbase mapredcp&#96; yarn jar $&#123;HBASE_HOME&#125;&#x2F;lib&#x2F;hbase-server*.jar</span><br><span class="line">	CellCounter: Count cells in HBase table.</span><br><span class="line">  	WALPlayer: Replay WAL files.</span><br><span class="line">  	completebulkload: Complete a bulk data load.</span><br><span class="line">  	copytable: Export a table from local cluster to peer cluster.</span><br><span class="line">  	export: Write table data to HDFS.</span><br><span class="line">  	exportsnapshot: Export the specific snapshot to a given FileSystem.</span><br><span class="line">  	import: Import data written by Export.</span><br><span class="line">  	importtsv: Import data in TSV format.</span><br><span class="line">  	rowcounter: Count rows in HBase table.</span><br><span class="line">  	verifyrep: Compare the data from tables in two different clusters.</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94filter%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94filter%E4%BB%8B%E7%BB%8D/" itemprop="url">Hbase核心—filter介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:21:28+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:07:39+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="FilterList"><a href="#FilterList" class="headerlink" title="FilterList"></a>FilterList</h3><p>FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：<code>FilterList.Operator.MUST_PASS_ALL</code><br>或关系（符合任一）：<code>FilterList.Operator.MUST_PASS_ONE</code><br>使用方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FilterList filterList &#x3D; new FilterList(FilterList.Operator.MUST_PASS_ONE); </span><br><span class="line">Scan s1 &#x3D; new Scan(); </span><br><span class="line">filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”), Comp areOp.EQUAL,Bytes.toBytes(“v1”) ) ); </span><br><span class="line">filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c2”), Compa reOp.EQUAL,Bytes.toBytes(“v2”) ) );</span><br><span class="line">&#x2F;&#x2F; 添加下面这一行后，则只返回指定的 cell，同一行中的其他 cell 不返回 </span><br><span class="line">s1.addColumn(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”)); </span><br><span class="line">s1.setFilter(filterList); </span><br><span class="line">&#x2F;&#x2F; 设置 filter </span><br><span class="line">ResultScanner ResultScannerFilterList &#x3D; table.getScanner(s1); &#x2F;&#x2F;返回结果列表</span><br></pre></td></tr></table></figure>
+<p>过滤器的种类</p>
 <ul>
-<li>MEMERY_LONLY，以非序列化方式存储与内存中，占用空间大，无CPU消耗 </li>
-<li>MEMERY_ONLY_SER 以序列化方式存储于内存中，占用空间小，消耗内存<br>如需进行快速失败恢复，建议使用后缀为_2的策略。尽量不要使用DISK相关的策略，有时候还不如重新运行一次 <h2 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h2></li>
-<li>窄依赖，一个Rdd，对它的父RDD，只是简单的一对一关系 </li>
-<li>宽依赖，每一个父RDD的partition中的数据，都可能传输一部分到下一个Rdd中的每个partition中，此时父子RDD就会出现错综复杂的关系，就是shuffle </li>
+<li>列值过滤器—SingleColumnValueFilter：过滤列值的相等、不等、范围等 </li>
+<li>列名前缀过滤器—ColumnPrefixFilter：过滤指定前缀的列名</li>
+<li>多个列名前缀过滤器—MultipleColumnPrefixFilter：过滤多个指定前缀的列名 </li>
+<li>rowKey 过滤器—RowFilter：通过正则，过滤 rowKey 值。    <h3 id="列植过滤器-—SingleColumnValueFilter"><a href="#列植过滤器-—SingleColumnValueFilter" class="headerlink" title="列植过滤器 —SingleColumnValueFilter"></a>列植过滤器 —SingleColumnValueFilter</h3>SingleColumnValueFilter 列值判断:</li>
+</ul>
+<ul>
+<li>相等 (CompareOp.EQUAL ), </li>
+<li>不等(CompareOp.NOT_EQUAL), </li>
+<li>范围 (e.g., CompareOp.GREATER)<br>下面示例检查列值和字符串’values’ 相等:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SingleColumnValueFilter f &#x3D; new SingleColumnValueFilter( Bytes.toBytes(&quot;cFamily&quot;) Bytes.toBytes(&quot;column&quot;),CompareFilter.CompareOp.EQUAL, Bytes.toBytes(&quot;values&quot;)); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
+注意：如果过滤器过滤的列在数据表中有的行中不存在，那么这个过滤器对此行无法过滤。<h3 id="列名前缀过滤器-—ColumnPrefixFilter"><a href="#列名前缀过滤器-—ColumnPrefixFilter" class="headerlink" title="列名前缀过滤器 —ColumnPrefixFilter"></a>列名前缀过滤器 —ColumnPrefixFilter</h3>ColumnPrefixFilter 用于指定列名前缀值相等。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ColumnPrefixFilter f &#x3D; new ColumnPrefixFilter(Bytes.toBytes(&quot;values&quot;)); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
+<h3 id="多个列值前缀过滤器-—MultipleColumnPrefixFilter"><a href="#多个列值前缀过滤器-—MultipleColumnPrefixFilter" class="headerlink" title="多个列值前缀过滤器 —MultipleColumnPrefixFilter"></a>多个列值前缀过滤器 —MultipleColumnPrefixFilter</h3>MultipleColumnPrefixFilter 和 ColumnPrefixFilter 行为差不多，但可以指定多个前缀。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">byte[][] prefixes &#x3D; new byte[][]&#123;Bytes.toBytes(&quot;value1&quot;),Bytes.toBytes(&quot;value2&quot;)&#125;; </span><br><span class="line">Filter f &#x3D; new MultipleColumnPrefixFilter(prefixes); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
+<h3 id="rowKey过滤器—RowFilter"><a href="#rowKey过滤器—RowFilter" class="headerlink" title="rowKey过滤器—RowFilter"></a>rowKey过滤器—RowFilter</h3>RowFilter 是 rowkey 过滤器 通常根据 rowkey 来指定范围时，使用 scan 扫描器的 StartRow 和 StopRow 方法比较好。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Filter f &#x3D; new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(&quot;^1234&quot;)); </span><br><span class="line">&#x2F;&#x2F;匹配以 1234 开头的 </span><br><span class="line">rowkey s1.setFilter(f);</span><br></pre></td></tr></table></figure></li>
 </ul>
 
           
@@ -445,7 +606,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%9B%BE%E8%AE%BA/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -464,7 +625,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%9B%BE%E8%AE%BA/" itemprop="url">Java算法——图论</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/" itemprop="url">Hive核心—UDF编程</a></h1>
         
 
         <div class="post-meta">
@@ -476,8 +637,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:46:33+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:18:27+08:00">
+                2020-03-13
               </time>
             
 
@@ -492,8 +653,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:25:59+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -511,8 +672,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -550,7 +711,16 @@
       
         
           
-            <p>// 待补充中</p>
+            <h3 id="Hive的UDF类型"><a href="#Hive的UDF类型" class="headerlink" title="Hive的UDF类型"></a>Hive的UDF类型</h3><ol>
+<li>UDF：一进一出 ，继承UDF，实现evaluate方法，方法参数不建议使用java基本类型，可以使用Text，LongWriteAble类型 </li>
+<li>UDAF：多进一出</li>
+<li>UDTF：一进多出<br>使用说明，语法：</li>
+<li>加载 jar：<code>add jar jarpath</code></li>
+<li>查看jar：<code>list jars</code></li>
+<li>创建function：<code>create [temporary] function funcname as “full class name” USING JAR ’hdfs：//jarpath’</code></li>
+<li>使用function。<h3 id="调用py脚本"><a href="#调用py脚本" class="headerlink" title="调用py脚本"></a>调用py脚本</h3>Hive 的 TRANSFORM 关键字提供了在 SQL 中调用自写脚本的功能<br>使用步骤：<br> 1)    编写py脚本<br> 2)    add file filepath<br> 3)    select transform(col,col…) using’xxx.py’ as (col, col, …)<br>使用样例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE u_data_new ( movieid INT, rating INT, weekday INT, userid INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;\t&#39;;</span><br><span class="line">add FILE weekday_mapper.py;</span><br><span class="line">INSERT OVERWRITE TABLE u_data_new SELECTTRANSFORM (movieid, rating, unixtime,userid) USING &#39;python weekday_mapper.py&#39; AS (movieid, rating, weekday,userid) FROM u_data;</span><br></pre></td></tr></table></figure>
+其中 weekday_mapper.py 内容如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> #!&#x2F;bin&#x2F;python import sys import datetime</span><br><span class="line">for line in sys.stdin:</span><br><span class="line">line &#x3D; line.strip() movieid, rating, unixtime,userid &#x3D; line.split(&#39;\t&#39;) weekday &#x3D; datetime.datetime.fromtimestamp(float(unixtime)).isoweekday() print &#39;\t&#39;.join([movieid, rating, str(weekday),userid])</span><br></pre></td></tr></table></figure></li>
+</ol>
 
           
         
@@ -599,7 +769,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -618,7 +788,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">Java算法——排序</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/" itemprop="url">Impala基础—安装impala</a></h1>
         
 
         <div class="post-meta">
@@ -630,8 +800,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:45:51+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:15:16+08:00">
+                2020-03-13
               </time>
             
 
@@ -646,8 +816,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:32:17+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -665,8 +835,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -704,7 +874,20 @@
       
         
           
-            <p>// 待补充中</p>
+            <h2 id="安装impala"><a href="#安装impala" class="headerlink" title="安装impala"></a>安装impala</h2><p>准备：<br>使用root用户或者具有sudo权限的普通用户。<br>下载安装包和依赖包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">bigtop-utils-0.7.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>安装master节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>安装slaver节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>修复/usr/lib/impala/lib下的软链接。<br>配置impala，修改hdfs-site.xml，添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.client.read.shortcircuit&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.domain.socket.path&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;&#x2F;var&#x2F;run&#x2F;hdfs-sockets&#x2F;dn._PORT&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.client.file-block-storage-locations.timeout.millis&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;10000&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">  &lt;name&gt;dfs.datanode.hdfs-blocks-metadata.enabled&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+<p>配置impala，修改/etc/default/impala。<br>修改impala的运行用户。mpala默认以impala用户执行，可以在三个文件中修改 /etc/init.d/impala-state-store、/etc/init.d/impala-server、/etc/init.d/impala-catalog</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SVC_USER&#x3D;”hadoop”</span><br><span class="line">install -d -m 0755 -o hadoop -g hadoop &#x2F;var&#x2F;run&#x2F;impala 1&gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 || :</span><br></pre></td></tr></table></figure>
+<p>修改日志目录权限：<br><code>chmod -R 777 /var/log/impala/</code><br>补充依赖jar包：<br><code>将$HIVE_HOME/lib/mysql-connector-java-5.1.40-bin.jar 复制到 /usr/lib/impala/lib下</code></p>
+<h3 id="管理impala"><a href="#管理impala" class="headerlink" title="管理impala"></a>管理impala</h3><p>启动Master：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;var&#x2F;run&#x2F;hdfs-sockets</span><br><span class="line">service impala-state-store start</span><br><span class="line">service impala-catalog start</span><br></pre></td></tr></table></figure>
+<p>启动Slave：<br><code>service impala-server start</code><br>查看日志：<br>启动后，在/var/log/impala目录下会产生对应服务的日志</p>
 
           
         
@@ -753,7 +936,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -772,7 +955,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" itemprop="url">Java算法——布隆过滤器</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/" itemprop="url">Hive核心—join语句</a></h1>
         
 
         <div class="post-meta">
@@ -784,8 +967,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:45:35+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:13:37+08:00">
+                2020-03-13
               </time>
             
 
@@ -800,8 +983,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:27:18+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -819,8 +1002,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -858,7 +1041,22 @@
       
         
           
-            <p>// 待补充中</p>
+            <h3 id="Hive的join类型"><a href="#Hive的join类型" class="headerlink" title="Hive的join类型"></a>Hive的join类型</h3><ul>
+<li>内连接 inner join </li>
+<li>左连接 left join </li>
+<li>右连接 right join </li>
+<li>全连接 full join<br>Join操作注意事项</li>
+</ul>
+<ol>
+<li>只支持等值join</li>
+<li>Join可以多于2张表</li>
+<li>如果每个表在连接子句中使用了相同的列，则Hive将多个表上的连接转换为单map/reduce作业，如SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1)这个sql被转换成一个map / reduce作业，因为只有b的key1列参与了连接。另一方面，SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2)，这个sql被转换成两个map/reduce作业</li>
+<li>join 时，每次 map/reduce 任务的逻辑： reducer 会缓存 join 序列中除了最后一个表的所有表的记录，再通过最后一个表将结果序列化，通过流式传输到文件系统。因此，通过组织这些表使得最大的表出现在最后一个序列中，可以减少reduce中用于缓冲特定连接键值的行所需的内存。实践中，应该把最 大的那个表写在最后（否则会因为缓存浪费大量内存）。例如： SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key1) 所有表都使用同一个 join key（使用 1 次 map/reduce 任务计算）。Reduce 端会缓存 a 表 和 b 表的记录，然后每次取得一个 c 表的记录就计算一次 join 结果，类似的还有：SELECT a.val, b.val, c.val FROM aJOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2) 这里用了 2 次 map/reduce 任务。第一次缓存 a 表，用 b 表序列化；第二次缓存第一次 map/reduce 任务的结果，然后用 c 表序列化。</li>
+<li>Join和where同时存在时，要先执行where后join。因此，如果要限制连接的OUTPUT，则需要在WHERE子句中，否则应该在JOIN子句中。这个问题的一大困惑是分区表：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key) WHERE a.ds=’2009-07-07’ AND b.ds=’2009-07-07’上面的sql将中对a和b进行连接，产生a.val和b.val的列表。但是，WHERE子句也可以引用连接输出中的a和b的其他列，然后将其过滤掉。但是，每当JOIN的某行为b找到一个键而没有键时，b的所有列都将为NULL，包括ds列。这就是说，你将过滤掉没有有效的b.key的所有连接输出行，因此你已经超出了你的LEFT OUTER要求。换句话说，如果在WHERE子句中引用b的任何一列，则连接的LEFT OUTER部分是无关紧要的。相反，当外部连接时，使用下面的语法：SELECT a.val, b.val FROM a LEFT OUTER JOIN b ON (a.key=b.key AND b.ds=’2009-07-07’ AND a.ds=’2009-07-07’)结果是连接的输出被预先过滤，并且您将不会得到有一个有效的a.key但没有匹配的b.key行的后过 滤的麻烦。相同的逻辑适用于右和全连接。</li>
+<li>如果除了一个连接的表之外的所有表都很小，则连接可以作为仅map工作来执行。SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM a JOIN b ON a.key = b.key，上面的查询不需要reduce。对于每个mapper，a，b都被完全读取。限制是不能执行FULL / RIGHT OUTER JOIN b。</li>
+<li>如果被连接的表在连接列上被分桶，并且一个表中的桶的数量是另一个表中的桶的数量的倍 数，则桶可以彼此连接。如果表A有4个桶，而表B有4个桶，则下列联接SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key仅仅在mapper上即可完成连接完成。不是为每个A的mapper去完全获取B，而只是获取所需的 桶。对于上面的查询，A的映射器处理存储桶1将仅取出B的桶1.它不是默认的行为，可以使用以下set hive.optimize.bucketmapjoin = true</li>
+<li>如果连接的表在连接列上进行排序和分桶，并且具有相同数量的存储桶，则可以执行sort-merge连接。相应的桶在mapper上相互连接。如果A和B都有4个桶，SELECT /*+ MAPJOIN(b) */ a.key, a.value FROM A a JOIN B b ON a.key = b.key，上面的功能尽在mapper即可完成。A的桶的映射器将遍历B的相应桶。这不是默认行为，需要设置 以下参数：<br> ⁃    set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;<br> ⁃    set hive.optimize.bucketmapjoin = true;<br> ⁃    set hive.optimize.bucketmapjoin.sortedmerge = true;</li>
+</ol>
 
           
         
@@ -907,7 +1105,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -926,7 +1124,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/" itemprop="url">Java数据结构——树</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">Hive核心—排序</a></h1>
         
 
         <div class="post-meta">
@@ -938,8 +1136,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:45:02+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:12:50+08:00">
+                2020-03-13
               </time>
             
 
@@ -954,8 +1152,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:30:22+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -973,8 +1171,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1012,7 +1210,11 @@
       
         
           
-            <p>// 待补充中</p>
+            <h3 id="SortBy"><a href="#SortBy" class="headerlink" title="SortBy"></a>SortBy</h3><p>sortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。<br>sortby排序将取决于列类型，如果该列是数字类型，那么排序顺序也是按照数字顺序排列的。如果是该列是字符串类型，那么排序顺序将是字典顺序。<br>举例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hive&gt;SELECT emp_id, emp_salary FROM employees SORT BY emp_salary DESC；</span><br><span class="line">reduce 1： </span><br><span class="line">emp_id | emp_salary </span><br><span class="line">10 5000 </span><br><span class="line">16 3000 </span><br><span class="line">13 2600 </span><br><span class="line">19 1800 </span><br><span class="line">reduce 2：</span><br><span class="line">emp_id | emp_salary </span><br><span class="line">11 4000 </span><br><span class="line">17 3100 </span><br><span class="line">14 2500 </span><br><span class="line">20 2000</span><br></pre></td></tr></table></figure>
+<h3 id="OrderBy"><a href="#OrderBy" class="headerlink" title="OrderBy"></a>OrderBy</h3><p>hive中orderby跟传统的sql语言中的作用一样，会对查询结果做一次全局排序，所以hive的sql中的所有数据都会到同一个reduce中进行处理（不管有多少map，也不管有多少block都只会启动一个reducer）。但是对于大量数据这将耗费很长时间去执行。<br>这里跟传统的sql还有一点区别：如果制定了hive.mapred.mode=strict（默认nonstrict），这时就必须制定limit来限制输出条数，原因是：所有的数据都会在同一个reducer端进行，数据量大的情况下可能不会出来结果，在严格模式下必须制定输出条件。</p>
+<h3 id="DistributeBy"><a href="#DistributeBy" class="headerlink" title="DistributeBy"></a>DistributeBy</h3><p>distributeby是控制在map端如何拆分数据给reduce端的。hive会根据distributeby后面的列，对应reduce的个数进行分发，默认是采用hash算法。sortby为每个reduce产生一个排序文件。在有些情况下，你需要控制某个特定行应该到哪个reducer，这通常是为了进行后续的聚集操作。distributeBy刚好可以做这件事。因此，distributeby经常和sortby配合使用。<br>注：distributeby 和sort by的使用场景<br>1、map输出的文件大小不均<br>2、reduce输出文件大小不均<br>3、小文件过多<br>4、文件超大</p>
+<h3 id="ClusterBy"><a href="#ClusterBy" class="headerlink" title="ClusterBy"></a>ClusterBy</h3><p>cluster by 除了具有distributeby的功能外还兼具sortby的功能。但是排序只能是倒叙，不能制定排序规则为ASC或者DESC。</p>
 
           
         
@@ -1061,7 +1263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1080,7 +1282,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/" itemprop="url">Java数据结构——堆</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url">Hive核心—性能优化</a></h1>
         
 
         <div class="post-meta">
@@ -1092,8 +1294,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:43:32+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:11:12+08:00">
+                2020-03-13
               </time>
             
 
@@ -1108,8 +1310,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:28:28+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1127,8 +1329,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1166,7 +1368,41 @@
       
         
           
-            <p>// 待补充中</p>
+            <h2 id="Hive性能优化"><a href="#Hive性能优化" class="headerlink" title="Hive性能优化"></a>Hive性能优化</h2><p>首先，我们来看看Hadoop的计算框架特性，在此特性下会衍生哪些问题？</p>
+<ol>
+<li>数据量大不是问题，数据倾斜是个问题。</li>
+<li>jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十 几个jobs，耗时很长。原因是map reduce作业初始化的时间是比较长的。</li>
+<li>sum,count,max,min等UDAF，不怕数据倾斜问题,hadoop在map端的汇总合并优化，使数据倾斜不成问题。</li>
+<li>count(distinct ),在数据量大的情况下，效率较低，如果是多count(distinct )效率更低，因为 count(distinct)是按group by 字段分组，按distinct字段排序，一般这种分布方式是很倾斜的。举 个例子：比如男uv,女uv，像淘宝一天30亿的pv，如果按性别分组，分配2个reduce,每个reduce处理 15亿数据。<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3></li>
+</ol>
+<ul>
+<li>了解数据分布，自己动手解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true; 这是通用的算法优化，但算法优化有时不能适应特定业务背景，开发人员了解业务，了解数据，可以 通过业务逻辑精确有效的解决数据倾斜问题。数据量较大的情况下，慎用count(distinct)，count(distinct)容易产生倾斜问题。</li>
+<li>对小文件进行合并，是行至有效的提高调度效率的方法，假如所有的作业设置合理的文件数，对整体调度效率也会产生积极的正向影响。</li>
+<li>FetchTask：不执行mapreduce，提高速度<br><code>set hive.fetch.task.conversion=more;</code></li>
+<li>大表拆分子表。将原始的表中数据，依据业务需求提取出要分析的字段，数据放入到对应的业务表(子表)中，实际的业务针对业务表进行分析。</li>
+<li>外部表、分区表：外部表、分区表结合使用，多级分区</li>
+<li>数据存储格式（textﬁle、orcﬁle、parquet），数据压缩(snappy)</li>
+<li>JVM重用。VM重用是hadoop调优参数的内容，对hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生 JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job 包含有成千上万个task任务的情况。JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml 文件中进行设置：<br><code>mapred.job.reuse.jvm.num.tasks 1</code><br>JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成 后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的 时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结 束了才会释放。</li>
+<li>推测执行。推测式任务，也叫做Speculative task。它是一种以空间换时间的策略。 当所有task都开始运行之后，任务对应的ApplicationMaster会统计所有任务的平均进度，如果某个task所在的task node机器配置比较低或者CPU load很高（原因很多），导致任务执行比总体任务 的平均执行要慢，的平均执行要慢， 此时AM会启动一个新的任务（Speculative task），原有任务和新任务哪个先执行完就把另外一个kill掉，这也是我们经常在RM页面看到任务执行成功，但是总有些task被kill，就是这个原因。目的：是通过加快获取单个 task 的结果以及进行侦测将执行慢的 TaskTracker 加入到黑名单的方 式来提高整体的任务执行效率。配置：<br><code>set hive.mapred.reduce.tasks.speculative.execution=true;</code></li>
+<li>Map数目。当前配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dfs.block.size&#x3D;268435456</span><br><span class="line">hive.merge.mapfiles&#x3D;true</span><br><span class="line">hive.merge.mapredfiles&#x3D;true</span><br><span class="line">hive.merge.size.per.task&#x3D;256000000</span><br><span class="line">mapred.map.tasks&#x3D;2</span><br></pre></td></tr></table></figure>
+因为合并小文件默认为true，而dfs.block.size与hive.merge.size.per.task的搭配使得合并后的绝大部分文件都在300M左右。<br>case1:现在我们假设有3个300M大小的文件，那么goalsize = min(900MB/2,256MB) = 256MB，所以整个JOB会有6个map，其中3个map分别处理256MB的数据，还有3个map分别处理44MB的 数据。数据。 木桶效应，整个JOB的map阶段的执行时间不是看最短的1个map的执行时间，而是看最长的1个map的执行时间。所以，虽然有3个map分别只处理44MB的数据，可以很快跑完，但 它们还是要等待另外3个处理256MB的map。显然，处理256MB的3个map拖了整个JOB的后腿。<br>case2:如果我们把mapred.map.tasks设置成6，再来看一下有什么变化：goalsize = min(900MB/6,256MB) = 150MB 整个JOB同样会分配6个map来处理，每个map处理150MB的数据，非常均匀，谁都不会拖后腿，最合理地分配了资源，执行时间大约为CASE 1的59%(150/256)<br>案例分析：虽然mapred.map.tasks从2调整到了6，但是CASE 2并没有比CASE 1多用map资源，同样都是使 用6个map。而CASE 2的执行时间约为CASE 1执行时间的59%。 从这个案例可以看出，对mapred.map.tasks进行自动化的优化设置其实是可以很明显地提高作业执行效率的。 要求：文件数据压缩的方式为可分割的，比如BZip2Codec。或者文件数据本身没有用压缩。</li>
+<li>设置reduce个数。当前配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">参数1：hive.exec.reducers.bytes.per.reducer&#x3D;256000000：每个reduce任务处理的数据量 </span><br><span class="line">参数2：hive.exec.reducers.max&#x3D;1009：每个任务最大的reduce数目</span><br></pre></td></tr></table></figure>
+计算公式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reducer个数 &#x3D; min(参数2,总输入数据量&#x2F;参数1) 　</span><br><span class="line">set mapred.reduce.tasks &#x3D;N 每个任务默认的reduce数目。典型为0.99*reduce槽数，hive默认为-1，即自动确定reduce数目。</span><br></pre></td></tr></table></figure>
+reduce 个数并不是越多越好，同 map一样，启动和初始化reduce也会消耗时间和资源；另外，有多少个reduce,就会有多少个输出文件，如果生成了很多个小文件，那么如果这些小文件作为下一个任务的输入，则也会出现小文件过多的问题。只有一个reduce的情况，除了数据量小于hive.exec.reducers.bytes.per.reducer参数值情况外，还有以下原因：1、没有groupby的汇总。2、用了orderby。</li>
+<li>并行执行。意思是同步执行hive的多个阶段，hive在执行过程，将一个查询转化成一个或者多个阶 段。某个特定的job可能包含众多的阶段，而这些阶段可能并非完全相互依赖的，也就是说可以并行执行的，这样可能使得整个job的执行时间缩短<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive.exec.parallel.thread.number   8  </span><br><span class="line">hive.exec.parallel true</span><br></pre></td></tr></table></figure>
+<h3 id="sql优化"><a href="#sql优化" class="headerlink" title="sql优化"></a>sql优化</h3></li>
+<li>不要滥用like </li>
+<li>先filter，后join </li>
+<li>join语句优化 <ul>
+<li>Rduce Join，连接发生的阶段，发生在reduce Task，大表对大表 ，每个表的文件都是从文件中读取的</li>
+<li>Map Join，连接发生的阶段，发生在Map Task ，小表对大表，大表的文件从文件中读取，小表的文件存在内存中，DistributedCache set hive.auto.convert.join=true</li>
+<li>SMB(Sort-Merge-Bucket) join, 针对大表对大表的优化设置， </li>
+</ul>
+</li>
+<li>Explain执行计划，explain [extended] query，一个stage就是一个job，在任务之间没有依赖关系时可以并行执行<br>   hive.exec.parallel.thread.number<br>   hive.exec.parallel  </li>
+<li>严格模式 hive.mapred.mode=strict(默认nonstrict)，分区表使用where进行过滤，必须使用分区列进行过滤,必须制定limit来限制数据条件</li>
+<li>groupby进行Map端部分聚合，并不是所有的聚合操作都需要在reduce部分进行，很多聚合操作都可以先在Map端进行部分聚 合，然后reduce端得出最终结果。需要修改的参数为：hive.map.aggr=true（用于设定是否在 map 端进行聚合，默认值为真）hive.groupby.mapaggr.checkinterval=100000（用于设定 map 端进行聚合操作的条目数）有数据倾斜时进行负载均衡，此处需要设定 hive.groupby.skewindata，当选项设定为 true 是，生成的查询计划有两 个 MapReduce 任务。在第一个 MapReduce 中，map 的输出结果集合会随机分布到 reduce 中， 每个 reduce 做部分聚合操作，并输出结果。这样处理的结果是，相同的 Group By Key 有可 能分发到不同 的 reduce 中，从而达到负载均衡的目的；第二个 MapReduce 任务再根据预处 理的数据结果按照 Group By Key 分布到 reduce 中（这个过程可以保证相同的 Group By Key 分布到同一个 reduce 中），最后完成最终的聚合操作。</li>
+</ul>
 
           
         
@@ -1215,7 +1451,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8%E3%80%81%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%AD%98%E5%82%A8%E5%92%8C%E5%8E%8B%E7%BC%A9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1234,7 +1470,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8%E3%80%81%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97/" itemprop="url">Java数据结构——表、栈、队列</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%AD%98%E5%82%A8%E5%92%8C%E5%8E%8B%E7%BC%A9/" itemprop="url">Hive核心—存储和压缩</a></h1>
         
 
         <div class="post-meta">
@@ -1246,8 +1482,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:42:46+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:10:19+08:00">
+                2020-03-13
               </time>
             
 
@@ -1262,8 +1498,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:49:22+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:27:51+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1281,8 +1517,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1320,7 +1556,9 @@
       
         
           
-            <p>// 待补充中</p>
+            <h3 id="Hive数据压缩"><a href="#Hive数据压缩" class="headerlink" title="Hive数据压缩"></a>Hive数据压缩</h3><p>hive的数据压缩算法需支持可分割性，让shuffle过程减少磁盘IO和网络IO 。常用的压缩算法如下：<br>    1.    Snappy：，最常用<br>    2.    Lzo：压缩，较常用<br>    3.    Zlib：压缩<br>    4.    Bzip2：压缩<br>压缩比：bzip2 &gt; gzip &gt; lzo<br>Mapreduce配置压缩：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 设置支持压缩</span><br><span class="line">mapreduce.map.output.compress&#x3D;true </span><br><span class="line"># 设置压缩格式</span><br><span class="line">mapreduce.map.output.compress.codec&#x3D;org.apache.hadoop.io.compress.SnappyCodec </span><br><span class="line"># Hive配置表压缩：</span><br><span class="line">create table mytable(a int,b int) stored as parquet tblproperties (&#39;parquet.compression&#39;&#x3D;&#39;SNAPPY&#39;);</span><br></pre></td></tr></table></figure>
+<h3 id="Hive数据存储"><a href="#Hive数据存储" class="headerlink" title="Hive数据存储"></a>Hive数据存储</h3><p><strong>行存储</strong><br>    ⁃    textfile<br>    ⁃    sequencefile<br><strong>列存储</strong><br>    ⁃    rcfile：<br>    ⁃    orc：对rcfile格式的优化，较常用，存储最小<br>    ⁃    parquet格式，较常用， 数据压缩，默认是zlib，可以使用snappy </p>
 
           
         
@@ -1369,7 +1607,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1388,7 +1626,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/" itemprop="url">Java核心—java8新特性</a></h1>
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/" itemprop="url">Hive核心—分区和分桶</a></h1>
         
 
         <div class="post-meta">
@@ -1400,8 +1638,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:36:07+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:01:52+08:00">
+                2020-03-13
               </time>
             
 
@@ -1416,8 +1654,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T14:56:02+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:28:03+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -1435,8 +1673,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1473,14 +1711,24 @@
 
       
         
-          <h2 id="Java8新特性"><a href="#Java8新特性" class="headerlink" title="Java8新特性"></a>Java8新特性</h2><h3 id="接口的默认方法-Default-Methods-for-Interfaces"><a href="#接口的默认方法-Default-Methods-for-Interfaces" class="headerlink" title="接口的默认方法(Default Methods for Interfaces)"></a>接口的默认方法(Default Methods for Interfaces)</h3><pre><code>Java 8使我们能够通过使用 default 关键字向接口添加非抽象方法实现。</code></pre><h3 id="Lambda表达式-Lambda-expressions"><a href="#Lambda表达式-Lambda-expressions" class="headerlink" title="Lambda表达式(Lambda expressions)"></a>Lambda表达式(Lambda expressions)</h3><pre><code>在Java 8中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：</code></pre><p>Collections.sort(names, (String a, String b) -&gt; {<br>    return b.compareTo(a);<br>});<br>可以看出，代码变得更段且更具有可读性，但是实际上还可以写得更短：<br>Collections.sort(names, (String a, String b) -&gt; b.compareTo(a));<br>对于函数体只有一行代码的，你可以去掉大括号{}以及return关键字，但是你还可以写得更短点：<br>names.sort((a, b) -&gt; b.compareTo(a));</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94java8%E6%96%B0%E7%89%B9%E6%80%A7/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h2 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h2><p>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。<br>当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是有可能。存储日志，其 中必然有个属性是日志产生的日期。在产生分区时，就可以按照日志产生的日期列进行划分。把每 一天的日志当作一个分区。<br>将数据组织成分区，主要可以提高数据的查询速度。至于用户存储的每一条记录到底放到哪个分 区，由用户决定。即用户在加载数据的时候必须显示的指定该部分数据放到哪个分区。<br><strong>实现细节</strong>：</p>
+<ol>
+<li>一个表可以拥有一个或者多个分区，每个分区以文件夹的形式单独存在表文件夹的目录下。</li>
+<li>表和列名不区分大小写。</li>
+<li>分区是以字段的形式在表结构中存在，通过describetable命令可以查看到字段存在， 但是该字段不存放实际的数据内容，仅仅是分区的表示（伪列） 。</li>
+</ol>
+<p><strong>语法</strong>：</p>
+<ol>
+<li>创建一个分区表，以ds为分区列<br><code>create table invites(id int, name string) partitioned by (ds string) row format delimited ﬁeldsterminated by &#39; &#39; stored as textﬁle;</code></li>
+<li>将数据添加到时间为2013-08-16这个分区中：<br><code>load data local inpath&#39;/home/hadoop/Desktop/data.txt&#39; overwrite into table invites partition(ds=&#39;2013-08-16&#39;);</code></li>
+<li>从一个分区中查询数据：<br><code>select * from inviteswhere ds =&#39;2013-08-12&#39;;</code><br>4、往一个分区表的某一个分区中添加数据：<br><code>insert overwrite tableinvites partition (ds=&#39;2013-08-12&#39;) select id,max(name) from test group by id;</code><h2 id="分桶-Bucket"><a href="#分桶-Bucket" class="headerlink" title="分桶(Bucket)"></a>分桶(Bucket)</h2>对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方 式决定该条记录存放在哪个桶当中。<br>把表（或者分区）组织成桶（Bucket）有两个理由：</li>
+<li>获得更高的查询处理效率。桶为表加上了额外的结构，Hive 在处理有些查询时能利用这个结构。具体而言，连接两个在（包含连接列的）相同列上划分了桶的表，可以使用 Map 端连接 （Map-side join）高效的实现。比如JOIN操作。对于JOIN操作两个表有一个相同的列，如果对这两个表都进行了桶操作。那么将保存相同列值的桶进行JOIN操作就可以，可以大大较少JOIN的数据量。</li>
+<li>使取样（sampling）更高效。在处理大规模数据集时，在开发和修改查询的阶段，如果能在 数据集的一小部分数据上试运行查询，会带来很多方便。</li>
+</ol>
+<p><strong>创建带桶的 table</strong> ：<br><code>create tablebucketed_user(id int,name string)clustered by (id) sorted by(name) into 4buckets row format delimited ﬁelds terminated by &#39; &#39; stored as textﬁle;</code><br>首先，我们来看如何告诉—个表应该被划分成桶。我们使用CLUSTERED BY 子句来指定划分桶所用的列和要划分的桶的个 数：<br><code>CREATE TABLE bucketed_user(id INT) name STRING) CLUSTERED BY (id) INTO 4BUCKETS;</code><br>在这里，我们使用用户ID来确定如何划分桶(Hive使用对值进行哈希并将结果除 以桶的个数取余数。这样，任何一桶里都会 有一个随机的用户集合（PS：其实也能说是随机，不是吗？）。<br><strong>往表中插入数据</strong>：<br><code>INSERT OVERWRITE TABLEbucketed_users SELECT * FROM users;</code><br>物理上，每个桶就是表(或分区）目录里的一个文件。它的文件名并不重要，但是桶 n 是按照字典序排列的第 n 个文件。事实上，桶对应于 MapReduce的输出文件分区：一个作业产生的桶(输出文件)和reduce任务个数相同.<br>总结一句话： 分区按照我们指定列范围进行分区（层级文件夹 ），而分桶是按照列值的hash值,这样想同值都会在一个桶内（一级文件夹内不同文件区别不同的桶） ，便于join操作。<br>对两个划分了桶的表进行连接，处理左边表内某个桶的 mapper知道右边表内相匹配的行在对应的桶内。因此，mapper只需要获取那个桶 (这只是右边表内存储数据的一小部分)即可进行连接。这一优化方法并不一定要求两个表必须桶的个数相同，两个表的桶个数是倍数关系也可以。桶中的数据可以根据一个或多个列另外进行排序。由于这样对每个桶的连接变成了高效的归并排 序(merge-sort),因此可以进一步提升map端连接的效率。</p>
+
+          
         
       
     </div>
@@ -1527,7 +1775,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1546,7 +1794,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url">Java核心—虚拟机</a></h1>
+                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" itemprop="url">Hive基础—数据类型</a></h1>
         
 
         <div class="post-meta">
@@ -1558,8 +1806,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:24:46+08:00">
-                2020-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:59:18+08:00">
+                2020-03-12
               </time>
             
 
@@ -1574,8 +1822,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T15:58:45+08:00">
-                2020-03-11
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:00:58+08:00">
+                2020-03-13
               </time>
             
           </span>
@@ -1593,8 +1841,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1631,177 +1879,28 @@
 
       
         
-          <h2 id="Java运行时内存区域"><a href="#Java运行时内存区域" class="headerlink" title="Java运行时内存区域"></a>Java运行时内存区域</h2><p>###JDK1.8之前：<br><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079420446.jpg" alt></p>
-<h3 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8:"></a>JDK1.8:</h3><p><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839079514890.jpg" alt></p>
-<p>线程私有的：<br>    ▪    程序计数器<br>    ▪    虚拟机栈<br>    ▪    本地方法栈</p>
-<p>线程共享的：<br>    ▪    堆<br>    ▪    方法区<br>    ▪    直接内存 (非运行时数据区的一部分)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">Java核心—并发编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:19:33+08:00">
-                2020-03-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-11T15:51:59+08:00">
-                2020-03-11
-              </time>
-            
-          </span>
+          
+            <p>原生类型： </p>
+<ul>
+<li>tinyint：1byte </li>
+<li>smallint：2byte </li>
+<li>int：4byte </li>
+<li>bigint：8byte </li>
+<li>float：4byte </li>
+<li>double：8byte </li>
+<li>decimal： </li>
+<li>timestamp： </li>
+<li>date： </li>
+<li>string： </li>
+<li>varchar： </li>
+<li>char：<br>复合类型：</li>
+<li>array_type：数组类型</li>
+<li>map_type：map类型</li>
+<li>struct_type：结构化类型 </li>
+<li>union_type：联合类型</li>
+</ul>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15839076314700.jpg" alt="-w581"></p>
-<h2 id="线程死锁"><a href="#线程死锁" class="headerlink" title="线程死锁"></a>线程死锁</h2><pre><code>线程 A 持有资源 2，线程 B 持有资源 1，他们同时都想申请对方的资源，所以这两个线程就会互相等待而进入死锁状态。</code></pre><p><img src="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15839076443981.jpg" alt></p>
-<h2 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h2><pre><code>synchronized关键字加到static静态方法和synchronized(class)代码块上都是是给Class类上锁。synchronized关键字加到实例方法上是给对象实例上锁。尽量不要使用synchronized(String a)因为JVM中，字符串常量池具有缓存功能！</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/11/java/Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1839,7 +1938,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">&gt;</a>
   </nav>
 
 
@@ -1885,7 +1984,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1896,7 +1995,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1907,7 +2006,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
