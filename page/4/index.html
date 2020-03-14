@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/bigdata/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/" itemprop="url">Spark基础—RDD</a></h1>
+                <a class="post-title-link" href="/2020/03/11/bigdata/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/" itemprop="url">Spark基础—RDD</a></h1>
         
 
         <div class="post-meta">
@@ -389,7 +389,7 @@
           
             <h2 id="RDD的概念"><a href="#RDD的概念" class="headerlink" title="RDD的概念"></a>RDD的概念</h2><p>弹性分布式数据集，抽象的数据集合；含有多个分区，分区散落在不同的节点上，可以并发执行；内存优先存放，若内存放不下时，会缓存到磁盘；具有容错性。</p>
 <h2 id="RDD的创建"><a href="#RDD的创建" class="headerlink" title="RDD的创建"></a>RDD的创建</h2><p>集合创建，本地文件创建，HDFS文件创建（spark默认会为hdfs的每个block创建一个partition，手动指定时只能比block多</p>
-<h2 id="RDD的操作"><a href="#RDD的操作" class="headerlink" title="RDD的操作"></a>RDD的操作</h2><p>操作分为transformation和action，transformation特点是lazy特性，在没遇到action操作时不会真正执行，在执行到action时，Driver进程才会提交大量的task到注册过的woker上去。<br><img src="/2020/03/11/bigdata/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/15839267361015.jpg" alt></p>
+<h2 id="RDD的操作"><a href="#RDD的操作" class="headerlink" title="RDD的操作"></a>RDD的操作</h2><p>操作分为transformation和action，transformation特点是lazy特性，在没遇到action操作时不会真正执行，在执行到action时，Driver进程才会提交大量的task到注册过的woker上去。<br><img src="/2020/03/11/bigdata/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/15839267361015.jpg" alt></p>
 <h2 id="RDD的持久化策略"><a href="#RDD的持久化策略" class="headerlink" title="RDD的持久化策略"></a>RDD的持久化策略</h2><p>多种持久化策略，选择在于平衡CPU和内存消耗之间的平衡:</p>
 <ul>
 <li>MEMERY_LONLY，以非序列化方式存储与内存中，占用空间大，无CPU消耗 </li>
