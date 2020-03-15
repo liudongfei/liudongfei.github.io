@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EMR%E9%9B%86%E6%88%90/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EMR%E9%9B%86%E6%88%90/" itemprop="url">Hbase核心—与MR集成</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/" itemprop="url">数据分析—算法理论</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:54:20+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:54:06+08:00">
+                2020-03-15
               </time>
             
 
@@ -329,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:55:23+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:54:56+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -387,161 +387,7 @@
       
         
           
-            <p>与Mapreduce集成<br>    classpath添加：<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖<br>    实现方法：<br>maven依赖：hbase-server<br>Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。<br> 1、写个 mapper 继承 TableMapper&lt;Text, IntWritable&gt;<br>参数：Text：mapper 的输出 key 类型； IntWritable：mapper 的输出 value 类型。<br>其中的 map 方法如下： map(ImmutableBytesWritable key, Result value,Context context)<br>参数：key：rowKey；value： Result ，一行数据； context 上下文<br> 2、写个 reduce 继承 TableReducer&lt;Text, IntWritable, ImmutableBytesWritable&gt;<br>参数：Text:reducer 的输入 key； IntWritable：reduce 的输入 value； ImmutableBytesWritable：reduce 输出到 hbase 中的 rowKey 类型。<br>其中的 reduce 方法如下： reduce(Text key, Iterable<IntWritable> values,Context context)<br>参数： key：reduce 的输入 key；values：reduce 的输入 value；<br>    准备表：<br>1、建立数据来源表‘word’，包含一个列族‘content’ 向表中添加数据，在列族中放入列‘info’，并将短文数据放入该列中，如此插入多行，行 键为不同的数据即可<br>2、建立输出表‘stat’，包含一个列族‘content’<br>3、通过 Mr 操作 Hbase 的‘word’表，对‘content：info’中的短文做词频统计，并将统计 结果写入‘stat’表的‘content：info 中’，行键为单词<br>    实现：</IntWritable></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line">package com.beicai.hbase;</span><br><span class="line"></span><br><span class="line">import java.io.IOException; </span><br><span class="line">import java.util.ArrayList; </span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.conf.Configuration; </span><br><span class="line">import org.apache.hadoop.hbase.HBaseConfiguration; </span><br><span class="line">import org.apache.hadoop.hbase.HColumnDescriptor; </span><br><span class="line">import org.apache.hadoop.hbase.HTableDescriptor;</span><br><span class="line">import org.apache.hadoop.hbase.client.HBaseAdmin; </span><br><span class="line">import org.apache.hadoop.hbase.client.HTable; </span><br><span class="line">import org.apache.hadoop.hbase.client.Put; </span><br><span class="line">import org.apache.hadoop.hbase.client.Result; </span><br><span class="line">import org.apache.hadoop.hbase.client.Scan; </span><br><span class="line">import org.apache.hadoop.hbase.io.ImmutableBytesWritable; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableMapper; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableReducer; </span><br><span class="line">import org.apache.hadoop.hbase.util.Bytes; </span><br><span class="line">import org.apache.hadoop.io.IntWritable;</span><br><span class="line">import org.apache.hadoop.io.Text; </span><br><span class="line">import org.apache.hadoop.mapreduce.Job; </span><br><span class="line">&#x2F;** </span><br><span class="line">  * mapreduce 操作 hbase </span><br><span class="line">  * @author liudongfei </span><br><span class="line">  *&#x2F; </span><br><span class="line">public class HBaseMr &#123; </span><br><span class="line">&#x2F;** * 创建 hbase 配置 *&#x2F; </span><br><span class="line">static Configuration config &#x3D; null; </span><br><span class="line">static &#123; </span><br><span class="line">	config &#x3D; HBaseConfiguration.create(); </span><br><span class="line">	config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;slave1,slave2,slave3&quot;); 	config.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** * 表信息 *&#x2F; </span><br><span class="line">public static final String tableName &#x3D; &quot;word&quot;;&#x2F;&#x2F;表名 1 </span><br><span class="line">public static final String colf &#x3D; &quot;content&quot;;&#x2F;&#x2F;列族 </span><br><span class="line">public static final String col &#x3D; &quot;info&quot;;&#x2F;&#x2F;列 </span><br><span class="line">public static final String tableName2 &#x3D; &quot;stat&quot;;&#x2F;&#x2F;表名 2 </span><br><span class="line">&#x2F;** * 初始化表结构，及其数据 *&#x2F; </span><br><span class="line">public static void initTB() &#123; </span><br><span class="line">HTable table&#x3D;null; </span><br><span class="line">HBaseAdmin admin&#x3D;null;</span><br><span class="line">try &#123; </span><br><span class="line">	admin &#x3D; new HBaseAdmin(config);&#x2F;&#x2F;创建表管理 </span><br><span class="line">	&#x2F;*删除表*&#x2F; </span><br><span class="line">	if (admin.tableExists(tableName)||admin.tableExists(tableName2)) &#123; </span><br><span class="line">		System.out.println(&quot;table is already exists!&quot;); </span><br><span class="line">		admin.disableTable(tableName); </span><br><span class="line">		admin.deleteTable(tableName); </span><br><span class="line">		admin.disableTable(tableName2); </span><br><span class="line">		admin.deleteTable(tableName2); </span><br><span class="line">	&#125; </span><br><span class="line">	&#x2F;*创建表*&#x2F; </span><br><span class="line">	HTableDescriptor desc &#x3D; new HTableDescriptor(tableName); </span><br><span class="line">	HColumnDescriptor family &#x3D; new HColumnDescriptor(colf); </span><br><span class="line">	desc.addFamily(family);</span><br><span class="line">	admin.createTable(desc); </span><br><span class="line">	HTableDescriptor desc2 &#x3D; new HTableDescriptor(tableName2); </span><br><span class="line">	HColumnDescriptor family2 &#x3D; new HColumnDescriptor(colf); </span><br><span class="line">	desc2.addFamily(family2); </span><br><span class="line">	admin.createTable(desc2); </span><br><span class="line">	&#x2F;*插入数据*&#x2F; </span><br><span class="line">	table &#x3D; new HTable(config,tableName); </span><br><span class="line">	table.setAutoFlush(false); </span><br><span class="line">	table.setWriteBufferSize(5); </span><br><span class="line">	List&lt;Put&gt; lp &#x3D; new ArrayList&lt;Put&gt;(); </span><br><span class="line">	Put p1 &#x3D; new Put(Bytes.toBytes(&quot;1&quot;)); </span><br><span class="line">	p1.add(colf.getBytes(), col.getBytes(),(&quot;The Apache Hadoop software library is a framework&quot;).getBytes()); </span><br><span class="line">	lp.add(p1); </span><br><span class="line">	Put p2 &#x3D; new Put(Bytes.toBytes(&quot;2&quot;));</span><br><span class="line">	p2.add(colf.getBytes(),col.getBytes(),(&quot;The common utilities that support the 	other Hadoop modules&quot;).getBytes()); </span><br><span class="line">	lp.add(p2); </span><br><span class="line">	Put p3 &#x3D; new Put(Bytes.toBytes(&quot;3&quot;)); </span><br><span class="line">	p3.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop by reading the documentation&quot;).getBytes()); lp.add(p3); </span><br><span class="line">	Put p4 &#x3D; new Put(Bytes.toBytes(&quot;4&quot;)); </span><br><span class="line">	p4.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop from the release page&quot;).getBytes()); </span><br><span class="line">	lp.add(p4); </span><br><span class="line">	Put p5 &#x3D; new Put(Bytes.toBytes(&quot;5&quot;)); </span><br><span class="line">	p5.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop on the mailing list&quot;).getBytes()); </span><br><span class="line">	lp.add(p5); </span><br><span class="line">	table.put(lp); </span><br><span class="line">	table.flushCommits(); </span><br><span class="line">	lp.clear();</span><br><span class="line">&#125; catch (Exception e) &#123; </span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125; finally &#123; </span><br><span class="line">	try &#123; </span><br><span class="line">		if(table!&#x3D;null)&#123; </span><br><span class="line">			table.close(); </span><br><span class="line">		&#125; </span><br><span class="line">	&#125; catch (IOException e) &#123; </span><br><span class="line">		e.printStackTrace(); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** </span><br><span class="line">* MyMapper 继承 TableMapper </span><br><span class="line">* TableMapper&lt;Text,IntWritable&gt; </span><br><span class="line">* Text:输出的 key 类型， </span><br><span class="line">* IntWritable：输出的 value 类型 </span><br><span class="line">*&#x2F; </span><br><span class="line">public static class MyMapper extends TableMapper&lt;Text, IntWritable&gt; &#123; </span><br><span class="line">private static IntWritable one &#x3D; new IntWritable(1); </span><br><span class="line">private static Text word &#x3D; new Text(); @Override </span><br><span class="line">&#x2F;&#x2F;输入的类型为：key：rowKey； value：一行数据的结果集 </span><br><span class="line">Result protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException &#123; </span><br><span class="line">&#x2F;&#x2F;获取一行数据中的 colf：col </span><br><span class="line">String words &#x3D; Bytes.toString(value.getValue(Bytes.toBytes(colf), Bytes.toBytes(col)));&#x2F;&#x2F; 表里面只有一个列族，所以我就直接获取每一行的值 </span><br><span class="line">&#x2F;&#x2F;按空格分割 </span><br><span class="line">String itr[] &#x3D; words.toString().split(&quot; &quot;); </span><br><span class="line">&#x2F;&#x2F;循环输出 word 和 1 </span><br><span class="line">for (int i &#x3D; 0; i &lt; itr.length; i++) &#123; </span><br><span class="line">	word.set(itr[i]); </span><br><span class="line">	context.write(word, one); &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** </span><br><span class="line">* MyReducer 继承 TableReducer </span><br><span class="line">* TableReducer&lt;Text,IntWritable&gt; </span><br><span class="line">* Text:输入的 key 类型， </span><br><span class="line">* IntWritable：输入的 value 类型， </span><br><span class="line">* ImmutableBytesWritable：输出类型，表示 rowkey 的类型 </span><br><span class="line">*&#x2F; </span><br><span class="line">public static class MyReducer extends</span><br><span class="line">TableReducer&lt;Text, IntWritable, ImmutableBytesWritable&gt; &#123;</span><br><span class="line">@Override</span><br><span class="line">protected void reduce(Text key, Iterable&lt;IntWritable&gt; values, Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">&#x2F;&#x2F;对 mapper 的数据求和</span><br><span class="line">int sum &#x3D; 0;</span><br><span class="line">for (IntWritable val : values) &#123;</span><br><span class="line">	&#x2F;&#x2F;叠加 </span><br><span class="line">	sum +&#x3D; val.get();</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 创建 put，设置 rowkey 为单词</span><br><span class="line">Put put &#x3D; new Put(Bytes.toBytes(key.toString())); </span><br><span class="line">&#x2F;&#x2F; 封装数据 </span><br><span class="line">put.add(Bytes.toBytes(colf), Bytes.toBytes(col),Bytes.toBytes(String.valueOf(sum))); </span><br><span class="line">&#x2F;&#x2F;写到 hbase,需要指定 rowkey、put </span><br><span class="line">context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())),put);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123; </span><br><span class="line">config.set(&quot;df.default.name&quot;, &quot;hdfs:&#x2F;&#x2F;master:9000&#x2F;&quot;);&#x2F;&#x2F;设置 hdfs 的默认路径 </span><br><span class="line">config.set(&quot;hadoop.job.ugi&quot;, &quot;hadoop,hadoop&quot;);&#x2F;&#x2F;用户名，组 </span><br><span class="line">config.set(&quot;mapred.job.tracker&quot;, &quot;master:9001&quot;);&#x2F;&#x2F;设置 jobtracker 在哪 </span><br><span class="line">&#x2F;&#x2F;初始化表 </span><br><span class="line">initTB();&#x2F;&#x2F;初始化表 </span><br><span class="line">&#x2F;&#x2F;创建 job </span><br><span class="line">Job job &#x3D; new Job(config, &quot;HBaseMr&quot;);&#x2F;&#x2F;job </span><br><span class="line">job.setJarByClass(HBaseMr.class);&#x2F;&#x2F;主类 </span><br><span class="line">&#x2F;&#x2F;创建 scan </span><br><span class="line">Scan scan &#x3D; new Scan(); </span><br><span class="line">&#x2F;&#x2F;可以指定查询某一列 </span><br><span class="line">scan.addColumn(Bytes.toBytes(colf), Bytes.toBytes(col)); </span><br><span class="line">&#x2F;&#x2F;创建查询 hbase 的 mapper，设置表名、scan、mapper 类、mapper 的输出 key、 mapper 的输出 value </span><br><span class="line">TableMapReduceUtil.initTableMapperJob(tableName, scan, MyMapper.class,Text.class, IntWritable.class, job); </span><br><span class="line">&#x2F;&#x2F;创建写入 hbase 的 reducer，指定表名、reducer 类、job TableMapReduceUtil.initTableReducerJob(tableName2, MyReducer.class, job); System.exit(job.waitForCompletion(true) ? 0 : 1); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">	提交并运行jar：</span><br><span class="line">hadoop_classpath&#x3D;&#96;hbase mapredcp&#96; yarn jar *.jar mainenter</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/" itemprop="url">Hbase核心—表的管理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:52:56+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:53:43+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>命名空间相关操作<br>        创建表时，可以针对每个列簇指定多个属性,也 可以对表的属性进行设置。<br>        HBase表的预分区<br>            默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向<br>            该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建<br>            一些region，多个region会被多个regionserver管理。<br>            region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。<br>            预分区的方式<br>                1）在shell中可以使用SPLITS=&gt;[key1, key2…]方式指定<br>                2）或者SPLITS_FILE =&gt; ‘path’<br>                3）NUMREGIONS=&gt;3,SPLITALGO=&gt;’HexStringSplit’(自定义rowkey函数)<br>            表的rowkey设计核心<br>                依据rowkey查询最快<br>                对rowkey进行范围查询range<br>                前缀匹配<br>            主表：存储所有的数据<br>            索引表：根据业务创建业务rowkey到主表rowkey的映射表<br>                创建方式：<br>                    hbase<br>                    solr<br>                问题：主表和索引表的同步问题<br>                解决：<br>                    程序，事物<br>                    phoenix，Hbase的sql<br>                        只有通过jdbc的方式<br>                    cloudera search    解决hbase和solr索引表的同步 </p>
+            <p>线性回归理论<br>    确定拟合函数<br>    确定损失函数<br>        均方误差<br>    衍生算法<br>        岭回归<br>            惩罚项<br>        Lasso<br>            预测稀疏系数的线形模型<br>        弹性网<br>            同时使用L1和L2正则化项来训练线性回归模型<br>    应用场景<br>        回归算法<br>罗辑回归理论<br>    确定拟合函数<br>        logistic方程归一化后的线性回归<br>    确定损失函数<br>        最大似然函数<br>    应用场景，分类算法，用于二分类<br>决策树理论<br>    确定特征节点信息增益算法<br>        TD3:样例的纯度，熵；属性的选择，信息增益<br>        C4.5：信息增益率<br>        Cart：计算Gini指标<br>    评估指标<br>        准确度、精确度、召回率等<br>    优化方向<br>        K-Fold Cross Validation<br>        随机森林<br>随机森林理论<br>    基于决策树的一种集成学习算法<br>    随机抽取样本n成单颗树，随机抽取特征m进行分裂<br>梯度提升树理论<br>    集成学习家族Boosting的重要一员<br>    确定损失函数L<br>    初始化弱学习器，Cart回归树拟合，计算损失，更新 学习器<br>朴素贝叶斯理论<br>    先验概率+数据=后验概率<br>    贝叶斯公式<br>    假设属性之间相互独立<br>支持向量机理论<br>    可以用于二分类，多分类，回归<br>    确定最优间隔分类器<br>    不容易过度拟合<br>    二分线性分类器<br>        保证可分性<br>        不保证可分性<br>            惩罚函数<br>    二分非线性分类器<br>        核函数：有些样本线性不可分，通过核函数映射到高维度后便可分<br>            线性核<br>            径向核<br>            高斯核<br>    多分类<br>        1 VS(n-1)：训练n个分类器，第i个分类器是看看是属于分类i还是属于分类i的补集<br>        1VS1:需要训练N*(N-1)/2个分类器，分类器(i,j)能够判断某个点是属于i还是属于j<br>人工神经网络（ANN）理论<br>    前馈神经网络<br>    反向神经网络<br>K-means理论<br>Knn理论 </p>
 
           
         
@@ -590,7 +436,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94Java%20API%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -609,7 +455,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94Java%20API%E4%BD%BF%E7%94%A8/" itemprop="url">Hbase核心—Java API使用</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">Docker基础—知识结构概述</a></h1>
         
 
         <div class="post-meta">
@@ -621,8 +467,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:52:04+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:49:40+08:00">
+                2020-03-15
               </time>
             
 
@@ -637,8 +483,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:52:31+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:51:16+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -656,8 +502,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -695,7 +541,12 @@
       
         
           
-            <p>连接原理和配置<br>    HBase Master是服务器负责管理所有的HRegion服务器，HBase Master并不存储HBase服务器的任何数据，HBase 逻辑上的表可能会划分为多个 HRegion，然后存储在 HRegion Server 群中，HBase Master Server 中存储的是从数据到 HRegion Server 的映射。<br>    一台机器只能运行一个HRegion服务器，数据的操作会记录在Hlog中，在读取数据时候，HRegion会先访问Hmemcache缓存，如缓存中没有数据才回到Hstore中上找，每一个列都会有一个Hstore集合，每个Hstore集合包含了很多具体的HstoreFile文件， 这些文件是B树结构的，方便快速读取。<br>    HBaseConfiguration是每一个hbase client都会使用到的对象，它代表的是HBase配置信息。它有两种构造方式：<br>public HBaseConfiguration()<br>public HBaseConfiguration(final Configuration c)<br>    默认的构造方式会尝试从classpath中的hbase-default.xml和hbase-site.xml中读取配置。如果 classpath 没有这两个文件，就需要你自己设置配置。<br>Configuration HBASE_CONFIG = new Configuration();<br>HBASE_CONFIG.set(“hbase.zookeeper.quorum ”,“zkServer”);<br>HBASE_CONFIG.set(“hbase.zookeeper.property.clientPort”,“2181″);<br>HBaseConfiguration cfg = newHBaseConfiguration(HBASE_CONFIG);<br>创建表 ：<br>    创建表是通过 HBaseAdmin 对象来操作的。HBaseAdmin 负责表的META信息处理。 HBaseAdmin提供了createTable这个方法：<br>public void createTable(HTableDescriptor desc)<br>HTableDescriptor代表的是表的schema, 提供的方法中比较有用的有<br>    ◦    setMaxFileSize，指定最大的 region size<br>    ◦    setMemStoreFlushSize，指定 memstore flush 到 HDFS 上的文件大小<br>    ◦    增加 family 通过 addFamily 方法<br>public void addFamily(final HColumnDescriptorfamily)<br>HColumnDescriptor代表的是 column 的 schema，提供的方法比较常用的有<br>    ◦    setTimeToLive:指定最大的 TTL,单位是 ms,过期数据会被自动删除。<br>    ◦     setInMemory:指定是否放在内存中，对小表有用，可用于提高效率。默认关闭<br>    ◦    setBloomFilter:指定是否使用 BloomFilter,可提高随机查询效率。默认关闭<br>    ◦    setCompressionType:设定数据压缩类型。默认无压缩。<br>    ◦    setMaxVersions:指定数据最大保存的版本个数。默认为 3。<br>一个简单的例子，创建了 4 个 family 的表：<br>HBaseAdmin hAdmin = new HBaseAdmin(hbaseConfig);<br>HTableDescriptor t = newHTableDescr iptor(tableName);<br>t.addFamily(new HColumnDescriptor( “f1″));<br>t.addFamily(new HColumnDescriptor( “f2″));<br>t.addFamily(new HColumnDescriptor( “f3″));<br>t.addFamily(new HColumnDescriptor( “f4″));<br>hAdmin.createTable(t);<br>删除表 ：<br>    删除表也是通过 HBaseAdmin来操作，删除表之前首先要disable表。这是一个非常耗时的操作，所以不建议频繁删除表。<br>disableTable 和 deleteTable 分别用来 disable 和 delete 表。<br>Example:<br>HBaseAdmin hAdmin = new HBaseAdmin(hbaseConfig);<br>if (hAdmin.tableExists(tableName)) {<br>hAdmin.disableTable(tableName);<br>hAdmin.deleteTable(tableName);<br>}<br>查询数据 ：<br>    查询分为单条随机查询和批量查询。<br>    单条查询是通过rowkey在table中查询某一行的数据。HTable提供了get方法来完成单条查询。<br>    批量查询是通过制定一段rowkey的范围来查询。HTable提供了个getScanner方法来完成批量查询。<br>public Result get(final Get get)<br>public ResultScanner getScanner(final Scan scan)<br>    Get 对象包含了一个 Get 查询需要的信息。它的构造方法有两种：<br>publicGet(byte [] row)<br>publicGet(byte [] row, RowLock rowLock)<br>    Rowlock是为了保证读写的原子性，你可以传递一个已经存在 Rowlock，否则 HBase 会自动生成一个新的rowlock。<br>    Scan 对象提供了默认构造函数，一般使用默认构造函数。<br>    Get/Scan 的常用方法有：<br>    ◦    addFamily/addColumn，指定需要的family或者 column, 如果没有调用任何addFamily或者Column,会返回所有的columns。<br>    ◦    setMaxVersions，指定最大的版本个数。如果不带任何参数调用 setMaxVersions,表示取所有的版本。如果不调用setMaxVersions,只会取到最新的版本。<br>    ◦    setTimeRange，指定最大的时间戳和最小的时间戳，只有在此范围内的cell才能被获取。<br>    ◦    setTimeStamp，指定时间戳。<br>    ◦    setFilter，指定 Filter 来过滤掉不需要的信息<br>    Scan 特有的方法：<br>    ◦    setStartRow，指定开始的行。如果不调用，则从表头开始。<br>    ◦    setStopRow，指定结束的行（不含此行）。<br>    ◦     setBatch，指定最多返回的Cell数目。 用于防止一行中有过多的数据 ， 导致OutofMemory 错误。<br>    ResultScanner 是 Result 的一个容器，每次调用 ResultScanner 的 next 方法，会 返回 Result。<br>public Result next() throws IOException;<br>public Result [] next(int nbRows) throwsIOException;<br>    Result 代表是一行的数据。常用方法有：<br>    ◦    getRow，返回 rowkey<br>    ◦    raw，返回所有的 key value 数组<br>    ◦    getValue，按照 column 来获取 cell 的值<br>Example:<br>Scan s = new Scan();<br>s.setMaxVersions();<br>ResultScanner ss = table.getScanner(s);<br>for(Result r:ss){<br>    System.out.println(new String(r.getRow()));<br>    for(KeyValue kv:r.raw()){<br>    System.out.println(newString(kv.getCo lumn()));<br>    }<br>}<br>插入数据 ：<br>    HTable 通过 put 方法来插入数据。<br>public void put(final Put put) throws IOException<br>public void put(final List puts) throws IOException<br>    可以传递单个批 Put 对象或者 List put 对象来分别实现单条插入和批量插入。 Put 提供了 3 种构造方式：<br>public Put(byte [] row)<br>public Put(byte [] row, RowLock rowLock)<br>public Put(Put putToCopy)<br>    Put 常用的方法有：<br>    ◦     add，增加一个 Cell<br>    ◦    setTimeStamp: 指 定所 有 cell 默 认的 timestamp, 如 果 一 个 Cell 没 有指 定 timestamp, 就会用到这个值 。 如果没有调用， HBase 会将当前时间作为未指定 timestamp 的 cell 的 timestamp。<br>    ◦    setWriteToWAL: WAL 是 Write Ahead Log 的缩写，指的是 HBase 在插入操作前是否写Log。默认是打开，关掉会提高性能，但是如果系统出现故障(负责插入的RegionServer挂掉)，数据可能会丢失。<br>    另外 HTable 也有两个方法也会影响插入的性能：<br>    ◦    setAutoFlash: AutoFlush 指的是在每次调用 HBase 的 Put 操作，是否提交到HBase Server。默认是 true,每次会提交。如果此时是单条插入，就会有更多的 IO,从而降低性能.<br>    ◦    setWriteBufferSize: Write Buffer Size 在 AutoFlush 为 false 的时候起作用， 默认是 2MB,也就是当插入数据超过 2MB,就会自动提交到 Server<br>Example:<br>HTable table = new HTable(hbaseConfig, tableName);<br>table.setAutoFlush(autoFlush);<br>List lp = new ArrayList();<br>int count = 10000;<br>byte[] buffer = new byte[1024];<br>Random r = new Random();<br>for (int i = 1; i &lt;= count; ++i) {<br>    Put p= new Put(String.format(“row%09d”,i).getBytes());<br>    r.nextBytes(buffer);<br>    p.add(“f1″.getBytes(), null, buffer);<br>    p.add(“f2″.getBytes(), null, buffer);<br>    p.add(“f3″.getBytes(), null, buffer);<br>    p.add(“f4″.getBytes(),null, buffer);<br>    p.setWriteToWAL(wal);<br>    lp.add(p);<br>    if(i%1000==0){<br>        table.put(lp);<br>        lp.clear();<br>    }<br>}<br>删除数据 ：<br>    HTable 通过 delete 方法来删除数据。<br>public voiddelete(final Delete delete)<br>    Delete 构造方法有：<br>public Delete(byte [] row)<br>public Delete(byte [] row, long timestamp, RowLockrowLock)<br>public Delete(final Delete d)<br>    Delete 常用方法有：<br>    ◦    deleteFamily/deleteColumns，指定要删除的family或者column的数据。如不调用任何这样的方法，将会删除整行。<br>注意：如果某个 Cell 的 timestamp 高于当前时间，这个 Cell 将不会被删除，仍然可以查出来。<br>Example:<br>HTable table = new HTable(hbaseConfig, “mytest”);<br>Delete d = new Delete( “row1″.getBytes());<br>table.delete(d)<br>切分表：<br>    HBaseAdmin 提供 split方法来将table进行 split.<br>public void split(final StringtableNameOrRegionName)<br>    如果提供的tableName， 那么会将 table 所有 region 进行 split ; 如果提供的 regionName，那么只会 split 这个 region.<br>    由于 split 是一个异步操作，我们并不能确切的控制 region 的个数。<br>Example:<br>public void split(String tableName,int number,inttimeout) throws Exception {<br>    Configuration HBASE_CONFIG = new Configuration();<br>    HBASE_CONFIG.set(“hbase.zookeeper.quorum”， “ GlobalConf.ZOOKEEPER_QUORUM);<br>    HBASE_CONFIG.set( “ hbase.zookeeper.property.clientPort ” ,GlobalCon     f.ZOOKEEPER_PORT);<br>    HBaseConfiguration cfg = new HBaseConfiguration(HBASE_CONFIG);<br>    HBaseAdmin hAdmin = new HBaseAdmin(cfg);<br>    HTablehTable = new HTable(cfg,tableName);<br>    intoldsize = 0;<br>    t = System.currentTimeMillis();<br>    while(true){<br>        intsize = hTable.getRegionsInfo().size();<br>        logger.info(“the region number=”+size);<br>        if(size&gt;=number ) break;<br>        if(size!=oldsize){<br>            hAdmin.split(hTable.getTableName());<br>            oldsize = size;<br>        } elseif(System.currentTimeMillis() -t&gt;timeout){<br>            break;<br>        }<br>        Thread.sleep(1000*10);<br>    }<br>} </p>
+            <p>架构介绍<br>        docker采用的是c/s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信<br>组件介绍<br>    •    Docker Client：docker服务端的远程控制器，最常用的docker客户端是docker命令，也可以通过restapi与服务器通信<br>    •    Docker Server：docker doemoon是服务器组件，以linux后台服务的方式运行在docker host上，负责创建、运行、监控容器，构建、存储镜像<br>    •    Image：可以将docker镜像看做只读模版，通过它可以创建docker同期，例如某个镜像可能包含一个Linux操作系统、一个Apache HTTP Server，以及用户开发的Web应用。惊喜那个可以有多种生成方法，可以从无到有开始创建镜像，也可以下载并使用别人创建好的现成镜像，还可以在现有镜像的基础上创建新的镜像。我们可以将镜像的内容和创建的步骤描述在一个文本文件中，这个文件被称作dockerfile。通过执行docker build命令可以创建出镜像。<br>    •    Container：docker容器就是docker镜像的运行实例，用户可以通过CLI或者API启动、停止、移动或者删除容器，可以这么任务，镜像是软件生命周期的构建和打包阶段，而容器则是启动和运行阶段<br>    •    Registry：registry是存放docker镜像的仓库，registry分私有和公有两种。docekrhub是默认的registry，由docker公司维护。出于对速度和安全的考虑，用户可以创建自己的registry。dockerpull命令可以从registry下载镜像，docker run命令是先下载（如果本地没有），然后在启动容器。<br>    •    Volume：将物理机的文件夹挂载到容器的内部<br>    •    Dockerfile：用于创建镜像的脚本<br>docker常用命令 </p>
+<p>命令<br>解释<br>常用可选项<br>docker info<br>查看docker相关信息</p>
+<p>docker image<br>查看运行的镜像<br>-a：列出所有安装的镜像<br>-f：根据条件过滤<br>-q：仅列出镜像id<br>docker search imageid/name<br>搜索镜像<br>-f：根据条件筛选</p>
+<p>docker pull imid/name           下载镜像<br>docker create imid/name command   创建一个容器（未运行）<br>docker run imid/name command      创建并运行容器<br>         —-name                       为容器命名<br>         -d                           以后台daemon的方式运行<br>         -it                          进入交互模式<br>         -v /path1:/path2             将host的/path1(存在)挂到容器的/path2目录(不存在)<br>         -p &lt;h_port:c_port&gt;           映射host端口到容器，方便外部访问容器内部服务<br>docker rmi imid/name               删除镜像<br>docker start/stop/restart/pause/unpause cid/name  启动/停止/重启/暂停/恢复(已创建的)容器<br>docker exec &lt;cid/name&gt; command    在运行中的容器上执行命令<br>        -d<br>        -it<br>docker kill cid/name    杀死容器<br>docker ps    查看容器<br>        -l   列出最近一次启动的容器<br>        -a   列出所有运行过的容器<br>         -q   仅仅列出容器的id<br>docker inspect cid/name    查看容器详细信息<br>docker logs containerid    查看容器日志<br>         -f    以滚动形式查看日志<br>        -t        显示日志的时间<br>        –tail num 显示尾部n条日志<br>docker commit cid newimname    保存修改后的容器形成新的镜像<br>docker rm cid/name    移除已经停止的容器<br>         -f    强制删除正在运行的容器<br>docker rm ·docker ps -a -q·    删除所有的容器<br>docker state    containerid    查看容器使用的资源<br>docker attach cid/name     将一个标准输入/输出/错误流接入运行的容器上</p>
+<p>DockerFile的指令<br>FROM<br>MAINTAINER<br>RUN<br>EXPOSE<br>CMD<br>ENTERYPOINT<br>ADD<br>COPY<br>VOLUME<br>WORKDIR<br>ENV<br>USER<br>ONBUILD</p>
+<p>linux的虚拟网桥docker0<br>特点：<br>可以设置IP地址<br>相当于拥有一个隐藏的虚拟网卡<br>docker0的地址划分：<br>IP：172.17.42.1<br>子网掩码：255.255.0.0<br>MAC：02:42:ac:00:00到02:42:ac:11:ff:ff<br>总共提供了65534个地址</p>
 
           
         
@@ -744,7 +595,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E7%AE%A1%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%B7%A5%E5%85%B7/Keepalive/Keepalive%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -763,7 +614,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E7%AE%A1%E7%90%86/" itemprop="url">Hbase核心—表的管理</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%B7%A5%E5%85%B7/Keepalive/Keepalive%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">Keepalive基础—安装配置</a></h1>
         
 
         <div class="post-meta">
@@ -775,8 +626,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:51:02+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:47:04+08:00">
+                2020-03-15
               </time>
             
 
@@ -791,8 +642,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:53:29+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:47:56+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -849,7 +700,7 @@
       
         
           
-            <p>表管理的方式<br>            Master webUI<br>            Hbase shell 管理表       ddl命令组<br>                表的enable disable<br>            Hbase shell 访问数据        dml命令组<br>                管理hbase:meta<br>            Hbase shell管理集群        tools命令组<br>            Hbase shell 执行java方法    用于分区类<br>            row counter 统计条目数<br>            hbase hlog 预写日志分析工具<br>            hbase hfile HFile文件分析工具<br>            HBase hbck 检查HBase集群的健康状况分析<br>                -fix<br>                -fixmeta </p>
+            <p>KeepAlived安装配置<br>keepalived介绍：<br>    keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。<br>安装keepalived：<br>准备：需要安装服务的机器有两块网卡，一块给vip使用，两台机器时间必须同步<br>配置keepalived：<br>    notification_email* 邮件配置：收件人、smtp服务器、发件人<br>    vrrp_instance  虚拟路由器的标识符，名称可以任意取，可以不用改<br>        state    该节点的状态，master或backup<br>        interface    选举通过的网卡端口<br>        virtual_router_id  虚拟路由id，不能大于255<br>        priority        初始化有限级权重<br>        authentication    用户认证机制<br>        virtual_ipaddress  vip配置<br>    vrrp_script    定义keepalived的检测机制，名称自定义<br>        script    执行脚本，执行失败则权重降低<br>        interval   间隔时间（s）<br>        weigth    条件成立权重变化 </p>
 
           
         
@@ -898,7 +749,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%B7%A5%E5%85%B7/Haproxy/Haproxy%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -917,7 +768,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/" itemprop="url">Hbase核心—表属性详解</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%B7%A5%E5%85%B7/Haproxy/Haproxy%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">Haproxy基础—安装配置</a></h1>
         
 
         <div class="post-meta">
@@ -929,8 +780,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:50:02+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:46:06+08:00">
+                2020-03-15
               </time>
             
 
@@ -945,8 +796,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:50:35+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:47:44+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1003,7 +854,24 @@
       
         
           
-            <p>列簇字典<br>            NAME，列簇名称<br>            DATA_BLOCK_ENCODING，数据块编码<br>            BLOOM FILTER ，数据结构BLOOM过滤器，用于建索引<br>            VERSIONS，Cell版本数量<br>            MIN_VERSIONS，最小Cell版本数量<br>            COMPRESSION，压缩<br>                配置HBase压缩<br>                    。。。<br>                创建表时配置压缩属性<br>                配置hbase-site.xml中的压缩属性，重启regionserver<br>            IN_MEMORY，<br>            BLOCK_CACHE，<br>                读取数据时，会按照以下顺序查找<br>                    》MemStore<br>                    》BlockCache -〉每个regionserver只有一个<br>                    》hfile<br>                    把读的数据放入BlockCache。由于BlockCache采用的是LRU策略，因此<br>                    当BlockCache达到上限时，会启动淘汰机制，淘汰最老的一批数据，<br>                    在注重读响应时间的应用场景下，可以将BlockCache设置大些。<br>                对BlockCache的分级<br>                    对于整个BlcokCache的内存，各级别的比例<br>                    single、multi、inmemory  0.25 0.5 0.25<br>                    Inmemory队列用于保存HBaseMeta元数据信息，如股票数据量很大的<br>                    用户表设置为inmemory的话，可能会导致Meta表缓存失效，进而对<br>                    集群性能产生影响<br>                RegionServer的内存消耗<br>                    write时，MemStore    40%<br>                    read时，BlockCache    40%<br>                    other    20% </p>
+            <p>HAproxy安装配置<br>HAproxy介绍：<br>    HAproxy是一个开源的、高性能的基于HTTP（7层）和TCP（4层）应用代理的高可用，负载均衡服务软件。它支持双热备，高可用，负载均衡。有图形界面。<br>安装 HAproxy：<br>    yum install -y haproxy<br>启动 HAproxy：<br>    haproxy -f ./haproxy.cfg<br>配置 HAproxy：<br>    vi /etc/haproxy/haproxy.cfg</p>
+<pre><code>global 
+    log 127.0.0.1 local0 info #日志输出配置 
+    daemon #后台方式运行 
+    pidfile #pid记录文件 
+defaults 
+    mode #采用模式，默认http 
+    maxconn #最大连接数 
+    contimeout #连接超时时间 
+    clitimeout #客户端连接超时时间 
+    srvtimeout #服务端连接超时时间 
+    retries #失败重连接次数 
+frontend前端节点定义 
+    acl #控制策略配置 
+backend后端节点定义 
+    balance #负载均衡策略,roundrobin，轮询;static-rr，基于权重轮询;source，源地址hash
+server #真实服务器配置 
+listen #监听端口 </code></pre><p>三大负载均衡工具<br>    LVS:工作在网路4层,以vrrp协议转发；抗负载能力强,耗能低；配置复杂，网络依赖强<br>    Ngnix：工作在7层,针对http做分流；抗负载能力强;仅支持http/https/email协议；配置简单<br>    HaProxy :</p>
 
           
         
@@ -1052,7 +920,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Sentry/Sentry%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1071,7 +939,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F/" itemprop="url">Hbase核心—数据加载的方式</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Sentry/Sentry%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">Sentry基础—安装配置</a></h1>
         
 
         <div class="post-meta">
@@ -1083,8 +951,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:48:54+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:44:43+08:00">
+                2020-03-15
               </time>
             
 
@@ -1099,8 +967,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:49:32+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:45:36+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1157,7 +1025,9 @@
       
         
           
-            <p>使用Hbase的PUT API<br>使用HBase的bulkload tool ：   十分重要<br>            将数据文件直接转换成HFile格式文件，然后采取load的方式加载到HBase<br>            可以完成巨量数据的快速入库<br>            配合MR完成，高效便捷，而且不占用region资源，增添负载，在大数据量<br>                写入时能极大的提高写入效率，并降低对Hbase节点的写入压力，<br>                消除了对HBase集群的插入压力<br>                提高了job的运行速度，降低了job的执行时间<br>使用自定义的MR job：<br>            通常MR在写hbase时使用的是TableOutputFormat方式，在reduce中直接生成put对象<br>            写入Hbase，该方式在大量数据量写入时效率低下，（Hbase汇block写入，频繁<br>            进行flush，split，compact等大量的IO操作），并对HBase节点的稳定性造成一定<br>            的影响（GC时间过长，响应过慢，导致节点超时退出，并引起一系列的连锁<br>            反应 </p>
+            <p>安装sentry<br>Sentry简介：<br>    Apache Sentry 是Cloudera公司发布的一个Hadoop开源组件，截止目前还是Apache的孵化项目，它提供了细粒度级、基于角色的授权以及多租户的管理模式。Sentry当前可以和Hive/Hcatalog、Apache Solr 和Cloudera Impala集成，未来会扩展到其他的Hadoop组件，例如HDFS和HBase.<br>安装准备：<br>    1.    采用rpm包的安装方式<br>    2.    使用sudo权限的普通用户或者root<br>    3.    已经安装了java、cdh、hive、impala、mysql等<br>    4.    下载安装包<br>sentry-xxx+cdh-xxx.rpm<br>sentry-hdfs-plugin-xxx+cdh-xxx.rpm<br>sentry-store-xxx+cdh-xxx.rpm<br>开始安装：<br>rpm -ivh –nodeps sentry-xxx+cdh-xxx.rpm<br>rpm -ivh –nodeps sentry-hdfs-plugin-xxx+cdh-xxx.rpm<br>rpm -ivh –nodeps sentry-store-xxx+cdh-xxx.rpm<br>替换jar包：<br>    替换/usr/lib/sentry/lib/内的Hadoop、Hive、Impala、Hbase、Zookeeper、Parquet、Avro等jar包，分别在Hadoop、Hive、Hbase等里的安装目录里一一找到的<br>拷贝mysql驱动到sentry的lib目录内：</p>
+<p>配置sentry：<br>vim /etc/sentry/conf/sentry-site.xml<br><?xmlversion="1.0" encoding="UTF-8"?><br><configuration><br>    <property><br>       <name>sentry.service.security.mode</name><br>        <value>none</value><br>    </property><br>    <property><br>       <name>sentry.service.admin.group</name><br>        <value>impala,hive</value><br>    </property><br>    <property><br>       <name>sentry.service.allow.connect</name><br>        <value>impala,hive</value><br>    </property><br>    <property><br>        <name>sentry.verify.schema.version</name><br>        <value>true</value><br>    </property><br>    <property><br>   <name>sentry.service.server.rpc-address</name><br>    <value>hostname</value><br>    </property><br>    <property><br>   <name>sentry.service.server.rpc-port</name><br>    <value>8038</value><br>    </property><br>    <property><br>       <name>sentry.store.jdbc.url</name><br>       <value>jdbc:mysql://localhost:3306/sentry</value><br>    </property><br>    <property><br>       <name>sentry.store.jdbc.driver</name><br>        <value>com.mysql.jdbc.Driver</value><br>    </property><br>    <property><br>       <name>sentry.store.jdbc.user</name><br>        <value>sentry</value><br>    </property><br>    <property><br>       <name>sentry.store.jdbc.password</name><br>        <value>sentry</value><br>    </property><br>    <property><br>       <name>sentry.hive.server</name><br>        <value>hostname</value><br>    </property><br>    <property><br>       <name>sentry.store.group.mapping</name><br>       <value>org.apache.sentry.provider.common.HadoopGroupMappingService</value><br>    </property><br><br>初始化Sentry元数据：<br>sentry –command schema-tool –conffile/etc/sentry/conf/sentry-site.xml –dbType mysql –initSchema</configuration></p>
+<p>管理sentry<br>启动sentry：<br>sudo service sentry-store start</p>
 
           
         
@@ -1206,7 +1076,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E9%AB%98%E5%8F%AF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Kerberos/Keerberos%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1225,7 +1095,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E9%AB%98%E5%8F%AF%E7%94%A8/" itemprop="url">Hadoop核心—Yarn高可用</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Kerberos/Keerberos%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">Kerberos基础—安装配置</a></h1>
         
 
         <div class="post-meta">
@@ -1237,8 +1107,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:43:08+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:43:26+08:00">
+                2020-03-15
               </time>
             
 
@@ -1253,8 +1123,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:43:40+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:44:22+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1311,7 +1181,14 @@
       
         
           
-            <p>// 正在整理中</p>
+            <p>Kerberos安装</p>
+<p>创建kerberos的principle和keytab文件<br>创建kerberos的principle：<br>登陆kadmin<br>kadmin.local #在KDC本机登陆<br>kadmin -p root/admin@LIUDF.COM #非kdc节点登陆<br>添加principle<br>kadmin: add_principal <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a><br>Enter password for principal “<a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>“: password<br>Re-enter password for principal “<a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>“: password<br>生成keytab：<br>add_entry -password -p principal_name -k number -e encryption_type for each encryption type<br>[root@test5~]#ktutil</p>
+<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des3-cbc-sha1-kd<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
+<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e arcfour-hmac-md5<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
+<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des-hmac-sha1<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
+<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des-cbc-md5<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
+<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des-cbc-md4<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>:</p>
+<p>ktutil: wkt /home/parallels/liudongfei.keytab<br>ktutil: q<br>验证keytab：<br>[root@test5~]#kinit -k -t /home/parallels/liudongfei.keytab <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a></p>
 
           
         
@@ -1360,7 +1237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94NM%E5%92%8CDN%E5%90%AF%E5%8A%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1379,7 +1256,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94NM%E5%92%8CDN%E5%90%AF%E5%8A%A8/" itemprop="url">Hadoop核心—NM和DN启动</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Quartz基础—基本概述</a></h1>
         
 
         <div class="post-meta">
@@ -1391,8 +1268,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:41:50+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:38:10+08:00">
+                2020-03-15
               </time>
             
 
@@ -1407,8 +1284,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:42:44+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:42:56+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1465,7 +1342,80 @@
       
         
           
-            <pre><code>Hdfs的设计理念，一次写入，多次读取</code></pre><p>Namenode启动<br>    在nn首次启动之前，需要进行nn的format命令，目的是生成初始化的fsimage，用于nn首次启动时进行读取。启动过程如下：<br>    1.    nn从本地磁盘读取fsimage和edits文件（首次启动不需要读取edits文件）<br>    2.    nn回滚edits文件生成新的edits文件，dump最新的fsimage文件<br>    3.    Nn进入安全模式，此时不能接受改变hdfs的命名空间的请求，等待dn进行数据块的报告，检查块的熟练达到指定的阈值时（99.999%），退出安全模式<br>    4.    接收客户端请求，进行对外数据读写服务和集群内部数据的副本维护任务（周期性的接受DN的心跳和块报告）<br>Datanode启动<br>    dn的启动过程如下：<br>    1.    首先向nn进行服务注册register<br>    2.    向nn进行本节点的数据块的报告<br>    3.    周期性（默认1h）向nn上汇报所有的块信息，心跳是3s一次，心跳带回的结果是nn给dn的命令，如复制或删除某个块，超过10min没有收到dn的心跳，则该节点不可用<br>    4.    对外提供数据文件内容的读写请求 </p>
+            <p>Quartz概要介绍<br>    Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。<br>    Quartz用一个小Java库发布文件（.jar文件），这个库文件包含了所有Quartz核心功能。这些功能的主要接口(API)是Scheduler接口。它提供了简单的操作，例如：将任务纳入日程或者从日程中取消，开始/停止/暂停日程进度。<br>Quartz定时器的种类<br>    Quartz 中五种类型的 Trigger：<br>    ⁃    SimpleTrigger<br>    ⁃    CronTirgger<br>    ⁃    DateIntervalTrigger<br>    ⁃    NthIncludedDayTrigger<br>    ⁃    Calendar<br>Quartz的元数据存储方式</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RAMJobStore</td>
+<td>不要外部数据库，配置容易，运行速度快</td>
+<td>调度信息存储在JVM内存，当应用程序停止运行时，所有调度信息将被丢失。另外因为存储到JVM内存里面，所以可以存储多少个Job和Trigger将会受到限制</td>
+</tr>
+<tr>
+<td>JDBCJobStore</td>
+<td>支持集群；所有任务信息都会保存到数据库中，可以控制事务；应用服务器关闭或者重启，任务信息都不会丢失，可以恢复因服务器关闭或者重启而导致执行失败的任务</td>
+<td>运行速度的快慢取决与连接数据库的快慢</td>
+</tr>
+</tbody></table>
+<p>Quartz表关系和解释<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842472259091.jpg" alt="-w661"></p>
+<table>
+<thead>
+<tr>
+<th>表名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>qrtz_blob_triggers</td>
+<td>Trigger作为Blob类型存储(用于Quartz用户用JDBC创建他们自己定制的Trigger类型，JobStore 并不知道如何存储实例的时候)</td>
+</tr>
+<tr>
+<td>qrtz_calendars</td>
+<td>以Blob类型存储Quartz的Calendar日历信息， quartz可配置一个日历来指定一个时间范围</td>
+</tr>
+<tr>
+<td>qrtz_cron_triggers</td>
+<td>存储Cron Trigger，包括Cron表达式和时区信息。</td>
+</tr>
+<tr>
+<td>qrtz_fired_triggers</td>
+<td>存储与已触发的Trigger相关的状态信息，以及相联Job的执行信息</td>
+</tr>
+<tr>
+<td>qrtz_job_details</td>
+<td>存储每一个已配置的Job的详细信息</td>
+</tr>
+<tr>
+<td>qrtz_locks</td>
+<td>存储程序的非观锁的信息(假如使用了悲观锁)</td>
+</tr>
+<tr>
+<td>qrtz_paused_trigger_graps</td>
+<td>存储已暂停的Trigger组的信息</td>
+</tr>
+<tr>
+<td>qrtz_scheduler_state</td>
+<td>存储少量的有关 Scheduler的状态信息，和别的 Scheduler 实例(假如是用于一个集群中)</td>
+</tr>
+<tr>
+<td>qrtz_simple_triggers</td>
+<td>存储简单的 Trigger，包括重复次数，间隔，以及已触的次数</td>
+</tr>
+<tr>
+<td>qrtz_triggers</td>
+<td>存储已配置的 Trigger的信息</td>
+</tr>
+<tr>
+<td>qrzt_simprop_triggers</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Quartz的核心类<br>    QuartzSchedulerThread：负责执行向QuartzScheduler注册的触发Trigger的工作的线程。<br>    ThreadPool：Scheduler使用一个线程池作为任务运行的基础设施，任务通过共享线程池中的线程提供运行效率。<br>    QuartzSchedulerResources：包含创建QuartzScheduler实例所需的所有资源（JobStore，ThreadPool等）。<br>    SchedulerFactory ：提供用于获取调度程序实例的客户端可用句柄的机制。<br>    JobStore： 通过类实现的接口，这些类要为org.quartz.core.QuartzScheduler的使用提供一个org.quartz.Job和org.quartz.Trigger存储机制。作业和触发器的存储应该以其名称和组的组合为唯一性。<br>    QuartzScheduler ：这是Quartz的核心，它是org.quartz.Scheduler接口的间接实现，包含调度org.quartz.Jobs，注册org.quartz.JobListener实例等的方法。<br>    Scheduler ：这是Quartz Scheduler的主要接口，代表一个独立运行容器。调度程序维护JobDetails和触发器的注册表。 一旦注册，调度程序负责执行作业，当他们的相关联的触发器触发（当他们的预定时间到达时）。<br>    Trigger ：具有所有触发器通用属性的基本接口，描述了job执行的时间出发规则。 - 使用TriggerBuilder实例化实际触发器。<br>    JobDetail ：传递给定作业实例的详细信息属性。 JobDetails将使用JobBuilder创建/定义。<br>    Job：要由表示要执行的“作业”的类实现的接口。只有一个方法 void execute(jobExecutionContext context)<br>    (jobExecutionContext 提供调度上下文各种信息，运行时数据保存在jobDataMap中)<br>    Job有个子接口StatefulJob ,代表有状态任务。有状态任务不可并发，前次任务没有执行完，后面任务处于阻塞等到。</p>
 
           
         
@@ -1514,7 +1464,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%8F%8A%E8%B0%83%E5%BA%A6/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Oozie/Oozie%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1533,7 +1483,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%8F%8A%E8%B0%83%E5%BA%A6/" itemprop="url">Hadoop核心—Yarn资源管理及调度</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Oozie/Oozie%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Oozie基础—基本概述</a></h1>
         
 
         <div class="post-meta">
@@ -1545,8 +1495,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:40:39+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:37:12+08:00">
+                2020-03-15
               </time>
             
 
@@ -1561,8 +1511,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:41:19+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:37:51+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1619,7 +1569,7 @@
       
         
           
-            <p>// 正在整理中</p>
+            <p>Hadoop的调度框架<br>    crontab<br>    Azkaban，<br>    Oozie，由Cloudera开源<br>    Zeus，由阿里开源<br>功能架构<br>    一个Oozie的job，就是一个MR的程序，只有map任务<br>    需要部署到Java Servlet容器（tomcat）中运行<br>    提供流程定义语言hPDL，通过XML文件格式来实现流程的定义<br>    定义了控制流节点（Control Flow Nodes）和动作节点（Action Nodes）<br>    控制流节点定义了流程的开始和结束，以及控制流程的执行路径。<br>    Workflow功能<br>    Coordinator功能<br>    Bundle功能<br>Oozie安装（结合官方文档）<br>    配置core-site.xml，添加Oozie的用户代理<br>    配置oozie-site.xml，配置hadoop的配置目录。<br>    配置oozie-site.xml，配置时区<br>    配置数据库驱动，url，username，password<br>    拷贝mysql的jar到lib下<br>    下载extjs2.2.zip<br>    解压hadooplibs到当前目录<br>    拷贝hadooplibs中的jar到新建libext目录下<br>    将extjs2.2.zip拷贝到libext目录下<br>    打war包<br>    上传jar包daohdfs（启动hdfs）<br>    创建数据库<br>Oozie的基本使用<br>    一个workflow的组成<br>        job.properties，作业的配置信息，及workflow的位置指向<br>        workflow.xml，作业的核心流程控制脚本<br>        coordinator.xml，调度时间配置<br>        lib，存放作业中需要调用的jar<br>        file/script，存放作业中需要调度的脚本或者环境的配置脚本<br>    各种Action的使用<br>        Mapreduce的Action<br>        Hive的Action<br>        Sqoop的Action<br>        Shell的Action<br>Oozie的高级使用<br>    Coordinator的使用<br>        两种机制，namely time，data availability<br>        三个属性<br>            startdate<br>            frenquency<br>            enddate<br>        支持UTC时间，修改为GMT+0800<br>        支持EL表达式或cron表达式的时间格式<br>        数据级dataset的定义<br>    Bundle的使用<br>        将一组Coordinator的作业捆绑在一起，进行统一管理 </p>
 
           
         
@@ -1668,7 +1618,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E9%AB%98%E5%8F%AF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Airflow/Airflow%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1687,7 +1637,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E9%AB%98%E5%8F%AF%E7%94%A8/" itemprop="url">Hadoop核心—HDFS高可用</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Airflow/Airflow%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/" itemprop="url">Airflow基础—安装</a></h1>
         
 
         <div class="post-meta">
@@ -1699,8 +1649,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:39:29+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:32:15+08:00">
+                2020-03-15
               </time>
             
 
@@ -1715,8 +1665,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:40:03+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:36:49+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1773,7 +1723,228 @@
       
         
           
-            <p>目标<br>    为了解决NameNode的单点故障（SPOF）问题。<br>HA的核心<br>    1)    如何保持两个NameNode内存中元数据内容的一致<br>    2)    active写edits文件，standby读取edits文件<br>    3)    如何保持edits文件的安全，将edits写入2n+1个JournealNode（进程）中<br>    4)    所有的datanode节点都要向两个NN发送心跳和块报告<br>    5)    客户端访问NN通过proxy进行，由proxy判断哪个NN<br>HA的配置要点（hdfs-site.xml,具体步骤见官网 ）<br>    1)    edits文件共享<br>    2)    两个NN<br>    3)    client访问proxy<br>    4)    fence（隔离，同一时刻只有一个NN对外服务） ，使用的sshfence方法，要求两个NN之间能够免密ssh登录<br>HA的故障自动转移<br>    1)    依赖于ZK<br>    2)    两个NN启动后都是standby，需要选举出一个为active<br>    3)    两个NN的监控，ZKFC进程（就是zk的client）<br>自动故障转移配置<br>    1)    开启故障自动转移，hdfs-site.xml<br>    2)    指定zk集群，core-site.xml </p>
+            <p>Airflow安装文档<br>准备工作，用户准备：<br>useradd airflow<br>useradd –d /home/airflow -m airflow<br>passwd airflow<br>##123456<br>etl_usr 用户，无需用户目录（已创建）<br>准备工作，权限相关准备：<br>•    将hive用户加入到supergroup组中（应急方案）<br>•    etl_usr 在sentry下修改，将Server1 赋给etl_usr（应急方案）<br>准备工作，网络相关准备<br>•    Rabbitmq的防火墙 15672<br>•    Airflow 的防火墙 8081<br>•    Mysql 的防火墙 3306<br>•    Flower 的防火墙 5555<br>准备工作，组件分布：</p>
+<p>| | |PRD|Comments|<br>|—|—|—|<br>|Webserver|bdputil01, bdputil02|监控门户|<br>|scheduler|bdputil01, bdputil02|调度器|<br>|Worker|bdpdata01, bdpdata02|脚本执行|<br>|Queuing service|bdpcm02, bdputil01, bdputil02|消息通讯|<br>|Flower|bdputil01|Worker监控|<br>|元数据节点|Mysql|bdpkylin01, bdpkylin02|ETL元数据|<br>准备工作，组件版本：</p>
+<table>
+<thead>
+<tr>
+<th>组件名称</th>
+<th>组件版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Airflow</td>
+<td>Airflow-1.8.0</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>Mysql-5.6.37</td>
+</tr>
+<tr>
+<td>RabbitMQ</td>
+<td>Rabbitmq-3.3.5</td>
+</tr>
+</tbody></table>
+<p>准备工作，创建key.tab：<br>在bdputil01，bdputil02，bdpdata01，bdpdata02的/home/airflow目录下执行如下命令：<br>ktutil<br>addent -password -p etl_usr@SPD BBIZ.COM -k 1 -e rc4-hmac<br>addent -password -p <a href="mailto:etl_usr@SPDBBIZ.COM">etl_usr@SPDBBIZ.COM</a> -k 1 -e aes256-cts<br>wkt etl_usr.keytab<br>quit<br>准备工作，安装mysql：<br>准备工作，安装rbbitmq：</p>
+<p>安装airflow及相关依赖：</p>
+<p>安装依赖包：<br>在所有节点，执行以下操作：<br>yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel python-devel wget cyrus-sasl-devel.x86_64<br>安装pip：<br>安装gcc：<br>安装airflow相关组件及pip依赖<br>安装airflow-scheduler-failover-controller<br>安装MYSQL-python：<br>在所有组件节点上<br>yum install MySQl-python<br>failover免密<br>在scheduler所在的节点上做airflow用户的免密操作，免密登录本机与其他机器。<br>配置airflow<br>在所有组件节点上配置环境变量<br>vi /etc/profile 在末尾添加上<br>export AIRFLOW_HOME=/home/airflow<br>PATH=$PATH:$AIRFLOW_HOME<br>export PATH<br>source /etc/profile<br>修改配置文件<br>修改所有组件节点的airflow配置文件<br>配置文件路径：/home/airflow/airflow.cfg</p>
+<h1 id="The-executor-class-that-airflow-should-use-Choices-include"><a href="#The-executor-class-that-airflow-should-use-Choices-include" class="headerlink" title="The executor class that airflow should use. Choices include"></a>The executor class that airflow should use. Choices include</h1><h1 id="SequentialExecutor-LocalExecutor-CeleryExecutor"><a href="#SequentialExecutor-LocalExecutor-CeleryExecutor" class="headerlink" title="SequentialExecutor, LocalExecutor, CeleryExecutor"></a>SequentialExecutor, LocalExecutor, CeleryExecutor</h1><p> executor = CeleryExecutor</p>
+<h1 id="The-executor-class-that-airflow-should-use-Choices-include-1"><a href="#The-executor-class-that-airflow-should-use-Choices-include-1" class="headerlink" title="The executor class that airflow should use. Choices include"></a>The executor class that airflow should use. Choices include</h1><h1 id="SequentialExecutor-LocalExecutor-CeleryExecutor-1"><a href="#SequentialExecutor-LocalExecutor-CeleryExecutor-1" class="headerlink" title="SequentialExecutor, LocalExecutor, CeleryExecutor"></a>SequentialExecutor, LocalExecutor, CeleryExecutor</h1><p>sql_alchemy_conn = mysql://airflow:spdb1234@bdpkylin01:3306/airflow</p>
+<h1 id="The-Celery-broker-URL-Celery-supports-RabbitMQ-Redis-and-experimentally"><a href="#The-Celery-broker-URL-Celery-supports-RabbitMQ-Redis-and-experimentally" class="headerlink" title="The Celery broker URL. Celery supports RabbitMQ, Redis and experimentally"></a>The Celery broker URL. Celery supports RabbitMQ, Redis and experimentally</h1><h1 id="a-sqlalchemy-database-Refer-to-the-Celery-documentation-for-more"><a href="#a-sqlalchemy-database-Refer-to-the-Celery-documentation-for-more" class="headerlink" title="a sqlalchemy database. Refer to the Celery documentation for more"></a>a sqlalchemy database. Refer to the Celery documentation for more</h1><h1 id="information"><a href="#information" class="headerlink" title="information."></a>information.</h1><p>broker_url = amqp://guest:spdb1234@bdputil01:5673</p>
+<h1 id="Another-key-Celery-setting"><a href="#Another-key-Celery-setting" class="headerlink" title="Another key Celery setting"></a>Another key Celery setting</h1><p>celery_result_backend = db+mysql://airflow:spdb1234@bdpkylin01:3306/airflow</p>
+<h1 id="Default-queue-that-tasks-get-assigned-to-and-that-worker-listen-on"><a href="#Default-queue-that-tasks-get-assigned-to-and-that-worker-listen-on" class="headerlink" title="Default queue that tasks get assigned to and that worker listen on."></a>Default queue that tasks get assigned to and that worker listen on.</h1><p>default_queue = spdb  </p>
+<h1 id="failover获取hostname"><a href="#failover获取hostname" class="headerlink" title="failover获取hostname"></a>failover获取hostname</h1><p>scheduler_nodes_in_cluster = bdputil01,bdputil02<br>airflow_scheduler_start_commant = nohup airflow scheduler &gt;&gt; ~/logs/scheduler.logs</p>
+<p>FAILOVER配置<br> 使用airflow用户在bdputil01和bdputil02上进行如下操作：<br>修改私钥名称<br>mv /home/airflow/.ssh/id_rsa /home/airflow/.ssh/id_rsa.bak<br>做好两台机器的免密登陆，将私钥(id_rsa)拷贝到/home/airflow目录下，修改名称为heartbeat-key<br>备份command_runner.py<br>mv /home/airflow/airflow-scheduler-failover-controller/scheduler_failover_controller/command_runner/command_runner.py /home/airflow/airflow-scheduler-failover-controller/scheduler_failover_controller/command_runner/command_runner.py.bak<br>将{}/command_runner.py复制到/home/airflow/airflow-scheduler-failover-controller/scheduler_failover_controller/command_runner目录下<br>完成上述步骤后，在/home/airflow/airflow-scheduler-failover-controller 执行如下命令进行验证<br>scheduler_failover_controller is_scheduler_running<br>管理Airflow<br>初始化airflow<br>在所有组件节点上，用root用户执行如下操作：<br>chown -R airflow:app /home/airflow<br>在其中一个节点AIRFLOW_HOME下执行：<br>su airflow<br>airflow initdb<br>初始化airflow-failover-controller<br>在scheduler所在节点上初始化<br>用airflow用户，airflow-scheduler-failover-controller目录下，执行如下操作：<br>scheduler-failover-controller init<br>启动web：<br>在webserver所在的节点以airflow用户在/home/airflow目录执行：<br>nohup airflow webserver -p 8081  &gt;&gt; /home/airflow/logs/webserver.logs &amp;<br>启动failover：<br>在scheduler所在节点上以airflow用户在/home/airflow/airflow-scheduler-failover-controller执行：<br>nohup scheduler_failover_controller start  &gt;&gt; /home/airflow/logs/scheduler.logs &amp;<br>启动airflow worker：<br>在worker所在节点上以airflow用户在/home/airflow执行：<br>nohup airflow worker  &gt;&gt; /home/airflow/logs/worker.logs &amp;</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">RabbitMQ基础—知识结构概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:26:54+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:27:42+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.    组件介绍
+1.    常用命令
+a.    列出当前队列、队列信息数量、队列未确认信息数量
+i.    rabbitmqctl list_queues
+ii.    rabbitmqctl list_queues name messages_ready messages_unacknowledged
+a.    列出当前交换机
+i.    rabbitmqctl list_exchanges
+b.    列出当前交换机和队列的绑定
+i.    rabbitmqctl list_bindings
+1.    核心组件
+a.    exchange：
+i.    Direct：通过routing_key指定队列名称
+ii.    Fanout：扇形交换机
+iii.    Headers：
+iv.    topic：主题交换机
+b.    queue：
+c.    Routing_key
+1.    Python 开发
+a.    Pika组件：
+i.    exchange声明
+ii.    queue声明
+iii.    binding声明
+iv.    分发策略声明
+1.    Java 开发
+1.    配置调优 </code></pre><p>安装rabbitmq<br>安装rabbitmq<br>yum install rabbitmq-server<br>rabbitmq-plugins enable rabbitmq_management<br>启动rabbitmq server<br>service rabbitmq-server restart<br>chkconfig rabbitmq-server on<br>更改初始密码<br>rabbitmqctl change_password guest spdb1234<br>RABBITMQ集群搭建</p>
+<ol>
+<li>停止所有节点rabbitmq服务：rabbitmqctl stop</li>
+<li>备份非主节点bdpcm02、bdputil02的erlange.cookie<br>mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.bak</li>
+<li>将主节点bdputil01上的erlange.cookie复制到其他节点/var/lib/rabbitmq目录下。</li>
+<li>修改所有节点上，erlange.cookie的权限<br>chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie<br>chmod 600 /var/lib/rabbitmq/.erlang.cookie</li>
+<li>启动Master节点的rabbitmq进程<br>rabbitmq-server -detached</li>
+<li>在Slave节点上，执行如下操作加入集群<br>#启动rabbitmq<br>1)    rabbitmq-server -detached<br>#停止rabbitmq<br>2)    rabbitmqctl stop_app<br>#将该节点加入集群<br>3)    rabbitmqctl join_cluster rabbit@bdputil01<br>#启动<br>4)    rabbitmqctl start_app<br>#查看集群状态<br>5)    rabbitmqctl cluster_status</li>
+<li>配置高可用参数<br>#打开任意节点的RabbitMQ管理页面<br>ip:15672<br>（上方导航栏）Admin-&gt;（右侧导航栏）Policies<br>#添加配置信息 Add/update a policy<br>Name: ha-all<br>Pattern:<br>spdb<br>Definitions:<br>ha-mode=all<br>ha-sync-mode=automatic<br>Priority: 0</li>
+<li>使用HAProxy做负载均衡<br>使用ps -ef|grep haproxy查找当前执行的配置文件<br>进入配置文件，添加如下内容：<br>listen rabbitmq_admin<br>bind 0.0.0.0:15673<br>server rabbitmq1 bdputil01:15672<br>server rabbitmq2 bdputil02:15672<br>server rabbitmq3 bdpcm02:15672</li>
+</ol>
+<p>listen rabbitmq_cluster<br>    bind 0.0.0.0:5673<br>    #配置TCP模式<br>    mode tcp<br>    option tcplog<br>    #简单的轮询<br>    balance roundrobin<br>    #rabbitmq集群节点配置<br>    server rabbitmq1 bdputil01:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq2 bdputil02:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq3 bdpcm02:5672 check inter 5000 rise 2 fall 2</p>
+<p>4.5    登录web页面查看<br> 使用haproxy的ip查看rabbitmq的状态：<br>url：<a href="http://bdputil01:15673" target="_blank" rel="noopener">http://bdputil01:15673</a><br>user：guest<br> passwd：spdb1234</p>
 
           
         
@@ -1813,7 +1984,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
   </nav>
 
 
@@ -1859,7 +2030,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1881,7 +2052,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Hadoop核心—MR编程模型</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">Kafka基础—知识结构概述</a></h1>
         
 
         <div class="post-meta">
@@ -313,7 +313,1245 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:35:43+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:24:41+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:25:20+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kafka基本概念<br>Producer<br>Consumer<br>Broker<br>Topic<br>Partition<br>Replica<br>Leader<br>Follower<br>AR<br>ISR<br>OSR<br>HW<br>LEO</p>
+<p>序列化器<br>分区器<br>生产拦截器</p>
+<p>反序列化器<br>消费者拦截器<br>再均衡接口<br>分区分配策略<br>自定义分区分配策略<br>消费者协调器<br>__consumer_offsets剖析<br>事务支持</p>
+<p>分区副本分配<br>配置管理<br>优先副本选举<br>分区重分配<br>复制限流<br>性能测试工具<br>控制器<br>分区leader的选举</p>
+<p>日志文件目录布局<br>日志格式V0<br>日志格式V1<br>日志格式V2<br>日志偏移量索引<br>日志事件戳索引<br>日志清理基于时间<br>日志清理基于大小</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/" itemprop="url">Kafka核心—分区分配策略</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:21:47+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:24:02+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Zookeeper在kafka中作用<br>    正如Zookeeper用于分布式系统的协调和促进，Kafka使用Zookeeper也是基于相同的原因。Zookeeeper用于管理、协调Kafka代理。每个Kafka代理都通过Zookeeper协调其他Kafka代理。当Kafka系统中新增了代理或者某个代理故障失效时，Zookeeper将通知生产者和消费者。生产者和消费者据此开始与其他代理协调工作。<br>    Zookeeper在Kafka中扮演的角色：Kafka将元数据信息保存在Zookeeper中，但是发送给Topic本身的数据不会发到Zk上<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/15842461617830.jpg" alt></p>
+<p>kafka的复制原理<br>kafka采用ISR复制机制进行副本同步<br>HW最高水平线，leader和fllower副本已经同步的消息位置<br>LEO每个log的最后一条消息的位置<br>leader负责ISR的维护<br>如果某个fllower的复制的位置落后leader太多或者时间太长，则会被leader剔除ISR列表存入OSR，leader新写入的消息不能立刻被consumer消费，leader会等待ISR中的副本同步后更新HW才可以被消费<br>ack确认选择权<br>1只需要leader确认<br>0不需要任何broker确认<br>all需要ISR队列中的所有broker确认<br>还可以设置最小同步数min.insync..replicas<br>Kafka分区分配策略<br>问题：<br>    ⽤过 Kafka 的同学⽤过都知道，每个 Topic ⼀般会有很多个 partitions。为了使得我们能够及时消费消息， 我们也可能会启动多个 Consumer 去消费， ⽽每个 Consumer ⼜会启动⼀个或多个streams去分别消费 Topic ⾥⾯的数据。 我们⼜知道， Kafka 存在 Consumer Group 的概念， 也就是 group.id ⼀样的 Consumer， 这些 Consumer 属于同⼀个Consumer Group， 组内的所有消费者协调在⼀起来消费订阅主题 (subscribed topics)的所有分区(partition)。 当然， 每个分区只能由同⼀个消费组内的⼀个consumer来消 费。 那么问题来了， 同⼀个 Consumer Group ⾥⾯的 Consumer 是如何知道该消费哪些分区⾥⾯的数据呢？<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/15842461781688.jpg" alt></p>
+<pre><code>如上图，Consumer1 为啥消费的是 Partition0 和 Partition2，⽽不是 Partition0 和 Partition3？这就涉及到 Kafka 内部分区分配策略（Partition Assignment Strategy）了。
+在 Kafka 内部存在两种默认的分区分配策略：Range 和 RoundRobin。 当以下事件发⽣时， Kafka 将会进 ⾏⼀次分区分配：
+•    同⼀个 Consumer Group 内新增消费者
+•    消费者离开当前所属的Consumer Group，包括shuts down 或 crashes
+•    订阅的主题新增分区
+将分区的所有权从⼀个消费者移到另⼀个消费者称为重新平衡（rebalance）， 如何rebalance就涉及到本 ⽂提到的分区分配策略。下⾯我们将详细介绍 Kafka 内置的两种分区分配策略。本⽂假设我们有个名为 T1 的主题， 其包含了10个分区， 然后我们有两个消费者（C1， C2）来消费这10个分区⾥⾯的数据， ⽽且 C1 的 num.streams = 1，C2 的 num.streams = 2。</code></pre><p>Range strategy：<br>    Range策略是对每个主题⽽⾔的， ⾸先对同⼀个主题⾥⾯的分区按照序号进⾏排序， 并对消费者按照字⺟ 顺序进⾏排序。在我们的例⼦⾥⾯，排完序的分区将会是0, 1, 2, 3, 4, 5, 6, 7, 8, 9；消费者线程排完序将会 是C1-0, C2-0, C2-1。 然后将partitions的个数除于消费者线程的总数来决定每个消费者线程消费⼏个分 区。 如果除不尽， 那么前⾯⼏个消费者线程将会多消费⼀个分区。 在我们的例⼦⾥⾯， 我们有10个分区， 3个消费者线程， 10 / 3 = 3， ⽽且除不尽， 那么消费者线程 C1-0 将会多消费⼀个分区， 所以最后分区分 配的结果看起来是这样的：<br>C1-0 将消费 0, 1, 2, 3 分区<br>C2-0 将消费 4, 5, 6 分区<br>C2-1 将消费 7, 8, 9 分区<br>假如我们有11个分区，那么最后分区分配的结果看起来是这样的：<br>C1-0 将消费 0, 1, 2, 3 分区<br>C2-0 将消费 4, 5, 6, 7 分区<br>C2-1 将消费 8, 9, 10 分区<br>假如我们有2个主题(T1和T2)，分别有10个分区，那么最后分区分配的结果看起来是这样的：<br>C1-0 将消费 T1主题的 0, 1, 2, 3 分区以及 T2主题的 0, 1, 2, 3分区<br>C2-0 将消费 T1主题的 4, 5, 6 分区以及 T2主题的 4, 5, 6分区<br>C2-1 将消费 T1主题的 7, 8, 9 分区以及 T2主题的 7, 8, 9分区<br>    可以看出， C1-0 消费者线程⽐其他消费者线程多消费了2个分区， 这就是Range strategy的⼀个很明显的弊端。<br>RoundRobin strategy：<br>使⽤RoundRobin策略有两个前提条件必须满⾜：<br>    •    同⼀个Consumer Group⾥⾯的所有消费者的num.streams必须相等；<br>    •    每个消费者订阅的主题必须相同。<br>所以这⾥假设前⾯提到的2个消费者的num.streams = 2。 RoundRobin策略的⼯作原理：将所有主题的分 区组成 TopicAndPartition 列表， 然后对 TopicAndPartition 列表按照 hashCode 进⾏排序， 这⾥⽂字可能 说不清，看下⾯的代码应该会明⽩：<br>val allTopicPartitions = ctx.partitionsForTopic.flatMap { case(topic, partitions) =&gt;<br>info(“Consumer %s rebalancing the following partitions for topic %s: %s” .format(ctx.consumerId, topic, partitions))<br>partitions.map(partition =&gt; { TopicAndPartition(topic, partition) })<br>}.toSeq.sortWith((topicPartition1, topicPartition2) =&gt; {<br>/* * Randomize the order by taking the hashcode to reduce the likelihood of all partitions of a given topic ending </p>
+<ul>
+<li>up on one consumer (if it has a high enough stream count).</li>
+<li>/<br>topicPartition1.toString.hashCode &lt; topicPartition2.toString.hashCode })<br>最后按照round-robin⻛格将分区分别分配给不同的消费者线程。<br>在我们的例⼦⾥⾯， 加⼊按照 hashCode 排序完的topic-partitions组依次为T1-5, T1-3, T1-0, T1-8, T1-2, T1-1, T1-4, T1-7, T1-6, T1-9， 我们的消费者线程排序为C1-0, C1-1, C2-0, C2-1， 最后分区分配的结果<br>为：<br>C1-0 将消费 T1-5, T1-2, T1-6 分区；<br>C1-1 将消费 T1-3, T1-1, T1-9 分区；<br>C2-0 将消费 T1-0, T1-4 分区；<br>C2-1 将消费 T1-8, T1-7 分区；<br>多个主题的分区分配和单个主题类似，这⾥就不在介绍了。<br>   根据上⾯的详细介绍相信⼤家已经对Kafka的分区分配策略原理很清楚了。不过遗憾的是，⽬前我们还不能 ⾃定义分区分配策略， 只能通过partition.assignment.strategy参数选择 range 或 roundrobin。 partition.assignment.strategy参数默认的值是range。</li>
+</ul>
+<p><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/15842461923334.jpg" alt></p>
+<p>对主题进行删除时，不是物理删除而是标记删除，<br>标记删除主题可以继续进行生产和消费<br>需要进行kafka重启后进行物理删除<br>当存在多个副本时，不会同时以多个副本对外写入与读出，而是保证高可靠<br>生产者发送消息到kafka可以采用同步或异步两种方式<br>何时返回确认消息呢？<br>     第一种，所有副本写好后返回，<br>     第二种，不用确认，<br>     第三种，leader副本确认<br>     第四种，部分确认<br>  此时会产生数据丢失或者数据重复的问题<br>副本所在的broker挂掉后，在没有rebanlence下副本是不会再复制一份<br>ISR：当前所有可用副本，重新选举leader副本时需要</p>
+<p>自定义分区<br>实现partitioner接口</p>
+<p>消息中间健选型</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/" itemprop="url">Kafka核心—日志</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:17:17+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:21:18+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kafka日志说明<br>    日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459478405.jpg" alt="-w376"><br>partition是分段的，每个段叫LogSegment，包括了一个数据文件和一个索引文件，下图是某个partition目录下的文件：<br>后缀“.index”和“.log”分别表示segment索引文件、数据文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459591845.jpg" alt="-w345"></p>
+<p>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message<br>的物理偏移地址。索引文件是为了提高插销的效率。<br>索引包含两个部分（均为4个字节的数字），分别为相对offset和position（物理偏移地址）。相对offset=数据文件offset -数据文件名offset<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459699322.jpg" alt="-w404"></p>
+<p>数据文件根据大小（默认1G）和回滚时间（通过配置文件设置）回滚，回滚的名称由起始的offset命名。<br>日志的清理方式有两种：<br>        delete方式通过设置过期时间和分区内总日志的大小<br>        compact方式是相同的key保留offset最大的消息<br>Two-level Api<br>High-level Api：由Zookeeper维护消费者的offset。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459855787.jpg" alt><br>Low-level Api：自己写代码实现对offset的维护。往往比较复杂，所以多数情况下使用High-level Api。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459976235.jpg" alt></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Kafka基础—基本概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:10:43+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:19:00+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Kafka介绍"><a href="#Kafka介绍" class="headerlink" title="Kafka介绍"></a>Kafka介绍</h2><h3 id="消息队列的类型"><a href="#消息队列的类型" class="headerlink" title="消息队列的类型"></a>消息队列的类型</h3><p>1)    点对点（P2P）：  一个生产者生产的消息只有一个消费者，消息只能被消费一次。<br>2)    发布订阅 Pub/Sub 每个消息放到指定的topci中，可以有多个消费者消费，互不影响。</p>
+<h3 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h3><p>Kafka是linkedin用于日志处理的分布式消息队列，同时支持离线和在线日志处理。kafka对消息保存时根据Topic进行归类，发送消息者成为Producer,消息接受者成为Consumer,此外kafka集群有多个kafka实例组成，每个实例(server)称为broker。无论是kafka集群，还是producer和consumer都依赖于zookeeper来保证系统可用性，为集群保存一些meta信息。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842455031660.jpg" alt></p>
+<p>kafka并没有提供JMS中的”事务性”、”消息确认机制”、”消息分组”等企业级特性，kafka只能作为”常规”的消息系统,在一定程度上,尚未确保消息的发送与接收绝对可靠(比如,消息重发,消息发送丢失等)。</p>
+<h3 id="Kafka组件说明"><a href="#Kafka组件说明" class="headerlink" title="Kafka组件说明"></a>Kafka组件说明</h3><p><strong>Topic/logs</strong><br>一个Topic可以认为是一类消息，每个topic将被分成多个partition(区),每个partition在存储层面是appendlog文件。任何发布到此partition的消息都会被直接追加到log文件的尾部，每条消息在文件中的位置称为offset（偏移量），offset为一个long型数字，它是唯一标记一条消息。kafka并没有提供其他额外的索引机制来存储offset，因为在kafka中几乎不允许对消息进行“随机读写”。</p>
+<p>在kafka中，即使消息被消费,消息仍然不会被立即删除。日志文件将会根据broker中的配置要求,保留一定的时间之后删除;比如log文件保留2天,那么两天后,文件会被清除,无论其中的消息是否被消费。kafka通过这种简单的手段,来释放磁盘空间,以及减少消息消费之后对文件内容改动的磁盘IO开支。<br>对于consumer而言,它需要保存消费消息的offset,对于offset的保存和使用,由consumer来控制;当consumer正常消费消息时,offset将会”线性”的向前驱动,即消息将依次顺序被消费。事实上consumer可以使用任意顺序消费消息,它只需要将offset重置为任意值。(offset将会保存在zookeeper中,参见下文)<br>kafka集群几乎不需要维护任何consumer和producer状态信息,这些信息由zookeeper保存;因此producer和consumer的客户端实现非常轻量级,它们可以随意离开,而不会对集群造成额外的影响。<br>partitions的设计目的有多个。最根本原因是kafka基于文件存储。通过分区,可以将日志内容分散到多个server上,来避免文件尺寸达到单机磁盘的上限,每个partiton都会被当前server(kafka实例)保存;可以将一个topic切分多任意多个partitions来保存消息。此外越多的partitions意味着可以容纳更多的consumer,有效提升并发消费的能力。(具体原理参见下文)。<br><strong>Distribution</strong><br>一个Topic的多个partitions,被分布在kafka集群中的多个server上;每个server(kafka实例)负责partitions中消息的读写操作;此外kafka还可以配置partitions需要备份的个数(replicas),每个partition将会被备份到多台机器上,以提高可用性，副本数要小于broker数量。<br>基于replicated方案,那么就意味着需要对多个备份进行调度;每个partition都有一个server为”leader”;leader负责所有的读写操作,如果leader失效,那么将会有其他follower来接管(成为新的leader);follower只是单调的和leader跟进,同步消息即可。由此可见作为leader的server承载了全部的请求压力,因此从集群的整体考虑,有多少个partitions就意味着有多少个”leader”,kafka会将”leader”均衡的分散在每个实例上,来确保整体的性能稳定。<br><strong>Producers</strong><br>    Producer将消息发布到指定的Topic中,同时Producer也能决定将此消息归属于哪个partition;比如基于”round-robin”方式或者通过其他的一些算法等。<br><strong>Consumers</strong><br>    本质上kafka只支持Topic。每个consumer属于一个consumergroup;反过来说,每个group中可以有多个consumer。发送到Topic的消息,只会被订阅此Topic的每个group中的一个consumer消费。<br>    如果所有的consumer都具有相同的group,这种情况和queue模式很像;消息将会在consumers之间负载均衡。<br>    如果所有的consumer都具有不同的group,那这就是”发布-订阅”，消息将会广播给所有的消费者。<br>    在kafka中,一个partition中的消息只会被group中的一个consumer消费;每个group中consumer消息消费互相独立;我们可以认为一个group是一个”订阅”者,一个Topic中的每个partions,只会被一个”订阅者”中的一个consumer消费,不过一个consumer可以消费多个partitions中的消息。kafka只能保证一个partition中的消息被某个consumer消费时,消息是顺序的。事实上,从Topic角度来说,消息仍不是有序的。<br>    kafka的设计原理决定,对于一个topic,同一个group中不能有多于partitions个数的consumer同时消费,否则将意味着某些consumer将无法得到消息。</p>
+<h3 id="主要配置"><a href="#主要配置" class="headerlink" title="主要配置"></a>主要配置</h3><p>Broker配置<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842455892707.jpg" alt></p>
+<p>Consumer配置<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842455991188.jpg" alt></p>
+<p>Producer配置<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842456079903.jpg" alt></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/" itemprop="url">ES核心—全文检索</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:49:52+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T11:50:32+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>查询方式<br>Match类查询<br>    match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。<br>match查询<br>    先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。<br>match_phrase<br>    先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。<br>multi_match<br>    两个字段进行匹配，其中一个字段有这个文档就满足<br>match_all<br>    可以查询到所有文档，是没有查询条件下的默认语句。</p>
+<p>Term类查询<br>Term查询<br>    Term是代表完全匹配，也就是精确查询，搜索前不会再对搜索词进行分词，所以我们的搜索词必须是文档分词集合中的一个。<br>Terms查询<br>    Terms 跟 Term 有点类似，但 terms 允许指定多个匹配条件。 如果某个字段指定了多个值，那么文档需要一起去做匹配。匹配条件之间默认时或的关系。注意分词过后英文单词的大写会编程小写<br>ids查询<br>{<br>    “query”: {<br>        “ids” : {<br>            “type” : “blog”,<br>            “values” : [“2”, “3”]<br>        }<br>    }<br>}<br>Range查询<br>    按照指定范围查找一批数据。<br>    范围操作符包含：<br>    ⁃    gt：大于<br>    ⁃    gte：大于等于<br>    ⁃    lt：小于<br>    ⁃    lte：小于等于<br>{<br>    “query”: {<br>        “range” : {<br>            “age” : {<br>                “gte” : 10,<br>                “lte” : 20,<br>                “boost” : 2.0<br>            }<br>        }<br>    }<br>}<br>Regexp查询<br>    针对某个字段使用正则表达式进行ES的条件查询。<br>{<br>    “query”: {<br>        “regexp”:{<br>            “title”: “gc.*”<br>        }<br>    }<br>}<br>Prefix查询<br>    针对某个字段使用前缀方式进行ES的条件查询。下面，查询user字段中ki开头的文档。<br>{ “query”: {<br>    “prefix” : { “user” : “ki” }<br>  }<br>}<br>Exists查询<br>返回原始字段中至少包含一个非空值的文档，如下返回包含user字段的文档<br>{<br>    “query”: {<br>        “exists” : { “field” : “user” }<br>    }<br>}<br>Bool复合查询<br>    想要请求”content中带宝马，但是tag中不带宝马”这样类似的需求，就需要用到bool联合查询。<br>    联合查询就会使用到must,should,must_not三种关键词。<br>    ✓    must：文档必须完全匹配条件<br>    ✓    should：should下面会带上一个以上的条件，至少满足一个条件，这个文档就符合should<br>    ✓    must_not：文档必须不匹配条件<br>{<br>  “query”: {<br>    “bool”: {<br>      “must”: {<br>        “term”: {<br>          “content”: “宝马”<br>        }<br>      },<br>      “must_not”: {<br>        “term”: {<br>          “tags”: “宝马”<br>        }<br>      }<br>    }<br>  }<br>}</p>
+<p>过滤条件<br>分页</p>
+<p>排序<br>添加顺序排序</p>
+<p>评分排序</p>
+<p>单字段排序<br>{<br>  “query”: {<br>    “match_all”: {}<br>  },<br>  “sort”: [<br>    {“postdate”:{“order”:”desc”}}<br>  ]<br>}<br>多字段排序</p>
+<p>字段过滤</p>
+<p>评分过滤</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="url">ES基础—核心概念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:38:53+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T11:49:52+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="索引-Index"><a href="#索引-Index" class="headerlink" title="索引(Index)"></a>索引(Index)</h3><p>索引是ES存放具体数据的地方，是一类具有相似特征的文档集合。ES中的索引具有不同的意思，这里的索引相当于关系型数据库的一个实例。在ES中还可以作为动词，表示对数据进行索引操作。</p>
+<h3 id="类型-Type"><a href="#类型-Type" class="headerlink" title="类型(Type)"></a>类型(Type)</h3><p>在6.0版本之前，在一个ES的索引中可以有多个类型，从6.0版本开始，一个索引中，只有一个类型，一个类型是索引的一个逻辑上的分类，通常是一组具有相同字段的文档组成。ES的类型概念相当于关系数据库中的数据表。</p>
+<h3 id="文档-Doc"><a href="#文档-Doc" class="headerlink" title="文档(Doc)"></a>文档(Doc)</h3><p>文档是ES可被索引的基础单元，相当于关系数据库中数据表的一条数据。ES的文档具有Json格式，由多个字段组成，字段相当于关系数据库中列的概念。</p>
+<h3 id="映射-Mapping"><a href="#映射-Mapping" class="headerlink" title="映射(Mapping)"></a>映射(Mapping)</h3><p>ES用映射来定义一个文档，可以定义所包含的字段以及字段的类型、分词起及属性等。<br>映射可以分为动态映射和静态映射：<br>动态映射<br>这种机制下，不需要在ES的索引中事先定义映射，文档写入ES会根据字段自动识别类型。<br>动态映射规则如下：</p>
+<table>
+<thead>
+<tr>
+<th>Json数据</th>
+<th>自动推测的类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>null</td>
+<td>没有字段被添加</td>
+</tr>
+<tr>
+<td>true或者false</td>
+<td>boolean型</td>
+</tr>
+<tr>
+<td>小数</td>
+<td>float型</td>
+</tr>
+<tr>
+<td>数字</td>
+<td>long型</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>date或text</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>text</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>由数组的第一个非空值决定</td>
+</tr>
+<tr>
+<td>Json对象</td>
+<td>object类型</td>
+</tr>
+<tr>
+<td>静态映射</td>
+<td></td>
+</tr>
+<tr>
+<td>这种机制下，在ES的索引中事先定义好映射，在进行文档插入。</td>
+<td></td>
+</tr>
+<tr>
+<td>动态+静态</td>
+<td></td>
+</tr>
+<tr>
+<td>首先，预先定义好映射，在插入文档时，映射中存在的属性采用静态映射确定属性类型，映射中不存在的属性采用动态映射自动推测类型</td>
+<td></td>
+</tr>
+<tr>
+<td>映射(mapping)元数据</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>元数据</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>_index</td>
+<td>文档所属的索引</td>
+</tr>
+<tr>
+<td>_id</td>
+<td>文档的id</td>
+</tr>
+<tr>
+<td>_type</td>
+<td>文档所属类型</td>
+</tr>
+<tr>
+<td>_source</td>
+<td>文档的原生json字符串</td>
+</tr>
+<tr>
+<td>_size</td>
+<td>整个_source字段的字节数大小</td>
+</tr>
+<tr>
+<td>_field_names</td>
+<td>索引了每个字段的名称</td>
+</tr>
+<tr>
+<td>_routing</td>
+<td>将一个文档根据路由存储到指定的分片上</td>
+</tr>
+<tr>
+<td>_meta</td>
+<td>用于自定义元数据</td>
+</tr>
+<tr>
+<td>映射(mapping)参数</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    analyzer：指定分词器</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    normalizer：用于解析前的标准化配置，如把所有的字母转换成小写</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    boost：通过boost值来控制查询子句的相对权重，该值默认为1。一个大于1的boost会增加该查询子句的相对权重</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    coerce：用于清除脏数据，默认值true。字符串会被强制转换为整数，浮点数被强制转换为整数。</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    dynamic：用于检测新发现的字段，有三个取值：true，新发现的字段添加到映射中；false，新检测的字段被忽略，必须显式添加新字段。strict，如果新检测到字段，就会引发异常并拒绝文档。</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    enabled：ES默认会索引所有字段，enabled设置为false的字段，es会跳过字段内容，该字段只能从_source字段中获取，但是不可搜索。</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    format：指定字段值的格式</td>
+<td></td>
+</tr>
+<tr>
+<td>⁃    ignore_above：指定字段索引和存储的长度最大值，超过最大值的会被忽略</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="ES与关系数据库的对比"><a href="#ES与关系数据库的对比" class="headerlink" title="ES与关系数据库的对比"></a>ES与关系数据库的对比</h3><table>
+<thead>
+<tr>
+<th>ES</th>
+<th>关系数据库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>索引(index)</td>
+<td>数据库(database)</td>
+</tr>
+<tr>
+<td>类型(type)</td>
+<td>表(table)</td>
+</tr>
+<tr>
+<td>文档(Doc)</td>
+<td>行(row)</td>
+</tr>
+<tr>
+<td>字段(field)</td>
+<td>列(column)</td>
+</tr>
+<tr>
+<td>映射(mapping)</td>
+<td>表结构(schema)</td>
+</tr>
+<tr>
+<td>查询DSL</td>
+<td>SQL</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>select</td>
+</tr>
+<tr>
+<td>PUT/POST</td>
+<td>update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>delete</td>
+</tr>
+<tr>
+<td>### 类型(Type)</td>
+<td></td>
+</tr>
+<tr>
+<td>类型是Elasticsearch的一个设计失误，6.0开始后面的版本将不再支持。</td>
+<td></td>
+</tr>
+<tr>
+<td>在Elasticsearch索引中，在不同映射类型中具有相同名称的字段在内部由相同的Lucene字段支持。类型中的user_name字段和user类型中的字段存储在完全相同的user_name字段中tweet，并且两个 user_name字段在两种类型中都必须具有相同的映射（定义）。</td>
+<td></td>
+</tr>
+<tr>
+<td>### 分片(shard)</td>
+<td></td>
+</tr>
+<tr>
+<td>当数据量较大时，索引的存储空间需求超出单个节点磁盘容量的限制，或者出现单个节点处理速度较慢。为了解决这些问题，ES将索引中的数据进行切分成多个分片（shard），每个分片存储这个索引的一部分数据，分布在不同节点上。当需要查询索引时，ElasticSearch将查询发送到每个相关分片，之后将查询结果合并，这个过程对ES应用来说是透明的，用户感知不到分片的存在。 一个索引的分片一旦指定，不能再修改。</td>
+<td></td>
+</tr>
+<tr>
+<td>### 副本(replicas)</td>
+<td></td>
+</tr>
+<tr>
+<td>分片全称是主分片，简称为分片。主分片是相对于副本来说的，副本是对主分片的一个或多个复制版本（或称拷贝），这些复制版本（拷贝）可以称为复制分片，可以直接称之为副本。当主分片丢失时，集群可以将一个副本升级为新的主分片。</td>
+<td></td>
+</tr>
+<tr>
+<td>ES的字段类型</td>
+<td></td>
+</tr>
+<tr>
+<td>核心类型</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>具体类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符串类型</td>
+<td>string,text,keyword</td>
+</tr>
+<tr>
+<td>整数类型</td>
+<td>integer,long,short,byte</td>
+</tr>
+<tr>
+<td>浮点类型</td>
+<td>double,float,half_float,scaled_float</td>
+</tr>
+<tr>
+<td>逻辑类型</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>日期类型</td>
+<td>date</td>
+</tr>
+<tr>
+<td>范围类型</td>
+<td>range</td>
+</tr>
+<tr>
+<td>二进制类型</td>
+<td>binary</td>
+</tr>
+<tr>
+<td>复合类型</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>具体类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数组类型</td>
+<td>array</td>
+</tr>
+<tr>
+<td>对象类型</td>
+<td>integer,long,short,byte</td>
+</tr>
+<tr>
+<td>嵌套类型</td>
+<td>double,float,half_float,scaled_float</td>
+</tr>
+</tbody></table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" itemprop="url">Sqoop基础—基本使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:11:41+08:00">
                 2020-03-14
               </time>
             
@@ -329,7 +1567,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:37:28+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:16:53+08:00">
                 2020-03-14
               </time>
             
@@ -387,7 +1625,7 @@
       
         
           
-            <p>Hadoop基本数据类型<br>    ✓    BooleanWritable：标准布尔型数值<br>    ✓    ByteWriteable：单字节数值<br>    ✓    DoubleWritable：双字节数值<br>    ✓    FloatWriteable：浮点数<br>    ✓    IntWritable：整形数<br>    ✓    LongWritable：长整形数<br>    ✓    Text：使用UTF8格式存储的文本<br>    ✓    NullWritable：当key或value为空时使用<br>重要接口<br>    Writable：序列化接口<br>    ⁃    write()<br>    ⁃    readFields()<br>    WritableComparable：序列化比较接口，key必须实现</p>
+            <p>Sqoop(Sql to Hadoop)的安装<br>    配置HADOOP_COMMON_HOME<br>    配置HADOOP_MAPRED_HOME<br>    配置HIVE_HOME<br>Sqoop使用<br>    要点<br>        HDFS端：path，文件导入或导出路径<br>        HIVE端：tablename，要导入或导出的表<br>        RDBMS端：<br>            connect，连接的URL<br>            username，连接的用户名<br>            password，连接的密码<br>            tablename，要连接的表<br>        方式：import/export<br>    帮助命令<br>        sqoop help，全局命令查看<br>        sqoop help command，指定命令查看<br>    常用命令<br>        RDBMS导入hdfs<br>            没指定目标路径时，会在用户目录下<br>            使用自定义查询导入，—query（一定要有where条件，其中还要有$CONDITIONS）<br>            使用自定义列导入，–columns<br>            使用自定义并发个数，–num-mappers<br>            使用自定义存储格式，–as-avrodatafile，–as-textfile等<br>            使用自定义数据压缩，–compress –compression-codec<br>            使用删除目标路径，–delete-target-dir<br>            使用数据增量导入，–append<br>            使用直接导入模式（更快），—direct<br>            使用边界查询，–boundary-query<br>            使用自定义分隔符，–fields-terminated-by<br>            使用条件导入，—where<br>        hdfs导出RDBMS<br>            指定输出目录，–export-dir<br>            指定输出字段分隔符，–fields-terminated-by<br>        RDBMS导入Hive<br>            指定导入hive，–hive-import<br>            指定导入数据库，–hive-database<br>            指定要导入的表，–hive-table<br>            指定字段分隔符，–fields-terminated-by<br>            创建指定表，–create-hive-table<br>        Hive导出到RDBMS<br>            和hdfs导出类似<br>高级用法<br>    —options-file<br>        将命令写入文件，用该参数进行执行 </p>
 
           
         
@@ -436,7 +1674,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -455,7 +1693,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Tomcat概述和使用</a></h1>
+                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/" itemprop="url">Redis核心—优化及性能提升</a></h1>
         
 
         <div class="post-meta">
@@ -467,7 +1705,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:51+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:10:22+08:00">
                 2020-03-14
               </time>
             
@@ -483,1027 +1721,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:56:26+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Apache概述和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:35+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:56:26+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Nginx概述和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:11+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:11:39+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。<br>Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
-<ul>
-<li>作为 Web 服务器：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.</li>
-<li>作为负载均衡服务器：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。</li>
-<li>作为邮件代理服务器: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。<br>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。<br>Nginx一般用户七层负载均衡，其吞吐量有一定的限制。为了提高整体的吞吐量，会在DNS和Nginx之间引入LVS（软件负载均衡器）、F5（硬负载均衡器） 可以做四层负载均衡，首先DNS解析到LVS(F5)，让后LVS(F5)转发给Nginx，在有Nginx转发给真实的服务器。<h2 id="Nginx的应用场景"><a href="#Nginx的应用场景" class="headerlink" title="Nginx的应用场景"></a>Nginx的应用场景</h2>  ⁃    Http服务器：使用Nginx做静态服务器、图片服务器<br>  ⁃    虚拟主机配置：讲一个服务器，拆分成多个网站部署<br>  ⁃    反向代理：Nginx拦截所有请求，内部实现转发到真实服务器中，隐藏真实的ip地址<br>  ⁃    负载均衡：减少单台服务器的访问压力（重试机制、故障转移、健康检查）<br>  ⁃    安全配置：Nginx搭建API接口网关“解决跨域问题”；Nginx实现动静分离；Nginx实现DDOS<h2 id="反向代理和正向代理的区别"><a href="#反向代理和正向代理的区别" class="headerlink" title="反向代理和正向代理的区别"></a>反向代理和正向代理的区别</h2><img src="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/15841870935903.jpg" alt="-w736"><h2 id="四层和七层负载均衡的区别"><a href="#四层和七层负载均衡的区别" class="headerlink" title="四层和七层负载均衡的区别"></a>四层和七层负载均衡的区别</h2></li>
-<li>四层负载均衡，在网络模型中的传输层中，基于主要是基于tcp协议报文实现负载均衡（比如LVS、haproxy就是四层负载均衡器），使用改写报文的源地址和目的地址。</li>
-<li>七层负载均衡,在网络模型中应用层中，基于URL或者HTTP协议实现负载均衡，Web服务器。<h2 id="Nginx常用命令"><a href="#Nginx常用命令" class="headerlink" title="Nginx常用命令"></a>Nginx常用命令</h2><code>nginx -t #验证配置文件语法是否合法
-nginx -s reload #重新加载nginx的配置
-nginx -s stop #停止nginx</code><h2 id="负载均衡产生的问题"><a href="#负载均衡产生的问题" class="headerlink" title="负载均衡产生的问题"></a>负载均衡产生的问题</h2></li>
-<li>分布式session的一致性问题</li>
-<li>分布式job的幂等性问题（唯一性）</li>
-<li>分布式生成的全局id</li>
-<li>分布式锁</li>
-<li>分布式配置中心</li>
-<li>分布式日志收集系统<h2 id="Nginx的配置详解"><a href="#Nginx的配置详解" class="headerlink" title="Nginx的配置详解"></a>Nginx的配置详解</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3>主配置文件在安装目录的conf/nginx.conf中<br>`<br>http {<br>……<br>##<h1 id="Virtual-Host-Configs"><a href="#Virtual-Host-Configs" class="headerlink" title="Virtual Host Configs"></a>Virtual Host Configs</h1>##<br>include /etc/nginx/conf.d/<em>.conf;副配置文件位置<br>include /etc/nginx/sites-enabled/</em>;<br>}<br><code>副配置文件
-在安装目录的nginx/sites-available中，一般存放现有的站点配置库
-在安装目录的nginx/sites-enabled中，一般存放被激活的站点配置
-需要启动新的站点配置时，只需要将现有的站点配置库中的站点配置软连接到激活的站点配置下
-配置文件结构</code><br>…              #全局块<br>events {         #events块<br> …<br>}<br>http      #http块<br>{<br>  …   #http全局块<br>  server        #server块<br>  { <pre><code>...       #server全局块
-location [PATTERN]   #location块
-{
-    ...
-}
-location [PATTERN] 
-{
-    ...
-}</code></pre>  }<br>  server<br>  {<pre><code>...</code></pre>  }<br>  …     #http全局块<br>}<br>stream {           #tcp全局块<br>  upstream xxx {<pre><code>...</code></pre>  }<br>  server {   #server块<pre><code>...</code></pre>  }<br>}<br>`</li>
-<li>全局块：配置影响nginx全局的指令。一般有运行nginx服务器的用户组，nginx进程pid存放路径，日志存放路径，配置文件引入，允许生成worker process数等。</li>
-<li>events块：配置影响nginx服务器或与用户的网络连接。有每个进程的最大连接数，选取哪种事件驱动模型处理连接请求，是否允许同时接受多个网路连接，开启多个网络连接序列化等。</li>
-<li>http块：可以嵌套多个server，配置http代理，缓存，日志定义等绝大多数功能和第三方模块的配置。如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。</li>
-<li>server块：配置虚拟主机的相关参数，一个http中可以有多个server。</li>
-<li>stream块：可以嵌套多个server，配置tcp代理</li>
-<li>location块：配置请求的路由，以及各种页面的处理情况。<h3 id="配置文件样例"><a href="#配置文件样例" class="headerlink" title="配置文件样例"></a>配置文件样例</h3>########### 每个指令必须有分号结束。#################<br>`<br>#user administrator administrators;  #配置用户或者组，默认为nobody nobody。<br>#worker_processes 2;  #允许生成的进程数，默认为1<br>#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址<br>error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg<br>events {<br>  accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on<br>  multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off<br>  #use epoll;      #I/O模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport<br>  worker_connections  1024;    #最大连接数，默认为512<br>}<br>http {<br>  include       mime.types;   #文件扩展名与文件类型映射表<br>  default_type  application/octet-stream; #默认文件类型，默认为text/plain<br>  #access_log off; #取消服务日志<br>  log_format myFormat ‘$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for’; #自定义格式<br>  access_log log/access.log myFormat;  #combined为日志格式的默认值<br>  sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。<br>  sendfile_max_chunk 100k;#每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。<br>  keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。<br>  upstream mysvr {   <pre><code>server 127.0.0.1:7878;
-server 192.168.10.121:3333 backup;  #热备</code></pre>  }<br>  error_page 404 <a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a>; #错误页<br>  server {<pre><code>keepalive_requests 120; #单连接请求上限次数。
-listen       4545;   #监听端口
-server_name  127.0.0.1;   #监听地址       
-location  ~*^.+$ {     #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
-   #root path;  #根目录
-   #index vv.txt;  #设置默认页
-   proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
-   deny 127.0.0.1;  #拒绝的ip
-   allow 172.18.5.54; #允许的ip           
-} </code></pre>  }<br>   #server {<pre><code>listen       443 ssl;
-server_name  localhost;
-ssl_certificate      /etc/nginx/ssl/nginx.crt; # 证书文件
-ssl_certificate_key  /etc/nginx/ssl/nginx.key; # 密钥对文件(包含公钥和私钥,             私钥不会发给客户端)
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # SSL(包括 v3)都有漏洞，应该用             TLS(TLS1.0 = SSL 3.1)</code></pre><h1 id="ssl-session-cache-shared-SSL-1m"><a href="#ssl-session-cache-shared-SSL-1m" class="headerlink" title="ssl_session_cache    shared:SSL:1m;"></a>ssl_session_cache    shared:SSL:1m;</h1><pre><code>ssl_session_timeout  5m;
-ssl_ciphers  HIGH:!aNULL:!MD5;</code></pre><h1 id="ssl-prefer-server-ciphers-on"><a href="#ssl-prefer-server-ciphers-on" class="headerlink" title="ssl_prefer_server_ciphers  on;"></a>ssl_prefer_server_ciphers  on;</h1><h1 id="location"><a href="#location" class="headerlink" title="location / {"></a>location / {</h1><h1 id="root-html"><a href="#root-html" class="headerlink" title="root   html;"></a>root   html;</h1><h1 id="index-index-html-index-htm"><a href="#index-index-html-index-htm" class="headerlink" title="index  index.html index.htm;"></a>index  index.html index.htm;</h1><h1 id><a href="#" class="headerlink" title="}"></a>}</h1>}<br>`<br>常见配置项说明：</li>
-</ul>
-<p>1.$remote_addr 与 $http_x_forwarded_for 用以记录客户端的ip地址；<br>2.$remote_user ：用来记录客户端用户名称；<br>3.$time_local ： 用来记录访问时间与时区；<br>4.$request ： 用来记录请求的url与http协议；<br>5.$status ： 用来记录请求状态；成功是200；<br>6.$body_bytes_s ent ：记录发送给客户端文件主体内容大小；<br>7.$http_referer ：用来记录从那个页面链接访问过来的；<br>8.$http_user_agent ：记录客户端浏览器的相关信息；<br>惊群现象：一个网路连接到来，多个睡眠的进程被同事叫醒，但只有一个进程能获得链接，这样会影响系统性能。</p>
-<h3 id="代理部分的配置样例"><a href="#代理部分的配置样例" class="headerlink" title="代理部分的配置样例"></a>代理部分的配置样例</h3><p>include       mime.types;   #文件扩展名与文件类型映射表<br>default_type  application/octet-stream; #默认文件类型，默认为text/plain<br> #access_log off; #取消服务日志<br>log_format myFormat ‘ $remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for’; #自定义格式<br>access_log log/access.log myFormat;  #combined为日志格式的默认值<br>sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。<br>sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。<br>keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。<br>proxy_connect_timeout 1;   #nginx服务器与被代理的服务器建立连接的超时时间，默认60秒<br>proxy_read_timeout 1; #nginx服务器想被代理服务器组发出read请求后，等待响应的超时间，默认为60秒。<br>proxy_send_timeout 1; #nginx服务器想被代理服务器组发出write请求后，等待响应的超时间，默认为60秒。<br>proxy_http_version 1.0 ; #Nginx服务器提供代理服务的http协议版本1.0，1.1，默认设置为1.0版本。<br> #proxy_method get;    #支持客户端的请求方法。post/get；<br>proxy_ignore_client_abort on;  #客户端断网时，nginx服务器是否终端对被代理服务器的请求。默认为off。<br>proxy_ignore_headers “Expires” “Set-Cookie”;  #Nginx服务器不处理设置的http相应投中的头域，这里空格隔开可以设置多个。<br>proxy_intercept_errors on;    #如果被代理服务器返回的状态码为400或者大于400，设置的error_page配置起作用。默认为off。<br>proxy_headers_hash_max_size 1024; #存放http报文头的哈希表容量上限，默认为512个字符。<br>proxy_headers_hash_bucket_size 128; #nginx服务器申请存放http报文头的哈希表容量大小。默认为64个字符。<br>proxy_next_upstream timeout;  #反向代理upstream中设置的服务器组，出现故障时，被代理服务器返回的状态值。error|timeout|invalid_header|http_500|http_502|http_503|http_504|http_404|off<br> #proxy_ssl_session_reuse on; 默认为on，如果我们在错误日志中发现“SSL3_GET_FINSHED:digest check failed”的情况时，可以将该指令设置为off。</p>
-<h3 id="X-Forwarded-For-介绍"><a href="#X-Forwarded-For-介绍" class="headerlink" title="X-Forwarded-For 介绍"></a>X-Forwarded-For 介绍</h3><p>X-Forwarded-For 是一个 HTTP 扩展头部。HTTP/1.1（RFC 2616）协议并没有对它的定义，它最开始是由 Squid 这个缓存代理软件引入，用来表示 HTTP 请求端真实 IP。如今它已经成为事实上的标准，被各大 HTTP 代理、负载均衡等转发服务广泛使用，并被写入 RFC 7239（Forwarded HTTP Extension）标准之中。<br>X-Forwarded-For 请求头格式非常简单，就这样：<br><code>X-Forwarded-For: client, proxy1, proxy2</code><br>可以看到，XFF 的内容由「英文逗号 + 空格」隔开的多个部分组成，最开始的是离服务端最远的设备 IP，然后是每一级代理设备的 IP。<br>如果一个 HTTP 请求到达服务器之前，经过了三个代理 Proxy1、Proxy2、Proxy3，IP 分别为 IP1、IP2、IP3，用户真实 IP 为 IP0，那么按照 XFF 标准，服务端最终会收到以下信息：<br><code>X-Forwarded-For: IP0, IP1, IP2</code><br>Proxy3 直连服务器，它会给 XFF 追加 IP2，表示它是在帮 Proxy2 转发请求。列表中并没有 IP3，IP3 可以在服务端通过 Remote Address 字段获得。我们知道 HTTP 连接基于 TCP 连接，HTTP 协议中没有 IP 的概念，Remote Address 来自 TCP 连接，表示与服务端建立 TCP 连接的设备 IP，在这个例子里就是 IP3。Remote Address 无法伪造，因为建立 TCP 连接需要三次握手，如果伪造了源 IP，无法建立 TCP 连接，更不会有后面的 HTTP 请求。<br>直接对外提供服务的 Web 应用，在进行与安全有关的操作时，只能通过 Remote Address 获取 IP，不能相信任何请求头；使用 Nginx 等 Web Server 进行反向代理的 Web 应用，在配置正确的前提下，要用 X-Forwarded-For 最后一节 或 X-Real-IP 来获取 IP（因为 Remote Address 得到的是 Nginx 所在服务器的内网 IP）；同时还应该禁止 Web 应用直接对外提供服务；<br>Nginx使用场景</p>
-<h3 id="Http服务器"><a href="#Http服务器" class="headerlink" title="Http服务器"></a>Http服务器</h3><p><strong>虚拟主机配置</strong><br>虚拟主机使用的是特殊的软硬件技术，把一台运行在因特网上的服务器主机分成多台”虚拟”的 主机，每台虚拟主机是一个独立的网站，具有独立的域名，具有完整的Intemet服务器功能 （WWW、FTP、Email等）。同一台主机上的虚拟主机之间是完全独立的，在网站访问者看 来，每一台虚拟主机和一台独立的主机是完全一样。<br><strong>基于IP的虚拟主机</strong><br>Linux操作系统允许添加IP别名。IP别名指在一块物理网卡上绑定多个IP地址。<br>基于域名的虚拟主机：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;www&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name maven.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;www&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>基于端口的虚拟主机：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;git&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">	listen 81;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;git&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>反向代理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		proxy_pass http:&#x2F;&#x2F;127.0.0.1:8800;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">负载均衡</span><br><span class="line">http &#123;</span><br><span class="line">	upstream myapp1 &#123;</span><br><span class="line">		server srv1.example.com;</span><br><span class="line">		server srv2.example.com;</span><br><span class="line">		server srv3.example.com;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	server &#123;</span><br><span class="line">		listen 80;</span><br><span class="line">		location &#x2F; &#123;</span><br><span class="line">			proxy_pass http:&#x2F;&#x2F;myapp1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Nginx的Location介绍"><a href="#Nginx的Location介绍" class="headerlink" title="Nginx的Location介绍"></a>Nginx的Location介绍</h3><p><strong>Location作用</strong><br>location指令的作用是根据用户请求的URI来执行不同的应用，也就是根据用户请求的网站URL进行匹配，匹配成功即进行相关的操作。<br>nginx首先搜索由书面字符串给定的最为特别的前缀location，无视列表顺序。在上面的配置中仅有一个带前缀的location “/“，并且因为它匹配任何请求，它将用于作为最后的对策。然后 nginx检查通过正则表达式给定的location，基于在配置文件中列出的顺序。第一个匹配的表达式将停止搜索然后nginx将使用这个location。如果没有正则表达式匹配请求，则nginx将使用前面发现的最为特别的前缀location。<br><strong>Location语法</strong><br>以=开头表示精确匹配 如 A 中只匹配根目录结尾的请求，后面不能带任何字符串。<br>^~ 开头表示uri以某个常规字符串开头，不是正则匹配<br>~ 开头表示区分大小写的正则匹配;<br>~* 开头表示不区分大小写的正则匹配<br>/ 通用匹配, 如果没有其它匹配,任何请求都会匹配到</p>
-<h3 id="Nginx的server-name介绍"><a href="#Nginx的server-name介绍" class="headerlink" title="Nginx的server_name介绍"></a>Nginx的server_name介绍</h3><p>服务器名称通过使用server_name指令来定义并决定哪个服务器块(server block)将用于给定的请求。<br>可以使用精确名称，通配符和正则表达式：<br>当通过名称搜索虚拟服务器时， 如果名字和多个指定的变量匹配， 例如同时匹配通配符和正 则表达式，在下面的优先级次序中，第一个匹配的变量将被选择：</p>
-<ol>
-<li>精确名称</li>
-<li>星号开头的最长的通配符名称, 例如 “*.example.org”</li>
-<li>星号结束的最长的通配符名称, 例如 “mail.*”</li>
-<li>第一个匹配的正则表达式(按照出现在配置文件中的顺序)<br>通配符名称可以在名称的开头和结尾包含星号，并且只能紧挨着点号(.)。<br>nginx所用的正则表达式兼容于Perl编程语言(PCRE)。为了使用正则表达式， 服务器名称必须以波浪号(~)开头<h3 id="Nginx的server指令介绍"><a href="#Nginx的server指令介绍" class="headerlink" title="Nginx的server指令介绍"></a>Nginx的server指令介绍</h3>server指令用于定义一台服务器的地址和其他参数。地址可以是域名或者IP地址，端口可选， 或者是以”unix:”前缀指定的UNIX-domain socket路径。如果端口没有指定，将使用80端口。 可以解析为多个IP地址的域名将一次性定义多台服务器。<br>Syntax: server address [parameters];<br>Default: —<br>Context: upstream<br>下面是可用的参数列表。<br>weight=number<br>设置服务器的权重，默认为1.<br>max_fails=number<br>设置在参数fail_timeout指定的时间内，发生的和服务器通讯的不成功的数量。默认情 况，不成功尝试次数被设置为1.如果设置为0则关闭尝试计数。至于什么是不成功的尝试 则通过proxy_next_upstream, fastcgi_next_upstream, uwsgi_next_upstream, scgi_next_upstream, 和 memcached_next_upstream指令定义。<br>fail_timeout=time<br>用于设置：<br>时间段，在此期间应该发起指定数量的和服务器通讯的不成功尝试，以判断服务器是否不可到达和接下来服务器被判定为不可到达的时间期间<br>默认，fail_timeout参数被设置为10秒钟.<br>backup<br>标记当前服务器为备用服务器。当主服务器(注：应该是没有标记为backup和down的服 务器)都不能达到时请求将被分派过去。<br>down<br>将当前服务器标记为永久不可到达。<h3 id="Nginx的Http的keepalive"><a href="#Nginx的Http的keepalive" class="headerlink" title="Nginx的Http的keepalive"></a>Nginx的Http的keepalive</h3>当使用nginx作为反向代理时，为了支持长连接，需要做到两点：<ol>
-<li>从client到nginx的连接是长连接</li>
-<li>从nginx到server的连接是长连接<br>为了在client和nginx之间保持上连接，有两个要求：</li>
-<li>client发送的HTTP请求要求keep alive</li>
-<li>nginx设置上支持keep alive<br>http {<br>keepalive_timeout 120s 120s;<br>keepalive_requests 10000;<br>}<br>keepalive_timeout指令的语法：<br>Syntax: keepalive_timeout timeout [header_timeout];<br>Default: keepalive_timeout 75s;<br>Context: http, server, location<br>第一个参数设置keep-alive客户端连接在服务器端保持开启的超时值。值为0会禁用keep-alive 客户端连接。可选的第二个参数在响应的header域中设置一个值“Keep-Alive: timeout=time”。 这两个参数可以不一样。<br>keepalive_requests指令用于设置一个keep-alive连接上可以服务的请求的最大数量。<br>为了让nginx和server（nginx称为upstream）之间保持长连接，典型设置如下：<br>upstream BACKEND {<br>server 192.168.0.1：8080 weight=1 max_fails=2 fail_timeout=30s;<br>server 192.168.0.2：8080 weight=1 max_fails=2 fail_timeout=30s;<br>keepalive 300; // 这个很重要！<br>}<br>keepalive指令，keepalive指令出现在版本1.1.4。<br>Syntax: keepalive connections;<br>Default: —<br>Context: upstream<br>connections参数设置每个worker进程在缓冲中保持的到upstream服务器的空闲keepalive连接的最大数量.当这个数量被突破时，最近使用最少的连接将被关闭。keepalive指令不会限制一个nginx worker进程到upstream服务器连接的总数量。 connections参数应该设置为一个足够小的数字来让upstream服务器来处理新进来的连接。<br>Nginx负载均衡算法<br>⁃    热备算法：有2台服务器，当一台服务器发生事故时，才启用第二台服务器给提供服务<br>⁃    轮训算法：均匀或配置权重，服务器性能配置都相同的情况下<br>upstream myapp1 {<br>server srv1.example.com weight=3;<br>server srv2.example.com fail_timeout=5s max_fails=3;<br>server srv3.example.com;<br>}<br>⁃    Ip绑定：根据访客ip的hash值，解决session共享问题<br>⁃    最少连接：下一个请求将被分派到活动连接数量最少的服务器<br>upstream myapp1 {<br>least_conn;<br>server srv1.example.com;<br>server srv2.example.com;<br>server srv3.example.com;<br>}<br>⁃    fair：第三方算法，根据页面加载速度<br>⁃    url绑定：第三方算法，根据url地址的hash值<h2 id="Consul-upsync-nginx实现动态负载均衡"><a href="#Consul-upsync-nginx实现动态负载均衡" class="headerlink" title="Consul+upsync+nginx实现动态负载均衡"></a>Consul+upsync+nginx实现动态负载均衡</h2>//正在整理中<h2 id="lvs-keepalive-nginx实现高性能负载均衡"><a href="#lvs-keepalive-nginx实现高性能负载均衡" class="headerlink" title="lvs + keepalive+nginx实现高性能负载均衡"></a>lvs + keepalive+nginx实现高性能负载均衡</h2>高并发时，限流机制、nginx实现集群、服务降级、熔断策略等<br>// 正在整理中<h2 id="keepalive-nginx实现7-24主从双机热备"><a href="#keepalive-nginx实现7-24主从双机热备" class="headerlink" title="keepalive+nginx实现7 * 24主从双机热备"></a>keepalive+nginx实现7 * 24主从双机热备</h2>// 正在整理中</li>
-</ol>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94AOP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94AOP/" itemprop="url">Spring核心—AOP</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:50:49+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:53:04+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。<br>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。<br>    •    所谓的核心业务，比如登陆，增加数据，删除数据都叫核心业务<br>    •    所谓的周边功能，比如性能统计，日志，事务管理等等<br>    周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面<br>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP。</p>
-<h2 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h2><p>AOP能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
-<h3 id="AOP-当中的概念"><a href="#AOP-当中的概念" class="headerlink" title="AOP 当中的概念"></a>AOP 当中的概念</h3><ul>
-<li>切入点（Pointcut）：在哪些类，哪些方法上切入（where）</li>
-<li>通知（Advice）：在方法执行的什么实际（when:方法前/方法后/方法前后）做什么（what:增强的功能）</li>
-<li>切面（Aspect）：切面 = 切入点 + 通知，通俗点就是：在什么时机，什么地方，做什么增强！</li>
-<li>织入（Weaving）：把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）<h2 id="Spring-AOP-AspectJ轻松实现拦截方法"><a href="#Spring-AOP-AspectJ轻松实现拦截方法" class="headerlink" title="Spring AOP+AspectJ轻松实现拦截方法"></a>Spring AOP+AspectJ轻松实现拦截方法</h2>常见AspectJ的注解：<br>  @Before – 方法执行前运行<br>  @After – 运行在方法返回结果后<br>  @AfterReturning – 运行在方法返回一个结果后，在拦截器返回结果。<br>  @AfterThrowing – 运行方法在抛出异常后，<br>  @Around – 围绕方法执行运行，结合以上这三个通知。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/" itemprop="url">Spring核心—IOC和DI</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:48:45+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:50:49+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
-<li>读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</li>
-<li>正控：若要使用某个对象，需要自己去负责对象的创建</li>
-<li>反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架</li>
-<li>好莱坞法则： Don’t call me ,I’ll call you<br>在Spring中，bean作用域用于确定哪种类型的 bean 实例应该从Spring容器中返回给调用者。bean支持的5种范围域：<br>  ⁃    单例 - 每个Spring IoC 容器返回一个bean实例<br>  ⁃    原型- 当每次请求时返回一个新的bean实例<br>  ⁃    请求 - 返回每个HTTP请求的一个Bean实例<br>  ⁃    会话 - 返回每个HTTP会话的一个bean实例<br>  ⁃    全局会话- 返回全局HTTP会话的一个bean实例<br>在大多数情况下，可能只处理了 Spring 的核心作用域 - 单例和原型，默认作用域是单例。</li>
-</ul>
-<h2 id="DI：Dependency-Injection（依赖注入）"><a href="#DI：Dependency-Injection（依赖注入）" class="headerlink" title="DI：Dependency Injection（依赖注入）"></a>DI：Dependency Injection（依赖注入）</h2><p>DI是指 Spring 创建对象的过程中，将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。<br>主要包含两种形式：</p>
-<ul>
-<li>Setter方法注入</li>
-<li>构造器注入<h3 id="IoC-如何实现的"><a href="#IoC-如何实现的" class="headerlink" title="IoC 如何实现的"></a>IoC 如何实现的</h3>最后简单说说IoC是如何实现的。想象一下如果我们自己来实现这个依赖注入的功能，我们怎么来做？ 无外乎：<br>  1    读取标注或者配置文件，看看JuiceMaker依赖的是哪个Source，拿到类名<br>  2    使用反射的API，基于类名实例化对应的对象实例<br>  3    将对象实例，通过构造函数或者 setter，传递给 JuiceMaker<br>发现其实自己来实现也不是很难，Spring实际也就是这么做的。这么看的话其实IoC就是一个工厂模式的升级版！当然要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring不仅提供了一个已经成为业界标准的Java IoC框架，还提供了更多强大的功能，所以就别去造轮子啦！希望了解IoC更多实现细节不妨通过学习Spring的源码来加深理解！</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/" itemprop="url">Spring基础—概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:42:37+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:48:07+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="什么是Spring"><a href="#什么是Spring" class="headerlink" title="什么是Spring"></a>什么是Spring</h2><p>Spring框架是Java应用最广的框架，它的成功来源于理念，而不是技术本身，它的理念包括IoC (Inversion of Control，控制反转) 和 AOP(Aspect Oriented Programming，面向切面编程)。<br>Spring 是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作 《Expert one on one J2EE design and development》 中阐述的部分理念和原型衍生而来。Spring提倡以“最少侵入” 的方式来管理应用中的代码，这意味着我们可以随时安装或者卸载 Spring。<br>    •    适用范围：任何 Java 应用<br>    •    Spring 的根本使命：简化 Java 开发</p>
-<h2 id="Spring中的常用术语"><a href="#Spring中的常用术语" class="headerlink" title="Spring中的常用术语"></a>Spring中的常用术语</h2><ul>
-<li>框架：是能完成一定功能的半成品。框架能够帮助我们完成的是：项目的整体框架、一些基础功能、规定了类和对象如何创建，如何协作等，当我们开发一个项目时，框架帮助我们完成了一部分功能，我们自己再完成一部分，那这个项目就完成了。</li>
-<li>非侵入式设计：从框架的角度可以理解为：无需继承框架提供的任何类。这样我们在更换框架时，之前写过的代码几乎可以继续使用。</li>
-<li>轻量级和重量级：轻量级是相对于重量级而言的，轻量级一般就是非入侵性的、所依赖的东西非常少、资源占用非常少、部署简单等等，其实就是比较容易使用，而重量级正好相反。</li>
-<li>JavaBean：即符合 JavaBean 规范的 Java 类</li>
-<li>POJO：即 Plain Old Java Objects，简单老式 Java 对象。它可以包含业务逻辑或持久化逻辑，但不担当任何特殊角色且不继承或不实现任何其它Java框架的类或接口。</li>
-<li>容器：在日常生活中容器就是一种盛放东西的器具，从程序设计角度看就是装对象的的对象，因为存在放入、拿出等操作，所以容器还要管理对象的生命周期。<h2 id="Spring的优势"><a href="#Spring的优势" class="headerlink" title="Spring的优势"></a>Spring的优势</h2>  •    低侵入 / 低耦合 （降低组件之间的耦合度，实现软件各层之间的解耦）<br>  •    声明式事务管理（基于切面和惯例）<br>  •    方便集成其他框架（如MyBatis、Hibernate）<br>  •    降低 Java 开发难度<br>  •    Spring 框架中包括了 J2EE 三层的每一层的解决方案（一站式）<h2 id="Spring能做什么"><a href="#Spring能做什么" class="headerlink" title="Spring能做什么"></a>Spring能做什么</h2>①.Spring 能帮我们根据配置文件创建及组装对象之间的依赖关系。<br>②.Spring 面向切面编程能帮助我们无耦合的实现日志记录，性能统计，安全控制。<br>③.Spring 能非常简单的帮我们管理数据库事务。<br>④.Spring还提供了与第三方数据访问框架（如Hibernate、JPA）无缝集成，而且自己也提供了一套JDBC访问模板来方便数据库访问。<br>⑤.Spring还提供与第三方Web（如Struts1/2、JSF）框架无缝集成，而且自己也提供了一套SpringMVC框架，来方便web层搭建。<br>⑥.Spring 能方便的与Java EE（如Java Mail、任务调度）整合，与更多技术整合（比如缓存框架）。<h2 id="Spring框架结构"><a href="#Spring框架结构" class="headerlink" title="Spring框架结构"></a>Spring框架结构</h2><img src="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/15841862881334.jpg" alt><br>  •    Data Access/Integration层包含有JDBC、ORM、OXM、JMS和Transaction模块。<br>  •    Web层包含了Web、Web-Servlet、WebSocket、Web-Porlet模块。<br>  •    AOP模块提供了一个符合AOP联盟标准的面向切面编程的实现。<br>  •    Core Container(核心容器)： 包含有Beans、Core、Context和SpEL模块。<br>  •    Test模块支持使用JUnit和TestNG对Spring组件进行测试</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85mysql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85mysql/" itemprop="url">Mysql基础—安装mysql</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T18:48:24+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T18:58:02+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:55+08:00">
                 2020-03-14
               </time>
             
@@ -1561,40 +1779,7 @@ ssl_ciphers  HIGH:!aNULL:!MD5;</code></pre><h1 id="ssl-prefer-server-ciphers-on"
       
         
           
-            <h2 id="安装mysql5-7"><a href="#安装mysql5-7" class="headerlink" title="安装mysql5.7"></a>安装mysql5.7</h2><ol>
-<li>下载并安装Mysql官方的yum repo<br><code>[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</code><br><code>[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</code></li>
-<li>开始安装mysql服务器<br><code>[root@localhost ~]# yum -y install mysql-community-server</code></li>
-<li>mysql数据库配置<br>启动mysql：<br><code>[root@localhost ~]# systemctl start mysqld.service</code><br><code>[root@localhost ~]# systemctl status mysqld.service</code><br>通过如下命令在日志文件中找出密码：<br><code>[root@localhost ~]# grep &quot;password&quot; /var/log/mysqld.log</code><br>进入mysql，修改密码和初始密码规则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global validate_password_policy&#x3D;0; </span><br><span class="line">mysql&gt; set global validate_password_length&#x3D;1;</span><br><span class="line">mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new password&#39;;</span><br></pre></td></tr></table></figure>
-修改编码：<br>在[mysqld]标签下加上以下内容：<br><code>character_set_server = utf8</code><br>在[client]标签下加上以下内容：<br><code>default-character-set = utf8</code><br>重启mysql，查看编码：<br><img src="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85mysql/15841830146221.jpg" alt></li>
-<li>卸载yum repo<br><code>[root@localhost ~]# yum -y remove mysql57-community-release-el7-10.noarch</code><h2 id="配置mysql主从"><a href="#配置mysql主从" class="headerlink" title="配置mysql主从"></a>配置mysql主从</h2></li>
-<li>配置主库，在master上操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">log-bin&#x3D;mysql-bin   &#x2F;&#x2F;[必须]启用二进制日志</span><br><span class="line">server-id&#x3D;145      &#x2F;&#x2F;[必须]服务器唯一ID,一般取IP最后一段</span><br></pre></td></tr></table></figure></li>
-<li>配置从库，在slave上操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">log-bin&#x3D;mysql-bin   &#x2F;&#x2F;[非必须]启用二进制日志</span><br><span class="line">server-id&#x3D;120      &#x2F;&#x2F;[必须]服务器唯一ID，一般取IP最后一段</span><br></pre></td></tr></table></figure></li>
-<li>重启两台服务器上mysql服务<br><code>systemctl restart mysqld</code></li>
-<li>在主服务器上建立用户授权slave<br>用root用户登陆，然后执行如下操作：<br><code>GRANT REPLICATION SLAVE ON *.* to &#39;slaveuser&#39;@&#39;%&#39; identified by &#39;spdb1234&#39;;</code></li>
-<li>登陆主服务器bdpkylin01，查询Master状态<br><code>show master status;</code><br>结果如下，即为正常<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Position</th>
-<th>Binlog_Do_DB</th>
-<th>Binlog_Ignore_DB</th>
-<th>Executed_Grid_Set</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mysql-bin.00001</td>
-<td>323</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li>配置从服务器的slave，用root用户在bdpkylin02上操作<br><code>change master to master_host=&#39;bdpkylin01’,master_user=&#39;slaveuser&#39;,master_password=&#39;spdb1234&#39;, master_log_file=&#39;mysql-bin.000001&#39;,master_log_pos=323;</code><br>注意：master_log_pos=323 应为master position 值</li>
-<li>启动从服务器复制功能，在bdpkylin02上操作<br><code>start slave;</code></li>
-<li>检查从服务器复制功能状态，在bdpkylin02上操作<br><code>show slave status \G;</code><br>需确保以下两个指标均为Yes，否则复制功能出现问题。<br><code>Slave_IO_Running: Yes
-Slave_SQL_Running: Yes</code></li>
-</ol>
+            <p>Redis降低内存占用<br>    Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。<br>    压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。<br>    如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又在平台的有符号整数范围内，同时元素个数又足够少的情况下，Redis就会以有序整数数组的方式存储集合，这种存储方式被称为整数集合。<br>使用压缩列表编码的配置项：<br>        列表：<br>        list-max-ziplist-entries 512   列表为压缩列表情况下允许包含的最大元素数量512<br>        list-max-ziplist-value   64    列表为压缩列表情况下每个元素的最大体积多少字节<br>        散列：<br>        hash-max-ziplist-entries 512   散列为压缩列表情况下允许包含的最大元素数量512<br>        hash-max-ziplist-value   64    散列为压缩列表情况下每个元素的最大体积多少字节<br>        有序集合：<br>        zset-max-ziplist-entries 512   有序集合为压缩列表情况下允许包含的最大元素数量512<br>        zset-max-ziplist-value   64    有序集合为压缩列表情况下每个元素的最大体积多少字节<br>        集合：<br>        set-max-intset-entries 512                  集合为整数集合情况下允许包含的最大元素数量512<br>长压缩列表和大整数集合带来的性能问题：<br>    1.    随着压缩列表和整数集合的体积越来越大，操作这些结构的速度就会变得越来越慢，此时可用分片结构来解决。<br>    2.    当一个结构突破了压缩列表和整数集合设置的限制条件时，Redis就会自动将它转化为典型的底层结构类型。<br>分片结构<br>    分片的本质就是将简单的规则将数据划分为更小的部分，然后根据数据的属性确定将数据发送到那个部分。<br>分片式列表：<br>    在不使用lua脚本的情况下，很难对列表进行分片。<br>分片式散列：<br>    根据散列中存储的键值对的键进行一定的规则转换，确定将该键存储到哪个分片中。<br>分片式集合：<br>    根据集合中的元素本身进行一定的规则转换，确定将该元素存储到哪个分片中。<br>Redis的性能提升<br>读性能提升<br>    •    保持压缩列表的长度不会太大导致影响性能<br>    •    根据需要选择最好性能的存储结构<br>    •    将大体积对象存储到redis前，考虑压缩<br>    •    使用非事务批量提交的方式执行命令<br>    •    添加只读从服务器<br>写性能提升<br>    •    检查程序，尽可能减少程序需要读取的数据量<br>    •    使用锁去替换watch类型的事务<br>    •    使用多实例redis，提前进行预分区</p>
 
           
         
@@ -1643,7 +1828,7 @@ Slave_SQL_Running: Yes</code></li>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/Python%E6%8A%80%E6%9C%AF/Python%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1662,7 +1847,7 @@ Slave_SQL_Running: Yes</code></li>
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/Python%E6%8A%80%E6%9C%AF/Python%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Python基础—基本概述</a></h1>
+                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" itemprop="url">Redis核心—主从复制</a></h1>
         
 
         <div class="post-meta">
@@ -1674,7 +1859,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T18:35:44+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:09:26+08:00">
                 2020-03-14
               </time>
             
@@ -1690,7 +1875,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T18:42:27+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:00+08:00">
                 2020-03-14
               </time>
             
@@ -1709,8 +1894,8 @@ Slave_SQL_Running: Yes</code></li>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -1748,27 +1933,7 @@ Slave_SQL_Running: Yes</code></li>
       
         
           
-            <ol>
-<li>python解释器：运行python程序的程序</li>
-<li>源代码：为程序所写的语句</li>
-<li>字节码：python将程序编译后得到的后台程序</li>
-<li>PVM：python虚拟机，是python的运行时引擎解释编译得到的代码</li>
-<li>CPython、Jython、IronPython：Cpython是python语言的标准实现</li>
-<li>python内置对象：数字、字符串、列表、字典、元组、文件、集合、其他类型（类型、None、布尔型）、编程单元类型（函数、模型、类）等等</li>
-<li>数字：整数、浮点数、复数</li>
-<li>字符串“”：单个字符的字符传序列，不可变型支持索引、分片操作</li>
-<li>列表[]：最通用的序列，列表解析 </li>
-<li>字典{}：一种映射 </li>
-<li>元组：不可以改变的列表 </li>
-<li>集合：一些唯一的、不可变的对象的无序集合，集合解析 </li>
-<li>对于内置函数type(x)能够返回对象X的类型对象 </li>
-<li>迭代器：含有<strong>next</strong>方法 </li>
-<li>变量作用域：LEGB法则，global、nolocal语句 </li>
-<li>参数：*name，匹配接受序列中的参数；**name，匹配接受字典中的参数 </li>
-<li>模块的搜索路径，程序的主目录 》pythonpath目录〉标准链接库目录》任何.pth文件的内容 </li>
-<li>import语句和from语句 </li>
-<li>__name__,当文件是以顶层程序文件执行，在启动时<strong>name</strong>就会被设置为字符串”<strong>main</strong>” </li>
-</ol>
+            <p>Redis的主从复制<br>主从复制配置<br>        主：dir          快照和AOF文件的存储位置<br>        主：dbfilename   快照文件的名称<br>        从：slaveof host port  开启从服务器配置<br>主从复制步骤：<br>    1.    从：连接主服务器，发送SYNC命令<br>    2.    主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令<br>    3.    从：根据配置选项来决定是否继续使用现有的数据处理客户端请求，还是返回错误<br>    4.    主：完成BGSAVE命令，向从服务器发送快照，发送期间继续使用缓冲区记录命令<br>    5.    从：丢弃所有就数据，开始载入最新的快照文件<br>    6.    主：继续向从服务器发送缓冲区里面的命令<br>    7.    从：完成快照文件载入，开始接收命令请求<br>    8.    主：完成缓冲区里命令的发送，从现在开始每执行一个写命令都要向从服务器发送相同的写命令<br>主从复制的问题：<br>    1.    实际中，最好让主服务器只使用50%～65%的内存，留下30%～45%的内存用于执行BGSAVE命令和创建记录写命令的缓冲区。<br>    2.    Redis不支持主主复制<br>    3.    当多个从服务器同时连接主服务器时，会导致主服务器的带宽占用过高，从而出现性能问题<br>    4.    从服务器同样可以拥有自己的从服务器，从而形成主从链<br>    5.    树形结构的主从链是合理的</p>
 
           
         
@@ -1817,7 +1982,7 @@ Slave_SQL_Running: Yes</code></li>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1836,7 +2001,7 @@ Slave_SQL_Running: Yes</code></li>
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/" itemprop="url">Java核心—IO流</a></h1>
+                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" itemprop="url">Redis核心—数据持久化</a></h1>
         
 
         <div class="post-meta">
@@ -1848,7 +2013,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T18:16:58+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:08:32+08:00">
                 2020-03-14
               </time>
             
@@ -1864,7 +2029,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T18:17:45+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:09:26+08:00">
                 2020-03-14
               </time>
             
@@ -1883,8 +2048,8 @@ Slave_SQL_Running: Yes</code></li>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -1922,7 +2087,7 @@ Slave_SQL_Running: Yes</code></li>
       
         
           
-            <p>// 正在整理中</p>
+            <p>Redis的数据持久化<br>数据持久化的两种方式：<br>    1.    快照（snapshotting），可以讲存在于某一时刻的所有数据写入硬盘里。<br>    2.    只追加文件（append-only file），在执行写命令时，讲被执行的写命令复制到硬盘里。<br>两种方式可以单独使用，也可以同时使用。<br>快照持久化<br>快照持久化配置项：<br>        save 60 1000                     多久执行一次快照操作，60秒内有1000次写入<br>        stop-writes-on-bgsave-error no   创建快照失败后是否继续执行写命令<br>        rdbcompression yes               是否对快照文件进行压缩<br>        dbfilename dump.rdb              硬盘上的快照文件名<br>快照的检查命令：<br>        redis-check-dump                 检查快照文件的正确性<br>创建快照的方式：<br>    1.    客户端使用BGSAVE命令创建一个快照。Redis调用fork创建一个子进程来负责将快照写入磁盘，主进程继续处理命令请求。<br>    2.    客户端使用SAVE命令创建一个快照。Redis接收到SAVE命令之后，在快照创建完成之前不再响应任何其他命令。<br>    3.    用户设置的save配置选项被触发，会调用BGSAVE命令创建一个快照。<br>    4.    服务器接收到SHUTDOWN命令时，会触发一次SAVE命令创建一个快照。<br>    5.    当一个Redis服务器连接另一个Redis服务器，并向对方发送SYNC命令来开始一次复制操作的时候，主服务器会执行一次BGSAVE命令<br>快照持久化的问题：<br>    1.    快照持久化只适用于那些即使丢失一部分数据也不会造成任何问题的应用程序。<br>    2.    随着Redis占用的内存越来越多，BGSAVE命令的耗时也会越来越长，此时如果系统的剩余内存不多时，会引发系统大量的使用虚拟内存，从而导致Redis的的性能降低至无法使用。<br>    3.    为了防止Redis创建子进程而导致停顿，建议关闭自动保存，通过手动执行SAVE或BGSAVE命令进行持久化。<br>AOF持久化<br>AOF持久化配置项：<br>        appendonly no              是否使用AOF持久化<br>        appendfsync everysec [always] [no]               多久才将写入的内容同步到磁盘，每秒<br>        no-appendfsync-on-rewrite no     在对AOF进行重写的时候能否执行同步操作<br>        auto-aof-rewrite-percentage 100  多久执行一次AOF文件重写<br>        auto-aof-rewrite-min-size 64mb  当AOF文件大于64M，并且AOF文件的体积比上一次重写后增加一倍<br>AOF的检查和修复命令：<br>        redis-check-aof  —-fix     检查并修复AOF文件<br>AOF持久化的问题：<br>    1.    AOF文件越来越大，会造成Redis重启后的还原操作耗时越来越长，解决的方式是进行定期执行AOF文件重写。<br>AOF文件重写：<br>    1.    为了解决AOF文件持续增大的问题，可以使用BGREWRITEAOF命令来移除AOF文件中的冗余命令来重写AOF文件，使AOF文件变小<br>    2.    BGREWRITEAOF命令和BGSAVE命令的原理相同，因此也存在相同的问题。<br>    3.    通过配置项自动触发执行BGREWRITEAOF命令。</p>
 
           
         
@@ -1962,7 +2127,7 @@ Slave_SQL_Running: Yes</code></li>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
   </nav>
 
 
@@ -2008,7 +2173,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2030,7 +2195,7 @@ Slave_SQL_Running: Yes</code></li>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

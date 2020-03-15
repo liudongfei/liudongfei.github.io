@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E9%AB%98%E5%8F%AF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/" itemprop="url">Hive核心—分区和分桶</a></h1>
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E9%AB%98%E5%8F%AF%E7%94%A8/" itemprop="url">Hadoop核心—Yarn高可用</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:01:52+08:00">
-                2020-03-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:43:08+08:00">
+                2020-03-14
               </time>
             
 
@@ -329,7 +329,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:28:03+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:43:40+08:00">
                 2020-03-14
               </time>
             
@@ -387,21 +387,7 @@
       
         
           
-            <h2 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h2><p>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。<br>当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是有可能。存储日志，其 中必然有个属性是日志产生的日期。在产生分区时，就可以按照日志产生的日期列进行划分。把每 一天的日志当作一个分区。<br>将数据组织成分区，主要可以提高数据的查询速度。至于用户存储的每一条记录到底放到哪个分 区，由用户决定。即用户在加载数据的时候必须显示的指定该部分数据放到哪个分区。<br><strong>实现细节</strong>：</p>
-<ol>
-<li>一个表可以拥有一个或者多个分区，每个分区以文件夹的形式单独存在表文件夹的目录下。</li>
-<li>表和列名不区分大小写。</li>
-<li>分区是以字段的形式在表结构中存在，通过describetable命令可以查看到字段存在， 但是该字段不存放实际的数据内容，仅仅是分区的表示（伪列） 。</li>
-</ol>
-<p><strong>语法</strong>：</p>
-<ol>
-<li>创建一个分区表，以ds为分区列<br><code>create table invites(id int, name string) partitioned by (ds string) row format delimited ﬁeldsterminated by &#39; &#39; stored as textﬁle;</code></li>
-<li>将数据添加到时间为2013-08-16这个分区中：<br><code>load data local inpath&#39;/home/hadoop/Desktop/data.txt&#39; overwrite into table invites partition(ds=&#39;2013-08-16&#39;);</code></li>
-<li>从一个分区中查询数据：<br><code>select * from inviteswhere ds =&#39;2013-08-12&#39;;</code><br>4、往一个分区表的某一个分区中添加数据：<br><code>insert overwrite tableinvites partition (ds=&#39;2013-08-12&#39;) select id,max(name) from test group by id;</code><h2 id="分桶-Bucket"><a href="#分桶-Bucket" class="headerlink" title="分桶(Bucket)"></a>分桶(Bucket)</h2>对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方 式决定该条记录存放在哪个桶当中。<br>把表（或者分区）组织成桶（Bucket）有两个理由：</li>
-<li>获得更高的查询处理效率。桶为表加上了额外的结构，Hive 在处理有些查询时能利用这个结构。具体而言，连接两个在（包含连接列的）相同列上划分了桶的表，可以使用 Map 端连接 （Map-side join）高效的实现。比如JOIN操作。对于JOIN操作两个表有一个相同的列，如果对这两个表都进行了桶操作。那么将保存相同列值的桶进行JOIN操作就可以，可以大大较少JOIN的数据量。</li>
-<li>使取样（sampling）更高效。在处理大规模数据集时，在开发和修改查询的阶段，如果能在 数据集的一小部分数据上试运行查询，会带来很多方便。</li>
-</ol>
-<p><strong>创建带桶的 table</strong> ：<br><code>create tablebucketed_user(id int,name string)clustered by (id) sorted by(name) into 4buckets row format delimited ﬁelds terminated by &#39; &#39; stored as textﬁle;</code><br>首先，我们来看如何告诉—个表应该被划分成桶。我们使用CLUSTERED BY 子句来指定划分桶所用的列和要划分的桶的个 数：<br><code>CREATE TABLE bucketed_user(id INT) name STRING) CLUSTERED BY (id) INTO 4BUCKETS;</code><br>在这里，我们使用用户ID来确定如何划分桶(Hive使用对值进行哈希并将结果除 以桶的个数取余数。这样，任何一桶里都会 有一个随机的用户集合（PS：其实也能说是随机，不是吗？）。<br><strong>往表中插入数据</strong>：<br><code>INSERT OVERWRITE TABLEbucketed_users SELECT * FROM users;</code><br>物理上，每个桶就是表(或分区）目录里的一个文件。它的文件名并不重要，但是桶 n 是按照字典序排列的第 n 个文件。事实上，桶对应于 MapReduce的输出文件分区：一个作业产生的桶(输出文件)和reduce任务个数相同.<br>总结一句话： 分区按照我们指定列范围进行分区（层级文件夹 ），而分桶是按照列值的hash值,这样想同值都会在一个桶内（一级文件夹内不同文件区别不同的桶） ，便于join操作。<br>对两个划分了桶的表进行连接，处理左边表内某个桶的 mapper知道右边表内相匹配的行在对应的桶内。因此，mapper只需要获取那个桶 (这只是右边表内存储数据的一小部分)即可进行连接。这一优化方法并不一定要求两个表必须桶的个数相同，两个表的桶个数是倍数关系也可以。桶中的数据可以根据一个或多个列另外进行排序。由于这样对每个桶的连接变成了高效的归并排 序(merge-sort),因此可以进一步提升map端连接的效率。</p>
+            <p>// 正在整理中</p>
 
           
         
@@ -450,7 +436,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94NM%E5%92%8CDN%E5%90%AF%E5%8A%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -469,7 +455,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" itemprop="url">Hive基础—数据类型</a></h1>
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94NM%E5%92%8CDN%E5%90%AF%E5%8A%A8/" itemprop="url">Hadoop核心—NM和DN启动</a></h1>
         
 
         <div class="post-meta">
@@ -481,8 +467,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:59:18+08:00">
-                2020-03-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:41:50+08:00">
+                2020-03-14
               </time>
             
 
@@ -497,8 +483,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-13T00:00:58+08:00">
-                2020-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:42:44+08:00">
+                2020-03-14
               </time>
             
           </span>
@@ -555,24 +541,1162 @@
       
         
           
-            <p>原生类型： </p>
+            <pre><code>Hdfs的设计理念，一次写入，多次读取</code></pre><p>Namenode启动<br>    在nn首次启动之前，需要进行nn的format命令，目的是生成初始化的fsimage，用于nn首次启动时进行读取。启动过程如下：<br>    1.    nn从本地磁盘读取fsimage和edits文件（首次启动不需要读取edits文件）<br>    2.    nn回滚edits文件生成新的edits文件，dump最新的fsimage文件<br>    3.    Nn进入安全模式，此时不能接受改变hdfs的命名空间的请求，等待dn进行数据块的报告，检查块的熟练达到指定的阈值时（99.999%），退出安全模式<br>    4.    接收客户端请求，进行对外数据读写服务和集群内部数据的副本维护任务（周期性的接受DN的心跳和块报告）<br>Datanode启动<br>    dn的启动过程如下：<br>    1.    首先向nn进行服务注册register<br>    2.    向nn进行本节点的数据块的报告<br>    3.    周期性（默认1h）向nn上汇报所有的块信息，心跳是3s一次，心跳带回的结果是nn给dn的命令，如复制或删除某个块，超过10min没有收到dn的心跳，则该节点不可用<br>    4.    对外提供数据文件内容的读写请求 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%8F%8A%E8%B0%83%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%8F%8A%E8%B0%83%E5%BA%A6/" itemprop="url">Hadoop核心—Yarn资源管理及调度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:40:39+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:41:19+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E9%AB%98%E5%8F%AF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94HDFS%E9%AB%98%E5%8F%AF%E7%94%A8/" itemprop="url">Hadoop核心—HDFS高可用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:39:29+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:40:03+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>目标<br>    为了解决NameNode的单点故障（SPOF）问题。<br>HA的核心<br>    1)    如何保持两个NameNode内存中元数据内容的一致<br>    2)    active写edits文件，standby读取edits文件<br>    3)    如何保持edits文件的安全，将edits写入2n+1个JournealNode（进程）中<br>    4)    所有的datanode节点都要向两个NN发送心跳和块报告<br>    5)    客户端访问NN通过proxy进行，由proxy判断哪个NN<br>HA的配置要点（hdfs-site.xml,具体步骤见官网 ）<br>    1)    edits文件共享<br>    2)    两个NN<br>    3)    client访问proxy<br>    4)    fence（隔离，同一时刻只有一个NN对外服务） ，使用的sshfence方法，要求两个NN之间能够免密ssh登录<br>HA的故障自动转移<br>    1)    依赖于ZK<br>    2)    两个NN启动后都是standby，需要选举出一个为active<br>    3)    两个NN的监控，ZKFC进程（就是zk的client）<br>自动故障转移配置<br>    1)    开启故障自动转移，hdfs-site.xml<br>    2)    指定zk集群，core-site.xml </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Hadoop核心—MR编程模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:35:43+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:37:28+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Hadoop基本数据类型<br>    ✓    BooleanWritable：标准布尔型数值<br>    ✓    ByteWriteable：单字节数值<br>    ✓    DoubleWritable：双字节数值<br>    ✓    FloatWriteable：浮点数<br>    ✓    IntWritable：整形数<br>    ✓    LongWritable：长整形数<br>    ✓    Text：使用UTF8格式存储的文本<br>    ✓    NullWritable：当key或value为空时使用<br>重要接口<br>    Writable：序列化接口<br>    ⁃    write()<br>    ⁃    readFields()<br>    WritableComparable：序列化比较接口，key必须实现</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Tomcat概述和使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:51+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:56:26+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Apache概述和使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:35+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:56:26+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Nginx概述和使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:11+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:11:39+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。<br>Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
 <ul>
-<li>tinyint：1byte </li>
-<li>smallint：2byte </li>
-<li>int：4byte </li>
-<li>bigint：8byte </li>
-<li>float：4byte </li>
-<li>double：8byte </li>
-<li>decimal： </li>
-<li>timestamp： </li>
-<li>date： </li>
-<li>string： </li>
-<li>varchar： </li>
-<li>char：<br>复合类型：</li>
-<li>array_type：数组类型</li>
-<li>map_type：map类型</li>
-<li>struct_type：结构化类型 </li>
-<li>union_type：联合类型</li>
+<li>作为 Web 服务器：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.</li>
+<li>作为负载均衡服务器：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。</li>
+<li>作为邮件代理服务器: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。<br>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。<br>Nginx一般用户七层负载均衡，其吞吐量有一定的限制。为了提高整体的吞吐量，会在DNS和Nginx之间引入LVS（软件负载均衡器）、F5（硬负载均衡器） 可以做四层负载均衡，首先DNS解析到LVS(F5)，让后LVS(F5)转发给Nginx，在有Nginx转发给真实的服务器。<h2 id="Nginx的应用场景"><a href="#Nginx的应用场景" class="headerlink" title="Nginx的应用场景"></a>Nginx的应用场景</h2>  ⁃    Http服务器：使用Nginx做静态服务器、图片服务器<br>  ⁃    虚拟主机配置：讲一个服务器，拆分成多个网站部署<br>  ⁃    反向代理：Nginx拦截所有请求，内部实现转发到真实服务器中，隐藏真实的ip地址<br>  ⁃    负载均衡：减少单台服务器的访问压力（重试机制、故障转移、健康检查）<br>  ⁃    安全配置：Nginx搭建API接口网关“解决跨域问题”；Nginx实现动静分离；Nginx实现DDOS<h2 id="反向代理和正向代理的区别"><a href="#反向代理和正向代理的区别" class="headerlink" title="反向代理和正向代理的区别"></a>反向代理和正向代理的区别</h2><img src="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/15841870935903.jpg" alt="-w736"><h2 id="四层和七层负载均衡的区别"><a href="#四层和七层负载均衡的区别" class="headerlink" title="四层和七层负载均衡的区别"></a>四层和七层负载均衡的区别</h2></li>
+<li>四层负载均衡，在网络模型中的传输层中，基于主要是基于tcp协议报文实现负载均衡（比如LVS、haproxy就是四层负载均衡器），使用改写报文的源地址和目的地址。</li>
+<li>七层负载均衡,在网络模型中应用层中，基于URL或者HTTP协议实现负载均衡，Web服务器。<h2 id="Nginx常用命令"><a href="#Nginx常用命令" class="headerlink" title="Nginx常用命令"></a>Nginx常用命令</h2><code>nginx -t #验证配置文件语法是否合法
+nginx -s reload #重新加载nginx的配置
+nginx -s stop #停止nginx</code><h2 id="负载均衡产生的问题"><a href="#负载均衡产生的问题" class="headerlink" title="负载均衡产生的问题"></a>负载均衡产生的问题</h2></li>
+<li>分布式session的一致性问题</li>
+<li>分布式job的幂等性问题（唯一性）</li>
+<li>分布式生成的全局id</li>
+<li>分布式锁</li>
+<li>分布式配置中心</li>
+<li>分布式日志收集系统<h2 id="Nginx的配置详解"><a href="#Nginx的配置详解" class="headerlink" title="Nginx的配置详解"></a>Nginx的配置详解</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3>主配置文件在安装目录的conf/nginx.conf中<br>`<br>http {<br>……<br>##<h1 id="Virtual-Host-Configs"><a href="#Virtual-Host-Configs" class="headerlink" title="Virtual Host Configs"></a>Virtual Host Configs</h1>##<br>include /etc/nginx/conf.d/<em>.conf;副配置文件位置<br>include /etc/nginx/sites-enabled/</em>;<br>}<br><code>副配置文件
+在安装目录的nginx/sites-available中，一般存放现有的站点配置库
+在安装目录的nginx/sites-enabled中，一般存放被激活的站点配置
+需要启动新的站点配置时，只需要将现有的站点配置库中的站点配置软连接到激活的站点配置下
+配置文件结构</code><br>…              #全局块<br>events {         #events块<br> …<br>}<br>http      #http块<br>{<br>  …   #http全局块<br>  server        #server块<br>  { <pre><code>...       #server全局块
+location [PATTERN]   #location块
+{
+    ...
+}
+location [PATTERN] 
+{
+    ...
+}</code></pre>  }<br>  server<br>  {<pre><code>...</code></pre>  }<br>  …     #http全局块<br>}<br>stream {           #tcp全局块<br>  upstream xxx {<pre><code>...</code></pre>  }<br>  server {   #server块<pre><code>...</code></pre>  }<br>}<br>`</li>
+<li>全局块：配置影响nginx全局的指令。一般有运行nginx服务器的用户组，nginx进程pid存放路径，日志存放路径，配置文件引入，允许生成worker process数等。</li>
+<li>events块：配置影响nginx服务器或与用户的网络连接。有每个进程的最大连接数，选取哪种事件驱动模型处理连接请求，是否允许同时接受多个网路连接，开启多个网络连接序列化等。</li>
+<li>http块：可以嵌套多个server，配置http代理，缓存，日志定义等绝大多数功能和第三方模块的配置。如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。</li>
+<li>server块：配置虚拟主机的相关参数，一个http中可以有多个server。</li>
+<li>stream块：可以嵌套多个server，配置tcp代理</li>
+<li>location块：配置请求的路由，以及各种页面的处理情况。<h3 id="配置文件样例"><a href="#配置文件样例" class="headerlink" title="配置文件样例"></a>配置文件样例</h3>########### 每个指令必须有分号结束。#################<br>`<br>#user administrator administrators;  #配置用户或者组，默认为nobody nobody。<br>#worker_processes 2;  #允许生成的进程数，默认为1<br>#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址<br>error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg<br>events {<br>  accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on<br>  multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off<br>  #use epoll;      #I/O模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport<br>  worker_connections  1024;    #最大连接数，默认为512<br>}<br>http {<br>  include       mime.types;   #文件扩展名与文件类型映射表<br>  default_type  application/octet-stream; #默认文件类型，默认为text/plain<br>  #access_log off; #取消服务日志<br>  log_format myFormat ‘$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for’; #自定义格式<br>  access_log log/access.log myFormat;  #combined为日志格式的默认值<br>  sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。<br>  sendfile_max_chunk 100k;#每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。<br>  keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。<br>  upstream mysvr {   <pre><code>server 127.0.0.1:7878;
+server 192.168.10.121:3333 backup;  #热备</code></pre>  }<br>  error_page 404 <a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a>; #错误页<br>  server {<pre><code>keepalive_requests 120; #单连接请求上限次数。
+listen       4545;   #监听端口
+server_name  127.0.0.1;   #监听地址       
+location  ~*^.+$ {     #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
+   #root path;  #根目录
+   #index vv.txt;  #设置默认页
+   proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
+   deny 127.0.0.1;  #拒绝的ip
+   allow 172.18.5.54; #允许的ip           
+} </code></pre>  }<br>   #server {<pre><code>listen       443 ssl;
+server_name  localhost;
+ssl_certificate      /etc/nginx/ssl/nginx.crt; # 证书文件
+ssl_certificate_key  /etc/nginx/ssl/nginx.key; # 密钥对文件(包含公钥和私钥,             私钥不会发给客户端)
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # SSL(包括 v3)都有漏洞，应该用             TLS(TLS1.0 = SSL 3.1)</code></pre><h1 id="ssl-session-cache-shared-SSL-1m"><a href="#ssl-session-cache-shared-SSL-1m" class="headerlink" title="ssl_session_cache    shared:SSL:1m;"></a>ssl_session_cache    shared:SSL:1m;</h1><pre><code>ssl_session_timeout  5m;
+ssl_ciphers  HIGH:!aNULL:!MD5;</code></pre><h1 id="ssl-prefer-server-ciphers-on"><a href="#ssl-prefer-server-ciphers-on" class="headerlink" title="ssl_prefer_server_ciphers  on;"></a>ssl_prefer_server_ciphers  on;</h1><h1 id="location"><a href="#location" class="headerlink" title="location / {"></a>location / {</h1><h1 id="root-html"><a href="#root-html" class="headerlink" title="root   html;"></a>root   html;</h1><h1 id="index-index-html-index-htm"><a href="#index-index-html-index-htm" class="headerlink" title="index  index.html index.htm;"></a>index  index.html index.htm;</h1><h1 id><a href="#" class="headerlink" title="}"></a>}</h1>}<br>`<br>常见配置项说明：</li>
+</ul>
+<p>1.$remote_addr 与 $http_x_forwarded_for 用以记录客户端的ip地址；<br>2.$remote_user ：用来记录客户端用户名称；<br>3.$time_local ： 用来记录访问时间与时区；<br>4.$request ： 用来记录请求的url与http协议；<br>5.$status ： 用来记录请求状态；成功是200；<br>6.$body_bytes_s ent ：记录发送给客户端文件主体内容大小；<br>7.$http_referer ：用来记录从那个页面链接访问过来的；<br>8.$http_user_agent ：记录客户端浏览器的相关信息；<br>惊群现象：一个网路连接到来，多个睡眠的进程被同事叫醒，但只有一个进程能获得链接，这样会影响系统性能。</p>
+<h3 id="代理部分的配置样例"><a href="#代理部分的配置样例" class="headerlink" title="代理部分的配置样例"></a>代理部分的配置样例</h3><p>include       mime.types;   #文件扩展名与文件类型映射表<br>default_type  application/octet-stream; #默认文件类型，默认为text/plain<br> #access_log off; #取消服务日志<br>log_format myFormat ‘ $remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for’; #自定义格式<br>access_log log/access.log myFormat;  #combined为日志格式的默认值<br>sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。<br>sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。<br>keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。<br>proxy_connect_timeout 1;   #nginx服务器与被代理的服务器建立连接的超时时间，默认60秒<br>proxy_read_timeout 1; #nginx服务器想被代理服务器组发出read请求后，等待响应的超时间，默认为60秒。<br>proxy_send_timeout 1; #nginx服务器想被代理服务器组发出write请求后，等待响应的超时间，默认为60秒。<br>proxy_http_version 1.0 ; #Nginx服务器提供代理服务的http协议版本1.0，1.1，默认设置为1.0版本。<br> #proxy_method get;    #支持客户端的请求方法。post/get；<br>proxy_ignore_client_abort on;  #客户端断网时，nginx服务器是否终端对被代理服务器的请求。默认为off。<br>proxy_ignore_headers “Expires” “Set-Cookie”;  #Nginx服务器不处理设置的http相应投中的头域，这里空格隔开可以设置多个。<br>proxy_intercept_errors on;    #如果被代理服务器返回的状态码为400或者大于400，设置的error_page配置起作用。默认为off。<br>proxy_headers_hash_max_size 1024; #存放http报文头的哈希表容量上限，默认为512个字符。<br>proxy_headers_hash_bucket_size 128; #nginx服务器申请存放http报文头的哈希表容量大小。默认为64个字符。<br>proxy_next_upstream timeout;  #反向代理upstream中设置的服务器组，出现故障时，被代理服务器返回的状态值。error|timeout|invalid_header|http_500|http_502|http_503|http_504|http_404|off<br> #proxy_ssl_session_reuse on; 默认为on，如果我们在错误日志中发现“SSL3_GET_FINSHED:digest check failed”的情况时，可以将该指令设置为off。</p>
+<h3 id="X-Forwarded-For-介绍"><a href="#X-Forwarded-For-介绍" class="headerlink" title="X-Forwarded-For 介绍"></a>X-Forwarded-For 介绍</h3><p>X-Forwarded-For 是一个 HTTP 扩展头部。HTTP/1.1（RFC 2616）协议并没有对它的定义，它最开始是由 Squid 这个缓存代理软件引入，用来表示 HTTP 请求端真实 IP。如今它已经成为事实上的标准，被各大 HTTP 代理、负载均衡等转发服务广泛使用，并被写入 RFC 7239（Forwarded HTTP Extension）标准之中。<br>X-Forwarded-For 请求头格式非常简单，就这样：<br><code>X-Forwarded-For: client, proxy1, proxy2</code><br>可以看到，XFF 的内容由「英文逗号 + 空格」隔开的多个部分组成，最开始的是离服务端最远的设备 IP，然后是每一级代理设备的 IP。<br>如果一个 HTTP 请求到达服务器之前，经过了三个代理 Proxy1、Proxy2、Proxy3，IP 分别为 IP1、IP2、IP3，用户真实 IP 为 IP0，那么按照 XFF 标准，服务端最终会收到以下信息：<br><code>X-Forwarded-For: IP0, IP1, IP2</code><br>Proxy3 直连服务器，它会给 XFF 追加 IP2，表示它是在帮 Proxy2 转发请求。列表中并没有 IP3，IP3 可以在服务端通过 Remote Address 字段获得。我们知道 HTTP 连接基于 TCP 连接，HTTP 协议中没有 IP 的概念，Remote Address 来自 TCP 连接，表示与服务端建立 TCP 连接的设备 IP，在这个例子里就是 IP3。Remote Address 无法伪造，因为建立 TCP 连接需要三次握手，如果伪造了源 IP，无法建立 TCP 连接，更不会有后面的 HTTP 请求。<br>直接对外提供服务的 Web 应用，在进行与安全有关的操作时，只能通过 Remote Address 获取 IP，不能相信任何请求头；使用 Nginx 等 Web Server 进行反向代理的 Web 应用，在配置正确的前提下，要用 X-Forwarded-For 最后一节 或 X-Real-IP 来获取 IP（因为 Remote Address 得到的是 Nginx 所在服务器的内网 IP）；同时还应该禁止 Web 应用直接对外提供服务；<br>Nginx使用场景</p>
+<h3 id="Http服务器"><a href="#Http服务器" class="headerlink" title="Http服务器"></a>Http服务器</h3><p><strong>虚拟主机配置</strong><br>虚拟主机使用的是特殊的软硬件技术，把一台运行在因特网上的服务器主机分成多台”虚拟”的 主机，每台虚拟主机是一个独立的网站，具有独立的域名，具有完整的Intemet服务器功能 （WWW、FTP、Email等）。同一台主机上的虚拟主机之间是完全独立的，在网站访问者看 来，每一台虚拟主机和一台独立的主机是完全一样。<br><strong>基于IP的虚拟主机</strong><br>Linux操作系统允许添加IP别名。IP别名指在一块物理网卡上绑定多个IP地址。<br>基于域名的虚拟主机：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;www&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name maven.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;www&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基于端口的虚拟主机：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;git&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">	listen 81;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		root &#x2F;var&#x2F;git&#x2F;basiccloud.net;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反向代理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name git.basiccloud.net;</span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		proxy_pass http:&#x2F;&#x2F;127.0.0.1:8800;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">负载均衡</span><br><span class="line">http &#123;</span><br><span class="line">	upstream myapp1 &#123;</span><br><span class="line">		server srv1.example.com;</span><br><span class="line">		server srv2.example.com;</span><br><span class="line">		server srv3.example.com;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	server &#123;</span><br><span class="line">		listen 80;</span><br><span class="line">		location &#x2F; &#123;</span><br><span class="line">			proxy_pass http:&#x2F;&#x2F;myapp1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx的Location介绍"><a href="#Nginx的Location介绍" class="headerlink" title="Nginx的Location介绍"></a>Nginx的Location介绍</h3><p><strong>Location作用</strong><br>location指令的作用是根据用户请求的URI来执行不同的应用，也就是根据用户请求的网站URL进行匹配，匹配成功即进行相关的操作。<br>nginx首先搜索由书面字符串给定的最为特别的前缀location，无视列表顺序。在上面的配置中仅有一个带前缀的location “/“，并且因为它匹配任何请求，它将用于作为最后的对策。然后 nginx检查通过正则表达式给定的location，基于在配置文件中列出的顺序。第一个匹配的表达式将停止搜索然后nginx将使用这个location。如果没有正则表达式匹配请求，则nginx将使用前面发现的最为特别的前缀location。<br><strong>Location语法</strong><br>以=开头表示精确匹配 如 A 中只匹配根目录结尾的请求，后面不能带任何字符串。<br>^~ 开头表示uri以某个常规字符串开头，不是正则匹配<br>~ 开头表示区分大小写的正则匹配;<br>~* 开头表示不区分大小写的正则匹配<br>/ 通用匹配, 如果没有其它匹配,任何请求都会匹配到</p>
+<h3 id="Nginx的server-name介绍"><a href="#Nginx的server-name介绍" class="headerlink" title="Nginx的server_name介绍"></a>Nginx的server_name介绍</h3><p>服务器名称通过使用server_name指令来定义并决定哪个服务器块(server block)将用于给定的请求。<br>可以使用精确名称，通配符和正则表达式：<br>当通过名称搜索虚拟服务器时， 如果名字和多个指定的变量匹配， 例如同时匹配通配符和正 则表达式，在下面的优先级次序中，第一个匹配的变量将被选择：</p>
+<ol>
+<li>精确名称</li>
+<li>星号开头的最长的通配符名称, 例如 “*.example.org”</li>
+<li>星号结束的最长的通配符名称, 例如 “mail.*”</li>
+<li>第一个匹配的正则表达式(按照出现在配置文件中的顺序)<br>通配符名称可以在名称的开头和结尾包含星号，并且只能紧挨着点号(.)。<br>nginx所用的正则表达式兼容于Perl编程语言(PCRE)。为了使用正则表达式， 服务器名称必须以波浪号(~)开头<h3 id="Nginx的server指令介绍"><a href="#Nginx的server指令介绍" class="headerlink" title="Nginx的server指令介绍"></a>Nginx的server指令介绍</h3>server指令用于定义一台服务器的地址和其他参数。地址可以是域名或者IP地址，端口可选， 或者是以”unix:”前缀指定的UNIX-domain socket路径。如果端口没有指定，将使用80端口。 可以解析为多个IP地址的域名将一次性定义多台服务器。<br>Syntax: server address [parameters];<br>Default: —<br>Context: upstream<br>下面是可用的参数列表。<br>weight=number<br>设置服务器的权重，默认为1.<br>max_fails=number<br>设置在参数fail_timeout指定的时间内，发生的和服务器通讯的不成功的数量。默认情 况，不成功尝试次数被设置为1.如果设置为0则关闭尝试计数。至于什么是不成功的尝试 则通过proxy_next_upstream, fastcgi_next_upstream, uwsgi_next_upstream, scgi_next_upstream, 和 memcached_next_upstream指令定义。<br>fail_timeout=time<br>用于设置：<br>时间段，在此期间应该发起指定数量的和服务器通讯的不成功尝试，以判断服务器是否不可到达和接下来服务器被判定为不可到达的时间期间<br>默认，fail_timeout参数被设置为10秒钟.<br>backup<br>标记当前服务器为备用服务器。当主服务器(注：应该是没有标记为backup和down的服 务器)都不能达到时请求将被分派过去。<br>down<br>将当前服务器标记为永久不可到达。<h3 id="Nginx的Http的keepalive"><a href="#Nginx的Http的keepalive" class="headerlink" title="Nginx的Http的keepalive"></a>Nginx的Http的keepalive</h3>当使用nginx作为反向代理时，为了支持长连接，需要做到两点：<ol>
+<li>从client到nginx的连接是长连接</li>
+<li>从nginx到server的连接是长连接<br>为了在client和nginx之间保持上连接，有两个要求：</li>
+<li>client发送的HTTP请求要求keep alive</li>
+<li>nginx设置上支持keep alive<br>http {<br>keepalive_timeout 120s 120s;<br>keepalive_requests 10000;<br>}<br>keepalive_timeout指令的语法：<br>Syntax: keepalive_timeout timeout [header_timeout];<br>Default: keepalive_timeout 75s;<br>Context: http, server, location<br>第一个参数设置keep-alive客户端连接在服务器端保持开启的超时值。值为0会禁用keep-alive 客户端连接。可选的第二个参数在响应的header域中设置一个值“Keep-Alive: timeout=time”。 这两个参数可以不一样。<br>keepalive_requests指令用于设置一个keep-alive连接上可以服务的请求的最大数量。<br>为了让nginx和server（nginx称为upstream）之间保持长连接，典型设置如下：<br>upstream BACKEND {<br>server 192.168.0.1：8080 weight=1 max_fails=2 fail_timeout=30s;<br>server 192.168.0.2：8080 weight=1 max_fails=2 fail_timeout=30s;<br>keepalive 300; // 这个很重要！<br>}<br>keepalive指令，keepalive指令出现在版本1.1.4。<br>Syntax: keepalive connections;<br>Default: —<br>Context: upstream<br>connections参数设置每个worker进程在缓冲中保持的到upstream服务器的空闲keepalive连接的最大数量.当这个数量被突破时，最近使用最少的连接将被关闭。keepalive指令不会限制一个nginx worker进程到upstream服务器连接的总数量。 connections参数应该设置为一个足够小的数字来让upstream服务器来处理新进来的连接。<br>Nginx负载均衡算法<br>⁃    热备算法：有2台服务器，当一台服务器发生事故时，才启用第二台服务器给提供服务<br>⁃    轮训算法：均匀或配置权重，服务器性能配置都相同的情况下<br>upstream myapp1 {<br>server srv1.example.com weight=3;<br>server srv2.example.com fail_timeout=5s max_fails=3;<br>server srv3.example.com;<br>}<br>⁃    Ip绑定：根据访客ip的hash值，解决session共享问题<br>⁃    最少连接：下一个请求将被分派到活动连接数量最少的服务器<br>upstream myapp1 {<br>least_conn;<br>server srv1.example.com;<br>server srv2.example.com;<br>server srv3.example.com;<br>}<br>⁃    fair：第三方算法，根据页面加载速度<br>⁃    url绑定：第三方算法，根据url地址的hash值<h2 id="Consul-upsync-nginx实现动态负载均衡"><a href="#Consul-upsync-nginx实现动态负载均衡" class="headerlink" title="Consul+upsync+nginx实现动态负载均衡"></a>Consul+upsync+nginx实现动态负载均衡</h2>//正在整理中<h2 id="lvs-keepalive-nginx实现高性能负载均衡"><a href="#lvs-keepalive-nginx实现高性能负载均衡" class="headerlink" title="lvs + keepalive+nginx实现高性能负载均衡"></a>lvs + keepalive+nginx实现高性能负载均衡</h2>高并发时，限流机制、nginx实现集群、服务降级、熔断策略等<br>// 正在整理中<h2 id="keepalive-nginx实现7-24主从双机热备"><a href="#keepalive-nginx实现7-24主从双机热备" class="headerlink" title="keepalive+nginx实现7 * 24主从双机热备"></a>keepalive+nginx实现7 * 24主从双机热备</h2>// 正在整理中</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94AOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94AOP/" itemprop="url">Spring核心—AOP</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:50:49+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:53:04+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。<br>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。<br>    •    所谓的核心业务，比如登陆，增加数据，删除数据都叫核心业务<br>    •    所谓的周边功能，比如性能统计，日志，事务管理等等<br>    周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面<br>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP。</p>
+<h2 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h2><p>AOP能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
+<h3 id="AOP-当中的概念"><a href="#AOP-当中的概念" class="headerlink" title="AOP 当中的概念"></a>AOP 当中的概念</h3><ul>
+<li>切入点（Pointcut）：在哪些类，哪些方法上切入（where）</li>
+<li>通知（Advice）：在方法执行的什么实际（when:方法前/方法后/方法前后）做什么（what:增强的功能）</li>
+<li>切面（Aspect）：切面 = 切入点 + 通知，通俗点就是：在什么时机，什么地方，做什么增强！</li>
+<li>织入（Weaving）：把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）<h2 id="Spring-AOP-AspectJ轻松实现拦截方法"><a href="#Spring-AOP-AspectJ轻松实现拦截方法" class="headerlink" title="Spring AOP+AspectJ轻松实现拦截方法"></a>Spring AOP+AspectJ轻松实现拦截方法</h2>常见AspectJ的注解：<br>  @Before – 方法执行前运行<br>  @After – 运行在方法返回结果后<br>  @AfterReturning – 运行在方法返回一个结果后，在拦截器返回结果。<br>  @AfterThrowing – 运行方法在抛出异常后，<br>  @Around – 围绕方法执行运行，结合以上这三个通知。</li>
 </ul>
 
           
@@ -622,7 +1746,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -641,7 +1765,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/" itemprop="url">Hive基础—HQL语法</a></h1>
+                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/" itemprop="url">Spring核心—IOC和DI</a></h1>
         
 
         <div class="post-meta">
@@ -653,8 +1777,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:53:25+08:00">
-                2020-03-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:48:45+08:00">
+                2020-03-14
               </time>
             
 
@@ -669,545 +1793,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:58:56+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="DDL操作"><a href="#DDL操作" class="headerlink" title="DDL操作"></a>DDL操作</h2><p>创建表，建表语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name</span><br><span class="line">	[(col_name data_type [COMMENT col_comment], ...)] </span><br><span class="line">	[COMMENT table_comment] </span><br><span class="line">	[PARTITIONED BY (col_name data_type [COMMENT col_comment], ...)] </span><br><span class="line">	[CLUSTERED BY (col_name, col_name, ...)</span><br><span class="line">	[SORTED BY (col_name [ASC|DESC], ...)] INTO num_buckets BUCKETS] </span><br><span class="line">	[ROW FORMAT row_format]</span><br><span class="line">	[STORED AS file_format]</span><br><span class="line">	[LOCATION hdfs_path]</span><br><span class="line">CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name</span><br><span class="line">	[(col_name data_type [COMMENT col_comment], ...)] </span><br><span class="line">	[COMMENT table_comment]</span><br><span class="line">	AS select_statement</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>EXTERNAL关键字可以让用户创建一个外部表，在建表的同时指定一个指向实际数据的路径（LOCATION），Hive 创建内部表时，会将数据移动到数据仓库指向的路径；若创建外部表，仅记录数据所在的路径，不对数据的位置做任何改变。在删除表的时候，内部表的元数据和数据会被一起删除，而外部表只删除元数据，不删除数据。 </li>
-<li>LIKE 允许用户复制现有的表结构，但是不复制数据。</li>
-<li>ROW FORMAT row format DELIMITED [FIELDS TERMINATED BY char] [COLLECTION ITEMS TERMINATED BY char] [MAP KEYS TERMINATED BY char] [LINES TERMINATED BY char] | SERDE serde_name [WITH SERDEPROPERTIES (property_name=property_value,  …)] 用户在建表的时候可以自定义 SerDe 或者使用自带的 SerDe。如果没有指定 ROW FORMAT 或者 ROW FORMAT DELIMITED，将会使用自带的 SerDe。在建表的时候，用户还需要为表指定列，用户在指定表的列的同时也会指定自定义的 SerDe，Hive 通过SerDe确定表的具体的列的数据。</li>
-</ol>
-<p>增加或删除分区，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name ADD [IF NOT EXISTS] | DROP PARTITION (partition_col &#x3D; partition_col_value, partition_col &#x3D; partiton_col_value, ...)</span><br></pre></td></tr></table></figure>
-<p>修改表名，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name RENAME TO new_table_name</span><br></pre></td></tr></table></figure>
-
-<p>删除数据库，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database name cascade</span><br></pre></td></tr></table></figure>
-
-<p>显示命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show tables；</span><br><span class="line">show databases；</span><br><span class="line">show partitions t_name； </span><br><span class="line">show functions； </span><br><span class="line">desc extended t_name; </span><br><span class="line">desc formatted t_name；</span><br></pre></td></tr></table></figure>
-<h2 id="DML操作"><a href="#DML操作" class="headerlink" title="DML操作"></a>DML操作</h2><p>加载数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA [LOCAL] INPATH &#39;filepath&#39; [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1&#x3D;val1, partcol2&#x3D;val2 ...)]</span><br></pre></td></tr></table></figure>
-<p>插入数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT OVERWRITE TABLE tablename1 [PARTITION (partcol1&#x3D;val1, partcol2&#x3D;val2 ...)] select_statement1 FROM from_statemen</span><br></pre></td></tr></table></figure>
-<p>导出表数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT OVERWRITE [LOCAL] DIRECTORY directory1 SELECT ... FROM ...</span><br></pre></td></tr></table></figure>
-<p>查询数据，语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT [ALL | DISTINCT] select_expr, select_expr, ... FROM table_reference </span><br><span class="line">	[WHERE where_condition] </span><br><span class="line">	[GROUP BY col_list [HAVING condition]] </span><br><span class="line">	[CLUSTER BY col_list | [DISTRIBUTE BY col_list] </span><br><span class="line">	[SORT BY| ORDER BY col_list] ] [LIMIT number]</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>order by会对输入做全局排序，因此只有一个reducer，会导致当输入规模较大时，需要较长的计算时间。 </li>
-<li>sort by不是全局排序，其在数据进入 reducer 前完成排序。因此，如果用 sort by 进行排 序，并且设置 mapred.reduce.tasks&gt;1，则 sort by只保证每个reducer的输出有序，不保证全局有序。 </li>
-<li>distribute by根据distribute by指定的内容将数据分到同一个 reducer。 </li>
-<li>Cluster by除了具有Distribute by的功能外，还会对该字段进行排序。因此，常常认为 cluster by = distribute by + sort by。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Linux常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:38:58+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T10:51:00+08:00">
-                2020-03-15
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsof -i :3306 #查看3306端口</span><br><span class="line">nc -lk 9999 #创建一个socket端口，端口9999</span><br></pre></td></tr></table></figure>
-<h3 id="文件编辑"><a href="#文件编辑" class="headerlink" title="文件编辑"></a>文件编辑</h3><p><strong>Tmux命令</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">tmux ls		显示当前的session列表</span><br><span class="line">tmux attach -t sessionid    连接到指定的session</span><br><span class="line">tmux kill-session -t session    关闭指定的session</span><br><span class="line">基础命令（Control-B）</span><br><span class="line">？    获取帮助信息</span><br><span class="line">S    列出当前所有的会话 </span><br><span class="line">$    重命名当前会话 </span><br><span class="line">D    断开当前会话 </span><br><span class="line">C    创建一个新的窗口 </span><br><span class="line">，    重命名当前窗口 </span><br><span class="line">W    列出所有窗口 </span><br><span class="line">%    水平分隔窗口 </span><br><span class="line">“    竖直分隔窗口 </span><br><span class="line">N    选择下一个窗口 </span><br><span class="line">P    选择上一窗口 </span><br><span class="line">0-9    选择0-9对应的窗口 </span><br><span class="line">O    在窗格之间切换 </span><br><span class="line">X    关闭当前窗格</span><br></pre></td></tr></table></figure>
-<p><strong>Vim命令</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">命令模式 </span><br><span class="line">h    光标左移动1位 </span><br><span class="line">l    光标右移动1位 </span><br><span class="line">j    光标下移动1位 </span><br><span class="line">k    光标上移动1位 </span><br><span class="line">Control-f    向下翻页 </span><br><span class="line">Contr-b    向上翻页 </span><br><span class="line">0    光标移动到行首 </span><br><span class="line">$    光标移动到行尾部 </span><br><span class="line">G    光标移动到全文末行 </span><br><span class="line">gg    光标移动到全文首行 </span><br><span class="line">&#x2F;aa    向光标之后搜索aa，按n继续搜索下一个 </span><br><span class="line">?aa    向光标之前搜索aa，按n继续搜索下一个 </span><br><span class="line">x    向后删除一个字符 </span><br><span class="line">X    向前删除一个字符 </span><br><span class="line">dd    删除光标所在行 </span><br><span class="line">d1G    删除光标所在到首行的所有数据 </span><br><span class="line">dG    删除光标坐在到末行的字后一个字符 </span><br><span class="line">d$    删除光标所在到行末 </span><br><span class="line">d0    删除光标所在到行首 </span><br><span class="line">yy    复制光标所在行 </span><br><span class="line">y1G    复制光标所在行到第一行的所有数据 </span><br><span class="line">yG    复制光标所在到末行的所有数据 </span><br><span class="line">y$    复制光标所在到行末的所有数据 </span><br><span class="line">y0    复制光标所在到行首的所有数据 </span><br><span class="line">ZZ    存储修改后退出 </span><br><span class="line">p    将复制的数据在光标的下面一行贴上 </span><br><span class="line">P    将复制的数据在光标的上面一行贴上 </span><br><span class="line">u    复原上一个动作 </span><br><span class="line">set nu    设置行号 </span><br><span class="line">set nonu    取消行号 </span><br><span class="line">:%s&#x2F;str1&#x2F;str2&#x2F;    将文件中每一行首次出现的str1替换成str2 </span><br><span class="line">:%s&#x2F;str1&#x2F;str2&#x2F;g    将文件中所有的str1都替换成str2 </span><br><span class="line">:%s&#x2F;str1&#x2F;&amp;&#x2F;gn    统计str1出现的次数 </span><br><span class="line">:w [filename]    将编辑的数据存储成另外一个文档 </span><br><span class="line">:n1,n2 w [filename]    将n1到n2行的内通存储成filename档案 </span><br><span class="line">:r [filename]    在编辑的数据中读入另外一个档案的数据，即将filename这个档案内容驾到游标所在行后面</span><br></pre></td></tr></table></figure>
-<h3 id="资源监测"><a href="#资源监测" class="headerlink" title="资源监测"></a>资源监测</h3><p>Cpu及内存资源查看：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">top       查看cpu使用 </span><br><span class="line">htop		  高级版的top</span><br><span class="line">du  -h    对文件和目录使用空间查看 </span><br><span class="line">df  -h    显示磁盘分区上可以使用的空间情况</span><br></pre></td></tr></table></figure>
-<p>网络及端口资源查看：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:端口号    用于查看某一端口的占用情况</span><br><span class="line">nc -lp 端口号            在本机指定端口上启动监听</span><br></pre></td></tr></table></figure>
-<h3 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h3><p>常见目录说明：<br>    ▪    /bin： 存放二进制可执行文件(ls、cat、mkdir等)，常用命令一般都在这里；<br>    ▪    /etc： 存放系统管理和配置文件；<br>    ▪    /home：存放所有用户文件的根目录，是用户主目录的基点，比如用户user的主目录就是/home/user，可以用~user表示；<br>    ▪    /usr ：用于存放系统应用程序；<br>    ▪    /opt：额外安装的可选应用程序包所放置的位置。一般情况下，我们可以把tomcat等都安装到这里；<br>    ▪    /proc：虚拟文件系统目录，是系统内存的映射。可直接访问这个目录来获取系统信息；<br>    ▪    /root：超级用户（系统管理员）的主目录（特权阶级^o^）；<br>    ▪    /sbin: 存放二进制可执行文件，只有root才能访问。这里存放的是系统管理员使用的系统级别的管理命令和程序。如ifconfig等；<br>    ▪    /dev：用于存放设备文件；<br>    ▪    /mnt：系统管理员安装临时文件系统的安装点，系统提供这个目录是让用户临时挂载其他的文件系统；<br>    ▪    /boot：存放用于系统引导时使用的各种文件；<br>    ▪    /lib ：存放着和系统运行相关的库文件 ；<br>    ▪    /tmp：用于存放各种临时文件，是公用的临时文件存储点；<br>    ▪    /var：用于存放运行时需要改变数据的文件，也是某些大文件的溢出区，比方说各种服务的日志文件（系统启动日志等。）等；<br>    ▪    /lost+found：这个目录平时是空的，系统非正常关机而留下“无家可归”的文件（windows下叫什么.chk）就在这里。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Git常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:38:03+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:42:16+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="git的四部分构成"><a href="#git的四部分构成" class="headerlink" title="git的四部分构成"></a>git的四部分构成</h2><p><img src="/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg" alt></p>
-<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><p>初始化仓库：<code>git init</code><br>从远程仓库克隆项目到本地：<br><code>git clone git@github.com:git帐号名/仓库名.git</code></p>
-<p>拉取远程分支到本地仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b 本地分支 远程分支  # 会在本地新建分支，并自动切换到该分支</span><br><span class="line">git fetch origin : 远程分支 本地分支  # 会在本地新建分支，但不会自动切换，还需checkout</span><br><span class="line">git branch --set-upstream 本地分支 远程分支  #建立本地分支与远程分支之间的连接</span><br></pre></td></tr></table></figure>
-
-<p>将文件添加都暂存区：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add 文件名  #将工作区的某个文件添加到暂存区</span><br><span class="line">git add -u  #添加所有被tracked文件中被修改或删除的文件信息暂存区，不处理untracked的文件</span><br><span class="line">git add -A  #添加所有被tracked文件中被修改或删除的文件信息暂存区，包括untracked的文件</span><br><span class="line">git add .  #将工作区中的所有文件添加到暂存区</span><br><span class="line">git add -i  #进入交互界面，按需添加文件到缓存区</span><br></pre></td></tr></table></figure>
-
-<p>将暂存区的文件提交到本地仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit -m “提交说明“  #将暂存区的文件提交到本地仓库</span><br><span class="line">git commit -a -m “提交说明“  #跳过缓存区操作，直接将工作区的所有文件提交到本地仓库</span><br></pre></td></tr></table></figure>
-<p>查看仓库当前状态：<br><code>git status</code></p>
-<p>比较文件异同：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git diff  #工作区和暂存区的差异</span><br><span class="line">git diff 分支名  #工作区与某分支的差异，远程分支这样写：remotes&#x2F;origin&#x2F;分支名</span><br><span class="line">git diff HEAD  #工作区与HEAD指针指向内容的差异</span><br><span class="line">git diff 提交id 文件路径  #工作区某文件当前版本和历史版本的差异</span><br><span class="line">git diff --stage  #工作区文件和上次提交的差异，（1.6版本前用--cached）</span><br><span class="line">git diff 版本TAG  #查看某个版本后的改动内容</span><br><span class="line">git diff 分支A 分支B  #比较分支A和B的差异（也支持比较TAG）</span><br></pre></td></tr></table></figure>
-
-<p>查看历史记录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git log  #查看所有commit记录(SHA-A校验和，作者名称，邮箱，提交时间，提交说明)</span><br><span class="line">git log -p -次数  #查看最近多少次的提交记录</span><br><span class="line">git log --stat  #简略显示每次提交的内容修改</span><br><span class="line">git log --name-only  #仅显示已修改的文件清单</span><br><span class="line">git log --name-status  #显示新增，修改，删除的文件清单</span><br><span class="line">git log --oneline  #让提交的文件以一行输出</span><br><span class="line">git log -graph -all --oneline  #图形展示分支的合并历史</span><br><span class="line">git log --author&#x3D;作者  #查询作者的提交记录（和grep使用时要加--all-match参数）</span><br><span class="line">git log --grep&#x3D;过滤信息  #列出提交信息中包含过滤信息的提交记录</span><br><span class="line">git log filename #查看某文件的提交记录</span><br></pre></td></tr></table></figure>
-<p>代码回滚：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD^  #恢复成上次提交的版本</span><br><span class="line">git reset HEAD^^  #恢复成上上次提交的版本，就是多个^，以此类推或者用 ～次数</span><br></pre></td></tr></table></figure>
-
-<p>同步本地仓库到远程仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br><span class="line">git push origin localBranch:remoteBranch    #从本地的指定分支推送到远程指定分支 </span><br><span class="line">git pull origin remoteBranch:localBranch    #从远程的指定分支拉取到本地指定分支</span><br></pre></td></tr></table></figure>
-
-<p>本地仓库内容推送到远程仓库：<br><code>git remote add origin git@github.com:帐号名/仓库名.git</code></p>
-<p>分支管理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git branch    #查看本地分支 </span><br><span class="line">git branch -r    #查看远程分支 </span><br><span class="line">git branch newBranchName    #创建新的本地分支，不切换 </span><br><span class="line">git branch -b    newBranchName    #创建新的本地分支，切换到新建的分支 </span><br><span class="line">git checkout branchName    #切换到指定的分支 </span><br><span class="line">git branch -d branchName    #删除合并过的分支 </span><br><span class="line">git branch -D banchName    #强制删除分支 </span><br><span class="line">git merge branchName    #将指定的分支合并到当前分支 </span><br><span class="line">git push origin localBranch    #将本地分支推送到远成分支 </span><br><span class="line">git push origin :remoteBranch    #删除远程分支</span><br></pre></td></tr></table></figure>
-
-<p>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
-<p>查看远程仓库地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote </span><br><span class="line">&#x2F;&#x2F; -v 显示更详细的信息</span><br></pre></td></tr></table></figure>
-
-<p>撤销某次提交：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git revert HEAD  #撤销最近的一个提交</span><br><span class="line">git revert 版本号 #撤销某次commit</span><br></pre></td></tr></table></figure>
-
-<p>打标签：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git tag 标签 #打标签命令，默认为HEAD</span><br><span class="line">git tag #显示所有标签</span><br><span class="line">git tag 标签 版本号 #给某个commit版本添加标签</span><br><span class="line">git show tag #显示某个标签的详细信息</span><br></pre></td></tr></table></figure>
-<p>忽略文件及文件夹：<br>    在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/" itemprop="url">Hbase核心—架构原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:08:27+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:09:23+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:50:49+08:00">
                 2020-03-14
               </time>
             
@@ -1226,8 +1812,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1265,678 +1851,17 @@
       
         
           
-            <h2 id="Hbase原理"><a href="#Hbase原理" class="headerlink" title="Hbase原理"></a>Hbase原理</h2><p><img src="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/15839465523319.jpg" alt></p>
+            <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
+<li>读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</li>
+<li>正控：若要使用某个对象，需要自己去负责对象的创建</li>
+<li>反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架</li>
+<li>好莱坞法则： Don’t call me ,I’ll call you<br>在Spring中，bean作用域用于确定哪种类型的 bean 实例应该从Spring容器中返回给调用者。bean支持的5种范围域：<br>  ⁃    单例 - 每个Spring IoC 容器返回一个bean实例<br>  ⁃    原型- 当每次请求时返回一个新的bean实例<br>  ⁃    请求 - 返回每个HTTP请求的一个Bean实例<br>  ⁃    会话 - 返回每个HTTP会话的一个bean实例<br>  ⁃    全局会话- 返回全局HTTP会话的一个bean实例<br>在大多数情况下，可能只处理了 Spring 的核心作用域 - 单例和原型，默认作用域是单例。</li>
+</ul>
+<h2 id="DI：Dependency-Injection（依赖注入）"><a href="#DI：Dependency-Injection（依赖注入）" class="headerlink" title="DI：Dependency Injection（依赖注入）"></a>DI：Dependency Injection（依赖注入）</h2><p>DI是指 Spring 创建对象的过程中，将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。<br>主要包含两种形式：</p>
 <ul>
-<li>Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。</li>
-<li>Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上 </li>
-<li>一个RegionServer管理多个Region ，一个RegionServer有一个或多个HLog，一般设置为只有一个 </li>
-<li>Region虽然时分布式存储的最小单元，但并不是存储的最小单元，Region由一个 或者多个Store组成，每个store保存一个column family，每个store又由一个memStore。和0到多个StoreFile组成。memStore存储在内存中，StoreFile存储在hdfs上，HFile。<h3 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h3></li>
+<li>Setter方法注入</li>
+<li>构造器注入<h3 id="IoC-如何实现的"><a href="#IoC-如何实现的" class="headerlink" title="IoC 如何实现的"></a>IoC 如何实现的</h3>最后简单说说IoC是如何实现的。想象一下如果我们自己来实现这个依赖注入的功能，我们怎么来做？ 无外乎：<br>  1    读取标注或者配置文件，看看JuiceMaker依赖的是哪个Source，拿到类名<br>  2    使用反射的API，基于类名实例化对应的对象实例<br>  3    将对象实例，通过构造函数或者 setter，传递给 JuiceMaker<br>发现其实自己来实现也不是很难，Spring实际也就是这么做的。这么看的话其实IoC就是一个工厂模式的升级版！当然要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring不仅提供了一个已经成为业界标准的Java IoC框架，还提供了更多强大的功能，所以就别去造轮子啦！希望了解IoC更多实现细节不妨通过学习Spring的源码来加深理解！</li>
 </ul>
-<ol>
-<li>client就是连接zk， 找到meta表的region及regionserver 向 hregionserver 发送写请求。</li>
-<li>hregionserver 将数据写到 hlog（write ahead log）。为了数据的持久化和恢复。</li>
-<li>hregionserver 将数据写到内存（memstore），达到指定阈值，溢写（flush）到磁盘，写成许Hfile（二进制格式小文件）。增长到一定阈值，许多的Hfile进行compact合并操作，多个Hfile合并成 一个Hfile，同时进行版本合并和数据删除，当单个的Hfile过大时，会触发Split操作，把当前的region split成为2个region，当前region会下线，新的2个region会被Hmaster分配到相应的HRegionServer上。</li>
-<li>反馈 client 写成功。<br>注：Hbase只是增加数据，所有的更新和删除操作，都是在Compact阶段完成的，所以用户的操作只需要进入内存即可立即返回，从而保证IO高性能。<h3 id="数据-flush-过程"><a href="#数据-flush-过程" class="headerlink" title="数据 flush 过程"></a>数据 flush 过程</h3></li>
-<li>当 memstore 数据达到阈值（默认是 64M），将数据刷到硬盘，将内存中的数据删除，同 时删除 Hlog 中的历史数据。 </li>
-<li>并将数据存储到 hdfs 中。 </li>
-<li>在 hlog 中做标记点。<h3 id="数据合并过程"><a href="#数据合并过程" class="headerlink" title="数据合并过程"></a>数据合并过程</h3></li>
-<li>当数据块达到 4 块，hmaster 将数据块加载到本地，进行合并</li>
-<li>当合并的数据超过 256M，进行拆分，将拆分后的 region 分配给不同的 hregionserver 管理</li>
-<li>当 hregionser 宕机后，将 hregionserver上的 hlog 拆分，然后分配给不同的hregionserver</li>
-<li>加载，修改.META.</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="url">Hbase基础—核心概念</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:06:20+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T14:57:12+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Hbase核心概念"><a href="#Hbase核心概念" class="headerlink" title="Hbase核心概念"></a>Hbase核心概念</h2><p>HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族/列簇(columnfamily)。例如key1,key2,key3是三条记录的唯一的rowkey值，column-family1,column-family2,column-family3 是三个列族，每个列族下又包括几列。比如 column-family1 这个列族下包括两列，名字是column1 和 column2。t1:abc,t2:gdxdf 是由 rowkey1和 column-family1-column1唯一确定的一个单元 cell，这个 cell 中有两个数据，abc和gdxdf，两个值的时间戳分别是 t1,t2,。hbase会返回最新时间的值给请求者。</p>
-<h3 id="RowKey"><a href="#RowKey" class="headerlink" title="RowKey"></a>RowKey</h3><p>与 nosql数据库一样，rowkey是用来检索记录的主键。访问 hbase table 中的行，只有三种方式：</p>
-<ul>
-<li>通过单个rowkey 访问，速度最快</li>
-<li>通过 rowkey的 range，速度较快</li>
-<li>全表扫描，速度最慢<br>Rowkey可以是任意字符串(最大长度是64KB，实际应用中长度一般为10-100bytes)，在hbase内部保存为字节数组。存储时，数据按照 Rowkey 的字典序(byte order)排序存储。设计key时，要充分排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)<br>注意：字典排序对int排序的结果是1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,…,9,91,96,97,98,99。要保持整形的自然序，行键必须用0作左填充。<br>行的一次读写是原子操作(不论一次读写多少列)。这个设计决策能够使用户很容易的理解程序在对同一个行进行并发更新操作时的行为。<h3 id="ColumnFamily"><a href="#ColumnFamily" class="headerlink" title="ColumnFamily"></a>ColumnFamily</h3>HBase表中的每个列都归属与某个列族。列族是表的schema的一部分(而列不是)，必须在使用表之前定义。列名都以列族作为前缀，例如 courses:history，courses:math 都属于 courses 这个列族。<br>访问控制、磁盘和内存的使用统计都是在列族层面进行的。实际应用中，列族上的控制权限能帮助我们管理不同类型的应用：我们允许一些应用可以添加新的基本数据、一些应用可以读取基本数据并创建继承的列族、一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）。<h3 id="Cell"><a href="#Cell" class="headerlink" title="Cell"></a>Cell</h3>HBase中通过row和columns确定一个存贮单元，称为cell。由{rowkey,column(=<family>+<label>), version} 唯一确定的单元。cell中的数据是没有类型的，全部是字节码形式存贮。<h3 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h3>每个cell都保存着同一份数据的多个版本，版本通过时间戳来索引，时间戳的类型是64位整型。时间戳可以由 hbase(在数据写入时自动 )赋值，此时时间戳是当前系统时间，可以精确到毫秒。时间戳也可以由客户显式赋值。如果应用程序要避免数据版本冲突，就必须自己生成具有唯一性的时间戳。每个 cell 中，不同版本的数据按照时间倒序排序，即最新的数据排在最前面。<br>为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，hbase 提供了两种数据版本回收方式。一是保存数据的最后n个版本；二是保存最近一段时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。</label></family></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" itemprop="url">Hbase基础—核心组件介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:04:15+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:00:28+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Hbase核心组件"><a href="#Hbase核心组件" class="headerlink" title="Hbase核心组件"></a>Hbase核心组件</h2><h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><ul>
-<li>整个Hbase集群的访问入口 </li>
-<li>使用HbaseRPC机制与HMaster和HRegionServer进行通信 </li>
-<li>与HMaster进行通信进行管理类操作 </li>
-<li>与HRegionServer进行数据读写类操作 </li>
-<li>包含访问Hbase的接口，并维护cache类加快对HBase的访问 <h3 id="Hmaster"><a href="#Hmaster" class="headerlink" title="Hmaster"></a>Hmaster</h3></li>
-<li>没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一 </li>
-<li>管理用户对table的增删改查操作 </li>
-<li>管理HRegionServer的负载均衡，调整Region 分布 </li>
-<li>Region Split后，负责新Region的分布 </li>
-<li>在HRegionServer停机后，负责失效HRegionServer迁移工作 </li>
-<li>向zk请求在线的regionserver </li>
-<li>管理regionserver <h3 id="RegionServer"><a href="#RegionServer" class="headerlink" title="RegionServer"></a>RegionServer</h3></li>
-<li>维护HRegion，处理对这些HRegion的IO请求 </li>
-<li>负责切分在运行过程中变得过大的HRegion </li>
-<li>Client访问HBase上的数据的过程并不需要master参与（寻址访问zk和HRegionServer，数据读写访问HRegionServer） </li>
-<li>HMaster仅仅维护table和Region的元数据信息，负载很低<h3 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h3></li>
-<li>保证任何时候，集群只有一个Hmaster</li>
-<li>存储所有HRegion的寻址入口 </li>
-<li>实时监控HRegionServer的上线和下线信息，并实时通知给HMaster </li>
-<li>存储HBase的schema和table元数据 </li>
-<li>存储meta表地址、HMaster地址 </li>
-<li>HMaster与HRegionServer启动时会向zk注册 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;hbase </span><br><span class="line">     &#x2F;running    存储master的位置 </span><br><span class="line">     &#x2F;rs        存活的regionserver </span><br><span class="line">     &#x2F;meta-region-server    meta表的regionserver的位置 </span><br><span class="line">     &#x2F;table    表元数据信息 </span><br><span class="line">     &#x2F;namespace    命名空间信息</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" itemprop="url">Hbase基础—配置详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:02:30+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:01:58+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Hbase配置文件参数"><a href="#Hbase配置文件参数" class="headerlink" title="Hbase配置文件参数"></a>Hbase配置文件参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br></pre></td><td class="code"><pre><span class="line">hbase.rootdir</span><br><span class="line">这个目录是 regionserver 的共享目录，用来持久化 Hbase。URL需要是&#39;完全正确&#39;的， 还要包含文件系统的 scheme。例如，要表示 hdfs中的&#39;&#x2F;hbase&#39;目录，namenode 运行在 namenode.example.org 的 9090 端口 。则需要设置为 hdfs:&#x2F;&#x2F;namenode.example.org:9000 &#x2F;hbase 。默认情况下 Hbase 是写到&#x2F;tmp 的。 不改这个配置，数据会在重启的时候丢失。 默认:file:&#x2F;&#x2F;&#x2F;tmp&#x2F;hbase -$&#123;user.name&#125;&#x2F;hbase</span><br><span class="line">hbase.master.port</span><br><span class="line">Hbase 的 Master 的端口.</span><br><span class="line">默认: 60000</span><br><span class="line">hbase.cluster.distributed</span><br><span class="line">Hbase 的运行模式。false 是单机模式，true 是分布式模式。若为 false,Hbase 和 Zookeeper 会运行在同一个 JVM 里面。</span><br><span class="line">默认: false</span><br><span class="line">hbase.tmp.dir</span><br><span class="line">本地文件系统的临时文件夹。可以修改到一个更为持久的目录上。(&#x2F;tmp 会在重启时清楚)</span><br><span class="line">默认:&#x2F;tmp&#x2F;hbase-$&#123;user.name&#125;</span><br><span class="line">hbase.master.info.port</span><br><span class="line">HBase Master web 界面端口. 设置为-1 意味着你不想让他运行。</span><br><span class="line">默认: 60010</span><br><span class="line">hbase.master.info.bindAddress</span><br><span class="line">HBase Master web 界面绑定的端口</span><br><span class="line">默认:0.0.0.0</span><br><span class="line">hbase.client.write.buffer</span><br><span class="line">HTable客户端的写缓冲的默认大小。这个值越大，需要消耗的内存越大。因为缓冲在客户端和服务端都有实例，所以需要消耗客户端和服务端两个地方的内存。得到的好处是，可 以 减 少 RPC 的 次 数 。</span><br><span class="line">可以这样估算服务器端被占用的内存 ： hbase.client.write.buffer * hbase.regionserver.handler.count</span><br><span class="line">默认:2097152</span><br><span class="line">hbase.regionserver.port</span><br><span class="line">HBaseRegionServer 绑定的端口</span><br><span class="line">默认: 60020</span><br><span class="line">hbase.regionserver.info.port</span><br><span class="line">HBaseRegionServer web 界 面 绑 定 的 端 口 RegionServer 界面，设置为-1意味不想运行.</span><br><span class="line">默认: 60030</span><br><span class="line">hbase.regionserver.info.bindAddress</span><br><span class="line">HBaseRegionServer web 界面的 IP 地址</span><br><span class="line">默认:0.0.0.0</span><br><span class="line">hbase.regionserver.class</span><br><span class="line">RegionServer 使用的接口。客户端打开代理来连接 regionserver 的时候会使用到。</span><br><span class="line">默认:org.apache.hadoop.hbase.ipc.HRegionInterface</span><br><span class="line">hbase.client.pause</span><br><span class="line">通常的客户端暂停时间。最多的用法是客户端在重试前的等待时间。比如失败的 get 操作 和 region 查询操作等都很可能用到。</span><br><span class="line">默认: 1000</span><br><span class="line">hbase.client.retries.number</span><br><span class="line">最大重试次数。例如region查询，Get操作，Update 操作等等都可能发生错误，需要重试。这是最大重试错误的值。</span><br><span class="line">默认: 10</span><br><span class="line">hbase.client.scanner.caching</span><br><span class="line">当调Scanner的next方法，而值又不在缓存里时，从服务端一次获取的行数。值越大意味着Scanner会快一些，但会占用更多的内存。当缓冲被占满的时候，next方法调用会越来越慢。慢到一定程度，可能会导致超时，例如超过了 hbase.regionserver.lease.period。</span><br><span class="line">默认: 1</span><br><span class="line">hbase.client.keyvalue.maxsize</span><br><span class="line">一个KeyValue实例的最大size。这个是用来设置存储文件中的单个entry的大小上界。因为一个KeyValue 是不能分割的，所以可以避免因为 数据过大导致 region 不可分割。 明智的做法是把它设为可以被最大 region size 整除的数。如果设置为 0 或者更小，就 会禁用这个检查。默认 10MB。</span><br><span class="line">默认:10485760</span><br><span class="line">hbase.regionserver.lease.period</span><br><span class="line">客户端租用HRegionserver期限，即超时阀值。单位是毫秒。默认情况下，客户端必须在这个时间内发一条信息，否则视为死掉。</span><br><span class="line">默认: 60000</span><br><span class="line">hbase.regionserver.handler.count</span><br><span class="line">RegionServers 受理的 RPCServer 实例数量。对于 Master 来说，这个属性是 Master 受理的 handler 数量</span><br><span class="line">默认: 10</span><br><span class="line">hbase.regionserver.msginterval</span><br><span class="line">RegionServer 发消息给 Master 时间间隔，单位是毫秒</span><br><span class="line">默认: 3000</span><br><span class="line">hbase.regionserver.optionallogflushinterval</span><br><span class="line">Hlog同步到HDFS的间隔。如果Hlog没有积累到一定的数量，到了时间也会触发同步。默认是1秒，单位毫秒。</span><br><span class="line">默认: 1000</span><br><span class="line">hbase.regionserver.regionSplitLimit</span><br><span class="line">region的数量到了这个值后就不会在分裂了。这不是一个 region 数量的硬性限制。但是起到了一定指导性的作用，到了这个值就该停止分裂了。默认是 MAX_INT。就是说不阻止分 裂。</span><br><span class="line">默认:2147483647</span><br><span class="line">hbase.regionserver.logroll.period</span><br><span class="line">提交commitlog的间隔，不管有没有写足够的值。</span><br><span class="line">默认:3600000</span><br><span class="line">hbase.regionserver.hlog.reader.impl </span><br><span class="line">HLog file reader 的实现.</span><br><span class="line">默 认:org.apache.hadoop.hbase.regionserver.wal.SequenceFileLogReader</span><br><span class="line">hbase.regionserver.hlog.writer.impl</span><br><span class="line">HLog file writer 的实现.</span><br><span class="line">默认:org.apache.hadoop.hbase.regionserver.wal.SequenceFileLogWriter</span><br><span class="line">hbase.regionserver.thread.splitcompactcheckfrequency</span><br><span class="line">regionserver多久执行一次 split&#x2F;compaction 检查.</span><br><span class="line">默认: 20000</span><br><span class="line">hbase.zookeeper.dns.interface</span><br><span class="line">当使用 DNS 的时候，Zookeeper 用来上报的 IP 地址的网络接口名字。</span><br><span class="line">默认: default</span><br><span class="line">hbase.zookeeper.dns.nameserver</span><br><span class="line">当使用 DNS 的时候，Zookeepr 使用的 DNS 的域名或者 IP 地址，Zookeeper 用它来确定 和 master 用来进行通讯的域名.</span><br><span class="line">默认:default</span><br><span class="line">hbase.regionserver.dns.interface</span><br><span class="line">当使用 DNS 的时候，RegionServer 用来上报的 IP 地址的网络接口名字。</span><br><span class="line">默认:default</span><br><span class="line">hbase.regionserver.dns.nameserver</span><br><span class="line">当使用 DNS 的时候，RegionServer 使用的 DNS 的域名或者 IP 地址，RegionServer 用它来确定和 master 用来进行通讯的域名.</span><br><span class="line">默认:default</span><br><span class="line">hbase.master.dns.interface</span><br><span class="line">当使用 DNS 的时候，Master 用来上报的 IP 地址的网络接口名字。</span><br><span class="line">默认:default</span><br><span class="line">hbase.master.dns.nameserver</span><br><span class="line">当使用 DNS 的时候，RegionServer 使用的 DNS 的域名或者 IP 地址，Master 用它来确 定用来进行通讯的域名.</span><br><span class="line">默认:default</span><br><span class="line">hbase.balancer.period</span><br><span class="line">Master 执行 regionbalancer 的间隔。</span><br><span class="line">默认: 300000</span><br><span class="line">hbase.regions.slop</span><br><span class="line">当任一regionserver有average + (average * slop) 个 region 是会执行Rebalance</span><br><span class="line">默认: 0</span><br><span class="line">hbase.master.logcleaner.ttl </span><br><span class="line">Hlog 存在于.oldlogdir 文件夹的最长时间, 超过了就会被 Master 的线程清理掉.</span><br><span class="line">默认: 600000</span><br><span class="line">hbase.master.logcleaner.plugins</span><br><span class="line">LogsCleaner服务会执行的一组LogCleanerDelegat，值用逗号间隔的文本表示。这些WAL&#x2F;HLog cleaners 会按顺序调用。可以把先调用的放在前面。你可以实现自己的 LogCleanerDelegat，加到 Classpath 下，然后在这里写下类的全称。一般都是加在 默认值的前面。</span><br><span class="line">默认:org.apache.hadoop.hbase.master.TimeToLiveLogCleaner</span><br><span class="line">hbase.regionserver.global.memstore.upperLimit</span><br><span class="line">单个regionserver的全部memtores的最大值。超过这个值，一个新的update操作会被挂起，强制执行flush操作。</span><br><span class="line">默认: 0.4</span><br><span class="line">hbase.regionserver.global.memstore.lowerLimit</span><br><span class="line">当强制执行flush操作的时候，当低于这个值的时候，flush会停止。默认是堆大小的 35% . 如果这个值和hbase.regionserver.global.memstore.upperLimit相同就意味着当update操作因为内存限制被挂起时，会尽量少的执行 flush(译者注:一旦执行 flush，值就会比下限要低，不再执行)</span><br><span class="line">默认: 0.35</span><br><span class="line">hbase.server.thread.wakefre quency</span><br><span class="line">service工作的sleep间隔，单位毫秒。可以作为 service 线程的 sleep 间隔，比如 log roller.</span><br><span class="line">默认: 10000</span><br><span class="line">hbase.hregion.memstore.flush.size</span><br><span class="line">当memstore的大小超过这个值的时候，会flush到磁盘。 这个值被一个线程每隔</span><br><span class="line">hbase.server.thread.wakefrequency检查一下。</span><br><span class="line">默认:67108864</span><br><span class="line">hbase.hregion.preclose.flush.size</span><br><span class="line">当一个region中的memstore的大小大于这个值的时候，我们又触发了close，会先运行“pre-flush”操作清理这个需要关闭的memstore，然后将这个region下线。当一个region下线了，我们无法再进行任何写操作。如果一个memstore很大的时候，flush 操作会消耗很多时间。&quot;pre-flush&quot;操作意味着在region下线之前，会先把 memstore 清空。这样在最终执行 close 操作的时 候，flush 操作会很快。</span><br><span class="line">默认:5242880</span><br><span class="line">hbase.hregion.memstore.block.multiplier</span><br><span class="line">如果memstore有 hbase.hregion.memstore.block.multiplier 倍数的hbase.hregion.flush.size 的大小，就会阻塞 update操作。这是为了预防在update高峰期会导致的失控。如果不设上界，flush的时候会花很长的时间来合并或者分割，最 坏的情况就是引发 out of memory 异常。(译者注:内存操作的速度和磁盘不匹配，需要 等一等。原文似乎有误)</span><br><span class="line">默认: 2</span><br><span class="line">hbase.hregion.memstore.mslab.enabled </span><br><span class="line">体验特性：启用 memStore 分配本地缓冲区。这个特性是为了防止在大量写负载的时候堆的碎片过多。这可以减少GC操作的频率。(GC有可能会 Stopthe world)(译者注：实现的原理相当于预分配内存，而不是每一个值都要从堆里分配)</span><br><span class="line">默认: false</span><br><span class="line">hbase.hregion.max.filesize</span><br><span class="line">最大HStoreFile大小。若某个Column families的HStoreFile增长达到这个值，这个Hegion会被切成两个。 Default: 256M.</span><br><span class="line">默认:268435456</span><br><span class="line">hbase.hstore.compaction.Threshold</span><br><span class="line">当一个HStore含有多于这个值的 HStoreFiles(每一个 memstore flush 产生一个 HStoreFile)的时候，会执行一个合并操作，把这 HStoreFiles写成一个。这个值越大， 需要合并的时间就越长。</span><br><span class="line">默认: 3</span><br><span class="line">hbase.hstore.blockingStoreFiles</span><br><span class="line">当一个 HStore 含有多于这个值的 HStoreFiles(每一个 memstore flush 产生一个 HStoreFile)的时候，会执行一个合并操作，update 会阻塞直到合并完成，直到超过了 hbase.hstore.blockingWaitTime 的值</span><br><span class="line">默认: 7</span><br><span class="line">hbase.hstore.blockingWaitTime</span><br><span class="line">hbase.hstore.blockingStoreFiles 所限制的 StoreFile 数量会导致 update 阻塞，这个时间是来限制阻塞时间的。当超过了这个时间，HRegion 会停止阻塞 update 操作， 不过合并还有没有完成。默认为 90s.</span><br><span class="line">默认: 90000</span><br><span class="line">hbase.hstore.compaction.max</span><br><span class="line">每个“小”合并的 HStoreFiles 最大数量。</span><br><span class="line">默认: 10</span><br><span class="line">hbase.hregion.majorcompaction</span><br><span class="line">一个 Region 中的所有 HStoreFile 的 major compactions 的时间间隔。默认是 1 天。 设置为 0 就是禁用这个功能。</span><br><span class="line">默认:86400000</span><br><span class="line">hbase.mapreduce.hfileoutputformat.blocksize</span><br><span class="line">MapReduce中HFileOutputFormat可以写storefiles&#x2F;hfiles. 这个值是hfile的blocksize的最小值。通常在 Hbase 写Hfile的时候，blocksize是由 table schema(HColumnDescriptor)决定的，但是在mapreduce写的时候，我们无法获取schema中blocksize。这个值越小，你的索引就越大，你随机访问需要获取的数据就越小。如果你的 cell 都很小，而且你需要更快的随机访问，可以把这个值调低。</span><br><span class="line">默认: 65536</span><br><span class="line">hfile.block.cache.size</span><br><span class="line">分配给HFile&#x2F;StoreFile的blockcache占最大堆(-Xmx setting)的比例。默认是 20%，设置为 0 就是不分配。</span><br><span class="line">默认: 0.2</span><br><span class="line">hbase.hash.type</span><br><span class="line">哈希函数使用的哈希算法。可以选择两个值: murmur jenkins(JenkinsHash). 这个哈希是给bloom filters用的.</span><br><span class="line">默认: murmur</span><br><span class="line">hbase.master.keytab.file</span><br><span class="line">(MurmurHash)和HMaster server验证登录使用的kerberoskeytab文件路径。(译者注：Hbase 使用 Kerberos 实现安全)</span><br><span class="line">默认:hbase.master.kerberos.principal</span><br><span class="line">例 如 .&quot;hbase&#x2F;_HOST@EXAMPLE.COM&quot;. HMaster 运 行 需 要 使 用 kerberos principal name. principal name 可以在:user&#x2F;hostname@DOMAIN 中获取. 如 果&quot;_HOST&quot; 被用做 hostname portion ，需要使用实际运行的 hostname 来替代它。</span><br><span class="line">默认:hbase.regionserver.keytab.file</span><br><span class="line">HRegionServer 验证登录使用的 kerberoskeytab 文件路径。</span><br><span class="line">默认:hbase.regionserver.kerberos.principal</span><br><span class="line">例如 .&quot;hbase&#x2F;_HOST@EXAMPLE.COM&quot;. HRegionServer 运行需要使用 kerberos principalname. principal name 可以在: user&#x2F;hostname@DOMAIN 中获取. 如 果 &quot;_HOST&quot; 被用做 hostname portion，需要使用实际运行的 hostname 来替代它。 在这个文件中必须要有一个 entry 来描述 hbase.regionserver.keytab.file</span><br><span class="line">默认:</span><br><span class="line">zookeeper.session.timeout</span><br><span class="line">ZooKeeper 会话超时.Hbase 把这个值传递改 zk 集群，向他推荐一个会话的最大超时时 间 。 详 见 http:&#x2F;&#x2F;hadoop.apache.org&#x2F;zookeeper&#x2F;docs&#x2F;current&#x2F;zookeeperProgramm ers.html#ch_zkSessions &quot;The client sends a requestedtimeout, theserver responds with the timeout that it can givethe client. &quot; 。 单位是毫秒</span><br><span class="line">默认: 180000</span><br><span class="line">zookeeper.znode.parent</span><br><span class="line">ZooKeeper 中的 Hbase 的根 ZNode。所有的 Hbase 的 ZooKeeper 会用这个目录配置相 对路径。默认情况下，所有的 Hbase 的 ZooKeeper 文件路径是用相对路径，所以他们会 都去这个目录下面。</span><br><span class="line">默认: &#x2F;hbase</span><br><span class="line">zookeeper.znode.rootserver</span><br><span class="line">ZNode 保存的 根 region 的路径. 这个值是由 Master 来写，client 和 regionserver 来读的。如果设为一个相对地址，父目录就是 $&#123;zookeeper.znode.parent&#125;. 默认情 形下，意味着根 region 的路径存储在&#x2F;hbase&#x2F;root-region- server.</span><br><span class="line">默认:root-region-server</span><br><span class="line">hbase.zookeeper.quorum</span><br><span class="line">Zookeeper集群的地址列表，用逗号分割。例如”host1.mydomain.com,host2.mydomain.com&quot;.默认是 localhost, 是给伪分布式用的。 要修改才能在完全分布式的情况下使用。 如果在 hbase-env.sh 设置了 HBASE_MANAGES_ZK，这些 ZooKeeper节点就会和Hbase一 起启动。</span><br><span class="line">默认:localhost</span><br><span class="line">hbase.zookeeper.peerport</span><br><span class="line">ZooKeeper节点使用的端口。</span><br><span class="line">默认: 2888</span><br><span class="line">hbase.zookeeper.leaderport</span><br><span class="line">ZooKeeper 用来选择 Leader 的端口</span><br><span class="line">默认: 3888</span><br><span class="line">hbase.zookeeper.property.initLimit</span><br><span class="line">ZooKeeper 的 zoo.conf 中的配置。初始化 synchronization 阶段的 ticks 数量限制</span><br><span class="line">默认: 10</span><br><span class="line">hbase.zookeeper.property.syncLimit</span><br><span class="line">ZooKeeper 的 zoo.conf 中的配置。发送一个请求到获得承认之间的 ticks 的数量限制</span><br><span class="line">默认: 5</span><br><span class="line">hbase.zookeeper.property.dataDir</span><br><span class="line">ZooKeeper 的 zoo.conf 中的配置。快照的存储位置</span><br><span class="line">默认:$&#123;hbase.tmp.dir&#125;&#x2F;zookeeper</span><br><span class="line">hbase.zookeeper.property.clientPort</span><br><span class="line">ZooKeeper 的 zoo.conf 中的配置。客户端连接的端口</span><br><span class="line">默认: 2181</span><br><span class="line">hbase.zookeeper.property.maxClientCnxns</span><br><span class="line">ZooKeeper的zoo.conf中的配置。ZooKeeper集群中的单个节点接受的单个Client(以IP区分)的请求的并发数。这个值可以调高一点，防止在单机和伪分布式模式中出问题。</span><br><span class="line">默认: 2000</span><br><span class="line">hbase.rest.port</span><br><span class="line">HBase RESTserver的端口</span><br><span class="line">默认: 8080</span><br><span class="line">hbase.rest.readonly</span><br><span class="line">定义REST server的运行模式。可以设置成如下的值：false:所有的 HTTP 请求都是被允许的 - GET&#x2F;PUT&#x2F;POST&#x2F;DELETE. true:只有 GET 请求是被允许的</span><br><span class="line">默认: false</span><br><span class="line">hbase.client.write.buffer</span><br><span class="line">描述：这个参数可以设置写入数据缓冲区的大小，当客户端和服务器端传输数据，服务器为了提高系统运行性能开辟一个写的缓冲区来处理它，这个参数设置如果设置的大了，将会对系统的内存有一定的要求，直接影响系统的性能。 </span><br><span class="line">hbasta.thread.rescanfrequency</span><br><span class="line">描述：多长时间 HMaster 对系统表 root 和 meta 扫描一次，这个参数可以设置的长一 些，降低系统的能耗。</span><br><span class="line">hbase.regionserveunt</span><br><span class="line">描述：由于 HBase&#x2F;Hadoop 的Server是采用 Multiplexed, non-blocking I&#x2F;O 方式而设计的，所以它可以透过一个Thread来完成处理，但是由于处理Client端所呼叫的方法是BlockingI&#x2F;O，所以它的设计会将Client 所传递过来的物件先放置在 Queue， 并在启动 Server 时就先产生一堆 Handler(Thread)，该 Handler 会透过 Polling 的方式来取得该物件并执行对应的方法，默认为 25，根据实际场景可以设置大一些。</span><br><span class="line">hbase.regionserver.thread.splitcompactcheckfrequency</span><br><span class="line">描述：这个参数是表示多久去 RegionServer 服务器运行一次 split&#x2F;compaction 的时 间间隔， 当然 split 之前会先进行一个 compact 操作. 这个 compact 操作可能是 minorcompact 也可能是 major compact.compact 后,会从所有的 Store 下的所有 StoreFile 文件最大的那个取 midkey.这个 midkey 可能并不处于全部数据的 mid 中. 一个 row-key 的下面的数据可能会跨不同的 HRegion。</span><br><span class="line">hbase.hregion.max.filesize</span><br><span class="line">HRegion 中的 HStoreFile 最大值，任何表中的列族一旦超过这个大小将会被切分， 而 HStroeFile 的默认大小是 256M。</span><br><span class="line">hfile.block.cache.size</span><br><span class="line">指定 HFile&#x2F;StoreFile 缓存在 JVM 堆中分配的百分比，默认值是 0.2，意思就 是 20%，而如果你设置成 0，就表示对该选项屏蔽。</span><br><span class="line">hbase.zookeeper.property.maxClientCnxns</span><br><span class="line">描述：这项配置的选项就是从 zookeeper 中来的，表示 ZooKeeper 客户端同时访问的并 发连接数，ZooKeeper 对于 HBase 来说就是一个入口这个参数的值可以适当放大些。</span><br><span class="line">hbase.regionservemstore.upper Limit</span><br><span class="line">在 Region Server 中所有 memstores 占用堆的大小参数配置，默认值是 0.4， 表示 40%，如果设置为 0，就是对选项进行屏蔽。</span><br><span class="line">hbasmstore.flush.size</span><br><span class="line">Memstore中缓存的内容超过配置的范围后将会写到磁盘上，例如：删除操作是先写入MemStore里做个标记，指示那个value,column或family等下是要删除的，HBase会定期对存储文件做一个major compaction，在那时 HBase 会把 MemStore 刷入一个 新的 HFile 存储 文件中。 如果在一定时间范围内没有做 major compaction ， 而 Memstore 中超出的范围就写入磁盘上了。</span><br></pre></td></tr></table></figure>
-<h2 id="HBase中log4j的日志"><a href="#HBase中log4j的日志" class="headerlink" title="HBase中log4j的日志"></a>HBase中log4j的日志</h2><p>HBase中日志输出等级默认状态下是把debug、info级别的日志打开的，可以根据自己的需要调整log级别 ，HBase的log4j日志配置文件在hbase\conf\log4j.properties目录下。</p>
-<h2 id="Hbase的JVM配置"><a href="#Hbase的JVM配置" class="headerlink" title="Hbase的JVM配置"></a>Hbase的JVM配置</h2><p>修改hbase-env.sh 文件中的配 置参数， 根 据你的机 器硬件和当 前操作系统 的 JVM(32/64 位)配置适当的参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HBASE_HEAPSIZE 4000 #HBase 使用的 JVM 堆的大小</span><br><span class="line">HBASE_OPTS &quot;‐server‐XX:+UseConcMarkSweepGC&quot; #JVMGC 选项</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/" itemprop="url">数据持久化—磁盘阵列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:00:26+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:01:27+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="为啥用raid"><a href="#为啥用raid" class="headerlink" title="为啥用raid"></a>为啥用raid</h2><p>把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能<br>优点：提高存储系统的吞吐量；通过数据校验提供容错功能</p>
-<h2 id="RAID0"><a href="#RAID0" class="headerlink" title="RAID0"></a>RAID0</h2><p>如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2</p>
-<h2 id="RAID1"><a href="#RAID1" class="headerlink" title="RAID1"></a>RAID1</h2><p>正因为RAID 0太不可靠，所以衍生出了RAID 1。如果你有n块磁盘，把其中n/2块磁盘作为镜像磁盘，在往其中一块磁盘写入数据时，也同时往另一块写数据。坏了其中一块时，镜像磁盘自动顶上，可靠性最佳，但空间利用率太低。n最少为2</p>
-<h2 id="RAID3"><a href="#RAID3" class="headerlink" title="RAID3"></a>RAID3</h2><p>若你有n块盘，其中1块盘作为校验盘，剩余n-1块盘相当于作RAID 0同时读写，当其中一块盘坏掉时，可以通过校验码还原出坏掉盘的原始数据。这个校验方式比较特别，奇偶检验，1 XOR 0 XOR 1=0，0 XOR 1 XOR 0=1，最后的数据时校验数据，当中间缺了一个数据时，可以通过其他盘的数据和校验数据推算出来。但是这有个问题，由于n-1块盘做了RAID 0，每一次读写都要牵动所有盘来为它服务，而且万一校验盘坏掉就完蛋了。最多允许坏一块盘。n最少为3.</p>
-<h2 id="RAID5"><a href="#RAID5" class="headerlink" title="RAID5"></a>RAID5</h2><p>在RAID 3的基础上有所区别，同样是相当于是1块盘的大小作为校验盘，n-1块盘的大小作为数据盘，但校验码分布在各个磁盘中，不是单独的一块磁盘，也就是分布式校验盘，这样做好处多多。最多坏一块盘。n最少为3</p>
-<h2 id="RAID6"><a href="#RAID6" class="headerlink" title="RAID6"></a>RAID6</h2><p>在RAID 5的基础上，又增加了一种校验码，和解方程似的，一种校验码一个方程，最多有两个未知数，也就是最多坏两块盘</p>
 
           
         
@@ -1976,7 +1901,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/">&gt;</a>
   </nav>
 
 
@@ -2022,7 +1947,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2044,7 +1969,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/" itemprop="url">ES核心—全文检索</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">ShadowSocks安装配置</a></h1>
         
 
         <div class="post-meta">
@@ -313,7 +313,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:49:52+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:06:28+08:00">
                 2020-03-15
               </time>
             
@@ -329,168 +329,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T11:50:32+08:00">
-                2020-03-15
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>查询方式<br>Match类查询<br>    match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。<br>match查询<br>    先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。<br>match_phrase<br>    先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。<br>multi_match<br>    两个字段进行匹配，其中一个字段有这个文档就满足<br>match_all<br>    可以查询到所有文档，是没有查询条件下的默认语句。</p>
-<p>Term类查询<br>Term查询<br>    Term是代表完全匹配，也就是精确查询，搜索前不会再对搜索词进行分词，所以我们的搜索词必须是文档分词集合中的一个。<br>Terms查询<br>    Terms 跟 Term 有点类似，但 terms 允许指定多个匹配条件。 如果某个字段指定了多个值，那么文档需要一起去做匹配。匹配条件之间默认时或的关系。注意分词过后英文单词的大写会编程小写<br>ids查询<br>{<br>    “query”: {<br>        “ids” : {<br>            “type” : “blog”,<br>            “values” : [“2”, “3”]<br>        }<br>    }<br>}<br>Range查询<br>    按照指定范围查找一批数据。<br>    范围操作符包含：<br>    ⁃    gt：大于<br>    ⁃    gte：大于等于<br>    ⁃    lt：小于<br>    ⁃    lte：小于等于<br>{<br>    “query”: {<br>        “range” : {<br>            “age” : {<br>                “gte” : 10,<br>                “lte” : 20,<br>                “boost” : 2.0<br>            }<br>        }<br>    }<br>}<br>Regexp查询<br>    针对某个字段使用正则表达式进行ES的条件查询。<br>{<br>    “query”: {<br>        “regexp”:{<br>            “title”: “gc.*”<br>        }<br>    }<br>}<br>Prefix查询<br>    针对某个字段使用前缀方式进行ES的条件查询。下面，查询user字段中ki开头的文档。<br>{ “query”: {<br>    “prefix” : { “user” : “ki” }<br>  }<br>}<br>Exists查询<br>返回原始字段中至少包含一个非空值的文档，如下返回包含user字段的文档<br>{<br>    “query”: {<br>        “exists” : { “field” : “user” }<br>    }<br>}<br>Bool复合查询<br>    想要请求”content中带宝马，但是tag中不带宝马”这样类似的需求，就需要用到bool联合查询。<br>    联合查询就会使用到must,should,must_not三种关键词。<br>    ✓    must：文档必须完全匹配条件<br>    ✓    should：should下面会带上一个以上的条件，至少满足一个条件，这个文档就符合should<br>    ✓    must_not：文档必须不匹配条件<br>{<br>  “query”: {<br>    “bool”: {<br>      “must”: {<br>        “term”: {<br>          “content”: “宝马”<br>        }<br>      },<br>      “must_not”: {<br>        “term”: {<br>          “tags”: “宝马”<br>        }<br>      }<br>    }<br>  }<br>}</p>
-<p>过滤条件<br>分页</p>
-<p>排序<br>添加顺序排序</p>
-<p>评分排序</p>
-<p>单字段排序<br>{<br>  “query”: {<br>    “match_all”: {}<br>  },<br>  “sort”: [<br>    {“postdate”:{“order”:”desc”}}<br>  ]<br>}<br>多字段排序</p>
-<p>字段过滤</p>
-<p>评分过滤</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="url">ES基础—核心概念</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:38:53+08:00">
-                2020-03-15
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T11:49:52+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:08:57+08:00">
                 2020-03-15
               </time>
             
@@ -509,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -548,286 +387,8 @@
       
         
           
-            <h3 id="索引-Index"><a href="#索引-Index" class="headerlink" title="索引(Index)"></a>索引(Index)</h3><p>索引是ES存放具体数据的地方，是一类具有相似特征的文档集合。ES中的索引具有不同的意思，这里的索引相当于关系型数据库的一个实例。在ES中还可以作为动词，表示对数据进行索引操作。</p>
-<h3 id="类型-Type"><a href="#类型-Type" class="headerlink" title="类型(Type)"></a>类型(Type)</h3><p>在6.0版本之前，在一个ES的索引中可以有多个类型，从6.0版本开始，一个索引中，只有一个类型，一个类型是索引的一个逻辑上的分类，通常是一组具有相同字段的文档组成。ES的类型概念相当于关系数据库中的数据表。</p>
-<h3 id="文档-Doc"><a href="#文档-Doc" class="headerlink" title="文档(Doc)"></a>文档(Doc)</h3><p>文档是ES可被索引的基础单元，相当于关系数据库中数据表的一条数据。ES的文档具有Json格式，由多个字段组成，字段相当于关系数据库中列的概念。</p>
-<h3 id="映射-Mapping"><a href="#映射-Mapping" class="headerlink" title="映射(Mapping)"></a>映射(Mapping)</h3><p>ES用映射来定义一个文档，可以定义所包含的字段以及字段的类型、分词起及属性等。<br>映射可以分为动态映射和静态映射：<br>动态映射<br>这种机制下，不需要在ES的索引中事先定义映射，文档写入ES会根据字段自动识别类型。<br>动态映射规则如下：</p>
-<table>
-<thead>
-<tr>
-<th>Json数据</th>
-<th>自动推测的类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>null</td>
-<td>没有字段被添加</td>
-</tr>
-<tr>
-<td>true或者false</td>
-<td>boolean型</td>
-</tr>
-<tr>
-<td>小数</td>
-<td>float型</td>
-</tr>
-<tr>
-<td>数字</td>
-<td>long型</td>
-</tr>
-<tr>
-<td>日期</td>
-<td>date或text</td>
-</tr>
-<tr>
-<td>字符串</td>
-<td>text</td>
-</tr>
-<tr>
-<td>数组</td>
-<td>由数组的第一个非空值决定</td>
-</tr>
-<tr>
-<td>Json对象</td>
-<td>object类型</td>
-</tr>
-<tr>
-<td>静态映射</td>
-<td></td>
-</tr>
-<tr>
-<td>这种机制下，在ES的索引中事先定义好映射，在进行文档插入。</td>
-<td></td>
-</tr>
-<tr>
-<td>动态+静态</td>
-<td></td>
-</tr>
-<tr>
-<td>首先，预先定义好映射，在插入文档时，映射中存在的属性采用静态映射确定属性类型，映射中不存在的属性采用动态映射自动推测类型</td>
-<td></td>
-</tr>
-<tr>
-<td>映射(mapping)元数据</td>
-<td></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>元数据</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>_index</td>
-<td>文档所属的索引</td>
-</tr>
-<tr>
-<td>_id</td>
-<td>文档的id</td>
-</tr>
-<tr>
-<td>_type</td>
-<td>文档所属类型</td>
-</tr>
-<tr>
-<td>_source</td>
-<td>文档的原生json字符串</td>
-</tr>
-<tr>
-<td>_size</td>
-<td>整个_source字段的字节数大小</td>
-</tr>
-<tr>
-<td>_field_names</td>
-<td>索引了每个字段的名称</td>
-</tr>
-<tr>
-<td>_routing</td>
-<td>将一个文档根据路由存储到指定的分片上</td>
-</tr>
-<tr>
-<td>_meta</td>
-<td>用于自定义元数据</td>
-</tr>
-<tr>
-<td>映射(mapping)参数</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    analyzer：指定分词器</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    normalizer：用于解析前的标准化配置，如把所有的字母转换成小写</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    boost：通过boost值来控制查询子句的相对权重，该值默认为1。一个大于1的boost会增加该查询子句的相对权重</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    coerce：用于清除脏数据，默认值true。字符串会被强制转换为整数，浮点数被强制转换为整数。</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    dynamic：用于检测新发现的字段，有三个取值：true，新发现的字段添加到映射中；false，新检测的字段被忽略，必须显式添加新字段。strict，如果新检测到字段，就会引发异常并拒绝文档。</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    enabled：ES默认会索引所有字段，enabled设置为false的字段，es会跳过字段内容，该字段只能从_source字段中获取，但是不可搜索。</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    format：指定字段值的格式</td>
-<td></td>
-</tr>
-<tr>
-<td>⁃    ignore_above：指定字段索引和存储的长度最大值，超过最大值的会被忽略</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="ES与关系数据库的对比"><a href="#ES与关系数据库的对比" class="headerlink" title="ES与关系数据库的对比"></a>ES与关系数据库的对比</h3><table>
-<thead>
-<tr>
-<th>ES</th>
-<th>关系数据库</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>索引(index)</td>
-<td>数据库(database)</td>
-</tr>
-<tr>
-<td>类型(type)</td>
-<td>表(table)</td>
-</tr>
-<tr>
-<td>文档(Doc)</td>
-<td>行(row)</td>
-</tr>
-<tr>
-<td>字段(field)</td>
-<td>列(column)</td>
-</tr>
-<tr>
-<td>映射(mapping)</td>
-<td>表结构(schema)</td>
-</tr>
-<tr>
-<td>查询DSL</td>
-<td>SQL</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>select</td>
-</tr>
-<tr>
-<td>PUT/POST</td>
-<td>update</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>delete</td>
-</tr>
-<tr>
-<td>### 类型(Type)</td>
-<td></td>
-</tr>
-<tr>
-<td>类型是Elasticsearch的一个设计失误，6.0开始后面的版本将不再支持。</td>
-<td></td>
-</tr>
-<tr>
-<td>在Elasticsearch索引中，在不同映射类型中具有相同名称的字段在内部由相同的Lucene字段支持。类型中的user_name字段和user类型中的字段存储在完全相同的user_name字段中tweet，并且两个 user_name字段在两种类型中都必须具有相同的映射（定义）。</td>
-<td></td>
-</tr>
-<tr>
-<td>### 分片(shard)</td>
-<td></td>
-</tr>
-<tr>
-<td>当数据量较大时，索引的存储空间需求超出单个节点磁盘容量的限制，或者出现单个节点处理速度较慢。为了解决这些问题，ES将索引中的数据进行切分成多个分片（shard），每个分片存储这个索引的一部分数据，分布在不同节点上。当需要查询索引时，ElasticSearch将查询发送到每个相关分片，之后将查询结果合并，这个过程对ES应用来说是透明的，用户感知不到分片的存在。 一个索引的分片一旦指定，不能再修改。</td>
-<td></td>
-</tr>
-<tr>
-<td>### 副本(replicas)</td>
-<td></td>
-</tr>
-<tr>
-<td>分片全称是主分片，简称为分片。主分片是相对于副本来说的，副本是对主分片的一个或多个复制版本（或称拷贝），这些复制版本（拷贝）可以称为复制分片，可以直接称之为副本。当主分片丢失时，集群可以将一个副本升级为新的主分片。</td>
-<td></td>
-</tr>
-<tr>
-<td>ES的字段类型</td>
-<td></td>
-</tr>
-<tr>
-<td>核心类型</td>
-<td></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>分类</th>
-<th>具体类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>字符串类型</td>
-<td>string,text,keyword</td>
-</tr>
-<tr>
-<td>整数类型</td>
-<td>integer,long,short,byte</td>
-</tr>
-<tr>
-<td>浮点类型</td>
-<td>double,float,half_float,scaled_float</td>
-</tr>
-<tr>
-<td>逻辑类型</td>
-<td>boolean</td>
-</tr>
-<tr>
-<td>日期类型</td>
-<td>date</td>
-</tr>
-<tr>
-<td>范围类型</td>
-<td>range</td>
-</tr>
-<tr>
-<td>二进制类型</td>
-<td>binary</td>
-</tr>
-<tr>
-<td>复合类型</td>
-<td></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>分类</th>
-<th>具体类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>数组类型</td>
-<td>array</td>
-</tr>
-<tr>
-<td>对象类型</td>
-<td>integer,long,short,byte</td>
-</tr>
-<tr>
-<td>嵌套类型</td>
-<td>double,float,half_float,scaled_float</td>
-</tr>
-</tbody></table>
+            <h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks"></a>安装Shadowsocks</h2><p>准备工作：<br>    1.    准备一台可以访问google的外网服务器<br>    2.    服务器的系统为redhat<br>    3.    使用具有sudo权限的普通用户<br>开始安装：<br>sudo yum install -y python-setuptools<br>sudo easy_install pip<br>Sudo yum install -y git<br>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a><br>配置Shadowsocks<br>创建目录：<br>sudo mkdir /etc/shadowsocks<br>创建及编辑配置文件：<br>sudo vim /etc/shadowsocks/config.json<br>{<br>“server”: “0.0.0.0”,<br>“server_port”: 443,<br>“local_address”: “127.0.0.1”,<br>“local_port”: 1080,<br>“password”: “celerysoft.github.io”,<br>“timeout”: 300,<br>“method”: “aes-256-cfb”,<br>“fast_open”: false,<br>“workers”: 1<br>}<br>配置文件说明：<br>| | |<br>|—|—|<br>|server|服务端监听地址(IPv4或IPv6)|<br>|server_port|服务端端口，一般为443|<br>|local_address|本地监听地址，缺省为127.0.0.1|<br>|local_port|本地监听端口，一般为1080|<br>|password|用以加密的密匙|<br>|timeout|超时时间（秒）|<br>|method|加密方法，默认为aes-256-cfb|<br>|fast_open|是否启用tcp-fast-open，true或者false|<br>|workers|Worker的数量，如果不理解含义请不要改（这个只在Unix和Linux下有用）|</p>
+<h2 id="管理Shadowsocks服务器"><a href="#管理Shadowsocks服务器" class="headerlink" title="管理Shadowsocks服务器"></a>管理Shadowsocks服务器</h2><p>查看帮助：<br>ssserver -h<br>启动Shadowsocks：<br>sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d start<br>关闭Shadowsocks：<br>sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d stop</p>
 
           
         
@@ -876,7 +437,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Emacs%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -895,7 +456,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" itemprop="url">Sqoop基础—基本使用</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Emacs%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Emacs常用命令</a></h1>
         
 
         <div class="post-meta">
@@ -907,8 +468,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:11:41+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:05:40+08:00">
+                2020-03-15
               </time>
             
 
@@ -923,8 +484,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:16:53+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:06:08+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -942,8 +503,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -981,7 +542,7 @@
       
         
           
-            <p>Sqoop(Sql to Hadoop)的安装<br>    配置HADOOP_COMMON_HOME<br>    配置HADOOP_MAPRED_HOME<br>    配置HIVE_HOME<br>Sqoop使用<br>    要点<br>        HDFS端：path，文件导入或导出路径<br>        HIVE端：tablename，要导入或导出的表<br>        RDBMS端：<br>            connect，连接的URL<br>            username，连接的用户名<br>            password，连接的密码<br>            tablename，要连接的表<br>        方式：import/export<br>    帮助命令<br>        sqoop help，全局命令查看<br>        sqoop help command，指定命令查看<br>    常用命令<br>        RDBMS导入hdfs<br>            没指定目标路径时，会在用户目录下<br>            使用自定义查询导入，—query（一定要有where条件，其中还要有$CONDITIONS）<br>            使用自定义列导入，–columns<br>            使用自定义并发个数，–num-mappers<br>            使用自定义存储格式，–as-avrodatafile，–as-textfile等<br>            使用自定义数据压缩，–compress –compression-codec<br>            使用删除目标路径，–delete-target-dir<br>            使用数据增量导入，–append<br>            使用直接导入模式（更快），—direct<br>            使用边界查询，–boundary-query<br>            使用自定义分隔符，–fields-terminated-by<br>            使用条件导入，—where<br>        hdfs导出RDBMS<br>            指定输出目录，–export-dir<br>            指定输出字段分隔符，–fields-terminated-by<br>        RDBMS导入Hive<br>            指定导入hive，–hive-import<br>            指定导入数据库，–hive-database<br>            指定要导入的表，–hive-table<br>            指定字段分隔符，–fields-terminated-by<br>            创建指定表，–create-hive-table<br>        Hive导出到RDBMS<br>            和hdfs导出类似<br>高级用法<br>    —options-file<br>        将命令写入文件，用该参数进行执行 </p>
+            <p>C-v    翻到下一页<br>M-v    翻到上一页<br>C-l    光标移动到页面中间<br>C-b    光标左移动一位<br>C-f    光标右移动一位<br>C-p    光标上移动一行<br>C-n    光标下移动一行<br>C-a    光标移动到行首<br>C-e    光标移动到行尾<br>M-&lt;    移动光标到最开始的地方<br>M-&gt;    移动光标到最末尾的地方<br>C-g    终止命令<br>C-x    1    只保留一个窗格<br>C-k    移动光标到行位间的字符<br>C-@    选中区域的文字<br>C-w    移除选中的文字<br>C-y    将移除的文字召回<br>M-y    连续按可以不断召回之前移除的内容<br>C-/    撤销<br>C-x    C-f    打开（创建）一个文件<br>C-x    C-s    保存文件<br>C-x    C-b    列出当前的缓冲区列表<br>C-x    b    filename    切换到指定的缓冲<br>C-x    s    保存多个缓冲区<br>C-x    C-c    退出emacs<br>C-s    向前搜索<br>C-r    向后搜索<br>C-x    2    将当前屏幕分成两个窗格<br>C-x    o    将光标移动到下方窗格<br>C-h    ？    打开帮助文档<br>C-h    c    command    显示给定命令对应的函数名称<br>C-h    f    function    解释一个函数<br>C-h    v    用来显示emacs变量的文档 </p>
 
           
         
@@ -1030,7 +591,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Hystrix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1049,7 +610,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/" itemprop="url">Redis核心—优化及性能提升</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Hystrix/" itemprop="url">SpringCloud核心—Hystrix</a></h1>
         
 
         <div class="post-meta">
@@ -1061,8 +622,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:10:22+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:00:49+08:00">
+                2020-03-15
               </time>
             
 
@@ -1077,8 +638,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:55+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:03:28+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1096,8 +657,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1135,7 +696,7 @@
       
         
           
-            <p>Redis降低内存占用<br>    Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。<br>    压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。<br>    如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又在平台的有符号整数范围内，同时元素个数又足够少的情况下，Redis就会以有序整数数组的方式存储集合，这种存储方式被称为整数集合。<br>使用压缩列表编码的配置项：<br>        列表：<br>        list-max-ziplist-entries 512   列表为压缩列表情况下允许包含的最大元素数量512<br>        list-max-ziplist-value   64    列表为压缩列表情况下每个元素的最大体积多少字节<br>        散列：<br>        hash-max-ziplist-entries 512   散列为压缩列表情况下允许包含的最大元素数量512<br>        hash-max-ziplist-value   64    散列为压缩列表情况下每个元素的最大体积多少字节<br>        有序集合：<br>        zset-max-ziplist-entries 512   有序集合为压缩列表情况下允许包含的最大元素数量512<br>        zset-max-ziplist-value   64    有序集合为压缩列表情况下每个元素的最大体积多少字节<br>        集合：<br>        set-max-intset-entries 512                  集合为整数集合情况下允许包含的最大元素数量512<br>长压缩列表和大整数集合带来的性能问题：<br>    1.    随着压缩列表和整数集合的体积越来越大，操作这些结构的速度就会变得越来越慢，此时可用分片结构来解决。<br>    2.    当一个结构突破了压缩列表和整数集合设置的限制条件时，Redis就会自动将它转化为典型的底层结构类型。<br>分片结构<br>    分片的本质就是将简单的规则将数据划分为更小的部分，然后根据数据的属性确定将数据发送到那个部分。<br>分片式列表：<br>    在不使用lua脚本的情况下，很难对列表进行分片。<br>分片式散列：<br>    根据散列中存储的键值对的键进行一定的规则转换，确定将该键存储到哪个分片中。<br>分片式集合：<br>    根据集合中的元素本身进行一定的规则转换，确定将该元素存储到哪个分片中。<br>Redis的性能提升<br>读性能提升<br>    •    保持压缩列表的长度不会太大导致影响性能<br>    •    根据需要选择最好性能的存储结构<br>    •    将大体积对象存储到redis前，考虑压缩<br>    •    使用非事务批量提交的方式执行命令<br>    •    添加只读从服务器<br>写性能提升<br>    •    检查程序，尽可能减少程序需要读取的数据量<br>    •    使用锁去替换watch类型的事务<br>    •    使用多实例redis，提前进行预分区</p>
+            <p>// 正在整理中</p>
 
           
         
@@ -1184,7 +745,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Zuul/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1203,7 +764,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" itemprop="url">Redis核心—主从复制</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Zuul/" itemprop="url">SpringCloud核心—Zuul</a></h1>
         
 
         <div class="post-meta">
@@ -1215,8 +776,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:09:26+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:00:26+08:00">
+                2020-03-15
               </time>
             
 
@@ -1231,8 +792,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:00+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:03:28+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1250,8 +811,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1289,7 +850,7 @@
       
         
           
-            <p>Redis的主从复制<br>主从复制配置<br>        主：dir          快照和AOF文件的存储位置<br>        主：dbfilename   快照文件的名称<br>        从：slaveof host port  开启从服务器配置<br>主从复制步骤：<br>    1.    从：连接主服务器，发送SYNC命令<br>    2.    主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令<br>    3.    从：根据配置选项来决定是否继续使用现有的数据处理客户端请求，还是返回错误<br>    4.    主：完成BGSAVE命令，向从服务器发送快照，发送期间继续使用缓冲区记录命令<br>    5.    从：丢弃所有就数据，开始载入最新的快照文件<br>    6.    主：继续向从服务器发送缓冲区里面的命令<br>    7.    从：完成快照文件载入，开始接收命令请求<br>    8.    主：完成缓冲区里命令的发送，从现在开始每执行一个写命令都要向从服务器发送相同的写命令<br>主从复制的问题：<br>    1.    实际中，最好让主服务器只使用50%～65%的内存，留下30%～45%的内存用于执行BGSAVE命令和创建记录写命令的缓冲区。<br>    2.    Redis不支持主主复制<br>    3.    当多个从服务器同时连接主服务器时，会导致主服务器的带宽占用过高，从而出现性能问题<br>    4.    从服务器同样可以拥有自己的从服务器，从而形成主从链<br>    5.    树形结构的主从链是合理的</p>
+            <p>// 正在整理中</p>
 
           
         
@@ -1338,7 +899,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Stream/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1357,7 +918,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" itemprop="url">Redis核心—数据持久化</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Stream/" itemprop="url">SpringCloud核心—Stream</a></h1>
         
 
         <div class="post-meta">
@@ -1369,8 +930,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:08:32+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:00:09+08:00">
+                2020-03-15
               </time>
             
 
@@ -1385,8 +946,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:09:26+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:03:28+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1404,8 +965,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1443,7 +1004,7 @@
       
         
           
-            <p>Redis的数据持久化<br>数据持久化的两种方式：<br>    1.    快照（snapshotting），可以讲存在于某一时刻的所有数据写入硬盘里。<br>    2.    只追加文件（append-only file），在执行写命令时，讲被执行的写命令复制到硬盘里。<br>两种方式可以单独使用，也可以同时使用。<br>快照持久化<br>快照持久化配置项：<br>        save 60 1000                     多久执行一次快照操作，60秒内有1000次写入<br>        stop-writes-on-bgsave-error no   创建快照失败后是否继续执行写命令<br>        rdbcompression yes               是否对快照文件进行压缩<br>        dbfilename dump.rdb              硬盘上的快照文件名<br>快照的检查命令：<br>        redis-check-dump                 检查快照文件的正确性<br>创建快照的方式：<br>    1.    客户端使用BGSAVE命令创建一个快照。Redis调用fork创建一个子进程来负责将快照写入磁盘，主进程继续处理命令请求。<br>    2.    客户端使用SAVE命令创建一个快照。Redis接收到SAVE命令之后，在快照创建完成之前不再响应任何其他命令。<br>    3.    用户设置的save配置选项被触发，会调用BGSAVE命令创建一个快照。<br>    4.    服务器接收到SHUTDOWN命令时，会触发一次SAVE命令创建一个快照。<br>    5.    当一个Redis服务器连接另一个Redis服务器，并向对方发送SYNC命令来开始一次复制操作的时候，主服务器会执行一次BGSAVE命令<br>快照持久化的问题：<br>    1.    快照持久化只适用于那些即使丢失一部分数据也不会造成任何问题的应用程序。<br>    2.    随着Redis占用的内存越来越多，BGSAVE命令的耗时也会越来越长，此时如果系统的剩余内存不多时，会引发系统大量的使用虚拟内存，从而导致Redis的的性能降低至无法使用。<br>    3.    为了防止Redis创建子进程而导致停顿，建议关闭自动保存，通过手动执行SAVE或BGSAVE命令进行持久化。<br>AOF持久化<br>AOF持久化配置项：<br>        appendonly no              是否使用AOF持久化<br>        appendfsync everysec [always] [no]               多久才将写入的内容同步到磁盘，每秒<br>        no-appendfsync-on-rewrite no     在对AOF进行重写的时候能否执行同步操作<br>        auto-aof-rewrite-percentage 100  多久执行一次AOF文件重写<br>        auto-aof-rewrite-min-size 64mb  当AOF文件大于64M，并且AOF文件的体积比上一次重写后增加一倍<br>AOF的检查和修复命令：<br>        redis-check-aof  —-fix     检查并修复AOF文件<br>AOF持久化的问题：<br>    1.    AOF文件越来越大，会造成Redis重启后的还原操作耗时越来越长，解决的方式是进行定期执行AOF文件重写。<br>AOF文件重写：<br>    1.    为了解决AOF文件持续增大的问题，可以使用BGREWRITEAOF命令来移除AOF文件中的冗余命令来重写AOF文件，使AOF文件变小<br>    2.    BGREWRITEAOF命令和BGSAVE命令的原理相同，因此也存在相同的问题。<br>    3.    通过配置项自动触发执行BGREWRITEAOF命令。</p>
+            <p>// 正在整理中</p>
 
           
         
@@ -1492,7 +1053,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BA%8B%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1511,7 +1072,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BA%8B%E5%8A%A1/" itemprop="url">Redis核心—事务</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Config/" itemprop="url">SpringCloud核心—Config</a></h1>
         
 
         <div class="post-meta">
@@ -1523,8 +1084,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:07:00+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:59:52+08:00">
+                2020-03-15
               </time>
             
 
@@ -1539,8 +1100,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:07:42+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:01:58+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1558,8 +1119,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1597,7 +1158,7 @@
       
         
           
-            <p>Redis的事务机制<br>事务相关的命令：<br>        discard        取消事务<br>        exec           执行事务<br>        multi          开启事务<br>        unwatch        取消watch命令对于所有key的监控<br>        watch          监控一个key，如果事务执行之前这个key被其他命令改动，那么事务会被打断<br> Redis的事务机制一次可以执行多个命令：<br>    1.    使用watch命令对键进行指定的监控<br>    2.    使用multi开启事务<br>    3.    将要执行的命令放入缓存队列<br>    4.    在watch监控后exec提交前这段时间，如果被监控的键发生改变，则使用discard取消事务，或者重试操作<br>    5.    如果被监控的键没有发生改变，使用exec提交事务执行命令<br>Redis事务的特点：<br>    1.    单个redis的命令的执行是原子性的，但redis在事务上没有增加任何维持原子性的机制，所以事务的执行并不是原子性的<br>    2.    事务可以理解为一个打包批量执行的脚本，但批量命令并非原子化操作，中间某条命令失败不会导致前面已做的指令回滚，也不会造成后续的指令不做<br>    3.    这个事务可以在不被其他客户端打断的情况下执行多个命令<br>    4.    Redis只会在数据已经被其他客户端抢先改变了的情况下，通知执行了watch命令的客户端，这种做法被称为乐观锁。关系型数据库则使用的是悲观锁<br>    5.    对于上述事务去掉watch命令，可以变成非事务流水线，可以尽可能的减少应用程序和Redis之间的通讯往返次数<br>    6.    随着应用负载的增加，由watch命令导致的程序进行重试的次数越来越多，导致资源浪费。因此，应减少对watch的使用。<br>Redis使用SETNX构建锁：<br>    1.    使用setnx命令获取锁（包含锁的超时时间）。这个命令只会在键不存在的情况下为键设定值。<br>    2.    执行事务内容<br>    3.    检查是否还持有该锁，并释放锁</p>
+            <p>// 正在整理中</p>
 
           
         
@@ -1646,7 +1207,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Rabbin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1665,7 +1226,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Redis基础—基本概述</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Rabbin/" itemprop="url">SpringCloud核心—Rabbin</a></h1>
         
 
         <div class="post-meta">
@@ -1677,8 +1238,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:05:56+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:59:34+08:00">
+                2020-03-15
               </time>
             
 
@@ -1693,8 +1254,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:08:32+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:03:28+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1712,8 +1273,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1751,7 +1312,7 @@
       
         
           
-            <p>Redis简介<br>    ·    异常快速：每秒能执行11万集合，每秒约81000+条记录<br>    •    支持丰富的数据类型：支持字符串、列表、集合、有序集合、散列数据类型<br>    •    操作都是原子性：所有的redis操作都是原子的<br>    •    支持多个数据库，并且每个数据库中的数据是隔离的，不可共享，并且基于单机才有，集群模式没有数据库的概念。数据库默认从0开始以递增数字命名，默认支持16个，可以修改配置支持更多，客户端连接时自动连接数据库0，可以使用select命令选择数据库<br>    •    不支持自定义数据库的名称，不支持为每个数据库设置不同的密码。FlushAll可以清空一个Redis实例中的所有数据<br>Redis基本数据类型<br>字符串（String）<br>    该类型是一个由字节组成的序列，底层存储为二进制，可以包含任何数据，最大存储512M。<br>    该类型明确区分字符串、整数、浮点数，对于整数、浮点数可以执行自增或自减操作。<br>    该类型对于不存在的键进行自增或自减操作，初始化值默认为 0。<br>列表（List）<br>       该类型是一种双向链表，可以从列表的两端推入或者弹出元素。<br>集合 （Set）<br>       该类型以无序的方式存储多个各不相同的元素。<br>有序集合（Zset）<br>       该类型给Set中的元素赋予一个权重（分数）映射，按照权重排序。<br>散列（Hash）<br>    Hash：散列，键值对集合（字典），适合存储对象，可以update某一属性。<br>    Rdis的服务器命令<br>            info                   获取redis服务器的各种信息和统计信息<br>            shutdown save          保存当前数据到磁盘并关闭服务器<br>            client list            获取所有的客户端列表<br>            client kill            关闭指定的数据库连接<br>            dbsize                 获取当前数据库中key的数量<br>            save                   同步保存数据到磁盘<br>            bgsave                 在后台异步保存当前的数据到磁盘<br>            command                获取redis的命令详情数组<br>            flushdb                删除当前数据库中的所有的key<br>            flushall               删除所有的数据库中的key<br>            config get name        查看配置项<br>            config set name value      设置配置项<br>            config get requirepass 查看是否设置了密码验证<br>        config set requirepass 设置密码验证<br>        auth password          进行密码验证<br>Redis性能测试<br>使用redis-benchmark实现<br>redis-benchmark -h 127.0.0.1 -p 6379 -t set.lpush -n 10000 -q<br>以上实例测试本地redis实例执行1000次的set和lpush请求后测算出来的每秒请求数量 </p>
+            <p>// 正在整理中</p>
 
           
         
@@ -1800,7 +1361,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Feign/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1819,7 +1380,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" itemprop="url">Spark核心—高级特性</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Feign/" itemprop="url">SpringCloud核心—Feign</a></h1>
         
 
         <div class="post-meta">
@@ -1831,8 +1392,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:03:42+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:59:11+08:00">
+                2020-03-15
               </time>
             
 
@@ -1847,8 +1408,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:04:13+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:03:28+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -1866,8 +1427,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1905,7 +1466,7 @@
       
         
           
-            <p>共享变量<br>    默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。<br>累加器的值只能在Driver中取出<br>CheckPoint<br>    Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint<br>SparkContext.setCheckpointDir()<br>Rdd.checkpoint()<br>checkpoint原理<br>    一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。<br>checkpoint与persist的区别<br>    与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。<br>动态资源调度<br>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略<br>    FIFO调度<br>    公平调度：spark.scheduler.mode，fair<br>    可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置<br>spark2.0的新版本特性<br>新增StructurtedStreaming模块，整合流计算和批处理<br>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理<br> cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大<br>Spark通过rest方式使用curl进行集群任务监控<br>通过metrics的sink机制进行集群监控<br>SparkSql的thriftserver服务<br>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据<br>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </p>
+            <p>// 正在整理中</p>
 
           
         
@@ -1954,7 +1515,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Eureka/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1973,7 +1534,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/" itemprop="url">Spark基础—DF</a></h1>
+                <a class="post-title-link" href="/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Eureka/" itemprop="url">SpringCloud核心—Eureka</a></h1>
         
 
         <div class="post-meta">
@@ -1985,8 +1546,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:02:06+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:58:42+08:00">
+                2020-03-15
               </time>
             
 
@@ -2001,8 +1562,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:02:36+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:03:28+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -2020,8 +1581,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -2059,7 +1620,236 @@
       
         
           
-            <p>Spark-sql的DataFrame<br>    SparkSQL的核心编程抽象，以列的形式组织的，分布式的数据集合 。SQLContext，SparkSQL的上下文。HiveContext是SQLContext的子类，包含除了SQLContext之外的一些针对Hive的功能，支持使用UDF，对与Spark1.3以上的版本都推荐使用HiveContext 。<br>DataFrame的生成<br>    ⁃    使用反射的方式生成<br>         javaAPI仅支持简单的javabean方式，row形式的RDD<br>           注：java的row在从DF转换成RDD时，会发生数据列顺序的变化<br>                scalaAPI支持复杂的javabean方式，row形式的RDD，需要使用SQLContext的隐式转换<br>                    注：scala的row在从DF转换成RDD时，会保持数据列的顺序<br>    ⁃    使用schema的方式编程动态生成<br>                JavaAPI使用RowFactory生成Row，使用DataTypes生成StructField和StructType<br>                ScalaAPI，Row，StructField和StructType都是caseclass<br>Spark-sql读取parquet文件<br>parquet是面向分析型业务的列式存储格式，对比行式存储的优势有：<br>    ▪    可以跳过不符合条件的列，只读取需要的数据，降低磁盘的IO<br>    ▪    压缩编码可以降低磁盘存储空间，同一列的数据类型相同<br>    ▪    只读取需要的列，支持向量运算，能获取更好的扫描性能<br>Sparksql对parquet数据源的支持在如下几个方面：<br>    ✓    支持parquet数据源的自动分区推断，可以根据目录名自动推断出分区信息。目前仅支持推断数值类型和字符串类型的，通过设置如下参数spark.sql.sources.partitionColumnTypeInference.enabled，默认为true，设置为false即是禁用推断分区列的数据类型，此时所有分区列的数据类型都为String<br>    ✓    支持多个parquet文件元数据合并，因该操作比较消耗性能，从1.5开始默认是关闭的读取parquet数据源时，将选项mergeSchema，设置为true。使用SQLContext.setConf()，将spark.sqlparquet.mergeSchema参数设置为True。通过上面两种方式中任意一种开启<br>Spark-sql对hive进行数据的读写<br>操作hive时要使用HiveContext，继承于SQLContext<br>dataset和dataframe的区别<br>dataframe就是dataset[row],是untyped<br>dataset是dataset[T],是typed类型的<br>dataset和dataframe的相互转换：as、toDF<br>ds、df基本的action操作和rdd的操作相同，<br>ds、df基本操作，创建临时视图，获取执行计划<br>typed操作（需要将df转换成ds）<br>    ⁃    coalesce：重新定义分区，只能减少分区，可以选择不发生shuffle操作<br>    ⁃     repartition：重新定义分区，可以增加或减少分区，必须进行shuffle<br>    ⁃    distinct：去重，一条记录完整内容去重<br>    ⁃    dropDuplicates：去重，根据选择的字段内容去重<br>    ⁃    except：获取当前ds中存在，但是在另外一ds中不存在的记录<br>    ⁃    filter：根据自己的逻辑进行过滤<br>    ⁃    intersect：获取两个ds的交集<br>    ⁃    map：将数据中的每条数据都做映射返回一个新数据<br>    ⁃    mapPartition：一次性对一个partition中的数据进行处理<br>    ⁃    flatMap：将数据中的每条数据都做映射返回多条新数据<br>    ⁃    joinWith：两个ds进行join操作<br>    ⁃    sort：根据字段进行排序<br>    ⁃    randomSplit：对ds进行切分<br>    ⁃    sample：从ds中随机取一定的样本<br>untyped操作<br>    ⁃    select：投影<br>    ⁃    where：过滤<br>    ⁃    groupBy：分组<br>    ⁃    agg：聚合<br>    ⁃    col：取列<br>    ⁃    join：连接 </p>
+            <p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" itemprop="url">Graphframe基础—使用手册</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:56:28+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:57:13+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用户使用手册<br>给出了关于GraphFrames的基本查询，模式查询和一些最基本的图算法，包含python和scala编码<br>创建GraphFrames<br>用户可以从顶点和边的DataFrame中创建<br>    顶点的DataFrame应该包含一个列名为“id”的特殊列，这列指定了整个图中每个顶点的唯一ID<br>    边的DataFrame应该包含两个列名为“src“（边的起点ID）和”dst“（边的终点ID）<br>    两种DataFrame可以包含任意的其他列，这些列代表了顶点和边的属性。<br>用户也可以从一个包含边信息的DataFrame中创建，图中的顶点由边的起点和终点确定。<br>下面的例子是如何从顶点和边的DataFrame中创建GraphFrame<br>Scala代码：<br>import org.graphframes.GraphFrame<br>// Vertex DataFrame<br>val v = sqlContext.createDataFrame(List(<br>  (“a”, “Alice”, 34),<br>  (“b”, “Bob”, 36),<br>  (“c”, “Charlie”, 30),<br>  (“d”, “David”, 29),<br>  (“e”, “Esther”, 32),<br>  (“f”, “Fanny”, 36),<br>  (“g”, “Gabby”, 60)<br>)).toDF(“id”, “name”, “age”)<br>// Edge DataFrame<br>val e = sqlContext.createDataFrame(List(<br>  (“a”, “b”, “friend”),<br>  (“b”, “c”, “follow”),<br>  (“c”, “b”, “follow”),<br>  (“f”, “c”, “follow”),<br>  (“e”, “f”, “follow”),<br>  (“e”, “d”, “friend”),<br>  (“d”, “a”, “friend”),<br>  (“a”, “e”, “friend”)<br>)).toDF(“src”, “dst”, “relationship”)<br>// Create a GraphFrame<br>val g = GraphFrame(v, e)<br>上面创建的GraohFrame可以在下面的包中找到<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends<br>python代码 </p>
+<h1 id="Vertex-DataFrame"><a href="#Vertex-DataFrame" class="headerlink" title="Vertex DataFrame"></a>Vertex DataFrame</h1><p>v = sqlContext.createDataFrame([<br>  (“a”, “Alice”, 34),<br>  (“b”, “Bob”, 36),<br>  (“c”, “Charlie”, 30),<br>  (“d”, “David”, 29),<br>  (“e”, “Esther”, 32),<br>  (“f”, “Fanny”, 36),<br>  (“g”, “Gabby”, 60)<br>], [“id”, “name”, “age”])</p>
+<h1 id="Edge-DataFrame"><a href="#Edge-DataFrame" class="headerlink" title="Edge DataFrame"></a>Edge DataFrame</h1><p>e = sqlContext.createDataFrame([<br>  (“a”, “b”, “friend”),<br>  (“b”, “c”, “follow”),<br>  (“c”, “b”, “follow”),<br>  (“f”, “c”, “follow”),<br>  (“e”, “f”, “follow”),<br>  (“e”, “d”, “friend”),<br>  (“d”, “a”, “friend”),<br>  (“a”, “e”, “friend”)<br>], [“src”, “dst”, “relationship”])</p>
+<h1 id="Create-a-GraphFrame"><a href="#Create-a-GraphFrame" class="headerlink" title="Create a GraphFrame"></a>Create a GraphFrame</h1><p>g = GraphFrame(v, e)<br>上面创建的GraohFrame可以在下面的包中找到<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()<br>基本的图和DataFrame查询<br>GraphFrames提供了多种简单的图查询，如顶点的度<br>顶点的DataFrame和边的DataFrame可以在GraohFrame的vertice和edges属性中获取<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Display the vertex and edge DataFrames<br>g.vertices.show()<br>// +–+——-+—+<br>// |id|   name|age|<br>// +–+——-+—+<br>// | a|  Alice| 34|<br>// | b|    Bob| 36|<br>// | c|Charlie| 30|<br>// | d|  David| 29|<br>// | e| Esther| 32|<br>// | f|  Fanny| 36|<br>// | g|  Gabby| 60|<br>// +–+——-+—+<br>g.edges.show()<br>// +—+—+————+<br>// |src|dst|relationship|<br>// +—+—+————+<br>// |  a|  b|      friend|<br>// |  b|  c|      follow|<br>// |  c|  b|      follow|<br>// |  f|  c|      follow|<br>// |  e|  f|      follow|<br>// |  e|  d|      friend|<br>// |  d|  a|      friend|<br>// |  a|  e|      friend|<br>// +—+—+————+<br>// import Spark SQL package<br>import org.apache.spark.sql.DataFrame<br>// Get a DataFrame with columns “id” and “inDeg” (in-degree)<br>val vertexInDegrees: DataFrame = g.inDegrees<br>// Find the youngest user’s age in the graph.<br>// This queries the vertex DataFrame.<br>g.vertices.groupBy().min(“age”).show()<br>// Count the number of “follows” in the graph.<br>// This queries the edge DataFrame.<br>val numFollows = g.edges.filter(“relationship = ‘follow’”).count()<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Display-the-vertex-and-edge-DataFrames"><a href="#Display-the-vertex-and-edge-DataFrames" class="headerlink" title="Display the vertex and edge DataFrames"></a>Display the vertex and edge DataFrames</h1><p>g.vertices.show()</p>
+<h1 id="–-——-—"><a href="#–-——-—" class="headerlink" title="+–+——-+—+"></a>+–+——-+—+</h1><h1 id="id-name-age"><a href="#id-name-age" class="headerlink" title="|id|   name|age|"></a>|id|   name|age|</h1><h1 id="–-——-—-1"><a href="#–-——-—-1" class="headerlink" title="+–+——-+—+"></a>+–+——-+—+</h1><h1 id="a-Alice-34"><a href="#a-Alice-34" class="headerlink" title="| a|  Alice| 34|"></a>| a|  Alice| 34|</h1><h1 id="b-Bob-36"><a href="#b-Bob-36" class="headerlink" title="| b|    Bob| 36|"></a>| b|    Bob| 36|</h1><h1 id="c-Charlie-30"><a href="#c-Charlie-30" class="headerlink" title="| c|Charlie| 30|"></a>| c|Charlie| 30|</h1><h1 id="d-David-29"><a href="#d-David-29" class="headerlink" title="| d|  David| 29|"></a>| d|  David| 29|</h1><h1 id="e-Esther-32"><a href="#e-Esther-32" class="headerlink" title="| e| Esther| 32|"></a>| e| Esther| 32|</h1><h1 id="f-Fanny-36"><a href="#f-Fanny-36" class="headerlink" title="| f|  Fanny| 36|"></a>| f|  Fanny| 36|</h1><h1 id="g-Gabby-60"><a href="#g-Gabby-60" class="headerlink" title="| g|  Gabby| 60|"></a>| g|  Gabby| 60|</h1><h1 id="–-——-—-2"><a href="#–-——-—-2" class="headerlink" title="+–+——-+—+"></a>+–+——-+—+</h1><p>g.edges.show()</p>
+<h1 id="—-—-————"><a href="#—-—-————" class="headerlink" title="+—+—+————+"></a>+—+—+————+</h1><h1 id="src-dst-relationship"><a href="#src-dst-relationship" class="headerlink" title="|src|dst|relationship|"></a>|src|dst|relationship|</h1><h1 id="—-—-————-1"><a href="#—-—-————-1" class="headerlink" title="+—+—+————+"></a>+—+—+————+</h1><h1 id="a-b-friend"><a href="#a-b-friend" class="headerlink" title="|  a|  b|      friend|"></a>|  a|  b|      friend|</h1><h1 id="b-c-follow"><a href="#b-c-follow" class="headerlink" title="|  b|  c|      follow|"></a>|  b|  c|      follow|</h1><h1 id="c-b-follow"><a href="#c-b-follow" class="headerlink" title="|  c|  b|      follow|"></a>|  c|  b|      follow|</h1><h1 id="f-c-follow"><a href="#f-c-follow" class="headerlink" title="|  f|  c|      follow|"></a>|  f|  c|      follow|</h1><h1 id="e-f-follow"><a href="#e-f-follow" class="headerlink" title="|  e|  f|      follow|"></a>|  e|  f|      follow|</h1><h1 id="e-d-friend"><a href="#e-d-friend" class="headerlink" title="|  e|  d|      friend|"></a>|  e|  d|      friend|</h1><h1 id="d-a-friend"><a href="#d-a-friend" class="headerlink" title="|  d|  a|      friend|"></a>|  d|  a|      friend|</h1><h1 id="a-e-friend"><a href="#a-e-friend" class="headerlink" title="|  a|  e|      friend|"></a>|  a|  e|      friend|</h1><h1 id="—-—-————-2"><a href="#—-—-————-2" class="headerlink" title="+—+—+————+"></a>+—+—+————+</h1><h1 id="Get-a-DataFrame-with-columns-“id”-and-“inDegree”-in-degree"><a href="#Get-a-DataFrame-with-columns-“id”-and-“inDegree”-in-degree" class="headerlink" title="Get a DataFrame with columns “id” and “inDegree” (in-degree)"></a>Get a DataFrame with columns “id” and “inDegree” (in-degree)</h1><p>vertexInDegrees = g.inDegrees</p>
+<h1 id="Find-the-youngest-user’s-age-in-the-graph"><a href="#Find-the-youngest-user’s-age-in-the-graph" class="headerlink" title="Find the youngest user’s age in the graph."></a>Find the youngest user’s age in the graph.</h1><h1 id="This-queries-the-vertex-DataFrame"><a href="#This-queries-the-vertex-DataFrame" class="headerlink" title="This queries the vertex DataFrame."></a>This queries the vertex DataFrame.</h1><p>g.vertices.groupBy().min(“age”).show()</p>
+<h1 id="Count-the-number-of-“follows”-in-the-graph"><a href="#Count-the-number-of-“follows”-in-the-graph" class="headerlink" title="Count the number of “follows” in the graph."></a>Count the number of “follows” in the graph.</h1><h1 id="This-queries-the-edge-DataFrame"><a href="#This-queries-the-edge-DataFrame" class="headerlink" title="This queries the edge DataFrame."></a>This queries the edge DataFrame.</h1><p>numFollows = g.edges.filter(“relationship = ‘follow’”).count()<br>模式查询<br>表示在一个图中搜寻指定的结构样式<br>GraphFrame的模式查询使用一种简单Domain-Specific Language (DSL)表示结构查询。 例如，raph.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)查询一对双向互通的顶点，返回一个DataFrame，包含图中所有这种结构，列名就是表达式中的元素名称，在这个例子中，返回的列名是”a, b, e, e2.”<br>DSL表达式： 模式中最基本的单元是边，例如”(a)-[e]-&gt;(b)”表示一个从顶点a到顶点b的边e，顶点使用圆括号（a）表示，边使用方括号[e]表示。 一个表达式可以由一系列的边表示，用分号隔开,例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示a到b到c的两条边 在一个表达式中，边和顶点的名称是可以指定的，例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示边e的终点和边e2的起点’b’是相同的<br> 这样命名有两个目的：<br>        可以区分边之间的元素，例如例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示边e的终点和边e2的起点’b’是相同的<br>        用于结果中的一列的列名<br>        要知道不同的表名可能表示相同的顶点，例如，中的’a’和’c’可能表示相同的顶点<br>省略不需要的顶点和边的名称也是可以的，例如表示’a，b’之间的边，但是不用命名，结果中不会显示该列，被称为匿名的边和列<br>表达式中的边可以使用否定来表示这条边不会在图中出现，例如查找’a’到’b’但是’b’到不了’a’的边<br>规定：<br>    不允许出现不包含任何元素名称的模式表达式出现，例如”()-[]-&gt;()”、”!()-[]-&gt;()”<br>    被命名的边中不允许包含被排除的顶点名称，例如”!(a)-[ab]-&gt;(b)”是非法的，”!(a)-[]-&gt;(b)”是合法的<br>更多复杂的查询，例如对顶点或者边属性的操作可以使用表达式对结果的DataFrame进行过滤<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Search for pairs of vertices with edges in both directions between them.<br>val motifs: GraphFrame = g.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)<br>motifs.show()<br>// More complex queries can be expressed by applying filters.<br>motifs.filter(“b.age &gt; 30”).show()<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Search-for-pairs-of-vertices-with-edges-in-both-directions-between-them"><a href="#Search-for-pairs-of-vertices-with-edges-in-both-directions-between-them" class="headerlink" title="Search for pairs of vertices with edges in both directions between them."></a>Search for pairs of vertices with edges in both directions between them.</h1><p>motifs = g.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)<br>motifs.show()</p>
+<h1 id="More-complex-queries-can-be-expressed-by-applying-filters"><a href="#More-complex-queries-can-be-expressed-by-applying-filters" class="headerlink" title="More complex queries can be expressed by applying filters."></a>More complex queries can be expressed by applying filters.</h1><p>motifs.filter(“b.age &gt; 30”).show()</p>
+<pre><code>许多的模式查询都是非常简单的，就如上面的出现的一样，下面的这些携带状态的例子更加复杂，这样的查询可以结合GraphFrame的模式查找和结果过滤，对结果中的列使用表达式操作进行过滤。 </code></pre><p>例如，<br>For example, suppose one wishes to identify a chain of 4 vertices with some property defined<br>by a sequence of functions.  That is, among chains of 4 vertices <code>a-&gt;b-&gt;c-&gt;d</code>, identify the subset<br>of chains matching this complex filter:</p>
+<ul>
+<li>Initialize state on path.</li>
+<li>Update state based on vertex <code>a</code>.</li>
+<li>Update state based on vertex <code>b</code>.</li>
+<li>Etc. for <code>c</code> and <code>d</code>.</li>
+<li>If final state matches some condition, then the chain is accepted by the filter.</li>
+</ul>
+<p>The below code snippets demonstrate this process, where we identify chains of 4 vertices<br>such that at least 2 of the 3 edges are “friend” relationships.<br>In this example, the state is the current count of “friend” edges; in general, it could be any<br><code>DataFrame Column</code>.<br>Scala代码：<br>import org.apache.spark.sql.Column<br>import org.apache.spark.sql.functions.{col, when}<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Find chains of 4 vertices.<br>val chain4 = g.find(“(a)-[ab]-&gt;(b); (b)-[bc]-&gt;(c); (c)-[cd]-&gt;(d)”)<br>// Query on sequence, with state (cnt)<br>//  (a) Define method for updating state given the next element of the motif.<br>def sumFriends(cnt: Column, relationship: Column): Column = {<br>  when(relationship === “friend”, cnt + 1).otherwise(cnt)<br>}<br>//  (b) Use sequence operation to apply method to sequence of elements in motif.<br>//      In this case, the elements are the 3 edges.<br>val condition = { Seq(“ab”, “bc”, “cd”)<br>  .foldLeft(lit(0))((cnt, e) =&gt; sumFriends(cnt, col(e)(“relationship”))) }<br>//  (c) Apply filter to DataFrame.<br>val chainWith2Friends2 = chain4.where(condition &gt;= 2)<br>chainWith2Friends2.show()<br>Python代码：<br>from pyspark.sql.functions import col, lit, when<br>from pyspark.sql.types import IntegerType<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>chain4 = g.find(“(a)-[ab]-&gt;(b); (b)-[bc]-&gt;(c); (c)-[cd]-&gt;(d)”)</p>
+<h1 id="Query-on-sequence-with-state-cnt"><a href="#Query-on-sequence-with-state-cnt" class="headerlink" title="Query on sequence, with state (cnt)"></a>Query on sequence, with state (cnt)</h1><h1 id="a-Define-method-for-updating-state-given-the-next-element-of-the-motif"><a href="#a-Define-method-for-updating-state-given-the-next-element-of-the-motif" class="headerlink" title="(a) Define method for updating state given the next element of the motif."></a>(a) Define method for updating state given the next element of the motif.</h1><p>sumFriends = lambda cnt,relationship: when(relationship == “friend”, cnt+1).otherwise(cnt) </p>
+<h1 id="b-Use-sequence-operation-to-apply-method-to-sequence-of-elements-in-motif"><a href="#b-Use-sequence-operation-to-apply-method-to-sequence-of-elements-in-motif" class="headerlink" title="(b) Use sequence operation to apply method to sequence of elements in motif."></a>(b) Use sequence operation to apply method to sequence of elements in motif.</h1><h1 id="In-this-case-the-elements-are-the-3-edges"><a href="#In-this-case-the-elements-are-the-3-edges" class="headerlink" title="In this case, the elements are the 3 edges."></a>In this case, the elements are the 3 edges.</h1><p>condition = reduce(lambda cnt,e: sumFriends(cnt, col(e).relationship), [“ab”, “bc”, “cd”], lit(0)) </p>
+<h1 id="c-Apply-filter-to-DataFrame"><a href="#c-Apply-filter-to-DataFrame" class="headerlink" title="(c) Apply filter to DataFrame."></a>(c) Apply filter to DataFrame.</h1><p>chainWith2Friends2 = chain4.where(condition &gt;= 2)<br>chainWith2Friends2.show()<br>上面这个例子是查找一个固定长度的链，显然，想要查询变量定义的这种模式，用户需要查询每一条可能的路线，然而上面的固定长度查询模式允许用户重复使用相同的代码，只需要更新模式识别中的元素 如（’ab’，’bc’，’cd’）<br>子图<br>在GraphX中，’subfraph‘方法接受一个边的triplet，允许用户根据triplet和顶点选择一个子图<br>GraphFrames提供了一个更强大的方式，基于模式识别和DataFrame筛选结合，来选择子图，我们提供了三个辅助的方法来辅助子图选择，<code>filterVertices(condition)</code>, <code>filterEdges(condition)</code>, and <code>dropIsolatedVertices()</code>.<br>简单的子图，基于顶点和边过滤<br>下面的列子展示了如何基于边和顶点过滤选择子图<br>Scala代码：（0.6.0版本新增的API）<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends</p>
+<p>// Select subgraph of users older than 30, and relationships of type “friend”.<br>// Drop isolated vertices (users) which are not contained in any edges (relationships).<br>val g1 = g.filterVertices(“age &gt; 30”).filterEdges(“relationship = ‘friend’”).dropIsolatedVertices()<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Select-subgraph-of-users-older-than-30-and-relationships-of-type-“friend”"><a href="#Select-subgraph-of-users-older-than-30-and-relationships-of-type-“friend”" class="headerlink" title="Select subgraph of users older than 30, and relationships of type “friend”."></a>Select subgraph of users older than 30, and relationships of type “friend”.</h1><h1 id="Drop-isolated-vertices-users-which-are-not-contained-in-any-edges-relationships"><a href="#Drop-isolated-vertices-users-which-are-not-contained-in-any-edges-relationships" class="headerlink" title="Drop isolated vertices (users) which are not contained in any edges (relationships)."></a>Drop isolated vertices (users) which are not contained in any edges (relationships).</h1><p>g1 = g.filterVertices(“age &gt; 30”).filterEdges(“relationship = ‘friend’”).dropIsolatedVertices()<br>复杂的子图，基于triplet过滤<br>下面的这些例子展示了如何基于给出的triplet筛选一个子图，这个例子可以被扩展成除了triplet之外更复杂的模式查询<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Select subgraph based on edges “e” of type “follow”<br>// pointing from a younger user “a” to an older user “b”.<br>val paths = { g.find(“(a)-[e]-&gt;(b)”)<br>  .filter(“e.relationship = ‘follow’”)<br>  .filter(“a.age &lt; b.age”) }<br>// “paths” contains vertex info. Extract the edges.<br>val e2 = paths.select(“e.src”, “e.dst”, “e.relationship”)<br>// In Spark 1.5+, the user may simplify this call:<br>//  val e2 = paths.select(“e.*”)<br>// Construct the subgraph<br>val g2 = GraphFrame(g.vertices, e2)<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Select-subgraph-based-on-edges-“e”-of-type-“follow”"><a href="#Select-subgraph-based-on-edges-“e”-of-type-“follow”" class="headerlink" title="Select subgraph based on edges “e” of type “follow”"></a>Select subgraph based on edges “e” of type “follow”</h1><h1 id="pointing-from-a-younger-user-“a”-to-an-older-user-“b”"><a href="#pointing-from-a-younger-user-“a”-to-an-older-user-“b”" class="headerlink" title="pointing from a younger user “a” to an older user “b”."></a>pointing from a younger user “a” to an older user “b”.</h1><p>paths = g.find(“(a)-[e]-&gt;(b)”)<br>  .filter(“e.relationship = ‘follow’”)\<br>  .filter(“a.age &lt; b.age”) </p>
+<h1 id="“paths”-contains-vertex-info-Extract-the-edges"><a href="#“paths”-contains-vertex-info-Extract-the-edges" class="headerlink" title="“paths” contains vertex info. Extract the edges."></a>“paths” contains vertex info. Extract the edges.</h1><p>e2 = paths.select(“e.src”, “e.dst”, “e.relationship”)</p>
+<h1 id="In-Spark-1-5-the-user-may-simplify-this-call"><a href="#In-Spark-1-5-the-user-may-simplify-this-call" class="headerlink" title="In Spark 1.5+, the user may simplify this call:"></a>In Spark 1.5+, the user may simplify this call:</h1><h1 id="val-e2-paths-select-“e-”"><a href="#val-e2-paths-select-“e-”" class="headerlink" title="val e2 = paths.select(“e.*”)"></a>val e2 = paths.select(“e.*”)</h1><h1 id="Construct-the-subgraph"><a href="#Construct-the-subgraph" class="headerlink" title="Construct the subgraph"></a>Construct the subgraph</h1><p>g2 = GraphFrame(g.vertices, e2)</p>
+<p>图算法<br>GraphFrames提供了和Graphx一样的一套标准的图算法，或许可能更多一些，我们提供了简短的介绍和代码片段，如下<br>See the <a href="api/scala/index.html#org.graphframes.lib.package">API docs</a> for more details.<br>目前一些算法是基于GraphX封装实现的，所以可能没有Graphx的扩展性高，在未来更多的算法将基于GraphFrames自身实现<br>BFS算法<br>BFS算法查找从一个或者多个顶点到另一个或者多个顶点的最短路径，起始点和终点在表达式中被指定。See <a href="https://en.wikipedia.org/wiki/Breadth-first_search" target="_blank" rel="noopener">Wikipedia on BFS</a> for more background.<br>下面的代码段使用bfs算法查找名称为Esther的顶点到年龄小于32的一系列顶点的最短路径<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.BFS">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Search from “Esther” for users of age &lt; 32.<br>val paths = g.bfs.fromExpr(“name = ‘Esther’”).toExpr(“age &lt; 32”).run()<br>paths.show()<br>// Specify edge filters or max path lengths.<br>{ g.bfs.fromExpr(“name = ‘Esther’”).toExpr(“age &lt; 32”)<br>  .edgeFilter(“relationship != ‘friend’”)<br>  .maxPathLength(3).run() } </p>
+<p>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.bfs">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Search-from-“Esther”-for-users-of-age-lt-32"><a href="#Search-from-“Esther”-for-users-of-age-lt-32" class="headerlink" title="Search from “Esther” for users of age &lt; 32."></a>Search from “Esther” for users of age &lt; 32.</h1><p>paths = g.bfs(“name = ‘Esther’”, “age &lt; 32”)<br>paths.show()</p>
+<h1 id="Specify-edge-filters-or-max-path-lengths"><a href="#Specify-edge-filters-or-max-path-lengths" class="headerlink" title="Specify edge filters or max path lengths."></a>Specify edge filters or max path lengths.</h1><p>g.bfs(“name = ‘Esther’”, “age &lt; 32”,<br>  edgeFilter=”relationship != ‘friend’”, maxPathLength=3)<br>连通图 </p>
+<h2 id="Connected-components"><a href="#Connected-components" class="headerlink" title="Connected components"></a>Connected components</h2><p>对每一个顶点计算联通图的成员，返回一个返回一个图，图中的所有的顶点被赋予一个连通ID<br>See <a href="https://en.wikipedia.org/wiki/Connected_component_(graph_theory)" target="_blank" rel="noopener">Wikipedia</a> for background.<br>注释：在GraphFrames0.3.0及其之后版本，默认的连通图算法要求设置一个spark检查点目录。用户可以通过设置connectedComponents.setAlgorithm(“graphx”)使用就的算法<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.ConnectedComponents">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val result = g.connectedComponents.run()<br>result.select(“id”, “component”).orderBy(“component”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.connectedComponents">API docs</a>.<br>PYthon代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>result = g.connectedComponents()<br>result.select(“id”, “component”).orderBy(“component”).show()<br>强连通图 </p>
+<h3 id="Strongly-connected-components"><a href="#Strongly-connected-components" class="headerlink" title="Strongly connected components"></a>Strongly connected components</h3><p>计算每个顶点所属的强连通图，返回图中的每个顶点，顶点被赋予强连通图的ID<br>Compute the strongly connected component (SCC) of each vertex and return a graph with each vertex<br>assigned to the SCC containing that vertex.<br>See <a href="https://en.wikipedia.org/wiki/Strongly_connected_component" target="_blank" rel="noopener">Wikipedia</a> for background.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.StronglyConnectedComponents">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val result = g.stronglyConnectedComponents.maxIter(10).run()<br>result.select(“id”, “component”).orderBy(“component”).show()</p>
+<p>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.stronglyConnectedComponents">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>result = g.stronglyConnectedComponents(maxIter=10)<br>result.select(“id”, “component”).orderBy(“component”).show()<br>标签传播算法 </p>
+<h2 id="Label-Propagation-Algorithm-LPA"><a href="#Label-Propagation-Algorithm-LPA" class="headerlink" title="Label Propagation Algorithm (LPA)"></a>Label Propagation Algorithm (LPA)</h2><p>在网络中运行一个静态的LPA算法去探测社交关系<br>Run static Label Propagation Algorithm for detecting communities in networks.<br>网络中的每个节点初始被赋予自己的社交圈，在每一步中，节点发送各自的社交圈给所有的相邻节点，更新他们的社交圈<br>Each node in the network is initially assigned to its own community. At every superstep, nodes<br>send their community affiliation to all neighbors and update their state to the mode community<br>affiliation of incoming messages.<br>LPA是一个标准的图社交探测算法。它是非常廉价的由于（1）收敛性是不保证的（2）可以以无关紧要的结果结束<br>LPA is a standard community detection algorithm for graphs. It is very inexpensive<br>computationally, although (1) convergence is not guaranteed and (2) one can end up with<br>trivial solutions (all nodes are identified into a single community).<br>See <a href="https://en.wikipedia.org/wiki/Label_Propagation_Algorithm" target="_blank" rel="noopener">Wikipedia</a> for background.</p>
+<p>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.LabelPropagation">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val result = g.labelPropagation.maxIter(5).run()<br>result.select(“id”, “label”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.labelPropagation">API docs</a>.<br>Python代码<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>result = g.labelPropagation(maxIter=5)<br>result.select(“id”, “label”).show()<br>PageRank<br>有两种实现方法<br>There are two implementations of PageRank.<br>第一种使用org.apache.spark.graphx.graph接口的aggregateMessage方法运行固定次数的迭代来实现，可以设置迭代次数<br>第二种实现使用接口org.apache.spark.graphx.Pregel运行直到收敛，可以设置容忍度 </p>
+<ul>
+<li>The first one uses the <code>org.apache.spark.graphx.graph</code> interface with <code>aggregateMessages</code> and runs<br>PageRank for a fixed number of iterations. This can be executed by setting <code>maxIter</code>.</li>
+<li>The second implementation uses the <code>org.apache.spark.graphx.Pregel</code> interface and runs PageRank until<br>convergence and this can be run by setting <code>tol</code>.<br>两种实现都支持自定义或非自定义的PageRank<br>Both implementations support non-personalized and personalized PageRank, where setting a <code>sourceId</code><br>personalizes the results for that vertex.</li>
+</ul>
+<p>See <a href="https://en.wikipedia.org/wiki/PageRank" target="_blank" rel="noopener">Wikipedia</a> for background.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.PageRank">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Run PageRank until convergence to tolerance “tol”.<br>val results = g.pageRank.resetProbability(0.15).tol(0.01).run()<br>// Display resulting pageranks and final edge weights<br>// Note that the displayed pagerank may be truncated, e.g., missing the E notation.<br>// In Spark 1.5+, you can use show(truncate=false) to avoid truncation.<br>results.vertices.select(“id”, “pagerank”).show()<br>results.edges.select(“src”, “dst”, “weight”).show()<br>// Run PageRank for a fixed number of iterations.<br>val results2 = g.pageRank.resetProbability(0.15).maxIter(10).run()<br>// Run PageRank personalized for vertex “a”<br>val results3 = g.pageRank.resetProbability(0.15).maxIter(10).sourceId(“a”).run()<br>// Run PageRank personalized for vertex [“a”, “b”, “c”, “d”] in parallel<br>val results3 = g.parallelPersonalizedPageRank.resetProbability(0.15).maxIter(10).sourceIds(Array(“a”, “b”, “c”, “d”)).run()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.pageRank">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Run-PageRank-until-convergence-to-tolerance-“tol”"><a href="#Run-PageRank-until-convergence-to-tolerance-“tol”" class="headerlink" title="Run PageRank until convergence to tolerance “tol”."></a>Run PageRank until convergence to tolerance “tol”.</h1><p>results = g.pageRank(resetProbability=0.15, tol=0.01)</p>
+<h1 id="Display-resulting-pageranks-and-final-edge-weights"><a href="#Display-resulting-pageranks-and-final-edge-weights" class="headerlink" title="Display resulting pageranks and final edge weights"></a>Display resulting pageranks and final edge weights</h1><h1 id="Note-that-the-displayed-pagerank-may-be-truncated-e-g-missing-the-E-notation"><a href="#Note-that-the-displayed-pagerank-may-be-truncated-e-g-missing-the-E-notation" class="headerlink" title="Note that the displayed pagerank may be truncated, e.g., missing the E notation."></a>Note that the displayed pagerank may be truncated, e.g., missing the E notation.</h1><h1 id="In-Spark-1-5-you-can-use-show-truncate-False-to-avoid-truncation"><a href="#In-Spark-1-5-you-can-use-show-truncate-False-to-avoid-truncation" class="headerlink" title="In Spark 1.5+, you can use show(truncate=False) to avoid truncation."></a>In Spark 1.5+, you can use show(truncate=False) to avoid truncation.</h1><p>results.vertices.select(“id”, “pagerank”).show()<br>results.edges.select(“src”, “dst”, “weight”).show()</p>
+<h1 id="Run-PageRank-for-a-fixed-number-of-iterations"><a href="#Run-PageRank-for-a-fixed-number-of-iterations" class="headerlink" title="Run PageRank for a fixed number of iterations."></a>Run PageRank for a fixed number of iterations.</h1><p>results2 = g.pageRank(resetProbability=0.15, maxIter=10)</p>
+<h1 id="Run-PageRank-personalized-for-vertex-“a”"><a href="#Run-PageRank-personalized-for-vertex-“a”" class="headerlink" title="Run PageRank personalized for vertex “a”"></a>Run PageRank personalized for vertex “a”</h1><p>results3 = g.pageRank(resetProbability=0.15, maxIter=10, sourceId=”a”)</p>
+<h1 id="Run-PageRank-personalized-for-vertex-“a”-“b”-“c”-“d”-in-parallel"><a href="#Run-PageRank-personalized-for-vertex-“a”-“b”-“c”-“d”-in-parallel" class="headerlink" title="Run PageRank personalized for vertex [“a”, “b”, “c”, “d”] in parallel"></a>Run PageRank personalized for vertex [“a”, “b”, “c”, “d”] in parallel</h1><p>results4 = g.parallelPersonalizedPageRank(resetProbability=0.15, sourceIds=[“a”, “b”, “c”, “d”], maxIter=10)<br>最短路径 </p>
+<h2 id="Shortest-paths"><a href="#Shortest-paths" class="headerlink" title="Shortest paths"></a>Shortest paths</h2><p>计算给出的顶点之间的最短路径，<br>Computes shortest paths from each vertex to the given set of landmark vertices, where landmarks are<br>specified by vertex ID.  Note that this takes edge direction into account.<br>See <a href="https://en.wikipedia.org/wiki/Shortest_path_problem" target="_blank" rel="noopener">Wikipedia</a> for background.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.ShortestPaths">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val results = g.shortestPaths.landmarks(Seq(“a”, “d”)).run()<br>results.select(“id”, “distances”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.shortestPaths">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>results = g.shortestPaths(landmarks=[“a”, “d”])<br>results.select(“id”, “distances”).show()</p>
+<p>三角形计数 </p>
+<h2 id="Triangle-count"><a href="#Triangle-count" class="headerlink" title="Triangle count"></a>Triangle count</h2><p>计算通过每个顶点的三角形的个数<br>Computes the number of triangles passing through each vertex.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.TriangleCount">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val results = g.triangleCount.run()<br>results.select(“id”, “count”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.triangleCount">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>results = g.triangleCount()<br>results.select(“id”, “count”).show()<br>保存和加载GraphFrames </p>
+<h1 id="Saving-and-loading-GraphFrames"><a href="#Saving-and-loading-GraphFrames" class="headerlink" title="Saving and loading GraphFrames"></a>Saving and loading GraphFrames</h1><p>由于GraphFrames是DataFrame创建的，自然就支持从相同的数据源保存和加载<br>Since GraphFrames are built around DataFrames, they automatically support saving and loading<br>to and from the same set of datasources.<br>Refer to the <a href="http://spark.apache.org/docs/latest/sql-programming-guide.html#data-sources" target="_blank" rel="noopener">Spark SQL User Guide on datasources</a><br>for more details.<br>下面的例子展示如何保存和加载一个图<br>The below example shows how to save and then load a graph.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Save vertices and edges as Parquet to some location.<br>g.vertices.write.parquet(“hdfs://myLocation/vertices”)<br>g.edges.write.parquet(“hdfs://myLocation/edges”)<br>// Load the vertices and edges back.<br>val sameV = sqlContext.read.parquet(“hdfs://myLocation/vertices”)<br>val sameE = sqlContext.read.parquet(“hdfs://myLocation/edges”)<br>// Create an identical GraphFrame.<br>val sameG = GraphFrame(sameV, sameE)<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Save-vertices-and-edges-as-Parquet-to-some-location"><a href="#Save-vertices-and-edges-as-Parquet-to-some-location" class="headerlink" title="Save vertices and edges as Parquet to some location."></a>Save vertices and edges as Parquet to some location.</h1><p>g.vertices.write.parquet(“hdfs://myLocation/vertices”)<br>g.edges.write.parquet(“hdfs://myLocation/edges”)</p>
+<h1 id="Load-the-vertices-and-edges-back"><a href="#Load-the-vertices-and-edges-back" class="headerlink" title="Load the vertices and edges back."></a>Load the vertices and edges back.</h1><p>sameV = sqlContext.read.parquet(“hdfs://myLocation/vertices”)<br>sameE = sqlContext.read.parquet(“hdfs://myLocation/edges”)</p>
+<h1 id="Create-an-identical-GraphFrame"><a href="#Create-an-identical-GraphFrame" class="headerlink" title="Create an identical GraphFrame."></a>Create an identical GraphFrame.</h1><p>sameG = GraphFrame(sameV, sameE)<br>消息传递 </p>
+<h1 id="Message-passing-via-AggregateMessages"><a href="#Message-passing-via-AggregateMessages" class="headerlink" title="Message passing via AggregateMessages"></a>Message passing via AggregateMessages</h1><p>像GraphX一样，GraphFrames提供了开发图算法的能力，两个关键的组件如下：<br>Like GraphX, GraphFrames provides primitives for developing graph algorithms.<br>The two key components are:<br><code>aggregateMessages</code>：在顶点之间发送消息，在每个顶点时聚合消息<br>聚合原始图中的所有消息 </p>
+<ul>
+<li><code>aggregateMessages</code>: Send messages between vertices, and aggregate messages for each vertex.<br>GraphFrames provides a native <code>aggregateMessages</code> method implemented using DataFrame operations.<br>This may be used analogously to the GraphX API. </li>
+<li>joins: Join message aggregates with the original graph.<br>GraphFrames rely on <code>DataFrame</code> joins, which provide the full functionality of GraphX joins.<br>下面的代码段展示了如何使用<code>aggregateMessages</code> 计算关联用户的年龄总和<br>The below code snippets show how to use <code>aggregateMessages</code> to compute the sum of the ages<br>of adjacent users.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.AggregateMessages">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>import org.graphframes.lib.AggregateMessages<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// We will use AggregateMessages utilities later, so name it “AM” for short.<br>val AM = AggregateMessages<br>// For each user, sum the ages of the adjacent users.<br>val msgToSrc = AM.dst(“age”)<br>val msgToDst = AM.src(“age”)<br>val agg = { g.aggregateMessages<br>.sendToSrc(msgToSrc)  // send destination user’s age to source<br>.sendToDst(msgToDst)  // send source user’s age to destination<br>.agg(sum(AM.msg).as(“summedAges”)) } // sum up ages, stored in AM.msg column<br>agg.show()<br>For a more complex example, look at the code used to implement the<br><a href="api/scala/index.html#org.graphframes.examples.BeliefPropagation$">Belief Propagation example</a>.</li>
+</ul>
+<p>For API details, refer to the<br><a href="api/python/graphframes.html#graphframes.GraphFrame.aggregateMessages">API docs</a>.<br>Python代码：<br>from pyspark.sql.functions import sum as sqlsum<br>from graphframes.lib import AggregateMessages as AM<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="For-each-user-sum-the-ages-of-the-adjacent-users"><a href="#For-each-user-sum-the-ages-of-the-adjacent-users" class="headerlink" title="For each user, sum the ages of the adjacent users."></a>For each user, sum the ages of the adjacent users.</h1><p>msgToSrc = AM.dst[“age”]<br>msgToDst = AM.src[“age”]<br>agg = g.aggregateMessages(<br>    sqlsum(AM.msg).alias(“summedAges”),<br>    sendToSrc=msgToSrc,<br>    sendToDst=msgToDst)<br>agg.show()</p>
+<p>For a more complex example, look at the code used to implement the<br><a href="api/python/graphframes.examples.html#graphframes.examples.BeliefPropagation">Belief Propagation example</a>.<br>GraphX-GraphFrames相互转换<br>我们提供了实用的转换在GraphFrame和GraphX<br>See the <a href="http://spark.apache.org/docs/latest/graphx-programming-guide.html" target="_blank" rel="noopener">GraphX User Guide</a><br>for details on GraphX.<br>GraphFrame转换成GraphX<br>转换成GraphX创建了GraphX的图，这个图有一个Long类型的顶点ID和Row类型的属性，顶点和边的属性是一个初始的row<br>Conversion to GraphX creates a GraphX <code>Graph</code> which has <code>Long</code> vertex IDs and attributes<br>of type <code>Row</code>.<br>Vertex and edge attributes are the original rows in <code>vertices</code> and <code>edges</code>, respectively.<br>需要注意的是顶点（边）属性包含顶点ID（起点，终点ID）为了支持非Long类型的顶点ID。<br>Note that vertex (and edge) attributes include vertex IDs (and source, destination IDs)<br>in order to support non-Long vertex IDs.  If the vertex IDs are not convertible to Long values,<br>then the values are indexed in order to generate corresponding Long vertex IDs (which is an<br>expensive operation).</p>
+<p>The column ordering of the returned <code>Graph</code> vertex and edge attributes are specified by<br><code>GraphFrame.vertexColumns</code> and <code>GraphFrame.edgeColumns</code>, respectively.<br>GraphX转换成GraphFrame </p>
+<h2 id="GraphX-to-GraphFrame"><a href="#GraphX-to-GraphFrame" class="headerlink" title="GraphX to GraphFrame"></a>GraphX to GraphFrame</h2><p>GraphFrame提供了两种转换方法。第一种方法是将GrphX的图中的顶点和边的RDD转换成DataFrame，然后穿件GraphFrame<br>GraphFrame provides two conversions methods.  The first takes any GraphX graph and converts<br>the vertex and edge <code>RDD</code>s into <code>DataFrame</code>s using schema inference.  Those DataFrames<br>are then used to create a GraphFrame.<br>第二种转换方案更加复杂<br>The second conversion method is more complex and is useful for users with existing GraphX code.<br>Its main purpose is to support workflows of the following form: (1) convert a GraphFrame to GraphX,<br>(2) run GraphX code to augment the GraphX graph with new vertex or edge attributes, and<br>(3) merge the new attributes back into the original GraphFrame.</p>
+<p>For example, given:</p>
+<ul>
+<li>GraphFrame <code>originalGraph</code></li>
+<li>GraphX <code>Graph[String, Int]</code> <code>graph</code> with a String vertex attribute we want to call “category”<br>and an Int edge attribute we want to call “count” </li>
+</ul>
+<p>We can call <code>fromGraphX(originalGraph, graph, Seq(&quot;category&quot;), Seq(&quot;count&quot;))</code> to produce<br>a new GraphFrame. The new GraphFrame will be an augmented version of <code>originalGraph</code>,<br>with new <code>GraphFrame.vertices</code> column “category” and new <code>GraphFrame.edges</code> column “count” added.</p>
+<p>For example usage, look at the code used to implement the<br><a href="api/scala/index.html#org.graphframes.examples.BeliefPropagation$">Belief Propagation example</a>.<br>转换例子 </p>
+<h2 id="Example-conversions"><a href="#Example-conversions" class="headerlink" title="Example conversions"></a>Example conversions</h2><p>The below example demonstrates simple GraphFrame-GraphX conversions.<br>For API details, refer to the API docs for:</p>
+<ul>
+<li><a href="api/scala/index.html#org.graphframes.GraphFrame">toGraphX</a></li>
+<li><a href="api/scala/index.html#org.graphframes.GraphFrame$">fromGraphX</a><br>Scala代码：<br>import org.apache.spark.graphx.Graph<br>import org.apache.spark.sql.Row<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Convert to GraphX<br>val gx: Graph[Row, Row] = g.toGraphX<br>// Convert back to GraphFrame.<br>// Note that the schema is changed because of constraints in the GraphX API.<br>val g2: GraphFrame = GraphFrame.fromGraphX(gx)<br>这些转换仅仅支持Scala因为GraphX没有Python的API<br>These conversions are only supported in Scala since GraphX does not have a Python API.</li>
+</ul>
 
           
         
@@ -2099,7 +1889,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
   </nav>
 
 
@@ -2145,7 +1935,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2167,7 +1957,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
