@@ -282,6 +282,314 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EMR%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EMR%E9%9B%86%E6%88%90/" itemprop="url">Hbase核心—与MR集成</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:54:20+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:55:23+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>与Mapreduce集成<br>    classpath添加：<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖<br>    实现方法：<br>maven依赖：hbase-server<br>Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。<br> 1、写个 mapper 继承 TableMapper&lt;Text, IntWritable&gt;<br>参数：Text：mapper 的输出 key 类型； IntWritable：mapper 的输出 value 类型。<br>其中的 map 方法如下： map(ImmutableBytesWritable key, Result value,Context context)<br>参数：key：rowKey；value： Result ，一行数据； context 上下文<br> 2、写个 reduce 继承 TableReducer&lt;Text, IntWritable, ImmutableBytesWritable&gt;<br>参数：Text:reducer 的输入 key； IntWritable：reduce 的输入 value； ImmutableBytesWritable：reduce 输出到 hbase 中的 rowKey 类型。<br>其中的 reduce 方法如下： reduce(Text key, Iterable<IntWritable> values,Context context)<br>参数： key：reduce 的输入 key；values：reduce 的输入 value；<br>    准备表：<br>1、建立数据来源表‘word’，包含一个列族‘content’ 向表中添加数据，在列族中放入列‘info’，并将短文数据放入该列中，如此插入多行，行 键为不同的数据即可<br>2、建立输出表‘stat’，包含一个列族‘content’<br>3、通过 Mr 操作 Hbase 的‘word’表，对‘content：info’中的短文做词频统计，并将统计 结果写入‘stat’表的‘content：info 中’，行键为单词<br>    实现：</IntWritable></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line">package com.beicai.hbase;</span><br><span class="line"></span><br><span class="line">import java.io.IOException; </span><br><span class="line">import java.util.ArrayList; </span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.conf.Configuration; </span><br><span class="line">import org.apache.hadoop.hbase.HBaseConfiguration; </span><br><span class="line">import org.apache.hadoop.hbase.HColumnDescriptor; </span><br><span class="line">import org.apache.hadoop.hbase.HTableDescriptor;</span><br><span class="line">import org.apache.hadoop.hbase.client.HBaseAdmin; </span><br><span class="line">import org.apache.hadoop.hbase.client.HTable; </span><br><span class="line">import org.apache.hadoop.hbase.client.Put; </span><br><span class="line">import org.apache.hadoop.hbase.client.Result; </span><br><span class="line">import org.apache.hadoop.hbase.client.Scan; </span><br><span class="line">import org.apache.hadoop.hbase.io.ImmutableBytesWritable; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableMapper; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableReducer; </span><br><span class="line">import org.apache.hadoop.hbase.util.Bytes; </span><br><span class="line">import org.apache.hadoop.io.IntWritable;</span><br><span class="line">import org.apache.hadoop.io.Text; </span><br><span class="line">import org.apache.hadoop.mapreduce.Job; </span><br><span class="line">&#x2F;** </span><br><span class="line">  * mapreduce 操作 hbase </span><br><span class="line">  * @author liudongfei </span><br><span class="line">  *&#x2F; </span><br><span class="line">public class HBaseMr &#123; </span><br><span class="line">&#x2F;** * 创建 hbase 配置 *&#x2F; </span><br><span class="line">static Configuration config &#x3D; null; </span><br><span class="line">static &#123; </span><br><span class="line">	config &#x3D; HBaseConfiguration.create(); </span><br><span class="line">	config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;slave1,slave2,slave3&quot;); 	config.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** * 表信息 *&#x2F; </span><br><span class="line">public static final String tableName &#x3D; &quot;word&quot;;&#x2F;&#x2F;表名 1 </span><br><span class="line">public static final String colf &#x3D; &quot;content&quot;;&#x2F;&#x2F;列族 </span><br><span class="line">public static final String col &#x3D; &quot;info&quot;;&#x2F;&#x2F;列 </span><br><span class="line">public static final String tableName2 &#x3D; &quot;stat&quot;;&#x2F;&#x2F;表名 2 </span><br><span class="line">&#x2F;** * 初始化表结构，及其数据 *&#x2F; </span><br><span class="line">public static void initTB() &#123; </span><br><span class="line">HTable table&#x3D;null; </span><br><span class="line">HBaseAdmin admin&#x3D;null;</span><br><span class="line">try &#123; </span><br><span class="line">	admin &#x3D; new HBaseAdmin(config);&#x2F;&#x2F;创建表管理 </span><br><span class="line">	&#x2F;*删除表*&#x2F; </span><br><span class="line">	if (admin.tableExists(tableName)||admin.tableExists(tableName2)) &#123; </span><br><span class="line">		System.out.println(&quot;table is already exists!&quot;); </span><br><span class="line">		admin.disableTable(tableName); </span><br><span class="line">		admin.deleteTable(tableName); </span><br><span class="line">		admin.disableTable(tableName2); </span><br><span class="line">		admin.deleteTable(tableName2); </span><br><span class="line">	&#125; </span><br><span class="line">	&#x2F;*创建表*&#x2F; </span><br><span class="line">	HTableDescriptor desc &#x3D; new HTableDescriptor(tableName); </span><br><span class="line">	HColumnDescriptor family &#x3D; new HColumnDescriptor(colf); </span><br><span class="line">	desc.addFamily(family);</span><br><span class="line">	admin.createTable(desc); </span><br><span class="line">	HTableDescriptor desc2 &#x3D; new HTableDescriptor(tableName2); </span><br><span class="line">	HColumnDescriptor family2 &#x3D; new HColumnDescriptor(colf); </span><br><span class="line">	desc2.addFamily(family2); </span><br><span class="line">	admin.createTable(desc2); </span><br><span class="line">	&#x2F;*插入数据*&#x2F; </span><br><span class="line">	table &#x3D; new HTable(config,tableName); </span><br><span class="line">	table.setAutoFlush(false); </span><br><span class="line">	table.setWriteBufferSize(5); </span><br><span class="line">	List&lt;Put&gt; lp &#x3D; new ArrayList&lt;Put&gt;(); </span><br><span class="line">	Put p1 &#x3D; new Put(Bytes.toBytes(&quot;1&quot;)); </span><br><span class="line">	p1.add(colf.getBytes(), col.getBytes(),(&quot;The Apache Hadoop software library is a framework&quot;).getBytes()); </span><br><span class="line">	lp.add(p1); </span><br><span class="line">	Put p2 &#x3D; new Put(Bytes.toBytes(&quot;2&quot;));</span><br><span class="line">	p2.add(colf.getBytes(),col.getBytes(),(&quot;The common utilities that support the 	other Hadoop modules&quot;).getBytes()); </span><br><span class="line">	lp.add(p2); </span><br><span class="line">	Put p3 &#x3D; new Put(Bytes.toBytes(&quot;3&quot;)); </span><br><span class="line">	p3.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop by reading the documentation&quot;).getBytes()); lp.add(p3); </span><br><span class="line">	Put p4 &#x3D; new Put(Bytes.toBytes(&quot;4&quot;)); </span><br><span class="line">	p4.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop from the release page&quot;).getBytes()); </span><br><span class="line">	lp.add(p4); </span><br><span class="line">	Put p5 &#x3D; new Put(Bytes.toBytes(&quot;5&quot;)); </span><br><span class="line">	p5.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop on the mailing list&quot;).getBytes()); </span><br><span class="line">	lp.add(p5); </span><br><span class="line">	table.put(lp); </span><br><span class="line">	table.flushCommits(); </span><br><span class="line">	lp.clear();</span><br><span class="line">&#125; catch (Exception e) &#123; </span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125; finally &#123; </span><br><span class="line">	try &#123; </span><br><span class="line">		if(table!&#x3D;null)&#123; </span><br><span class="line">			table.close(); </span><br><span class="line">		&#125; </span><br><span class="line">	&#125; catch (IOException e) &#123; </span><br><span class="line">		e.printStackTrace(); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** </span><br><span class="line">* MyMapper 继承 TableMapper </span><br><span class="line">* TableMapper&lt;Text,IntWritable&gt; </span><br><span class="line">* Text:输出的 key 类型， </span><br><span class="line">* IntWritable：输出的 value 类型 </span><br><span class="line">*&#x2F; </span><br><span class="line">public static class MyMapper extends TableMapper&lt;Text, IntWritable&gt; &#123; </span><br><span class="line">private static IntWritable one &#x3D; new IntWritable(1); </span><br><span class="line">private static Text word &#x3D; new Text(); @Override </span><br><span class="line">&#x2F;&#x2F;输入的类型为：key：rowKey； value：一行数据的结果集 </span><br><span class="line">Result protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException &#123; </span><br><span class="line">&#x2F;&#x2F;获取一行数据中的 colf：col </span><br><span class="line">String words &#x3D; Bytes.toString(value.getValue(Bytes.toBytes(colf), Bytes.toBytes(col)));&#x2F;&#x2F; 表里面只有一个列族，所以我就直接获取每一行的值 </span><br><span class="line">&#x2F;&#x2F;按空格分割 </span><br><span class="line">String itr[] &#x3D; words.toString().split(&quot; &quot;); </span><br><span class="line">&#x2F;&#x2F;循环输出 word 和 1 </span><br><span class="line">for (int i &#x3D; 0; i &lt; itr.length; i++) &#123; </span><br><span class="line">	word.set(itr[i]); </span><br><span class="line">	context.write(word, one); &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** </span><br><span class="line">* MyReducer 继承 TableReducer </span><br><span class="line">* TableReducer&lt;Text,IntWritable&gt; </span><br><span class="line">* Text:输入的 key 类型， </span><br><span class="line">* IntWritable：输入的 value 类型， </span><br><span class="line">* ImmutableBytesWritable：输出类型，表示 rowkey 的类型 </span><br><span class="line">*&#x2F; </span><br><span class="line">public static class MyReducer extends</span><br><span class="line">TableReducer&lt;Text, IntWritable, ImmutableBytesWritable&gt; &#123;</span><br><span class="line">@Override</span><br><span class="line">protected void reduce(Text key, Iterable&lt;IntWritable&gt; values, Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">&#x2F;&#x2F;对 mapper 的数据求和</span><br><span class="line">int sum &#x3D; 0;</span><br><span class="line">for (IntWritable val : values) &#123;</span><br><span class="line">	&#x2F;&#x2F;叠加 </span><br><span class="line">	sum +&#x3D; val.get();</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 创建 put，设置 rowkey 为单词</span><br><span class="line">Put put &#x3D; new Put(Bytes.toBytes(key.toString())); </span><br><span class="line">&#x2F;&#x2F; 封装数据 </span><br><span class="line">put.add(Bytes.toBytes(colf), Bytes.toBytes(col),Bytes.toBytes(String.valueOf(sum))); </span><br><span class="line">&#x2F;&#x2F;写到 hbase,需要指定 rowkey、put </span><br><span class="line">context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())),put);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123; </span><br><span class="line">config.set(&quot;df.default.name&quot;, &quot;hdfs:&#x2F;&#x2F;master:9000&#x2F;&quot;);&#x2F;&#x2F;设置 hdfs 的默认路径 </span><br><span class="line">config.set(&quot;hadoop.job.ugi&quot;, &quot;hadoop,hadoop&quot;);&#x2F;&#x2F;用户名，组 </span><br><span class="line">config.set(&quot;mapred.job.tracker&quot;, &quot;master:9001&quot;);&#x2F;&#x2F;设置 jobtracker 在哪 </span><br><span class="line">&#x2F;&#x2F;初始化表 </span><br><span class="line">initTB();&#x2F;&#x2F;初始化表 </span><br><span class="line">&#x2F;&#x2F;创建 job </span><br><span class="line">Job job &#x3D; new Job(config, &quot;HBaseMr&quot;);&#x2F;&#x2F;job </span><br><span class="line">job.setJarByClass(HBaseMr.class);&#x2F;&#x2F;主类 </span><br><span class="line">&#x2F;&#x2F;创建 scan </span><br><span class="line">Scan scan &#x3D; new Scan(); </span><br><span class="line">&#x2F;&#x2F;可以指定查询某一列 </span><br><span class="line">scan.addColumn(Bytes.toBytes(colf), Bytes.toBytes(col)); </span><br><span class="line">&#x2F;&#x2F;创建查询 hbase 的 mapper，设置表名、scan、mapper 类、mapper 的输出 key、 mapper 的输出 value </span><br><span class="line">TableMapReduceUtil.initTableMapperJob(tableName, scan, MyMapper.class,Text.class, IntWritable.class, job); </span><br><span class="line">&#x2F;&#x2F;创建写入 hbase 的 reducer，指定表名、reducer 类、job TableMapReduceUtil.initTableReducerJob(tableName2, MyReducer.class, job); System.exit(job.waitForCompletion(true) ? 0 : 1); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">	提交并运行jar：</span><br><span class="line">hadoop_classpath&#x3D;&#96;hbase mapredcp&#96; yarn jar *.jar mainenter</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/" itemprop="url">Hbase核心—表的管理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:52:56+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:53:43+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>命名空间相关操作<br>        创建表时，可以针对每个列簇指定多个属性,也 可以对表的属性进行设置。<br>        HBase表的预分区<br>            默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向<br>            该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建<br>            一些region，多个region会被多个regionserver管理。<br>            region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。<br>            预分区的方式<br>                1）在shell中可以使用SPLITS=&gt;[key1, key2…]方式指定<br>                2）或者SPLITS_FILE =&gt; ‘path’<br>                3）NUMREGIONS=&gt;3,SPLITALGO=&gt;’HexStringSplit’(自定义rowkey函数)<br>            表的rowkey设计核心<br>                依据rowkey查询最快<br>                对rowkey进行范围查询range<br>                前缀匹配<br>            主表：存储所有的数据<br>            索引表：根据业务创建业务rowkey到主表rowkey的映射表<br>                创建方式：<br>                    hbase<br>                    solr<br>                问题：主表和索引表的同步问题<br>                解决：<br>                    程序，事物<br>                    phoenix，Hbase的sql<br>                        只有通过jdbc的方式<br>                    cloudera search    解决hbase和solr索引表的同步 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94Java%20API%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1501,314 +1809,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94MR%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Hadoop核心—MR编程模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:35:43+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:37:28+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Hadoop基本数据类型<br>    ✓    BooleanWritable：标准布尔型数值<br>    ✓    ByteWriteable：单字节数值<br>    ✓    DoubleWritable：双字节数值<br>    ✓    FloatWriteable：浮点数<br>    ✓    IntWritable：整形数<br>    ✓    LongWritable：长整形数<br>    ✓    Text：使用UTF8格式存储的文本<br>    ✓    NullWritable：当key或value为空时使用<br>重要接口<br>    Writable：序列化接口<br>    ⁃    write()<br>    ⁃    readFields()<br>    WritableComparable：序列化比较接口，key必须实现</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Tomcat概述和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:54:51+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:56:26+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1859,7 +1859,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1881,7 +1881,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

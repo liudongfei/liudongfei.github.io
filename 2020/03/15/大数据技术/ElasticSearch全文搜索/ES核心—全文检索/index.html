@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="linux," />
+  <meta name="keywords" content="es," />
 
 
 
@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="网络命令：  12lsof -i :3306 #查看3306端口nc -lk 9999 #创建一个socket端口，端口9999">
+<meta name="description" content="查询方式Match类查询    match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。match查询    先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。match_phrase    先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。multi_match    两个字段进行匹配，其中一个字段有这个文档就满足match_all    可以查询">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux常用命令">
-<meta property="og:url" content="https://liudongfei.github.io/2020/03/12/util/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:title" content="ES核心—全文检索">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="网络命令：  12lsof -i :3306 #查看3306端口nc -lk 9999 #创建一个socket端口，端口9999">
-<meta property="article:published_time" content="2020-03-12T15:38:58.063Z">
-<meta property="article:modified_time" content="2020-03-12T15:42:19.451Z">
+<meta property="og:description" content="查询方式Match类查询    match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。match查询    先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。match_phrase    先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。multi_match    两个字段进行匹配，其中一个字段有这个文档就满足match_all    可以查询">
+<meta property="article:published_time" content="2020-03-15T03:49:52.322Z">
+<meta property="article:modified_time" content="2020-03-15T03:50:32.004Z">
 <meta property="article:author" content="dongfeiliu">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="es">
 <meta name="twitter:card" content="summary">
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/2020/03/12/util/Linux常用命令/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/15/大数据技术/ElasticSearch全文搜索/ES核心—全文检索/"/>
 
 
 
 
 
-  <title>Linux常用命令 | 琅琊的博客</title>
+  <title>ES核心—全文检索 | 琅琊的博客</title>
   
 
 
@@ -286,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/util/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Linux常用命令</h1>
+          <h1 class="post-title" itemprop="name headline">ES核心—全文检索</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T23:38:58+08:00">
-                2020-03-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:49:52+08:00">
+                2020-03-15
               </time>
             
 
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:42:19+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T11:50:32+08:00">
+                2020-03-15
               </time>
             
           </span>
@@ -350,8 +350,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -392,10 +392,15 @@
       
 
       
-        <blockquote>
-<p>网络命令：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsof -i :3306 #查看3306端口</span><br><span class="line">nc -lk 9999 #创建一个socket端口，端口9999</span><br></pre></td></tr></table></figure>
+        <p>查询方式<br>Match类查询<br>    match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。<br>match查询<br>    先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。<br>match_phrase<br>    先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。<br>multi_match<br>    两个字段进行匹配，其中一个字段有这个文档就满足<br>match_all<br>    可以查询到所有文档，是没有查询条件下的默认语句。</p>
+<p>Term类查询<br>Term查询<br>    Term是代表完全匹配，也就是精确查询，搜索前不会再对搜索词进行分词，所以我们的搜索词必须是文档分词集合中的一个。<br>Terms查询<br>    Terms 跟 Term 有点类似，但 terms 允许指定多个匹配条件。 如果某个字段指定了多个值，那么文档需要一起去做匹配。匹配条件之间默认时或的关系。注意分词过后英文单词的大写会编程小写<br>ids查询<br>{<br>    “query”: {<br>        “ids” : {<br>            “type” : “blog”,<br>            “values” : [“2”, “3”]<br>        }<br>    }<br>}<br>Range查询<br>    按照指定范围查找一批数据。<br>    范围操作符包含：<br>    ⁃    gt：大于<br>    ⁃    gte：大于等于<br>    ⁃    lt：小于<br>    ⁃    lte：小于等于<br>{<br>    “query”: {<br>        “range” : {<br>            “age” : {<br>                “gte” : 10,<br>                “lte” : 20,<br>                “boost” : 2.0<br>            }<br>        }<br>    }<br>}<br>Regexp查询<br>    针对某个字段使用正则表达式进行ES的条件查询。<br>{<br>    “query”: {<br>        “regexp”:{<br>            “title”: “gc.*”<br>        }<br>    }<br>}<br>Prefix查询<br>    针对某个字段使用前缀方式进行ES的条件查询。下面，查询user字段中ki开头的文档。<br>{ “query”: {<br>    “prefix” : { “user” : “ki” }<br>  }<br>}<br>Exists查询<br>返回原始字段中至少包含一个非空值的文档，如下返回包含user字段的文档<br>{<br>    “query”: {<br>        “exists” : { “field” : “user” }<br>    }<br>}<br>Bool复合查询<br>    想要请求”content中带宝马，但是tag中不带宝马”这样类似的需求，就需要用到bool联合查询。<br>    联合查询就会使用到must,should,must_not三种关键词。<br>    ✓    must：文档必须完全匹配条件<br>    ✓    should：should下面会带上一个以上的条件，至少满足一个条件，这个文档就符合should<br>    ✓    must_not：文档必须不匹配条件<br>{<br>  “query”: {<br>    “bool”: {<br>      “must”: {<br>        “term”: {<br>          “content”: “宝马”<br>        }<br>      },<br>      “must_not”: {<br>        “term”: {<br>          “tags”: “宝马”<br>        }<br>      }<br>    }<br>  }<br>}</p>
+<p>过滤条件<br>分页</p>
+<p>排序<br>添加顺序排序</p>
+<p>评分排序</p>
+<p>单字段排序<br>{<br>  “query”: {<br>    “match_all”: {}<br>  },<br>  “sort”: [<br>    {“postdate”:{“order”:”desc”}}<br>  ]<br>}<br>多字段排序</p>
+<p>字段过滤</p>
+<p>评分过滤</p>
+
       
     </div>
     
@@ -415,7 +420,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2020/03/12/util/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">https://liudongfei.github.io/2020/03/12/util/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a>
+    <a href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/" title="ES核心—全文检索">https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -430,7 +435,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/es/" rel="tag"># es</a>
           
         </div>
       
@@ -443,8 +448,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/12/util/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="next" title="Git常用命令">
-                <i class="fa fa-chevron-left"></i> Git常用命令
+              <a href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" rel="next" title="ES基础—核心概念">
+                <i class="fa fa-chevron-left"></i> ES基础—核心概念
               </a>
             
           </div>
@@ -452,10 +457,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/" rel="prev" title="Hive基础—HQL语法">
-                Hive基础—HQL语法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -523,7 +524,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -545,7 +546,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
