@@ -282,6 +282,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/" itemprop="url">Hbase核心—架构原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:08:27+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:09:23+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Hbase原理"><a href="#Hbase原理" class="headerlink" title="Hbase原理"></a>Hbase原理</h2><p><img src="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/15839465523319.jpg" alt></p>
+<ul>
+<li>Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。</li>
+<li>Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上 </li>
+<li>一个RegionServer管理多个Region ，一个RegionServer有一个或多个HLog，一般设置为只有一个 </li>
+<li>Region虽然时分布式存储的最小单元，但并不是存储的最小单元，Region由一个 或者多个Store组成，每个store保存一个column family，每个store又由一个memStore。和0到多个StoreFile组成。memStore存储在内存中，StoreFile存储在hdfs上，HFile。<h3 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h3></li>
+</ul>
+<ol>
+<li>client就是连接zk， 找到meta表的region及regionserver 向 hregionserver 发送写请求。</li>
+<li>hregionserver 将数据写到 hlog（write ahead log）。为了数据的持久化和恢复。</li>
+<li>hregionserver 将数据写到内存（memstore），达到指定阈值，溢写（flush）到磁盘，写成许Hfile（二进制格式小文件）。增长到一定阈值，许多的Hfile进行compact合并操作，多个Hfile合并成 一个Hfile，同时进行版本合并和数据删除，当单个的Hfile过大时，会触发Split操作，把当前的region split成为2个region，当前region会下线，新的2个region会被Hmaster分配到相应的HRegionServer上。</li>
+<li>反馈 client 写成功。<br>注：Hbase只是增加数据，所有的更新和删除操作，都是在Compact阶段完成的，所以用户的操作只需要进入内存即可立即返回，从而保证IO高性能。<h3 id="数据-flush-过程"><a href="#数据-flush-过程" class="headerlink" title="数据 flush 过程"></a>数据 flush 过程</h3></li>
+<li>当 memstore 数据达到阈值（默认是 64M），将数据刷到硬盘，将内存中的数据删除，同 时删除 Hlog 中的历史数据。 </li>
+<li>并将数据存储到 hdfs 中。 </li>
+<li>在 hlog 中做标记点。<h3 id="数据合并过程"><a href="#数据合并过程" class="headerlink" title="数据合并过程"></a>数据合并过程</h3></li>
+<li>当数据块达到 4 块，hmaster 将数据块加载到本地，进行合并</li>
+<li>当合并的数据超过 256M，进行拆分，将拆分后的 region 分配给不同的 hregionserver 管理</li>
+<li>当 hregionser 宕机后，将 hregionserver上的 hlog 拆分，然后分配给不同的hregionserver</li>
+<li>加载，修改.META.</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1819,182 +1992,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Flink基础—编程模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:11:26+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T23:49:54+08:00">
-                2020-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><ul>
-<li>原生数据类型</li>
-<li>Java Tuples类型</li>
-<li>Scala Case Class类型</li>
-<li>POJOs类型</li>
-<li>Flink Value类型</li>
-<li>特殊数据类型<h2 id="Flink的Datasource"><a href="#Flink的Datasource" class="headerlink" title="Flink的Datasource"></a>Flink的Datasource</h2></li>
-<li>内置数据源<pre><code>- 文件数据源
-- Socket数据源
-- 集合数据源</code></pre></li>
-<li>外部数据源<pre><code>- 数据源连接器
-- 自定义数据源连接器</code></pre><h2 id="Flink的Transform"><a href="#Flink的Transform" class="headerlink" title="Flink的Transform"></a>Flink的Transform</h2></li>
-<li>单个DataStream操作</li>
-<li>多个DataStream操作</li>
-<li>物理分区操作<h2 id="Flink的Sink"><a href="#Flink的Sink" class="headerlink" title="Flink的Sink"></a>Flink的Sink</h2></li>
-<li>基本数据输出</li>
-<li>第三方数据输出<h2 id="Flink配置说明"><a href="#Flink配置说明" class="headerlink" title="Flink配置说明"></a>Flink配置说明</h2></li>
-</ul>
-<p><strong>基础配置</strong><br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#jobManger的IP地址</span><br><span class="line">#jobmanager.rpc.address:localhost</span><br><span class="line">#jobManager的rpc端口号</span><br><span class="line">#jobmanager.rpc.port:6123</span><br><span class="line">#jobmanager JVM heap内存大小</span><br><span class="line">#jobmanager.heap.mb: 1024</span><br><span class="line">#taskManager JVM heap 内存大小</span><br><span class="line">#taskmanager.heap.mb: 1024</span><br><span class="line">#每个taskmanager提供的任务slots数量大小</span><br><span class="line">#taskmanager.numberOfTaskSlots: 1</span><br><span class="line">#程序默认并发计算的个数</span><br><span class="line">#parallelism.default: 1</span><br></pre></td></tr></table></figure><br><strong>高可用配置</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#高可用配置，可以选择‘NONE’ 或者’zookeeper‘</span><br><span class="line">#high-availability: zookeeper</span><br><span class="line">#存储路径，让Flink在高可用设置中持久化元数据</span><br><span class="line">#high-availability.storageDir: hdfs:&#x2F;&#x2F;&#x2F;flink&#x2F;ha&#x2F;</span><br><span class="line">#zookeeper协调服务地址</span><br><span class="line">#high-availability.zookeeper.quorum: localhost:2181</span><br><span class="line">#zookeeper ACL机制</span><br><span class="line">#high-availability.zookeeper.client.acl: open</span><br></pre></td></tr></table></figure>
-<p><strong>容错和检查点配置</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#用于存储和检查点状态</span><br><span class="line">#state.backend: filesystem</span><br><span class="line">#存储检查点的数据文件和元数据的默认目录</span><br><span class="line">#state.checkpoints.dir: hdfs:&#x2F;&#x2F;namenode-host:port&#x2F;flink-checkpoints</span><br></pre></td></tr></table></figure>
-<p><strong>web前端配置</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#基于web的运行时监视器的侦听的地址</span><br><span class="line">#jobmanager.web.address: 0.0.0.0</span><br><span class="line">#web的运行时监视器端口</span><br><span class="line">#jobmanager.web.port: 8080</span><br><span class="line">#是否从基于 web的jobmanager启用作业提交</span><br><span class="line">#jobmanager.web.submit.enable: false</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2045,7 +2042,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2067,7 +2064,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

@@ -282,6 +282,170 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/" itemprop="url">Spring核心—IOC和DI</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:48:45+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T19:50:49+08:00">
+                2020-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
+<li>读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</li>
+<li>正控：若要使用某个对象，需要自己去负责对象的创建</li>
+<li>反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架</li>
+<li>好莱坞法则： Don’t call me ,I’ll call you<br>在Spring中，bean作用域用于确定哪种类型的 bean 实例应该从Spring容器中返回给调用者。bean支持的5种范围域：<br>  ⁃    单例 - 每个Spring IoC 容器返回一个bean实例<br>  ⁃    原型- 当每次请求时返回一个新的bean实例<br>  ⁃    请求 - 返回每个HTTP请求的一个Bean实例<br>  ⁃    会话 - 返回每个HTTP会话的一个bean实例<br>  ⁃    全局会话- 返回全局HTTP会话的一个bean实例<br>在大多数情况下，可能只处理了 Spring 的核心作用域 - 单例和原型，默认作用域是单例。</li>
+</ul>
+<h2 id="DI：Dependency-Injection（依赖注入）"><a href="#DI：Dependency-Injection（依赖注入）" class="headerlink" title="DI：Dependency Injection（依赖注入）"></a>DI：Dependency Injection（依赖注入）</h2><p>DI是指 Spring 创建对象的过程中，将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。<br>主要包含两种形式：</p>
+<ul>
+<li>Setter方法注入</li>
+<li>构造器注入<h3 id="IoC-如何实现的"><a href="#IoC-如何实现的" class="headerlink" title="IoC 如何实现的"></a>IoC 如何实现的</h3>最后简单说说IoC是如何实现的。想象一下如果我们自己来实现这个依赖注入的功能，我们怎么来做？ 无外乎：<br>  1    读取标注或者配置文件，看看JuiceMaker依赖的是哪个Source，拿到类名<br>  2    使用反射的API，基于类名实例化对应的对象实例<br>  3    将对象实例，通过构造函数或者 setter，传递给 JuiceMaker<br>发现其实自己来实现也不是很难，Spring实际也就是这么做的。这么看的话其实IoC就是一个工厂模式的升级版！当然要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring不仅提供了一个已经成为业界标准的Java IoC框架，还提供了更多强大的功能，所以就别去造轮子啦！希望了解IoC更多实现细节不妨通过学习Spring的源码来加深理解！</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1756,173 +1920,6 @@ Slave_SQL_Running: Yes</code></li>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/" itemprop="url">Impala基础—安装impala</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:15:16+08:00">
-                2020-03-13
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:32:17+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="安装impala"><a href="#安装impala" class="headerlink" title="安装impala"></a>安装impala</h2><p>准备：<br>使用root用户或者具有sudo权限的普通用户。<br>下载安装包和依赖包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">bigtop-utils-0.7.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
-<p>安装master节点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-state-store-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-catalog-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
-<p>安装slaver节点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh –nodeps impala-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-server-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-shell-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-udf-devel-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br><span class="line">rpm -ivh impala-debuginfo-2.6.0+cdh5.8.3+0-1.cdh5.8.3.p0.7.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
-<p>修复/usr/lib/impala/lib下的软链接。<br>配置impala，修改hdfs-site.xml，添加以下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.client.read.shortcircuit&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.domain.socket.path&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;&#x2F;var&#x2F;run&#x2F;hdfs-sockets&#x2F;dn._PORT&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.client.file-block-storage-locations.timeout.millis&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;10000&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">  &lt;name&gt;dfs.datanode.hdfs-blocks-metadata.enabled&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
-<p>配置impala，修改/etc/default/impala。<br>修改impala的运行用户。mpala默认以impala用户执行，可以在三个文件中修改 /etc/init.d/impala-state-store、/etc/init.d/impala-server、/etc/init.d/impala-catalog</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SVC_USER&#x3D;”hadoop”</span><br><span class="line">install -d -m 0755 -o hadoop -g hadoop &#x2F;var&#x2F;run&#x2F;impala 1&gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 || :</span><br></pre></td></tr></table></figure>
-<p>修改日志目录权限：<br><code>chmod -R 777 /var/log/impala/</code><br>补充依赖jar包：<br><code>将$HIVE_HOME/lib/mysql-connector-java-5.1.40-bin.jar 复制到 /usr/lib/impala/lib下</code></p>
-<h3 id="管理impala"><a href="#管理impala" class="headerlink" title="管理impala"></a>管理impala</h3><p>启动Master：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;var&#x2F;run&#x2F;hdfs-sockets</span><br><span class="line">service impala-state-store start</span><br><span class="line">service impala-catalog start</span><br></pre></td></tr></table></figure>
-<p>启动Slave：<br><code>service impala-server start</code><br>查看日志：<br>启动后，在/var/log/impala目录下会产生对应服务的日志</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1973,7 +1970,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1995,7 +1992,7 @@ Slave_SQL_Running: Yes</code></li>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

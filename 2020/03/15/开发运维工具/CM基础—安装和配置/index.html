@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="cm," />
 
 
 
@@ -79,11 +79,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="琅琊的博客">
-<meta property="og:url" content="https://liudongfei.github.io/archives/page/7/index.html">
+<meta name="description" content="创建启动cdh容器的命令docker run –privileged&#x3D;true –hostname&#x3D;quickstart.cloudera –name cdh-liu -v &#x2F;Users&#x2F;liudongfei:&#x2F;root&#x2F;liudongfei -p 7180:7180  -p 8888:8888 -p 3306:3306 -t -i 4239cd2958c6 &#x2F;usr&#x2F;bin&#x2F;docker-qui">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CM基础—安装和配置">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="琅琊的博客">
+<meta property="og:description" content="创建启动cdh容器的命令docker run –privileged&#x3D;true –hostname&#x3D;quickstart.cloudera –name cdh-liu -v &#x2F;Users&#x2F;liudongfei:&#x2F;root&#x2F;liudongfei -p 7180:7180  -p 8888:8888 -p 3306:3306 -t -i 4239cd2958c6 &#x2F;usr&#x2F;bin&#x2F;docker-qui">
+<meta property="article:published_time" content="2020-03-15T05:12:28.542Z">
+<meta property="article:modified_time" content="2020-03-15T05:17:03.275Z">
 <meta property="article:author" content="dongfeiliu">
+<meta property="article:tag" content="cm">
 <meta name="twitter:card" content="summary">
 
 
@@ -114,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/archives/page/7/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/15/开发运维工具/CM基础—安装和配置/"/>
 
 
 
 
 
-  <title>Archive | 琅琊的博客</title>
+  <title>CM基础—安装和配置 | 琅琊的博客</title>
   
 
 
@@ -139,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,410 +272,204 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">CM基础—安装和配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:12:28+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:17:03+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
           
-        Good! 105 posts in total. Keep on posting.
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/" itemprop="url">
-              
-                <span itemprop="name">Impala基础—安装impala</span>
-              
-            </a>
-        
-      </h2>
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-13T00:15:16+08:00"
-              content="2020-03-13" >
-          03-13
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/" itemprop="url">
-              
-                <span itemprop="name">Hive核心—join语句</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-13T00:13:37+08:00"
-              content="2020-03-13" >
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">
-              
-                <span itemprop="name">Hive核心—排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-13T00:12:50+08:00"
-              content="2020-03-13" >
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>创建启动cdh容器的命令<br>docker run –privileged=true –hostname=quickstart.cloudera –name cdh-liu -v /Users/liudongfei:/root/liudongfei -p 7180:7180  -p 8888:8888 -p 3306:3306 -t -i 4239cd2958c6 /usr/bin/docker-quickstart<br>启动cm的命令<br>/home/cloudera/cloudera-manager –force –express</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url">
-              
-                <span itemprop="name">Hive核心—性能优化</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-13T00:11:12+08:00"
-              content="2020-03-13" >
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%AD%98%E5%82%A8%E5%92%8C%E5%8E%8B%E7%BC%A9/" itemprop="url">
-              
-                <span itemprop="name">Hive核心—存储和压缩</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-13T00:10:19+08:00"
-              content="2020-03-13" >
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/" itemprop="url">
-              
-                <span itemprop="name">Hive核心—分区和分桶</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-13T00:01:52+08:00"
-              content="2020-03-13" >
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" itemprop="url">
-              
-                <span itemprop="name">Hive基础—数据类型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-12T23:59:18+08:00"
-              content="2020-03-12" >
-          03-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E5%9F%BA%E7%A1%80%E2%80%94HQL%E8%AF%AD%E6%B3%95/" itemprop="url">
-              
-                <span itemprop="name">Hive基础—HQL语法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-12T23:53:25+08:00"
-              content="2020-03-12" >
-          03-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">
-              
-                <span itemprop="name">Linux常用命令</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-12T23:38:58+08:00"
-              content="2020-03-12" >
-          03-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/03/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">
-              
-                <span itemprop="name">Git常用命令</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-12T23:38:03+08:00"
-              content="2020-03-12" >
-          03-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    dongfeiliu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" title="CM基础—安装和配置">https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cm/" rel="tag"># cm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" rel="next" title="ShadowSocks安装配置">
+                <i class="fa fa-chevron-left"></i> ShadowSocks安装配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/6/">&lt;</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/8/">&gt;</a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -678,6 +477,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -911,6 +714,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

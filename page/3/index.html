@@ -282,6 +282,196 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">RabbitMQ基础—知识结构概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:26:54+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:27:42+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.    组件介绍
+1.    常用命令
+a.    列出当前队列、队列信息数量、队列未确认信息数量
+i.    rabbitmqctl list_queues
+ii.    rabbitmqctl list_queues name messages_ready messages_unacknowledged
+a.    列出当前交换机
+i.    rabbitmqctl list_exchanges
+b.    列出当前交换机和队列的绑定
+i.    rabbitmqctl list_bindings
+1.    核心组件
+a.    exchange：
+i.    Direct：通过routing_key指定队列名称
+ii.    Fanout：扇形交换机
+iii.    Headers：
+iv.    topic：主题交换机
+b.    queue：
+c.    Routing_key
+1.    Python 开发
+a.    Pika组件：
+i.    exchange声明
+ii.    queue声明
+iii.    binding声明
+iv.    分发策略声明
+1.    Java 开发
+1.    配置调优 </code></pre><p>安装rabbitmq<br>安装rabbitmq<br>yum install rabbitmq-server<br>rabbitmq-plugins enable rabbitmq_management<br>启动rabbitmq server<br>service rabbitmq-server restart<br>chkconfig rabbitmq-server on<br>更改初始密码<br>rabbitmqctl change_password guest spdb1234<br>RABBITMQ集群搭建</p>
+<ol>
+<li>停止所有节点rabbitmq服务：rabbitmqctl stop</li>
+<li>备份非主节点bdpcm02、bdputil02的erlange.cookie<br>mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.bak</li>
+<li>将主节点bdputil01上的erlange.cookie复制到其他节点/var/lib/rabbitmq目录下。</li>
+<li>修改所有节点上，erlange.cookie的权限<br>chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie<br>chmod 600 /var/lib/rabbitmq/.erlang.cookie</li>
+<li>启动Master节点的rabbitmq进程<br>rabbitmq-server -detached</li>
+<li>在Slave节点上，执行如下操作加入集群<br>#启动rabbitmq<br>1)    rabbitmq-server -detached<br>#停止rabbitmq<br>2)    rabbitmqctl stop_app<br>#将该节点加入集群<br>3)    rabbitmqctl join_cluster rabbit@bdputil01<br>#启动<br>4)    rabbitmqctl start_app<br>#查看集群状态<br>5)    rabbitmqctl cluster_status</li>
+<li>配置高可用参数<br>#打开任意节点的RabbitMQ管理页面<br>ip:15672<br>（上方导航栏）Admin-&gt;（右侧导航栏）Policies<br>#添加配置信息 Add/update a policy<br>Name: ha-all<br>Pattern:<br>spdb<br>Definitions:<br>ha-mode=all<br>ha-sync-mode=automatic<br>Priority: 0</li>
+<li>使用HAProxy做负载均衡<br>使用ps -ef|grep haproxy查找当前执行的配置文件<br>进入配置文件，添加如下内容：<br>listen rabbitmq_admin<br>bind 0.0.0.0:15673<br>server rabbitmq1 bdputil01:15672<br>server rabbitmq2 bdputil02:15672<br>server rabbitmq3 bdpcm02:15672</li>
+</ol>
+<p>listen rabbitmq_cluster<br>    bind 0.0.0.0:5673<br>    #配置TCP模式<br>    mode tcp<br>    option tcplog<br>    #简单的轮询<br>    balance roundrobin<br>    #rabbitmq集群节点配置<br>    server rabbitmq1 bdputil01:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq2 bdputil02:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq3 bdpcm02:5672 check inter 5000 rise 2 fall 2</p>
+<p>4.5    登录web页面查看<br> 使用haproxy的ip查看rabbitmq的状态：<br>url：<a href="http://bdputil01:15673" target="_blank" rel="noopener">http://bdputil01:15673</a><br>user：guest<br> passwd：spdb1234</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1969,160 +2159,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" itemprop="url">Redis核心—数据持久化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:08:32+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:09:26+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Redis的数据持久化<br>数据持久化的两种方式：<br>    1.    快照（snapshotting），可以讲存在于某一时刻的所有数据写入硬盘里。<br>    2.    只追加文件（append-only file），在执行写命令时，讲被执行的写命令复制到硬盘里。<br>两种方式可以单独使用，也可以同时使用。<br>快照持久化<br>快照持久化配置项：<br>        save 60 1000                     多久执行一次快照操作，60秒内有1000次写入<br>        stop-writes-on-bgsave-error no   创建快照失败后是否继续执行写命令<br>        rdbcompression yes               是否对快照文件进行压缩<br>        dbfilename dump.rdb              硬盘上的快照文件名<br>快照的检查命令：<br>        redis-check-dump                 检查快照文件的正确性<br>创建快照的方式：<br>    1.    客户端使用BGSAVE命令创建一个快照。Redis调用fork创建一个子进程来负责将快照写入磁盘，主进程继续处理命令请求。<br>    2.    客户端使用SAVE命令创建一个快照。Redis接收到SAVE命令之后，在快照创建完成之前不再响应任何其他命令。<br>    3.    用户设置的save配置选项被触发，会调用BGSAVE命令创建一个快照。<br>    4.    服务器接收到SHUTDOWN命令时，会触发一次SAVE命令创建一个快照。<br>    5.    当一个Redis服务器连接另一个Redis服务器，并向对方发送SYNC命令来开始一次复制操作的时候，主服务器会执行一次BGSAVE命令<br>快照持久化的问题：<br>    1.    快照持久化只适用于那些即使丢失一部分数据也不会造成任何问题的应用程序。<br>    2.    随着Redis占用的内存越来越多，BGSAVE命令的耗时也会越来越长，此时如果系统的剩余内存不多时，会引发系统大量的使用虚拟内存，从而导致Redis的的性能降低至无法使用。<br>    3.    为了防止Redis创建子进程而导致停顿，建议关闭自动保存，通过手动执行SAVE或BGSAVE命令进行持久化。<br>AOF持久化<br>AOF持久化配置项：<br>        appendonly no              是否使用AOF持久化<br>        appendfsync everysec [always] [no]               多久才将写入的内容同步到磁盘，每秒<br>        no-appendfsync-on-rewrite no     在对AOF进行重写的时候能否执行同步操作<br>        auto-aof-rewrite-percentage 100  多久执行一次AOF文件重写<br>        auto-aof-rewrite-min-size 64mb  当AOF文件大于64M，并且AOF文件的体积比上一次重写后增加一倍<br>AOF的检查和修复命令：<br>        redis-check-aof  —-fix     检查并修复AOF文件<br>AOF持久化的问题：<br>    1.    AOF文件越来越大，会造成Redis重启后的还原操作耗时越来越长，解决的方式是进行定期执行AOF文件重写。<br>AOF文件重写：<br>    1.    为了解决AOF文件持续增大的问题，可以使用BGREWRITEAOF命令来移除AOF文件中的冗余命令来重写AOF文件，使AOF文件变小<br>    2.    BGREWRITEAOF命令和BGSAVE命令的原理相同，因此也存在相同的问题。<br>    3.    通过配置项自动触发执行BGREWRITEAOF命令。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2173,7 +2209,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2195,7 +2231,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

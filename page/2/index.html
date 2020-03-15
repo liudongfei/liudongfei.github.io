@@ -282,6 +282,235 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" itemprop="url">Graphframe基础—使用手册</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:56:28+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:57:13+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用户使用手册<br>给出了关于GraphFrames的基本查询，模式查询和一些最基本的图算法，包含python和scala编码<br>创建GraphFrames<br>用户可以从顶点和边的DataFrame中创建<br>    顶点的DataFrame应该包含一个列名为“id”的特殊列，这列指定了整个图中每个顶点的唯一ID<br>    边的DataFrame应该包含两个列名为“src“（边的起点ID）和”dst“（边的终点ID）<br>    两种DataFrame可以包含任意的其他列，这些列代表了顶点和边的属性。<br>用户也可以从一个包含边信息的DataFrame中创建，图中的顶点由边的起点和终点确定。<br>下面的例子是如何从顶点和边的DataFrame中创建GraphFrame<br>Scala代码：<br>import org.graphframes.GraphFrame<br>// Vertex DataFrame<br>val v = sqlContext.createDataFrame(List(<br>  (“a”, “Alice”, 34),<br>  (“b”, “Bob”, 36),<br>  (“c”, “Charlie”, 30),<br>  (“d”, “David”, 29),<br>  (“e”, “Esther”, 32),<br>  (“f”, “Fanny”, 36),<br>  (“g”, “Gabby”, 60)<br>)).toDF(“id”, “name”, “age”)<br>// Edge DataFrame<br>val e = sqlContext.createDataFrame(List(<br>  (“a”, “b”, “friend”),<br>  (“b”, “c”, “follow”),<br>  (“c”, “b”, “follow”),<br>  (“f”, “c”, “follow”),<br>  (“e”, “f”, “follow”),<br>  (“e”, “d”, “friend”),<br>  (“d”, “a”, “friend”),<br>  (“a”, “e”, “friend”)<br>)).toDF(“src”, “dst”, “relationship”)<br>// Create a GraphFrame<br>val g = GraphFrame(v, e)<br>上面创建的GraohFrame可以在下面的包中找到<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends<br>python代码 </p>
+<h1 id="Vertex-DataFrame"><a href="#Vertex-DataFrame" class="headerlink" title="Vertex DataFrame"></a>Vertex DataFrame</h1><p>v = sqlContext.createDataFrame([<br>  (“a”, “Alice”, 34),<br>  (“b”, “Bob”, 36),<br>  (“c”, “Charlie”, 30),<br>  (“d”, “David”, 29),<br>  (“e”, “Esther”, 32),<br>  (“f”, “Fanny”, 36),<br>  (“g”, “Gabby”, 60)<br>], [“id”, “name”, “age”])</p>
+<h1 id="Edge-DataFrame"><a href="#Edge-DataFrame" class="headerlink" title="Edge DataFrame"></a>Edge DataFrame</h1><p>e = sqlContext.createDataFrame([<br>  (“a”, “b”, “friend”),<br>  (“b”, “c”, “follow”),<br>  (“c”, “b”, “follow”),<br>  (“f”, “c”, “follow”),<br>  (“e”, “f”, “follow”),<br>  (“e”, “d”, “friend”),<br>  (“d”, “a”, “friend”),<br>  (“a”, “e”, “friend”)<br>], [“src”, “dst”, “relationship”])</p>
+<h1 id="Create-a-GraphFrame"><a href="#Create-a-GraphFrame" class="headerlink" title="Create a GraphFrame"></a>Create a GraphFrame</h1><p>g = GraphFrame(v, e)<br>上面创建的GraohFrame可以在下面的包中找到<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()<br>基本的图和DataFrame查询<br>GraphFrames提供了多种简单的图查询，如顶点的度<br>顶点的DataFrame和边的DataFrame可以在GraohFrame的vertice和edges属性中获取<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Display the vertex and edge DataFrames<br>g.vertices.show()<br>// +–+——-+—+<br>// |id|   name|age|<br>// +–+——-+—+<br>// | a|  Alice| 34|<br>// | b|    Bob| 36|<br>// | c|Charlie| 30|<br>// | d|  David| 29|<br>// | e| Esther| 32|<br>// | f|  Fanny| 36|<br>// | g|  Gabby| 60|<br>// +–+——-+—+<br>g.edges.show()<br>// +—+—+————+<br>// |src|dst|relationship|<br>// +—+—+————+<br>// |  a|  b|      friend|<br>// |  b|  c|      follow|<br>// |  c|  b|      follow|<br>// |  f|  c|      follow|<br>// |  e|  f|      follow|<br>// |  e|  d|      friend|<br>// |  d|  a|      friend|<br>// |  a|  e|      friend|<br>// +—+—+————+<br>// import Spark SQL package<br>import org.apache.spark.sql.DataFrame<br>// Get a DataFrame with columns “id” and “inDeg” (in-degree)<br>val vertexInDegrees: DataFrame = g.inDegrees<br>// Find the youngest user’s age in the graph.<br>// This queries the vertex DataFrame.<br>g.vertices.groupBy().min(“age”).show()<br>// Count the number of “follows” in the graph.<br>// This queries the edge DataFrame.<br>val numFollows = g.edges.filter(“relationship = ‘follow’”).count()<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Display-the-vertex-and-edge-DataFrames"><a href="#Display-the-vertex-and-edge-DataFrames" class="headerlink" title="Display the vertex and edge DataFrames"></a>Display the vertex and edge DataFrames</h1><p>g.vertices.show()</p>
+<h1 id="–-——-—"><a href="#–-——-—" class="headerlink" title="+–+——-+—+"></a>+–+——-+—+</h1><h1 id="id-name-age"><a href="#id-name-age" class="headerlink" title="|id|   name|age|"></a>|id|   name|age|</h1><h1 id="–-——-—-1"><a href="#–-——-—-1" class="headerlink" title="+–+——-+—+"></a>+–+——-+—+</h1><h1 id="a-Alice-34"><a href="#a-Alice-34" class="headerlink" title="| a|  Alice| 34|"></a>| a|  Alice| 34|</h1><h1 id="b-Bob-36"><a href="#b-Bob-36" class="headerlink" title="| b|    Bob| 36|"></a>| b|    Bob| 36|</h1><h1 id="c-Charlie-30"><a href="#c-Charlie-30" class="headerlink" title="| c|Charlie| 30|"></a>| c|Charlie| 30|</h1><h1 id="d-David-29"><a href="#d-David-29" class="headerlink" title="| d|  David| 29|"></a>| d|  David| 29|</h1><h1 id="e-Esther-32"><a href="#e-Esther-32" class="headerlink" title="| e| Esther| 32|"></a>| e| Esther| 32|</h1><h1 id="f-Fanny-36"><a href="#f-Fanny-36" class="headerlink" title="| f|  Fanny| 36|"></a>| f|  Fanny| 36|</h1><h1 id="g-Gabby-60"><a href="#g-Gabby-60" class="headerlink" title="| g|  Gabby| 60|"></a>| g|  Gabby| 60|</h1><h1 id="–-——-—-2"><a href="#–-——-—-2" class="headerlink" title="+–+——-+—+"></a>+–+——-+—+</h1><p>g.edges.show()</p>
+<h1 id="—-—-————"><a href="#—-—-————" class="headerlink" title="+—+—+————+"></a>+—+—+————+</h1><h1 id="src-dst-relationship"><a href="#src-dst-relationship" class="headerlink" title="|src|dst|relationship|"></a>|src|dst|relationship|</h1><h1 id="—-—-————-1"><a href="#—-—-————-1" class="headerlink" title="+—+—+————+"></a>+—+—+————+</h1><h1 id="a-b-friend"><a href="#a-b-friend" class="headerlink" title="|  a|  b|      friend|"></a>|  a|  b|      friend|</h1><h1 id="b-c-follow"><a href="#b-c-follow" class="headerlink" title="|  b|  c|      follow|"></a>|  b|  c|      follow|</h1><h1 id="c-b-follow"><a href="#c-b-follow" class="headerlink" title="|  c|  b|      follow|"></a>|  c|  b|      follow|</h1><h1 id="f-c-follow"><a href="#f-c-follow" class="headerlink" title="|  f|  c|      follow|"></a>|  f|  c|      follow|</h1><h1 id="e-f-follow"><a href="#e-f-follow" class="headerlink" title="|  e|  f|      follow|"></a>|  e|  f|      follow|</h1><h1 id="e-d-friend"><a href="#e-d-friend" class="headerlink" title="|  e|  d|      friend|"></a>|  e|  d|      friend|</h1><h1 id="d-a-friend"><a href="#d-a-friend" class="headerlink" title="|  d|  a|      friend|"></a>|  d|  a|      friend|</h1><h1 id="a-e-friend"><a href="#a-e-friend" class="headerlink" title="|  a|  e|      friend|"></a>|  a|  e|      friend|</h1><h1 id="—-—-————-2"><a href="#—-—-————-2" class="headerlink" title="+—+—+————+"></a>+—+—+————+</h1><h1 id="Get-a-DataFrame-with-columns-“id”-and-“inDegree”-in-degree"><a href="#Get-a-DataFrame-with-columns-“id”-and-“inDegree”-in-degree" class="headerlink" title="Get a DataFrame with columns “id” and “inDegree” (in-degree)"></a>Get a DataFrame with columns “id” and “inDegree” (in-degree)</h1><p>vertexInDegrees = g.inDegrees</p>
+<h1 id="Find-the-youngest-user’s-age-in-the-graph"><a href="#Find-the-youngest-user’s-age-in-the-graph" class="headerlink" title="Find the youngest user’s age in the graph."></a>Find the youngest user’s age in the graph.</h1><h1 id="This-queries-the-vertex-DataFrame"><a href="#This-queries-the-vertex-DataFrame" class="headerlink" title="This queries the vertex DataFrame."></a>This queries the vertex DataFrame.</h1><p>g.vertices.groupBy().min(“age”).show()</p>
+<h1 id="Count-the-number-of-“follows”-in-the-graph"><a href="#Count-the-number-of-“follows”-in-the-graph" class="headerlink" title="Count the number of “follows” in the graph."></a>Count the number of “follows” in the graph.</h1><h1 id="This-queries-the-edge-DataFrame"><a href="#This-queries-the-edge-DataFrame" class="headerlink" title="This queries the edge DataFrame."></a>This queries the edge DataFrame.</h1><p>numFollows = g.edges.filter(“relationship = ‘follow’”).count()<br>模式查询<br>表示在一个图中搜寻指定的结构样式<br>GraphFrame的模式查询使用一种简单Domain-Specific Language (DSL)表示结构查询。 例如，raph.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)查询一对双向互通的顶点，返回一个DataFrame，包含图中所有这种结构，列名就是表达式中的元素名称，在这个例子中，返回的列名是”a, b, e, e2.”<br>DSL表达式： 模式中最基本的单元是边，例如”(a)-[e]-&gt;(b)”表示一个从顶点a到顶点b的边e，顶点使用圆括号（a）表示，边使用方括号[e]表示。 一个表达式可以由一系列的边表示，用分号隔开,例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示a到b到c的两条边 在一个表达式中，边和顶点的名称是可以指定的，例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示边e的终点和边e2的起点’b’是相同的<br> 这样命名有两个目的：<br>        可以区分边之间的元素，例如例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示边e的终点和边e2的起点’b’是相同的<br>        用于结果中的一列的列名<br>        要知道不同的表名可能表示相同的顶点，例如，中的’a’和’c’可能表示相同的顶点<br>省略不需要的顶点和边的名称也是可以的，例如表示’a，b’之间的边，但是不用命名，结果中不会显示该列，被称为匿名的边和列<br>表达式中的边可以使用否定来表示这条边不会在图中出现，例如查找’a’到’b’但是’b’到不了’a’的边<br>规定：<br>    不允许出现不包含任何元素名称的模式表达式出现，例如”()-[]-&gt;()”、”!()-[]-&gt;()”<br>    被命名的边中不允许包含被排除的顶点名称，例如”!(a)-[ab]-&gt;(b)”是非法的，”!(a)-[]-&gt;(b)”是合法的<br>更多复杂的查询，例如对顶点或者边属性的操作可以使用表达式对结果的DataFrame进行过滤<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Search for pairs of vertices with edges in both directions between them.<br>val motifs: GraphFrame = g.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)<br>motifs.show()<br>// More complex queries can be expressed by applying filters.<br>motifs.filter(“b.age &gt; 30”).show()<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Search-for-pairs-of-vertices-with-edges-in-both-directions-between-them"><a href="#Search-for-pairs-of-vertices-with-edges-in-both-directions-between-them" class="headerlink" title="Search for pairs of vertices with edges in both directions between them."></a>Search for pairs of vertices with edges in both directions between them.</h1><p>motifs = g.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)<br>motifs.show()</p>
+<h1 id="More-complex-queries-can-be-expressed-by-applying-filters"><a href="#More-complex-queries-can-be-expressed-by-applying-filters" class="headerlink" title="More complex queries can be expressed by applying filters."></a>More complex queries can be expressed by applying filters.</h1><p>motifs.filter(“b.age &gt; 30”).show()</p>
+<pre><code>许多的模式查询都是非常简单的，就如上面的出现的一样，下面的这些携带状态的例子更加复杂，这样的查询可以结合GraphFrame的模式查找和结果过滤，对结果中的列使用表达式操作进行过滤。 </code></pre><p>例如，<br>For example, suppose one wishes to identify a chain of 4 vertices with some property defined<br>by a sequence of functions.  That is, among chains of 4 vertices <code>a-&gt;b-&gt;c-&gt;d</code>, identify the subset<br>of chains matching this complex filter:</p>
+<ul>
+<li>Initialize state on path.</li>
+<li>Update state based on vertex <code>a</code>.</li>
+<li>Update state based on vertex <code>b</code>.</li>
+<li>Etc. for <code>c</code> and <code>d</code>.</li>
+<li>If final state matches some condition, then the chain is accepted by the filter.</li>
+</ul>
+<p>The below code snippets demonstrate this process, where we identify chains of 4 vertices<br>such that at least 2 of the 3 edges are “friend” relationships.<br>In this example, the state is the current count of “friend” edges; in general, it could be any<br><code>DataFrame Column</code>.<br>Scala代码：<br>import org.apache.spark.sql.Column<br>import org.apache.spark.sql.functions.{col, when}<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Find chains of 4 vertices.<br>val chain4 = g.find(“(a)-[ab]-&gt;(b); (b)-[bc]-&gt;(c); (c)-[cd]-&gt;(d)”)<br>// Query on sequence, with state (cnt)<br>//  (a) Define method for updating state given the next element of the motif.<br>def sumFriends(cnt: Column, relationship: Column): Column = {<br>  when(relationship === “friend”, cnt + 1).otherwise(cnt)<br>}<br>//  (b) Use sequence operation to apply method to sequence of elements in motif.<br>//      In this case, the elements are the 3 edges.<br>val condition = { Seq(“ab”, “bc”, “cd”)<br>  .foldLeft(lit(0))((cnt, e) =&gt; sumFriends(cnt, col(e)(“relationship”))) }<br>//  (c) Apply filter to DataFrame.<br>val chainWith2Friends2 = chain4.where(condition &gt;= 2)<br>chainWith2Friends2.show()<br>Python代码：<br>from pyspark.sql.functions import col, lit, when<br>from pyspark.sql.types import IntegerType<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>chain4 = g.find(“(a)-[ab]-&gt;(b); (b)-[bc]-&gt;(c); (c)-[cd]-&gt;(d)”)</p>
+<h1 id="Query-on-sequence-with-state-cnt"><a href="#Query-on-sequence-with-state-cnt" class="headerlink" title="Query on sequence, with state (cnt)"></a>Query on sequence, with state (cnt)</h1><h1 id="a-Define-method-for-updating-state-given-the-next-element-of-the-motif"><a href="#a-Define-method-for-updating-state-given-the-next-element-of-the-motif" class="headerlink" title="(a) Define method for updating state given the next element of the motif."></a>(a) Define method for updating state given the next element of the motif.</h1><p>sumFriends = lambda cnt,relationship: when(relationship == “friend”, cnt+1).otherwise(cnt) </p>
+<h1 id="b-Use-sequence-operation-to-apply-method-to-sequence-of-elements-in-motif"><a href="#b-Use-sequence-operation-to-apply-method-to-sequence-of-elements-in-motif" class="headerlink" title="(b) Use sequence operation to apply method to sequence of elements in motif."></a>(b) Use sequence operation to apply method to sequence of elements in motif.</h1><h1 id="In-this-case-the-elements-are-the-3-edges"><a href="#In-this-case-the-elements-are-the-3-edges" class="headerlink" title="In this case, the elements are the 3 edges."></a>In this case, the elements are the 3 edges.</h1><p>condition = reduce(lambda cnt,e: sumFriends(cnt, col(e).relationship), [“ab”, “bc”, “cd”], lit(0)) </p>
+<h1 id="c-Apply-filter-to-DataFrame"><a href="#c-Apply-filter-to-DataFrame" class="headerlink" title="(c) Apply filter to DataFrame."></a>(c) Apply filter to DataFrame.</h1><p>chainWith2Friends2 = chain4.where(condition &gt;= 2)<br>chainWith2Friends2.show()<br>上面这个例子是查找一个固定长度的链，显然，想要查询变量定义的这种模式，用户需要查询每一条可能的路线，然而上面的固定长度查询模式允许用户重复使用相同的代码，只需要更新模式识别中的元素 如（’ab’，’bc’，’cd’）<br>子图<br>在GraphX中，’subfraph‘方法接受一个边的triplet，允许用户根据triplet和顶点选择一个子图<br>GraphFrames提供了一个更强大的方式，基于模式识别和DataFrame筛选结合，来选择子图，我们提供了三个辅助的方法来辅助子图选择，<code>filterVertices(condition)</code>, <code>filterEdges(condition)</code>, and <code>dropIsolatedVertices()</code>.<br>简单的子图，基于顶点和边过滤<br>下面的列子展示了如何基于边和顶点过滤选择子图<br>Scala代码：（0.6.0版本新增的API）<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends</p>
+<p>// Select subgraph of users older than 30, and relationships of type “friend”.<br>// Drop isolated vertices (users) which are not contained in any edges (relationships).<br>val g1 = g.filterVertices(“age &gt; 30”).filterEdges(“relationship = ‘friend’”).dropIsolatedVertices()<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Select-subgraph-of-users-older-than-30-and-relationships-of-type-“friend”"><a href="#Select-subgraph-of-users-older-than-30-and-relationships-of-type-“friend”" class="headerlink" title="Select subgraph of users older than 30, and relationships of type “friend”."></a>Select subgraph of users older than 30, and relationships of type “friend”.</h1><h1 id="Drop-isolated-vertices-users-which-are-not-contained-in-any-edges-relationships"><a href="#Drop-isolated-vertices-users-which-are-not-contained-in-any-edges-relationships" class="headerlink" title="Drop isolated vertices (users) which are not contained in any edges (relationships)."></a>Drop isolated vertices (users) which are not contained in any edges (relationships).</h1><p>g1 = g.filterVertices(“age &gt; 30”).filterEdges(“relationship = ‘friend’”).dropIsolatedVertices()<br>复杂的子图，基于triplet过滤<br>下面的这些例子展示了如何基于给出的triplet筛选一个子图，这个例子可以被扩展成除了triplet之外更复杂的模式查询<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Select subgraph based on edges “e” of type “follow”<br>// pointing from a younger user “a” to an older user “b”.<br>val paths = { g.find(“(a)-[e]-&gt;(b)”)<br>  .filter(“e.relationship = ‘follow’”)<br>  .filter(“a.age &lt; b.age”) }<br>// “paths” contains vertex info. Extract the edges.<br>val e2 = paths.select(“e.src”, “e.dst”, “e.relationship”)<br>// In Spark 1.5+, the user may simplify this call:<br>//  val e2 = paths.select(“e.*”)<br>// Construct the subgraph<br>val g2 = GraphFrame(g.vertices, e2)<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Select-subgraph-based-on-edges-“e”-of-type-“follow”"><a href="#Select-subgraph-based-on-edges-“e”-of-type-“follow”" class="headerlink" title="Select subgraph based on edges “e” of type “follow”"></a>Select subgraph based on edges “e” of type “follow”</h1><h1 id="pointing-from-a-younger-user-“a”-to-an-older-user-“b”"><a href="#pointing-from-a-younger-user-“a”-to-an-older-user-“b”" class="headerlink" title="pointing from a younger user “a” to an older user “b”."></a>pointing from a younger user “a” to an older user “b”.</h1><p>paths = g.find(“(a)-[e]-&gt;(b)”)<br>  .filter(“e.relationship = ‘follow’”)\<br>  .filter(“a.age &lt; b.age”) </p>
+<h1 id="“paths”-contains-vertex-info-Extract-the-edges"><a href="#“paths”-contains-vertex-info-Extract-the-edges" class="headerlink" title="“paths” contains vertex info. Extract the edges."></a>“paths” contains vertex info. Extract the edges.</h1><p>e2 = paths.select(“e.src”, “e.dst”, “e.relationship”)</p>
+<h1 id="In-Spark-1-5-the-user-may-simplify-this-call"><a href="#In-Spark-1-5-the-user-may-simplify-this-call" class="headerlink" title="In Spark 1.5+, the user may simplify this call:"></a>In Spark 1.5+, the user may simplify this call:</h1><h1 id="val-e2-paths-select-“e-”"><a href="#val-e2-paths-select-“e-”" class="headerlink" title="val e2 = paths.select(“e.*”)"></a>val e2 = paths.select(“e.*”)</h1><h1 id="Construct-the-subgraph"><a href="#Construct-the-subgraph" class="headerlink" title="Construct the subgraph"></a>Construct the subgraph</h1><p>g2 = GraphFrame(g.vertices, e2)</p>
+<p>图算法<br>GraphFrames提供了和Graphx一样的一套标准的图算法，或许可能更多一些，我们提供了简短的介绍和代码片段，如下<br>See the <a href="api/scala/index.html#org.graphframes.lib.package">API docs</a> for more details.<br>目前一些算法是基于GraphX封装实现的，所以可能没有Graphx的扩展性高，在未来更多的算法将基于GraphFrames自身实现<br>BFS算法<br>BFS算法查找从一个或者多个顶点到另一个或者多个顶点的最短路径，起始点和终点在表达式中被指定。See <a href="https://en.wikipedia.org/wiki/Breadth-first_search" target="_blank" rel="noopener">Wikipedia on BFS</a> for more background.<br>下面的代码段使用bfs算法查找名称为Esther的顶点到年龄小于32的一系列顶点的最短路径<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.BFS">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Search from “Esther” for users of age &lt; 32.<br>val paths = g.bfs.fromExpr(“name = ‘Esther’”).toExpr(“age &lt; 32”).run()<br>paths.show()<br>// Specify edge filters or max path lengths.<br>{ g.bfs.fromExpr(“name = ‘Esther’”).toExpr(“age &lt; 32”)<br>  .edgeFilter(“relationship != ‘friend’”)<br>  .maxPathLength(3).run() } </p>
+<p>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.bfs">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Search-from-“Esther”-for-users-of-age-lt-32"><a href="#Search-from-“Esther”-for-users-of-age-lt-32" class="headerlink" title="Search from “Esther” for users of age &lt; 32."></a>Search from “Esther” for users of age &lt; 32.</h1><p>paths = g.bfs(“name = ‘Esther’”, “age &lt; 32”)<br>paths.show()</p>
+<h1 id="Specify-edge-filters-or-max-path-lengths"><a href="#Specify-edge-filters-or-max-path-lengths" class="headerlink" title="Specify edge filters or max path lengths."></a>Specify edge filters or max path lengths.</h1><p>g.bfs(“name = ‘Esther’”, “age &lt; 32”,<br>  edgeFilter=”relationship != ‘friend’”, maxPathLength=3)<br>连通图 </p>
+<h2 id="Connected-components"><a href="#Connected-components" class="headerlink" title="Connected components"></a>Connected components</h2><p>对每一个顶点计算联通图的成员，返回一个返回一个图，图中的所有的顶点被赋予一个连通ID<br>See <a href="https://en.wikipedia.org/wiki/Connected_component_(graph_theory)" target="_blank" rel="noopener">Wikipedia</a> for background.<br>注释：在GraphFrames0.3.0及其之后版本，默认的连通图算法要求设置一个spark检查点目录。用户可以通过设置connectedComponents.setAlgorithm(“graphx”)使用就的算法<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.ConnectedComponents">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val result = g.connectedComponents.run()<br>result.select(“id”, “component”).orderBy(“component”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.connectedComponents">API docs</a>.<br>PYthon代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>result = g.connectedComponents()<br>result.select(“id”, “component”).orderBy(“component”).show()<br>强连通图 </p>
+<h3 id="Strongly-connected-components"><a href="#Strongly-connected-components" class="headerlink" title="Strongly connected components"></a>Strongly connected components</h3><p>计算每个顶点所属的强连通图，返回图中的每个顶点，顶点被赋予强连通图的ID<br>Compute the strongly connected component (SCC) of each vertex and return a graph with each vertex<br>assigned to the SCC containing that vertex.<br>See <a href="https://en.wikipedia.org/wiki/Strongly_connected_component" target="_blank" rel="noopener">Wikipedia</a> for background.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.StronglyConnectedComponents">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val result = g.stronglyConnectedComponents.maxIter(10).run()<br>result.select(“id”, “component”).orderBy(“component”).show()</p>
+<p>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.stronglyConnectedComponents">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>result = g.stronglyConnectedComponents(maxIter=10)<br>result.select(“id”, “component”).orderBy(“component”).show()<br>标签传播算法 </p>
+<h2 id="Label-Propagation-Algorithm-LPA"><a href="#Label-Propagation-Algorithm-LPA" class="headerlink" title="Label Propagation Algorithm (LPA)"></a>Label Propagation Algorithm (LPA)</h2><p>在网络中运行一个静态的LPA算法去探测社交关系<br>Run static Label Propagation Algorithm for detecting communities in networks.<br>网络中的每个节点初始被赋予自己的社交圈，在每一步中，节点发送各自的社交圈给所有的相邻节点，更新他们的社交圈<br>Each node in the network is initially assigned to its own community. At every superstep, nodes<br>send their community affiliation to all neighbors and update their state to the mode community<br>affiliation of incoming messages.<br>LPA是一个标准的图社交探测算法。它是非常廉价的由于（1）收敛性是不保证的（2）可以以无关紧要的结果结束<br>LPA is a standard community detection algorithm for graphs. It is very inexpensive<br>computationally, although (1) convergence is not guaranteed and (2) one can end up with<br>trivial solutions (all nodes are identified into a single community).<br>See <a href="https://en.wikipedia.org/wiki/Label_Propagation_Algorithm" target="_blank" rel="noopener">Wikipedia</a> for background.</p>
+<p>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.LabelPropagation">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val result = g.labelPropagation.maxIter(5).run()<br>result.select(“id”, “label”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.labelPropagation">API docs</a>.<br>Python代码<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>result = g.labelPropagation(maxIter=5)<br>result.select(“id”, “label”).show()<br>PageRank<br>有两种实现方法<br>There are two implementations of PageRank.<br>第一种使用org.apache.spark.graphx.graph接口的aggregateMessage方法运行固定次数的迭代来实现，可以设置迭代次数<br>第二种实现使用接口org.apache.spark.graphx.Pregel运行直到收敛，可以设置容忍度 </p>
+<ul>
+<li>The first one uses the <code>org.apache.spark.graphx.graph</code> interface with <code>aggregateMessages</code> and runs<br>PageRank for a fixed number of iterations. This can be executed by setting <code>maxIter</code>.</li>
+<li>The second implementation uses the <code>org.apache.spark.graphx.Pregel</code> interface and runs PageRank until<br>convergence and this can be run by setting <code>tol</code>.<br>两种实现都支持自定义或非自定义的PageRank<br>Both implementations support non-personalized and personalized PageRank, where setting a <code>sourceId</code><br>personalizes the results for that vertex.</li>
+</ul>
+<p>See <a href="https://en.wikipedia.org/wiki/PageRank" target="_blank" rel="noopener">Wikipedia</a> for background.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.PageRank">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Run PageRank until convergence to tolerance “tol”.<br>val results = g.pageRank.resetProbability(0.15).tol(0.01).run()<br>// Display resulting pageranks and final edge weights<br>// Note that the displayed pagerank may be truncated, e.g., missing the E notation.<br>// In Spark 1.5+, you can use show(truncate=false) to avoid truncation.<br>results.vertices.select(“id”, “pagerank”).show()<br>results.edges.select(“src”, “dst”, “weight”).show()<br>// Run PageRank for a fixed number of iterations.<br>val results2 = g.pageRank.resetProbability(0.15).maxIter(10).run()<br>// Run PageRank personalized for vertex “a”<br>val results3 = g.pageRank.resetProbability(0.15).maxIter(10).sourceId(“a”).run()<br>// Run PageRank personalized for vertex [“a”, “b”, “c”, “d”] in parallel<br>val results3 = g.parallelPersonalizedPageRank.resetProbability(0.15).maxIter(10).sourceIds(Array(“a”, “b”, “c”, “d”)).run()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.pageRank">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Run-PageRank-until-convergence-to-tolerance-“tol”"><a href="#Run-PageRank-until-convergence-to-tolerance-“tol”" class="headerlink" title="Run PageRank until convergence to tolerance “tol”."></a>Run PageRank until convergence to tolerance “tol”.</h1><p>results = g.pageRank(resetProbability=0.15, tol=0.01)</p>
+<h1 id="Display-resulting-pageranks-and-final-edge-weights"><a href="#Display-resulting-pageranks-and-final-edge-weights" class="headerlink" title="Display resulting pageranks and final edge weights"></a>Display resulting pageranks and final edge weights</h1><h1 id="Note-that-the-displayed-pagerank-may-be-truncated-e-g-missing-the-E-notation"><a href="#Note-that-the-displayed-pagerank-may-be-truncated-e-g-missing-the-E-notation" class="headerlink" title="Note that the displayed pagerank may be truncated, e.g., missing the E notation."></a>Note that the displayed pagerank may be truncated, e.g., missing the E notation.</h1><h1 id="In-Spark-1-5-you-can-use-show-truncate-False-to-avoid-truncation"><a href="#In-Spark-1-5-you-can-use-show-truncate-False-to-avoid-truncation" class="headerlink" title="In Spark 1.5+, you can use show(truncate=False) to avoid truncation."></a>In Spark 1.5+, you can use show(truncate=False) to avoid truncation.</h1><p>results.vertices.select(“id”, “pagerank”).show()<br>results.edges.select(“src”, “dst”, “weight”).show()</p>
+<h1 id="Run-PageRank-for-a-fixed-number-of-iterations"><a href="#Run-PageRank-for-a-fixed-number-of-iterations" class="headerlink" title="Run PageRank for a fixed number of iterations."></a>Run PageRank for a fixed number of iterations.</h1><p>results2 = g.pageRank(resetProbability=0.15, maxIter=10)</p>
+<h1 id="Run-PageRank-personalized-for-vertex-“a”"><a href="#Run-PageRank-personalized-for-vertex-“a”" class="headerlink" title="Run PageRank personalized for vertex “a”"></a>Run PageRank personalized for vertex “a”</h1><p>results3 = g.pageRank(resetProbability=0.15, maxIter=10, sourceId=”a”)</p>
+<h1 id="Run-PageRank-personalized-for-vertex-“a”-“b”-“c”-“d”-in-parallel"><a href="#Run-PageRank-personalized-for-vertex-“a”-“b”-“c”-“d”-in-parallel" class="headerlink" title="Run PageRank personalized for vertex [“a”, “b”, “c”, “d”] in parallel"></a>Run PageRank personalized for vertex [“a”, “b”, “c”, “d”] in parallel</h1><p>results4 = g.parallelPersonalizedPageRank(resetProbability=0.15, sourceIds=[“a”, “b”, “c”, “d”], maxIter=10)<br>最短路径 </p>
+<h2 id="Shortest-paths"><a href="#Shortest-paths" class="headerlink" title="Shortest paths"></a>Shortest paths</h2><p>计算给出的顶点之间的最短路径，<br>Computes shortest paths from each vertex to the given set of landmark vertices, where landmarks are<br>specified by vertex ID.  Note that this takes edge direction into account.<br>See <a href="https://en.wikipedia.org/wiki/Shortest_path_problem" target="_blank" rel="noopener">Wikipedia</a> for background.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.ShortestPaths">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val results = g.shortestPaths.landmarks(Seq(“a”, “d”)).run()<br>results.select(“id”, “distances”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.shortestPaths">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>results = g.shortestPaths(landmarks=[“a”, “d”])<br>results.select(“id”, “distances”).show()</p>
+<p>三角形计数 </p>
+<h2 id="Triangle-count"><a href="#Triangle-count" class="headerlink" title="Triangle count"></a>Triangle count</h2><p>计算通过每个顶点的三角形的个数<br>Computes the number of triangles passing through each vertex.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.TriangleCount">API docs</a>.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>val results = g.triangleCount.run()<br>results.select(“id”, “count”).show()<br>For API details, refer to the <a href="api/python/graphframes.html#graphframes.GraphFrame.triangleCount">API docs</a>.<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph<br>results = g.triangleCount()<br>results.select(“id”, “count”).show()<br>保存和加载GraphFrames </p>
+<h1 id="Saving-and-loading-GraphFrames"><a href="#Saving-and-loading-GraphFrames" class="headerlink" title="Saving and loading GraphFrames"></a>Saving and loading GraphFrames</h1><p>由于GraphFrames是DataFrame创建的，自然就支持从相同的数据源保存和加载<br>Since GraphFrames are built around DataFrames, they automatically support saving and loading<br>to and from the same set of datasources.<br>Refer to the <a href="http://spark.apache.org/docs/latest/sql-programming-guide.html#data-sources" target="_blank" rel="noopener">Spark SQL User Guide on datasources</a><br>for more details.<br>下面的例子展示如何保存和加载一个图<br>The below example shows how to save and then load a graph.<br>Scala代码：<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Save vertices and edges as Parquet to some location.<br>g.vertices.write.parquet(“hdfs://myLocation/vertices”)<br>g.edges.write.parquet(“hdfs://myLocation/edges”)<br>// Load the vertices and edges back.<br>val sameV = sqlContext.read.parquet(“hdfs://myLocation/vertices”)<br>val sameE = sqlContext.read.parquet(“hdfs://myLocation/edges”)<br>// Create an identical GraphFrame.<br>val sameG = GraphFrame(sameV, sameE)<br>Python代码：<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="Save-vertices-and-edges-as-Parquet-to-some-location"><a href="#Save-vertices-and-edges-as-Parquet-to-some-location" class="headerlink" title="Save vertices and edges as Parquet to some location."></a>Save vertices and edges as Parquet to some location.</h1><p>g.vertices.write.parquet(“hdfs://myLocation/vertices”)<br>g.edges.write.parquet(“hdfs://myLocation/edges”)</p>
+<h1 id="Load-the-vertices-and-edges-back"><a href="#Load-the-vertices-and-edges-back" class="headerlink" title="Load the vertices and edges back."></a>Load the vertices and edges back.</h1><p>sameV = sqlContext.read.parquet(“hdfs://myLocation/vertices”)<br>sameE = sqlContext.read.parquet(“hdfs://myLocation/edges”)</p>
+<h1 id="Create-an-identical-GraphFrame"><a href="#Create-an-identical-GraphFrame" class="headerlink" title="Create an identical GraphFrame."></a>Create an identical GraphFrame.</h1><p>sameG = GraphFrame(sameV, sameE)<br>消息传递 </p>
+<h1 id="Message-passing-via-AggregateMessages"><a href="#Message-passing-via-AggregateMessages" class="headerlink" title="Message passing via AggregateMessages"></a>Message passing via AggregateMessages</h1><p>像GraphX一样，GraphFrames提供了开发图算法的能力，两个关键的组件如下：<br>Like GraphX, GraphFrames provides primitives for developing graph algorithms.<br>The two key components are:<br><code>aggregateMessages</code>：在顶点之间发送消息，在每个顶点时聚合消息<br>聚合原始图中的所有消息 </p>
+<ul>
+<li><code>aggregateMessages</code>: Send messages between vertices, and aggregate messages for each vertex.<br>GraphFrames provides a native <code>aggregateMessages</code> method implemented using DataFrame operations.<br>This may be used analogously to the GraphX API. </li>
+<li>joins: Join message aggregates with the original graph.<br>GraphFrames rely on <code>DataFrame</code> joins, which provide the full functionality of GraphX joins.<br>下面的代码段展示了如何使用<code>aggregateMessages</code> 计算关联用户的年龄总和<br>The below code snippets show how to use <code>aggregateMessages</code> to compute the sum of the ages<br>of adjacent users.<br>For API details, refer to the <a href="api/scala/index.html#org.graphframes.lib.AggregateMessages">API docs</a>.<br>Scala代码<br>import org.graphframes.{examples,GraphFrame}<br>import org.graphframes.lib.AggregateMessages<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// We will use AggregateMessages utilities later, so name it “AM” for short.<br>val AM = AggregateMessages<br>// For each user, sum the ages of the adjacent users.<br>val msgToSrc = AM.dst(“age”)<br>val msgToDst = AM.src(“age”)<br>val agg = { g.aggregateMessages<br>.sendToSrc(msgToSrc)  // send destination user’s age to source<br>.sendToDst(msgToDst)  // send source user’s age to destination<br>.agg(sum(AM.msg).as(“summedAges”)) } // sum up ages, stored in AM.msg column<br>agg.show()<br>For a more complex example, look at the code used to implement the<br><a href="api/scala/index.html#org.graphframes.examples.BeliefPropagation$">Belief Propagation example</a>.</li>
+</ul>
+<p>For API details, refer to the<br><a href="api/python/graphframes.html#graphframes.GraphFrame.aggregateMessages">API docs</a>.<br>Python代码：<br>from pyspark.sql.functions import sum as sqlsum<br>from graphframes.lib import AggregateMessages as AM<br>from graphframes.examples import Graphs<br>g = Graphs(sqlContext).friends()  # Get example graph </p>
+<h1 id="For-each-user-sum-the-ages-of-the-adjacent-users"><a href="#For-each-user-sum-the-ages-of-the-adjacent-users" class="headerlink" title="For each user, sum the ages of the adjacent users."></a>For each user, sum the ages of the adjacent users.</h1><p>msgToSrc = AM.dst[“age”]<br>msgToDst = AM.src[“age”]<br>agg = g.aggregateMessages(<br>    sqlsum(AM.msg).alias(“summedAges”),<br>    sendToSrc=msgToSrc,<br>    sendToDst=msgToDst)<br>agg.show()</p>
+<p>For a more complex example, look at the code used to implement the<br><a href="api/python/graphframes.examples.html#graphframes.examples.BeliefPropagation">Belief Propagation example</a>.<br>GraphX-GraphFrames相互转换<br>我们提供了实用的转换在GraphFrame和GraphX<br>See the <a href="http://spark.apache.org/docs/latest/graphx-programming-guide.html" target="_blank" rel="noopener">GraphX User Guide</a><br>for details on GraphX.<br>GraphFrame转换成GraphX<br>转换成GraphX创建了GraphX的图，这个图有一个Long类型的顶点ID和Row类型的属性，顶点和边的属性是一个初始的row<br>Conversion to GraphX creates a GraphX <code>Graph</code> which has <code>Long</code> vertex IDs and attributes<br>of type <code>Row</code>.<br>Vertex and edge attributes are the original rows in <code>vertices</code> and <code>edges</code>, respectively.<br>需要注意的是顶点（边）属性包含顶点ID（起点，终点ID）为了支持非Long类型的顶点ID。<br>Note that vertex (and edge) attributes include vertex IDs (and source, destination IDs)<br>in order to support non-Long vertex IDs.  If the vertex IDs are not convertible to Long values,<br>then the values are indexed in order to generate corresponding Long vertex IDs (which is an<br>expensive operation).</p>
+<p>The column ordering of the returned <code>Graph</code> vertex and edge attributes are specified by<br><code>GraphFrame.vertexColumns</code> and <code>GraphFrame.edgeColumns</code>, respectively.<br>GraphX转换成GraphFrame </p>
+<h2 id="GraphX-to-GraphFrame"><a href="#GraphX-to-GraphFrame" class="headerlink" title="GraphX to GraphFrame"></a>GraphX to GraphFrame</h2><p>GraphFrame提供了两种转换方法。第一种方法是将GrphX的图中的顶点和边的RDD转换成DataFrame，然后穿件GraphFrame<br>GraphFrame provides two conversions methods.  The first takes any GraphX graph and converts<br>the vertex and edge <code>RDD</code>s into <code>DataFrame</code>s using schema inference.  Those DataFrames<br>are then used to create a GraphFrame.<br>第二种转换方案更加复杂<br>The second conversion method is more complex and is useful for users with existing GraphX code.<br>Its main purpose is to support workflows of the following form: (1) convert a GraphFrame to GraphX,<br>(2) run GraphX code to augment the GraphX graph with new vertex or edge attributes, and<br>(3) merge the new attributes back into the original GraphFrame.</p>
+<p>For example, given:</p>
+<ul>
+<li>GraphFrame <code>originalGraph</code></li>
+<li>GraphX <code>Graph[String, Int]</code> <code>graph</code> with a String vertex attribute we want to call “category”<br>and an Int edge attribute we want to call “count” </li>
+</ul>
+<p>We can call <code>fromGraphX(originalGraph, graph, Seq(&quot;category&quot;), Seq(&quot;count&quot;))</code> to produce<br>a new GraphFrame. The new GraphFrame will be an augmented version of <code>originalGraph</code>,<br>with new <code>GraphFrame.vertices</code> column “category” and new <code>GraphFrame.edges</code> column “count” added.</p>
+<p>For example usage, look at the code used to implement the<br><a href="api/scala/index.html#org.graphframes.examples.BeliefPropagation$">Belief Propagation example</a>.<br>转换例子 </p>
+<h2 id="Example-conversions"><a href="#Example-conversions" class="headerlink" title="Example conversions"></a>Example conversions</h2><p>The below example demonstrates simple GraphFrame-GraphX conversions.<br>For API details, refer to the API docs for:</p>
+<ul>
+<li><a href="api/scala/index.html#org.graphframes.GraphFrame">toGraphX</a></li>
+<li><a href="api/scala/index.html#org.graphframes.GraphFrame$">fromGraphX</a><br>Scala代码：<br>import org.apache.spark.graphx.Graph<br>import org.apache.spark.sql.Row<br>import org.graphframes.{examples,GraphFrame}<br>val g: GraphFrame = examples.Graphs.friends  // get example graph<br>// Convert to GraphX<br>val gx: Graph[Row, Row] = g.toGraphX<br>// Convert back to GraphFrame.<br>// Note that the schema is changed because of constraints in the GraphX API.<br>val g2: GraphFrame = GraphFrame.fromGraphX(gx)<br>这些转换仅仅支持Scala因为GraphX没有Python的API<br>These conversions are only supported in Scala since GraphX does not have a Python API.</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1790,196 +2019,6 @@ listen #监听端口 </code></pre><p>三大负载均衡工具<br>    LVS:工作�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">RabbitMQ基础—知识结构概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:26:54+08:00">
-                2020-03-15
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:27:42+08:00">
-                2020-03-15
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>1.    组件介绍
-1.    常用命令
-a.    列出当前队列、队列信息数量、队列未确认信息数量
-i.    rabbitmqctl list_queues
-ii.    rabbitmqctl list_queues name messages_ready messages_unacknowledged
-a.    列出当前交换机
-i.    rabbitmqctl list_exchanges
-b.    列出当前交换机和队列的绑定
-i.    rabbitmqctl list_bindings
-1.    核心组件
-a.    exchange：
-i.    Direct：通过routing_key指定队列名称
-ii.    Fanout：扇形交换机
-iii.    Headers：
-iv.    topic：主题交换机
-b.    queue：
-c.    Routing_key
-1.    Python 开发
-a.    Pika组件：
-i.    exchange声明
-ii.    queue声明
-iii.    binding声明
-iv.    分发策略声明
-1.    Java 开发
-1.    配置调优 </code></pre><p>安装rabbitmq<br>安装rabbitmq<br>yum install rabbitmq-server<br>rabbitmq-plugins enable rabbitmq_management<br>启动rabbitmq server<br>service rabbitmq-server restart<br>chkconfig rabbitmq-server on<br>更改初始密码<br>rabbitmqctl change_password guest spdb1234<br>RABBITMQ集群搭建</p>
-<ol>
-<li>停止所有节点rabbitmq服务：rabbitmqctl stop</li>
-<li>备份非主节点bdpcm02、bdputil02的erlange.cookie<br>mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.bak</li>
-<li>将主节点bdputil01上的erlange.cookie复制到其他节点/var/lib/rabbitmq目录下。</li>
-<li>修改所有节点上，erlange.cookie的权限<br>chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie<br>chmod 600 /var/lib/rabbitmq/.erlang.cookie</li>
-<li>启动Master节点的rabbitmq进程<br>rabbitmq-server -detached</li>
-<li>在Slave节点上，执行如下操作加入集群<br>#启动rabbitmq<br>1)    rabbitmq-server -detached<br>#停止rabbitmq<br>2)    rabbitmqctl stop_app<br>#将该节点加入集群<br>3)    rabbitmqctl join_cluster rabbit@bdputil01<br>#启动<br>4)    rabbitmqctl start_app<br>#查看集群状态<br>5)    rabbitmqctl cluster_status</li>
-<li>配置高可用参数<br>#打开任意节点的RabbitMQ管理页面<br>ip:15672<br>（上方导航栏）Admin-&gt;（右侧导航栏）Policies<br>#添加配置信息 Add/update a policy<br>Name: ha-all<br>Pattern:<br>spdb<br>Definitions:<br>ha-mode=all<br>ha-sync-mode=automatic<br>Priority: 0</li>
-<li>使用HAProxy做负载均衡<br>使用ps -ef|grep haproxy查找当前执行的配置文件<br>进入配置文件，添加如下内容：<br>listen rabbitmq_admin<br>bind 0.0.0.0:15673<br>server rabbitmq1 bdputil01:15672<br>server rabbitmq2 bdputil02:15672<br>server rabbitmq3 bdpcm02:15672</li>
-</ol>
-<p>listen rabbitmq_cluster<br>    bind 0.0.0.0:5673<br>    #配置TCP模式<br>    mode tcp<br>    option tcplog<br>    #简单的轮询<br>    balance roundrobin<br>    #rabbitmq集群节点配置<br>    server rabbitmq1 bdputil01:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq2 bdputil02:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq3 bdpcm02:5672 check inter 5000 rise 2 fall 2</p>
-<p>4.5    登录web页面查看<br> 使用haproxy的ip查看rabbitmq的状态：<br>url：<a href="http://bdputil01:15673" target="_blank" rel="noopener">http://bdputil01:15673</a><br>user：guest<br> passwd：spdb1234</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2030,7 +2069,7 @@ iv.    分发策略声明
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2052,7 +2091,7 @@ iv.    分发策略声明
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
