@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="IoC：Inverse of Control（控制反转） 读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。 正控：若要使用某个对象，需要自己去负责对象的创建 反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架 好莱坞法则： Don">
+<meta name="description" content="IoC：Inverse of Control（控制反转） 读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。 正控：若要使用某个对象，需要自己去负责对象的创建">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring核心—IOC和DI">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="IoC：Inverse of Control（控制反转） 读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。 正控：若要使用某个对象，需要自己去负责对象的创建 反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架 好莱坞法则： Don">
+<meta property="og:description" content="IoC：Inverse of Control（控制反转） 读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。 正控：若要使用某个对象，需要自己去负责对象的创建">
 <meta property="article:published_time" content="2020-03-14T11:48:45.661Z">
-<meta property="article:modified_time" content="2020-03-16T08:48:55.362Z">
+<meta property="article:modified_time" content="2020-03-16T09:07:15.456Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
@@ -331,7 +331,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T16:48:55+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T17:07:15+08:00">
                 2020-03-16
               </time>
             
@@ -394,10 +394,9 @@
       
         <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
 <li>读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</li>
-<li>正控：若要使用某个对象，需要自己去负责对象的创建</li>
+<li>正控：若要使用某个对象，需要自己去负责对象的创建<a id="more"></a></li>
 <li>反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架</li>
-<li>好莱坞法则： Don’t call me ,I’ll call you<a id="more"></a>
-在Spring中，bean作用域用于确定哪种类型的 bean 实例应该从Spring容器中返回给调用者。bean支持的5种范围域：<br>  ⁃    单例 - 每个Spring IoC 容器返回一个bean实例<br>  ⁃    原型- 当每次请求时返回一个新的bean实例<br>  ⁃    请求 - 返回每个HTTP请求的一个Bean实例<br>  ⁃    会话 - 返回每个HTTP会话的一个bean实例<br>  ⁃    全局会话- 返回全局HTTP会话的一个bean实例<br>在大多数情况下，可能只处理了 Spring 的核心作用域 - 单例和原型，默认作用域是单例。</li>
+<li>好莱坞法则： Don’t call me ,I’ll call you<br>在Spring中，bean作用域用于确定哪种类型的 bean 实例应该从Spring容器中返回给调用者。bean支持的5种范围域：<br>  ⁃    单例 - 每个Spring IoC 容器返回一个bean实例<br>  ⁃    原型- 当每次请求时返回一个新的bean实例<br>  ⁃    请求 - 返回每个HTTP请求的一个Bean实例<br>  ⁃    会话 - 返回每个HTTP会话的一个bean实例<br>  ⁃    全局会话- 返回全局HTTP会话的一个bean实例<br>在大多数情况下，可能只处理了 Spring 的核心作用域 - 单例和原型，默认作用域是单例。</li>
 </ul>
 <h2 id="DI：Dependency-Injection（依赖注入）"><a href="#DI：Dependency-Injection（依赖注入）" class="headerlink" title="DI：Dependency Injection（依赖注入）"></a>DI：Dependency Injection（依赖注入）</h2><p>DI是指 Spring 创建对象的过程中，将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。主要包含两种形式：</p>
 <ul>

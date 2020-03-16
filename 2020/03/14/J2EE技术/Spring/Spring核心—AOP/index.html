@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Spring AOP 简介如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。 首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。    •    所谓的核心业务，比如登陆，增加数据，删除数据都叫核心业务    •    所谓的周边功能，比如性能统计，日志，事务管理等等 周边功能在 Spring 的">
+<meta name="description" content="Spring AOP 简介如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。 首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring核心—AOP">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94AOP/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Spring AOP 简介如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。 首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。    •    所谓的核心业务，比如登陆，增加数据，删除数据都叫核心业务    •    所谓的周边功能，比如性能统计，日志，事务管理等等 周边功能在 Spring 的">
+<meta property="og:description" content="Spring AOP 简介如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。 首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。">
 <meta property="article:published_time" content="2020-03-14T11:50:49.971Z">
-<meta property="article:modified_time" content="2020-03-16T08:48:55.355Z">
+<meta property="article:modified_time" content="2020-03-16T09:07:18.609Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
@@ -331,7 +331,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T16:48:55+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T17:07:18+08:00">
                 2020-03-16
               </time>
             
@@ -393,9 +393,8 @@
 
       
         <h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
-<p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。<br>    •    所谓的核心业务，比如登陆，增加数据，删除数据都叫核心业务<br>    •    所谓的周边功能，比如性能统计，日志，事务管理等等</p>
+<p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。<a id="more"></a><br>    •    所谓的核心业务，比如登陆，增加数据，删除数据都叫核心业务<br>    •    所谓的周边功能，比如性能统计，日志，事务管理等等</p>
 <p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面。在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP。</p>
-<a id="more"></a>
 <h2 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h2><p>AOP能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
 <h3 id="AOP-当中的概念"><a href="#AOP-当中的概念" class="headerlink" title="AOP 当中的概念"></a>AOP 当中的概念</h3><ul>
 <li>切入点（Pointcut）：在哪些类，哪些方法上切入（where）</li>
