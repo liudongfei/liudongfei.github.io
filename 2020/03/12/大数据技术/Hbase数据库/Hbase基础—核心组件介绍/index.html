@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Hbase核心组件Client 整个Hbase集群的访问入口  使用HbaseRPC机制与HMaster和HRegionServer进行通信  与HMaster进行通信进行管理类操作  与HRegionServer进行数据读写类操作  包含访问Hbase的接口，并维护cache类加快对HBase的访问 Hmaster 没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一  管理">
+<meta name="description" content="Hbase核心组件Client 整个Hbase集群的访问入口  使用HbaseRPC机制与HMaster和HRegionServer进行通信  与HMaster进行通信进行管理类操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase基础—核心组件介绍">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Hbase核心组件Client 整个Hbase集群的访问入口  使用HbaseRPC机制与HMaster和HRegionServer进行通信  与HMaster进行通信进行管理类操作  与HRegionServer进行数据读写类操作  包含访问Hbase的接口，并维护cache类加快对HBase的访问 Hmaster 没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一  管理">
+<meta property="og:description" content="Hbase核心组件Client 整个Hbase集群的访问入口  使用HbaseRPC机制与HMaster和HRegionServer进行通信  与HMaster进行通信进行管理类操作">
 <meta property="article:published_time" content="2020-03-11T17:04:15.745Z">
-<meta property="article:modified_time" content="2020-03-14T07:00:28.928Z">
+<meta property="article:modified_time" content="2020-03-16T11:44:13.781Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:00:28+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T19:44:13+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -395,7 +395,7 @@
         <h2 id="Hbase核心组件"><a href="#Hbase核心组件" class="headerlink" title="Hbase核心组件"></a>Hbase核心组件</h2><h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><ul>
 <li>整个Hbase集群的访问入口 </li>
 <li>使用HbaseRPC机制与HMaster和HRegionServer进行通信 </li>
-<li>与HMaster进行通信进行管理类操作 </li>
+<li>与HMaster进行通信进行管理类操作<a id="more"></a></li>
 <li>与HRegionServer进行数据读写类操作 </li>
 <li>包含访问Hbase的接口，并维护cache类加快对HBase的访问 <h3 id="Hmaster"><a href="#Hmaster" class="headerlink" title="Hmaster"></a>Hmaster</h3></li>
 <li>没有单点故障问题，可以启动多个HMaster，通过zk的选举机制保证唯一 </li>

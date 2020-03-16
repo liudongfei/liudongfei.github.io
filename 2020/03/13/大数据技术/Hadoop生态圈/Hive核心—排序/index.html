@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="SortBysortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。sort">
+<meta name="description" content="SortBysortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive核心—排序">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="SortBysortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。sort">
+<meta property="og:description" content="SortBysortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。">
 <meta property="article:published_time" content="2020-03-12T16:12:50.093Z">
-<meta property="article:modified_time" content="2020-03-14T08:30:22.105Z">
+<meta property="article:modified_time" content="2020-03-16T10:19:07.088Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hive">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T16:30:22+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T18:19:07+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -392,7 +392,8 @@
       
 
       
-        <h3 id="SortBy"><a href="#SortBy" class="headerlink" title="SortBy"></a>SortBy</h3><p>sortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。<br>sortby排序将取决于列类型，如果该列是数字类型，那么排序顺序也是按照数字顺序排列的。如果是该列是字符串类型，那么排序顺序将是字典顺序。<br>举例如下：</p>
+        <h3 id="SortBy"><a href="#SortBy" class="headerlink" title="SortBy"></a>SortBy</h3><p>sortby不是全局排序，其在数据进入reducer前完成排序，因此，如果用sort排序，并且设置mapred.reduce.tasks &gt; 1，则sortby只保证每个reduce的输出有序，并且不保证全局有序。sortby不同于orderby，它不受hive.mapred.mode属性的影响，sortby的数据只能保证在同一个reduce中的数据可以按照指定字段排序。<a id="more"></a></p>
+<p>sortby排序将取决于列类型，如果该列是数字类型，那么排序顺序也是按照数字顺序排列的。如果是该列是字符串类型，那么排序顺序将是字典顺序。<br>举例如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hive&gt;SELECT emp_id, emp_salary FROM employees SORT BY emp_salary DESC；</span><br><span class="line">reduce 1： </span><br><span class="line">emp_id | emp_salary </span><br><span class="line">10 5000 </span><br><span class="line">16 3000 </span><br><span class="line">13 2600 </span><br><span class="line">19 1800 </span><br><span class="line">reduce 2：</span><br><span class="line">emp_id | emp_salary </span><br><span class="line">11 4000 </span><br><span class="line">17 3100 </span><br><span class="line">14 2500 </span><br><span class="line">20 2000</span><br></pre></td></tr></table></figure>
 <h3 id="OrderBy"><a href="#OrderBy" class="headerlink" title="OrderBy"></a>OrderBy</h3><p>hive中orderby跟传统的sql语言中的作用一样，会对查询结果做一次全局排序，所以hive的sql中的所有数据都会到同一个reduce中进行处理（不管有多少map，也不管有多少block都只会启动一个reducer）。但是对于大量数据这将耗费很长时间去执行。<br>这里跟传统的sql还有一点区别：如果制定了hive.mapred.mode=strict（默认nonstrict），这时就必须制定limit来限制输出条数，原因是：所有的数据都会在同一个reducer端进行，数据量大的情况下可能不会出来结果，在严格模式下必须制定输出条件。</p>
 <h3 id="DistributeBy"><a href="#DistributeBy" class="headerlink" title="DistributeBy"></a>DistributeBy</h3><p>distributeby是控制在map端如何拆分数据给reduce端的。hive会根据distributeby后面的列，对应reduce的个数进行分发，默认是采用hash算法。sortby为每个reduce产生一个排序文件。在有些情况下，你需要控制某个特定行应该到哪个reducer，这通常是为了进行后续的聚集操作。distributeBy刚好可以做这件事。因此，distributeby经常和sortby配合使用。<br>注：distributeby 和sort by的使用场景<br>1、map输出的文件大小不均<br>2、reduce输出文件大小不均<br>3、小文件过多<br>4、文件超大</p>

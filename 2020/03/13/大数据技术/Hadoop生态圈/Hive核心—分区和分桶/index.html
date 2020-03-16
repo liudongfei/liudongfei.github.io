@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="分区(Partition)在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是">
+<meta name="description" content="分区(Partition)在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive核心—分区和分桶">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="分区(Partition)在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是">
+<meta property="og:description" content="分区(Partition)在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。">
 <meta property="article:published_time" content="2020-03-12T16:01:52.549Z">
-<meta property="article:modified_time" content="2020-03-14T07:28:03.050Z">
+<meta property="article:modified_time" content="2020-03-16T10:19:07.043Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hive">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:28:03+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T18:19:07+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -392,7 +392,9 @@
       
 
       
-        <h2 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h2><p>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。<br>当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是有可能。存储日志，其 中必然有个属性是日志产生的日期。在产生分区时，就可以按照日志产生的日期列进行划分。把每 一天的日志当作一个分区。<br>将数据组织成分区，主要可以提高数据的查询速度。至于用户存储的每一条记录到底放到哪个分 区，由用户决定。即用户在加载数据的时候必须显示的指定该部分数据放到哪个分区。<br><strong>实现细节</strong>：</p>
+        <h3 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h3><p>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。<a id="more"></a></p>
+<p>当前互联网应用每天都要存储大量的日志文件，几G、几十G甚至更大都是有可能。存储日志，其 中必然有个属性是日志产生的日期。在产生分区时，就可以按照日志产生的日期列进行划分。把每 一天的日志当作一个分区。</p>
+<p>将数据组织成分区，主要可以提高数据的查询速度。至于用户存储的每一条记录到底放到哪个分 区，由用户决定。即用户在加载数据的时候必须显示的指定该部分数据放到哪个分区。<br><strong>实现细节</strong>：</p>
 <ol>
 <li>一个表可以拥有一个或者多个分区，每个分区以文件夹的形式单独存在表文件夹的目录下。</li>
 <li>表和列名不区分大小写。</li>
@@ -402,7 +404,7 @@
 <ol>
 <li>创建一个分区表，以ds为分区列<br><code>create table invites(id int, name string) partitioned by (ds string) row format delimited ﬁeldsterminated by &#39; &#39; stored as textﬁle;</code></li>
 <li>将数据添加到时间为2013-08-16这个分区中：<br><code>load data local inpath&#39;/home/hadoop/Desktop/data.txt&#39; overwrite into table invites partition(ds=&#39;2013-08-16&#39;);</code></li>
-<li>从一个分区中查询数据：<br><code>select * from inviteswhere ds =&#39;2013-08-12&#39;;</code><br>4、往一个分区表的某一个分区中添加数据：<br><code>insert overwrite tableinvites partition (ds=&#39;2013-08-12&#39;) select id,max(name) from test group by id;</code><h2 id="分桶-Bucket"><a href="#分桶-Bucket" class="headerlink" title="分桶(Bucket)"></a>分桶(Bucket)</h2>对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方 式决定该条记录存放在哪个桶当中。<br>把表（或者分区）组织成桶（Bucket）有两个理由：</li>
+<li>从一个分区中查询数据：<br><code>select * from inviteswhere ds =&#39;2013-08-12&#39;;</code><br>4、往一个分区表的某一个分区中添加数据：<br><code>insert overwrite tableinvites partition (ds=&#39;2013-08-12&#39;) select id,max(name) from test group by id;</code><h3 id="分桶-Bucket"><a href="#分桶-Bucket" class="headerlink" title="分桶(Bucket)"></a>分桶(Bucket)</h3>对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方 式决定该条记录存放在哪个桶当中。<br>把表（或者分区）组织成桶（Bucket）有两个理由：</li>
 <li>获得更高的查询处理效率。桶为表加上了额外的结构，Hive 在处理有些查询时能利用这个结构。具体而言，连接两个在（包含连接列的）相同列上划分了桶的表，可以使用 Map 端连接 （Map-side join）高效的实现。比如JOIN操作。对于JOIN操作两个表有一个相同的列，如果对这两个表都进行了桶操作。那么将保存相同列值的桶进行JOIN操作就可以，可以大大较少JOIN的数据量。</li>
 <li>使取样（sampling）更高效。在处理大规模数据集时，在开发和修改查询的阶段，如果能在 数据集的一小部分数据上试运行查询，会带来很多方便。</li>
 </ol>
@@ -599,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分区-Partition"><span class="nav-number">1.</span> <span class="nav-text">分区(Partition)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分桶-Bucket"><span class="nav-number">2.</span> <span class="nav-text">分桶(Bucket)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分区-Partition"><span class="nav-number">1.</span> <span class="nav-text">分区(Partition)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分桶-Bucket"><span class="nav-number">2.</span> <span class="nav-text">分桶(Bucket)</span></a></li></ol></div>
             
 
           </div>
