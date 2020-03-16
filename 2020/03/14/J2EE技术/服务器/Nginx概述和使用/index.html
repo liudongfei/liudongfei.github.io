@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Nginx的基本概述 #8195&amp;emsp;Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。 &amp;emsp;&amp;emsp;">
+<meta name="description" content="Nginx的基本概述Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。 Nginx 是一个高性能的 Web 和反向代理服">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx概述和使用">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Nginx的基本概述 #8195&amp;emsp;Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。 &amp;emsp;&amp;emsp;">
+<meta property="og:description" content="Nginx的基本概述Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。 Nginx 是一个高性能的 Web 和反向代理服">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/15841870935903.jpg">
 <meta property="article:published_time" content="2020-03-14T11:54:11.940Z">
-<meta property="article:modified_time" content="2020-03-16T08:43:30.944Z">
+<meta property="article:modified_time" content="2020-03-16T08:53:37.462Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -333,7 +333,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T16:43:30+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T16:53:37+08:00">
                 2020-03-16
               </time>
             
@@ -394,12 +394,15 @@
       
 
       
-        <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p> #8195&emsp;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。</p>
-<p>&emsp;&emsp;Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
+        <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。</p>
+<p>Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
 <ul>
 <li>作为 Web 服务器：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.</li>
 <li>作为负载均衡服务器：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。<a id="more"></a></li>
-<li>作为邮件代理服务器: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。<br>&emsp;&emsp;Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。<br>&emsp;&emsp;Nginx一般用户七层负载均衡，其吞吐量有一定的限制。为了提高整体的吞吐量，会在DNS和Nginx之间引入LVS（软件负载均衡器）、F5（硬负载均衡器） 可以做四层负载均衡，首先DNS解析到LVS(F5)，让后LVS(F5)转发给Nginx，在有Nginx转发给真实的服务器。<h2 id="Nginx的应用场景"><a href="#Nginx的应用场景" class="headerlink" title="Nginx的应用场景"></a>Nginx的应用场景</h2></li>
+<li>作为邮件代理服务器: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。<br>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。</li>
+</ul>
+<p>Nginx一般用户七层负载均衡，其吞吐量有一定的限制。为了提高整体的吞吐量，会在DNS和Nginx之间引入LVS（软件负载均衡器）、F5（硬负载均衡器） 可以做四层负载均衡，首先DNS解析到LVS(F5)，让后LVS(F5)转发给Nginx，在有Nginx转发给真实的服务器。</p>
+<h2 id="Nginx的应用场景"><a href="#Nginx的应用场景" class="headerlink" title="Nginx的应用场景"></a>Nginx的应用场景</h2><ul>
 <li>Http服务器：使用Nginx做静态服务器、图片服务器</li>
 <li>虚拟主机配置：讲一个服务器，拆分成多个网站部署</li>
 <li>反向代理：Nginx拦截所有请求，内部实现转发到真实服务器中，隐藏真实的ip地址</li>
@@ -414,7 +417,7 @@ nginx -s stop #停止nginx</code><h2 id="负载均衡产生的问题"><a href="#
 <li>分布式生成的全局id</li>
 <li>分布式锁</li>
 <li>分布式配置中心</li>
-<li>分布式日志收集系统<h2 id="Nginx的配置详解"><a href="#Nginx的配置详解" class="headerlink" title="Nginx的配置详解"></a>Nginx的配置详解</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3>&emsp;&emsp;主配置文件，在安装目录的conf/nginx.conf中：<br>`<br>http {<br>……<br>##<h1 id="Virtual-Host-Configs"><a href="#Virtual-Host-Configs" class="headerlink" title="Virtual Host Configs"></a>Virtual Host Configs</h1>##<br>include /etc/nginx/conf.d/<em>.conf;副配置文件位置<br>include /etc/nginx/sites-enabled/</em>;<br>}<br><code>&amp;emsp;&amp;emsp;副配置文件，在安装目录的nginx/sites-available中，一般存放现有的站点配置库。在安装目录的nginx/sites-enabled中，一般存放被激活的站点配置。需要启动新的站点配置时，只需要将现有的站点配置库中的站点配置软连接到激活的站点配置下，配置文件结构：</code><br>…              #全局块<br>events {         #events块<br> …<br>}<br>http      #http块<br>{<br>  …   #http全局块<br>  server        #server块<br>  { <pre><code>...       #server全局块
+<li>分布式日志收集系统<h2 id="Nginx的配置详解"><a href="#Nginx的配置详解" class="headerlink" title="Nginx的配置详解"></a>Nginx的配置详解</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3>主配置文件，在安装目录的conf/nginx.conf中：<br>`<br>http {<br>……<h1 id="Virtual-Host-Configs"><a href="#Virtual-Host-Configs" class="headerlink" title="Virtual Host Configs"></a>Virtual Host Configs</h1>include /etc/nginx/conf.d/<em>.conf;副配置文件位置<br>include /etc/nginx/sites-enabled/</em>;<br>}<br><code>副配置文件，在安装目录的nginx/sites-available中，一般存放现有的站点配置库。在安装目录的nginx/sites-enabled中，一般存放被激活的站点配置。需要启动新的站点配置时，只需要将现有的站点配置库中的站点配置软连接到激活的站点配置下，配置文件结构：</code><br>…              #全局块<br>events {         #events块<br> …<br>}<br>http      #http块<br>{<br>  …   #http全局块<br>  server        #server块<br>  { <pre><code>...       #server全局块
 location [PATTERN]   #location块
 {
     ...
@@ -428,37 +431,23 @@ location [PATTERN]
 <li>http块：可以嵌套多个server，配置http代理，缓存，日志定义等绝大多数功能和第三方模块的配置。如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。</li>
 <li>server块：配置虚拟主机的相关参数，一个http中可以有多个server。</li>
 <li>stream块：可以嵌套多个server，配置tcp代理</li>
-<li>location块：配置请求的路由，以及各种页面的处理情况。<h3 id="配置文件样例"><a href="#配置文件样例" class="headerlink" title="配置文件样例"></a>配置文件样例</h3>#######每个指令必须有分号结束。########<br>`<br>#user administrator administrators;  #配置用户或者组，默认为nobody nobody。<br>#worker_processes 2;  #允许生成的进程数，默认为1<br>#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址<br>error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg<br>events {<br>  accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on<br>  multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off<br>  #use epoll;      #I/O模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport<br>  worker_connections  1024;    #最大连接数，默认为512<br>}<br>http {<br>  include       mime.types;   #文件扩展名与文件类型映射表<br>  default_type  application/octet-stream; #默认文件类型，默认为text/plain<br>  #access_log off; #取消服务日志<br>  log_format myFormat ‘$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for’; #自定义格式<br>  access_log log/access.log myFormat;  #combined为日志格式的默认值<br>  sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。<br>  sendfile_max_chunk 100k;#每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。<br>  keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。<br>  upstream mysvr {   <pre><code>server 127.0.0.1:7878;
-server 192.168.10.121:3333 backup;  #热备</code></pre>  }<br>  error_page 404 <a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a>; #错误页<br>  server {<pre><code>keepalive_requests 120; #单连接请求上限次数。
-listen       4545;   #监听端口
-server_name  127.0.0.1;   #监听地址       
-location  ~*^.+$ {     #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
-   #root path;  #根目录
-   #index vv.txt;  #设置默认页
-   proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
-   deny 127.0.0.1;  #拒绝的ip
-   allow 172.18.5.54; #允许的ip           
-} </code></pre>  }<br>   #server {<pre><code>listen       443 ssl;
-server_name  localhost;
-ssl_certificate      /etc/nginx/ssl/nginx.crt; # 证书文件
-ssl_certificate_key  /etc/nginx/ssl/nginx.key; # 密钥对文件(包含公钥和私钥,             私钥不会发给客户端)
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # SSL(包括 v3)都有漏洞，应该用             TLS(TLS1.0 = SSL 3.1)</code></pre><h1 id="ssl-session-cache-shared-SSL-1m"><a href="#ssl-session-cache-shared-SSL-1m" class="headerlink" title="ssl_session_cache    shared:SSL:1m;"></a>ssl_session_cache    shared:SSL:1m;</h1><pre><code>ssl_session_timeout  5m;
-ssl_ciphers  HIGH:!aNULL:!MD5;</code></pre><h1 id="ssl-prefer-server-ciphers-on"><a href="#ssl-prefer-server-ciphers-on" class="headerlink" title="ssl_prefer_server_ciphers  on;"></a>ssl_prefer_server_ciphers  on;</h1><h1 id="location"><a href="#location" class="headerlink" title="location / {"></a>location / {</h1><h1 id="root-html"><a href="#root-html" class="headerlink" title="root   html;"></a>root   html;</h1><h1 id="index-index-html-index-htm"><a href="#index-index-html-index-htm" class="headerlink" title="index  index.html index.htm;"></a>index  index.html index.htm;</h1><h1 id><a href="#" class="headerlink" title="}"></a>}</h1>}<br>`<br>常见配置项说明：</li>
+<li>location块：配置请求的路由，以及各种页面的处理情况。<h3 id="Nginx的Location介绍"><a href="#Nginx的Location介绍" class="headerlink" title="Nginx的Location介绍"></a>Nginx的Location介绍</h3></li>
 </ul>
-<p>1.$remote_addr 与 $http_x_forwarded_for 用以记录客户端的ip地址；<br>2.$remote_user ：用来记录客户端用户名称；<br>3.$time_local ： 用来记录访问时间与时区；<br>4.$request ： 用来记录请求的url与http协议；<br>5.$status ： 用来记录请求状态；成功是200；<br>6.$body_bytes_s ent ：记录发送给客户端文件主体内容大小；<br>7.$http_referer ：用来记录从那个页面链接访问过来的；<br>8.$http_user_agent ：记录客户端浏览器的相关信息；<br><strong>惊群现象</strong>：一个网路连接到来，多个睡眠的进程被同事叫醒，但只有一个进程能获得链接，这样会影响系统性能。</p>
-<h3 id="Nginx的Location介绍"><a href="#Nginx的Location介绍" class="headerlink" title="Nginx的Location介绍"></a>Nginx的Location介绍</h3><p><strong>Location作用</strong><br>&emsp;&emsp;Location指令的作用是根据用户请求的URI来执行不同的应用，也就是根据用户请求的网站URL进行匹配，匹配成功即进行相关的操作。<br>&emsp;&emsp;Nginx首先搜索由书面字符串给定的最为特别的前缀location，无视列表顺序。在上面的配置中仅有一个带前缀的location “/“，并且因为它匹配任何请求，它将用于作为最后的对策。然后 nginx检查通过正则表达式给定的location，基于在配置文件中列出的顺序。第一个匹配的表达式将停止搜索然后nginx将使用这个location。如果没有正则表达式匹配请求，则nginx将使用前面发现的最为特别的前缀location。<br><strong>Location语法</strong></p>
+<p><strong>Location作用</strong><br>Location指令的作用是根据用户请求的URI来执行不同的应用，也就是根据用户请求的网站URL进行匹配，匹配成功即进行相关的操作。</p>
+<p>Nginx首先搜索由书面字符串给定的最为特别的前缀location，无视列表顺序。在上面的配置中仅有一个带前缀的location “/“，并且因为它匹配任何请求，它将用于作为最后的对策。然后 nginx检查通过正则表达式给定的location，基于在配置文件中列出的顺序。第一个匹配的表达式将停止搜索然后nginx将使用这个location。如果没有正则表达式匹配请求，则nginx将使用前面发现的最为特别的前缀location。<br><strong>Location语法</strong></p>
 <ul>
 <li>以=开头表示精确匹配</li>
 <li>^~ 开头表示uri以某个常规字符串开头，不是正则匹配</li>
 <li>~ 开头表示区分大小写的正则匹配;</li>
 <li>~* 开头表示不区分大小写的正则匹配</li>
-<li>/ 通用匹配, 如果没有其它匹配,任何请求都会匹配到<h3 id="Nginx的server-name介绍"><a href="#Nginx的server-name介绍" class="headerlink" title="Nginx的server_name介绍"></a>Nginx的server_name介绍</h3>&emsp;&emsp;服务器名称通过使用server_name指令来定义并决定哪个服务器块(server block)将用于给定的请求。可以使用精确名称，通配符和正则表达式。<br>&emsp;&emsp;当通过名称搜索虚拟服务器时， 如果名字和多个指定的变量匹配， 例如同时匹配通配符和正 则表达式，在下面的优先级次序中，第一个匹配的变量将被选择：</li>
+<li>/ 通用匹配, 如果没有其它匹配,任何请求都会匹配到<h3 id="Nginx的server-name介绍"><a href="#Nginx的server-name介绍" class="headerlink" title="Nginx的server_name介绍"></a>Nginx的server_name介绍</h3>服务器名称通过使用server_name指令来定义并决定哪个服务器块(server block)将用于给定的请求。可以使用精确名称，通配符和正则表达式。</li>
 </ul>
+<p>当通过名称搜索虚拟服务器时， 如果名字和多个指定的变量匹配， 例如同时匹配通配符和正 则表达式，在下面的优先级次序中，第一个匹配的变量将被选择：</p>
 <ol>
 <li>精确名称</li>
 <li>星号开头的最长的通配符名称, 例如 “*.example.org”</li>
 <li>星号结束的最长的通配符名称, 例如 “mail.*”</li>
-<li>第一个匹配的正则表达式(按照出现在配置文件中的顺序)<br>通配符名称可以在名称的开头和结尾包含星号，并且只能紧挨着点号(.)。<br>Nginx所用的正则表达式兼容于Perl编程语言(PCRE)。为了使用正则表达式， 服务器名称必须以波浪号(~)开头<h3 id="Nginx的server指令介绍"><a href="#Nginx的server指令介绍" class="headerlink" title="Nginx的server指令介绍"></a>Nginx的server指令介绍</h3>&emsp;&emsp;server指令用于定义一台服务器的地址和其他参数。地址可以是域名或者IP地址，端口可选， 或者是以”unix:”前缀指定的UNIX-domain socket路径。如果端口没有指定，将使用80端口。 可以解析为多个IP地址的域名将一次性定义多台服务器。<br><code>Syntax: server address [parameters];
+<li>第一个匹配的正则表达式(按照出现在配置文件中的顺序)<br>通配符名称可以在名称的开头和结尾包含星号，并且只能紧挨着点号(.)。<br>Nginx所用的正则表达式兼容于Perl编程语言(PCRE)。为了使用正则表达式， 服务器名称必须以波浪号(~)开头<h3 id="Nginx的server指令介绍"><a href="#Nginx的server指令介绍" class="headerlink" title="Nginx的server指令介绍"></a>Nginx的server指令介绍</h3>server指令用于定义一台服务器的地址和其他参数。地址可以是域名或者IP地址，端口可选， 或者是以”unix:”前缀指定的UNIX-domain socket路径。如果端口没有指定，将使用80端口。 可以解析为多个IP地址的域名将一次性定义多台服务器。<br><code>Syntax: server address [parameters];
 Default: —
 Context: upstream
 下面是可用的参数列表。
@@ -697,7 +686,7 @@ server srv3.example.com;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的基本概述"><span class="nav-number">1.</span> <span class="nav-text">Nginx的基本概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的应用场景"><span class="nav-number">2.</span> <span class="nav-text">Nginx的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反向代理和正向代理的区别"><span class="nav-number">3.</span> <span class="nav-text">反向代理和正向代理的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四层和七层负载均衡的区别"><span class="nav-number">4.</span> <span class="nav-text">四层和七层负载均衡的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx常用命令"><span class="nav-number">5.</span> <span class="nav-text">Nginx常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡产生的问题"><span class="nav-number">6.</span> <span class="nav-text">负载均衡产生的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的配置详解"><span class="nav-number">7.</span> <span class="nav-text">Nginx的配置详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">7.1.</span> <span class="nav-text">配置文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Virtual-Host-Configs"><span class="nav-number"></span> <span class="nav-text">Virtual Host Configs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件样例"><span class="nav-number">0.1.</span> <span class="nav-text">配置文件样例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ssl-session-cache-shared-SSL-1m"><span class="nav-number"></span> <span class="nav-text">ssl_session_cache    shared:SSL:1m;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ssl-prefer-server-ciphers-on"><span class="nav-number"></span> <span class="nav-text">ssl_prefer_server_ciphers  on;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#location"><span class="nav-number"></span> <span class="nav-text">location &#x2F; {</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#root-html"><span class="nav-number"></span> <span class="nav-text">root   html;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#index-index-html-index-htm"><span class="nav-number"></span> <span class="nav-text">index  index.html index.htm;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number"></span> <span class="nav-text">}</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的Location介绍"><span class="nav-number">0.1.</span> <span class="nav-text">Nginx的Location介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的server-name介绍"><span class="nav-number">0.2.</span> <span class="nav-text">Nginx的server_name介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的server指令介绍"><span class="nav-number">0.3.</span> <span class="nav-text">Nginx的server指令介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的Http的keepalive"><span class="nav-number">0.4.</span> <span class="nav-text">Nginx的Http的keepalive</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx负载均衡算法"><span class="nav-number">1.</span> <span class="nav-text">Nginx负载均衡算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consul-upsync-nginx实现动态负载均衡"><span class="nav-number">2.</span> <span class="nav-text">Consul+upsync+nginx实现动态负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lvs-keepalive-nginx实现高性能负载均衡"><span class="nav-number">3.</span> <span class="nav-text">lvs + keepalive+nginx实现高性能负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalive-nginx实现7-24主从双机热备"><span class="nav-number">4.</span> <span class="nav-text">keepalive+nginx实现7 * 24主从双机热备</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的基本概述"><span class="nav-number">1.</span> <span class="nav-text">Nginx的基本概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的应用场景"><span class="nav-number">2.</span> <span class="nav-text">Nginx的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反向代理和正向代理的区别"><span class="nav-number">3.</span> <span class="nav-text">反向代理和正向代理的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四层和七层负载均衡的区别"><span class="nav-number">4.</span> <span class="nav-text">四层和七层负载均衡的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx常用命令"><span class="nav-number">5.</span> <span class="nav-text">Nginx常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡产生的问题"><span class="nav-number">6.</span> <span class="nav-text">负载均衡产生的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的配置详解"><span class="nav-number">7.</span> <span class="nav-text">Nginx的配置详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">7.1.</span> <span class="nav-text">配置文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Virtual-Host-Configs"><span class="nav-number"></span> <span class="nav-text">Virtual Host Configs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的Location介绍"><span class="nav-number">0.1.</span> <span class="nav-text">Nginx的Location介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的server-name介绍"><span class="nav-number">0.2.</span> <span class="nav-text">Nginx的server_name介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的server指令介绍"><span class="nav-number">0.3.</span> <span class="nav-text">Nginx的server指令介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx的Http的keepalive"><span class="nav-number">0.4.</span> <span class="nav-text">Nginx的Http的keepalive</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx负载均衡算法"><span class="nav-number">1.</span> <span class="nav-text">Nginx负载均衡算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consul-upsync-nginx实现动态负载均衡"><span class="nav-number">2.</span> <span class="nav-text">Consul+upsync+nginx实现动态负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lvs-keepalive-nginx实现高性能负载均衡"><span class="nav-number">3.</span> <span class="nav-text">lvs + keepalive+nginx实现高性能负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalive-nginx实现7-24主从双机热备"><span class="nav-number">4.</span> <span class="nav-text">keepalive+nginx实现7 * 24主从双机热备</span></a></li></ol></div>
             
 
           </div>
