@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Nginx的基本概述&amp;emsp;&amp;emsp;Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。&amp;emsp;&amp;emsp;N">
+<meta name="description" content="Nginx的基本概述&amp;emsp;&amp;emsp;Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。 &amp;emsp;&amp;emsp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx概述和使用">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Nginx的基本概述&amp;emsp;&amp;emsp;Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。&amp;emsp;&amp;emsp;N">
+<meta property="og:description" content="Nginx的基本概述&amp;emsp;&amp;emsp;Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。 &amp;emsp;&amp;emsp;">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/15841870935903.jpg">
 <meta property="article:published_time" content="2020-03-14T11:54:11.940Z">
-<meta property="article:modified_time" content="2020-03-16T08:25:52.203Z">
+<meta property="article:modified_time" content="2020-03-16T08:40:44.399Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -333,7 +333,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T16:25:52+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T16:40:44+08:00">
                 2020-03-16
               </time>
             
@@ -394,7 +394,8 @@
       
 
       
-        <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>&emsp;&emsp;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。<br>&emsp;&emsp;Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
+        <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>&emsp;&emsp;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。</p>
+<p>&emsp;&emsp;Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
 <ul>
 <li>作为 Web 服务器：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.</li>
 <li>作为负载均衡服务器：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。<a id="more"></a></li>
