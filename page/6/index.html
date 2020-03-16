@@ -329,7 +329,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T15:35:05+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T15:46:50+08:00">
                 2020-03-16
               </time>
             
@@ -386,20 +386,18 @@
 
       
         
-          
-            <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
+          <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
 <li>读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</li>
 <li>正控：若要使用某个对象，需要自己去负责对象的创建</li>
 <li>反控：若要使用某个对象，只需要从Spring容器中获取需要使用的对象，不关心对象的创建过程，也就是把创建对象的控制权反转给了Spring框架</li>
-<li>好莱坞法则： Don’t call me ,I’ll call you<br>&emsp;&emsp;在Spring中，bean作用域用于确定哪种类型的 bean 实例应该从Spring容器中返回给调用者。bean支持的5种范围域：<br>  ⁃    单例 - 每个Spring IoC 容器返回一个bean实例<br>  ⁃    原型- 当每次请求时返回一个新的bean实例<br>  ⁃    请求 - 返回每个HTTP请求的一个Bean实例<br>  ⁃    会话 - 返回每个HTTP会话的一个bean实例<br>  ⁃    全局会话- 返回全局HTTP会话的一个bean实例<br>&emsp;&emsp;在大多数情况下，可能只处理了 Spring 的核心作用域 - 单例和原型，默认作用域是单例。</li>
-</ul>
-<h2 id="DI：Dependency-Injection（依赖注入）"><a href="#DI：Dependency-Injection（依赖注入）" class="headerlink" title="DI：Dependency Injection（依赖注入）"></a>DI：Dependency Injection（依赖注入）</h2><p>&emsp;&emsp;DI是指 Spring 创建对象的过程中，将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。主要包含两种形式：</p>
-<ul>
-<li>Setter方法注入</li>
-<li>构造器注入<h3 id="IoC-如何实现的"><a href="#IoC-如何实现的" class="headerlink" title="IoC 如何实现的"></a>IoC 如何实现的</h3>&emsp;&emsp;最后简单说说IoC是如何实现的。想象一下如果我们自己来实现这个依赖注入的功能，我们怎么来做？ 无外乎：<br>  1    读取标注或者配置文件，看看JuiceMaker依赖的是哪个Source，拿到类名<br>  2    使用反射的API，基于类名实例化对应的对象实例<br>  3    将对象实例，通过构造函数或者 setter，传递给 JuiceMaker<br>&emsp;&emsp;发现其实自己来实现也不是很难，Spring实际也就是这么做的。这么看的话其实IoC就是一个工厂模式的升级版！当然要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring不仅提供了一个已经成为业界标准的Java IoC框架，还提供了更多强大的功能，所以就别去造轮子啦！希望了解IoC更多实现细节不妨通过学习Spring的源码来加深理解！</li>
-</ul>
-
-          
+<li>好莱坞法则： Don’t call me ,I’ll call you</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -493,7 +491,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T15:30:53+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T15:45:28+08:00">
                 2020-03-16
               </time>
             
@@ -550,18 +548,14 @@
 
       
         
-          
-            <h2 id="什么是Spring"><a href="#什么是Spring" class="headerlink" title="什么是Spring"></a>什么是Spring</h2><p>&ensp;&ensp;Spring框架是Java应用最广的框架，它的成功来源于理念，而不是技术本身，它的理念包括IoC (Inversion of Control，控制反转) 和 AOP(Aspect Oriented Programming，面向切面编程)。<br>Spring 是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作 《Expert one on one J2EE design and development》 中阐述的部分理念和原型衍生而来。Spring提倡以“最少侵入” 的方式来管理应用中的代码，这意味着我们可以随时安装或者卸载 Spring。<br>    •    适用范围：任何 Java 应用<br>    •    Spring 的根本使命：简化 Java 开发</p>
-<h2 id="Spring中的常用术语"><a href="#Spring中的常用术语" class="headerlink" title="Spring中的常用术语"></a>Spring中的常用术语</h2><ul>
-<li>框架：是能完成一定功能的半成品。框架能够帮助我们完成的是：项目的整体框架、一些基础功能、规定了类和对象如何创建，如何协作等，当我们开发一个项目时，框架帮助我们完成了一部分功能，我们自己再完成一部分，那这个项目就完成了。</li>
-<li>非侵入式设计：从框架的角度可以理解为：无需继承框架提供的任何类。这样我们在更换框架时，之前写过的代码几乎可以继续使用。</li>
-<li>轻量级和重量级：轻量级是相对于重量级而言的，轻量级一般就是非入侵性的、所依赖的东西非常少、资源占用非常少、部署简单等等，其实就是比较容易使用，而重量级正好相反。</li>
-<li>JavaBean：即符合 JavaBean 规范的 Java 类</li>
-<li>POJO：即 Plain Old Java Objects，简单老式 Java 对象。它可以包含业务逻辑或持久化逻辑，但不担当任何特殊角色且不继承或不实现任何其它Java框架的类或接口。</li>
-<li>容器：在日常生活中容器就是一种盛放东西的器具，从程序设计角度看就是装对象的的对象，因为存在放入、拿出等操作，所以容器还要管理对象的生命周期。<h2 id="Spring的优势"><a href="#Spring的优势" class="headerlink" title="Spring的优势"></a>Spring的优势</h2>  •    低侵入 / 低耦合 （降低组件之间的耦合度，实现软件各层之间的解耦）<br>  •    声明式事务管理（基于切面和惯例）<br>  •    方便集成其他框架（如MyBatis、Hibernate）<br>  •    降低 Java 开发难度<br>  •    Spring 框架中包括了 J2EE 三层的每一层的解决方案（一站式）<h2 id="Spring能做什么"><a href="#Spring能做什么" class="headerlink" title="Spring能做什么"></a>Spring能做什么</h2>①.Spring 能帮我们根据配置文件创建及组装对象之间的依赖关系。<br>②.Spring 面向切面编程能帮助我们无耦合的实现日志记录，性能统计，安全控制。<br>③.Spring 能非常简单的帮我们管理数据库事务。<br>④.Spring还提供了与第三方数据访问框架（如Hibernate、JPA）无缝集成，而且自己也提供了一套JDBC访问模板来方便数据库访问。<br>⑤.Spring还提供与第三方Web（如Struts1/2、JSF）框架无缝集成，而且自己也提供了一套SpringMVC框架，来方便web层搭建。<br>⑥.Spring 能方便的与Java EE（如Java Mail、任务调度）整合，与更多技术整合（比如缓存框架）。<h2 id="Spring框架结构"><a href="#Spring框架结构" class="headerlink" title="Spring框架结构"></a>Spring框架结构</h2><img src="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/15841862881334.jpg" alt><br>  •    Data Access/Integration层包含有JDBC、ORM、OXM、JMS和Transaction模块。<br>  •    Web层包含了Web、Web-Servlet、WebSocket、Web-Porlet模块。<br>  •    AOP模块提供了一个符合AOP联盟标准的面向切面编程的实现。<br>  •    Core Container(核心容器)： 包含有Beans、Core、Context和SpEL模块。<br>  •    Test模块支持使用JUnit和TestNG对Spring组件进行测试</li>
-</ul>
-
-          
+          <h2 id="什么是Spring"><a href="#什么是Spring" class="headerlink" title="什么是Spring"></a>什么是Spring</h2><p>&ensp;&ensp;Spring框架是Java应用最广的框架，它的成功来源于理念，而不是技术本身，它的理念包括IoC (Inversion of Control，控制反转) 和 AOP(Aspect Oriented Programming，面向切面编程)。<br>Spring 是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作 《Expert one on one J2EE design and development》 中阐述的部分理念和原型衍生而来。Spring提倡以“最少侵入” 的方式来管理应用中的代码，这意味着我们可以随时安装或者卸载 Spring。<br>    •    适用范围：任何 Java 应用<br>    •    Spring 的根本使命：简化 Java 开发</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
