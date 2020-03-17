@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="安装Shadowsocks准备工作：    1.    准备一台可以访问google的外网服务器    2.    服务器的系统为redhat    3.    使用具有sudo权限的普通用户开始安装：sudo yum install -y python-setuptoolssudo easy_install pipSudo yum install -y gitsudo pip install g">
+<meta name="description" content="###准备工作  准备一台可以访问google的外网服务器 服务器的系统为redhat 使用具有sudo权限的普通用户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ShadowSocks安装配置">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="安装Shadowsocks准备工作：    1.    准备一台可以访问google的外网服务器    2.    服务器的系统为redhat    3.    使用具有sudo权限的普通用户开始安装：sudo yum install -y python-setuptoolssudo easy_install pipSudo yum install -y gitsudo pip install g">
+<meta property="og:description" content="###准备工作  准备一台可以访问google的外网服务器 服务器的系统为redhat 使用具有sudo权限的普通用户">
 <meta property="article:published_time" content="2020-03-15T05:06:28.813Z">
-<meta property="article:modified_time" content="2020-03-15T05:08:57.806Z">
+<meta property="article:modified_time" content="2020-03-17T04:19:02.053Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T13:08:57+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T12:19:02+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,8 +392,99 @@
       
 
       
-        <h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks"></a>安装Shadowsocks</h2><p>准备工作：<br>    1.    准备一台可以访问google的外网服务器<br>    2.    服务器的系统为redhat<br>    3.    使用具有sudo权限的普通用户<br>开始安装：<br>sudo yum install -y python-setuptools<br>sudo easy_install pip<br>Sudo yum install -y git<br>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a><br>配置Shadowsocks<br>创建目录：<br>sudo mkdir /etc/shadowsocks<br>创建及编辑配置文件：<br>sudo vim /etc/shadowsocks/config.json<br>{<br>“server”: “0.0.0.0”,<br>“server_port”: 443,<br>“local_address”: “127.0.0.1”,<br>“local_port”: 1080,<br>“password”: “celerysoft.github.io”,<br>“timeout”: 300,<br>“method”: “aes-256-cfb”,<br>“fast_open”: false,<br>“workers”: 1<br>}<br>配置文件说明：<br>| | |<br>|—|—|<br>|server|服务端监听地址(IPv4或IPv6)|<br>|server_port|服务端端口，一般为443|<br>|local_address|本地监听地址，缺省为127.0.0.1|<br>|local_port|本地监听端口，一般为1080|<br>|password|用以加密的密匙|<br>|timeout|超时时间（秒）|<br>|method|加密方法，默认为aes-256-cfb|<br>|fast_open|是否启用tcp-fast-open，true或者false|<br>|workers|Worker的数量，如果不理解含义请不要改（这个只在Unix和Linux下有用）|</p>
-<h2 id="管理Shadowsocks服务器"><a href="#管理Shadowsocks服务器" class="headerlink" title="管理Shadowsocks服务器"></a>管理Shadowsocks服务器</h2><p>查看帮助：<br>ssserver -h<br>启动Shadowsocks：<br>sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d start<br>关闭Shadowsocks：<br>sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d stop</p>
+        <p>###准备工作</p>
+<ol>
+<li>准备一台可以访问google的外网服务器</li>
+<li>服务器的系统为redhat</li>
+<li>使用具有sudo权限的普通用户<a id="more"></a><h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y python-setuptools</span><br><span class="line">sudo easy_install pip</span><br><span class="line">Sudo yum install -y git</span><br><span class="line">sudo pip install git+https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks.git@master</span><br></pre></td></tr></table></figure>
+<h3 id="配置Shadowsocks"><a href="#配置Shadowsocks" class="headerlink" title="配置Shadowsocks"></a>配置Shadowsocks</h3>创建目录<br><code>sudo mkdir /etc/shadowsocks</code><br>创建及编辑配置文件<pre><code>sudo vim /etc/shadowsocks/config.json
+{
+&quot;server&quot;: &quot;0.0.0.0&quot;,
+&quot;server_port&quot;: 443,
+&quot;local_address&quot;: &quot;127.0.0.1&quot;,
+&quot;local_port&quot;: 1080,
+&quot;password&quot;: &quot;celerysoft.github.io&quot;,
+&quot;timeout&quot;: 300,
+&quot;method&quot;: &quot;aes-256-cfb&quot;,
+&quot;fast_open&quot;: false,
+&quot;workers&quot;: 1
+}
+`
+###配置文件说明
+</code></pre></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>server</td>
+<td>服务端监听地址(IPv4或IPv6)</td>
+</tr>
+<tr>
+<td>server_port</td>
+<td>服务端端口，一般为443</td>
+</tr>
+<tr>
+<td>local_address</td>
+<td>本地监听地址，缺省为127.0.0.1</td>
+</tr>
+<tr>
+<td>local_port</td>
+<td>本地监听端口，一般为1080</td>
+</tr>
+<tr>
+<td>password</td>
+<td>用以加密的密匙</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>超时时间（秒）</td>
+</tr>
+<tr>
+<td>method</td>
+<td>加密方法，默认为aes-256-cfb</td>
+</tr>
+<tr>
+<td>fast_open</td>
+<td>是否启用tcp-fast-open，true或者false</td>
+</tr>
+<tr>
+<td>workers</td>
+<td>Worker的数量，如果不理解含义请不要改（这个只在Unix和Linux下有用）</td>
+</tr>
+<tr>
+<td>## 管理Shadowsocks服务器</td>
+<td></td>
+</tr>
+<tr>
+<td>查看帮助：</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ssserver -h</code></td>
+<td></td>
+</tr>
+<tr>
+<td>启动Shadowsocks：</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d start</code></td>
+<td></td>
+</tr>
+<tr>
+<td>关闭Shadowsocks：</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d stop</code></td>
+<td></td>
+</tr>
+</tbody></table>
 
       
     </div>
@@ -531,7 +622,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -586,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Shadowsocks"><span class="nav-number">1.</span> <span class="nav-text">安装Shadowsocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理Shadowsocks服务器"><span class="nav-number">2.</span> <span class="nav-text">管理Shadowsocks服务器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开始安装"><span class="nav-number">1.</span> <span class="nav-text">开始安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Shadowsocks"><span class="nav-number">2.</span> <span class="nav-text">配置Shadowsocks</span></a></li></ol></div>
             
 
           </div>

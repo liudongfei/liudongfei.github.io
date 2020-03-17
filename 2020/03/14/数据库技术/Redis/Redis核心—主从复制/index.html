@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Redis的主从复制主从复制配置        主：dir          快照和AOF文件的存储位置        主：dbfilename   快照文件的名称        从：slaveof host port  开启从服务器配置主从复制步骤：    1.    从：连接主服务器，发送SYNC命令    2.    主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令">
+<meta name="description" content="主从复制配置主：dir          快照和AOF文件的存储位置主：dbfilename   快照文件的名称从：slaveof host port  开启从服务器配置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis核心—主从复制">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Redis的主从复制主从复制配置        主：dir          快照和AOF文件的存储位置        主：dbfilename   快照文件的名称        从：slaveof host port  开启从服务器配置主从复制步骤：    1.    从：连接主服务器，发送SYNC命令    2.    主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令">
+<meta property="og:description" content="主从复制配置主：dir          快照和AOF文件的存储位置主：dbfilename   快照文件的名称从：slaveof host port  开启从服务器配置">
 <meta property="article:published_time" content="2020-03-14T15:09:26.956Z">
-<meta property="article:modified_time" content="2020-03-14T15:10:00.282Z">
+<meta property="article:modified_time" content="2020-03-17T05:53:14.057Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:00+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:53:14+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,7 +392,22 @@
       
 
       
-        <p>Redis的主从复制<br>主从复制配置<br>        主：dir          快照和AOF文件的存储位置<br>        主：dbfilename   快照文件的名称<br>        从：slaveof host port  开启从服务器配置<br>主从复制步骤：<br>    1.    从：连接主服务器，发送SYNC命令<br>    2.    主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令<br>    3.    从：根据配置选项来决定是否继续使用现有的数据处理客户端请求，还是返回错误<br>    4.    主：完成BGSAVE命令，向从服务器发送快照，发送期间继续使用缓冲区记录命令<br>    5.    从：丢弃所有就数据，开始载入最新的快照文件<br>    6.    主：继续向从服务器发送缓冲区里面的命令<br>    7.    从：完成快照文件载入，开始接收命令请求<br>    8.    主：完成缓冲区里命令的发送，从现在开始每执行一个写命令都要向从服务器发送相同的写命令<br>主从复制的问题：<br>    1.    实际中，最好让主服务器只使用50%～65%的内存，留下30%～45%的内存用于执行BGSAVE命令和创建记录写命令的缓冲区。<br>    2.    Redis不支持主主复制<br>    3.    当多个从服务器同时连接主服务器时，会导致主服务器的带宽占用过高，从而出现性能问题<br>    4.    从服务器同样可以拥有自己的从服务器，从而形成主从链<br>    5.    树形结构的主从链是合理的</p>
+        <h3 id="主从复制配置"><a href="#主从复制配置" class="headerlink" title="主从复制配置"></a>主从复制配置</h3><p>主：dir          快照和AOF文件的存储位置<br>主：dbfilename   快照文件的名称<br>从：slaveof host port  开启从服务器配置 <a id="more"></a></p>
+<h3 id="主从复制步骤："><a href="#主从复制步骤：" class="headerlink" title="主从复制步骤："></a>主从复制步骤：</h3><ol>
+<li>从：连接主服务器，发送SYNC命令</li>
+<li>主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令</li>
+<li>从：根据配置选项来决定是否继续使用现有的数据处理客户端请求，还是返回错误</li>
+<li>主：完成BGSAVE命令，向从服务器发送快照，发送期间继续使用缓冲区记录命令</li>
+<li>从：丢弃所有就数据，开始载入最新的快照文件</li>
+<li>主：继续向从服务器发送缓冲区里面的命令</li>
+<li>从：完成快照文件载入，开始接收命令请求</li>
+<li>主：完成缓冲区里命令的发送，从现在开始每执行一个写命令都要向从服务器发送相同的写命令<h3 id="主从复制的问题："><a href="#主从复制的问题：" class="headerlink" title="主从复制的问题："></a>主从复制的问题：</h3></li>
+<li>实际中，最好让主服务器只使用50%～65%的内存，留下30%～45%的内存用于执行BGSAVE命令和创建记录写命令的缓冲区。</li>
+<li>Redis不支持主主复制</li>
+<li>当多个从服务器同时连接主服务器时，会导致主服务器的带宽占用过高，从而出现性能问题</li>
+<li>从服务器同样可以拥有自己的从服务器，从而形成主从链</li>
+<li>树形结构的主从链是合理的</li>
+</ol>
 
       
     </div>
@@ -505,8 +520,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +545,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +590,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制配置"><span class="nav-number">1.</span> <span class="nav-text">主从复制配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制步骤："><span class="nav-number">2.</span> <span class="nav-text">主从复制步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制的问题："><span class="nav-number">3.</span> <span class="nav-text">主从复制的问题：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -282,196 +282,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">RabbitMQ基础—知识结构概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:26:54+08:00">
-                2020-03-15
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:27:42+08:00">
-                2020-03-15
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>1.    组件介绍
-1.    常用命令
-a.    列出当前队列、队列信息数量、队列未确认信息数量
-i.    rabbitmqctl list_queues
-ii.    rabbitmqctl list_queues name messages_ready messages_unacknowledged
-a.    列出当前交换机
-i.    rabbitmqctl list_exchanges
-b.    列出当前交换机和队列的绑定
-i.    rabbitmqctl list_bindings
-1.    核心组件
-a.    exchange：
-i.    Direct：通过routing_key指定队列名称
-ii.    Fanout：扇形交换机
-iii.    Headers：
-iv.    topic：主题交换机
-b.    queue：
-c.    Routing_key
-1.    Python 开发
-a.    Pika组件：
-i.    exchange声明
-ii.    queue声明
-iii.    binding声明
-iv.    分发策略声明
-1.    Java 开发
-1.    配置调优 </code></pre><p>安装rabbitmq<br>安装rabbitmq<br>yum install rabbitmq-server<br>rabbitmq-plugins enable rabbitmq_management<br>启动rabbitmq server<br>service rabbitmq-server restart<br>chkconfig rabbitmq-server on<br>更改初始密码<br>rabbitmqctl change_password guest spdb1234<br>RABBITMQ集群搭建</p>
-<ol>
-<li>停止所有节点rabbitmq服务：rabbitmqctl stop</li>
-<li>备份非主节点bdpcm02、bdputil02的erlange.cookie<br>mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.bak</li>
-<li>将主节点bdputil01上的erlange.cookie复制到其他节点/var/lib/rabbitmq目录下。</li>
-<li>修改所有节点上，erlange.cookie的权限<br>chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie<br>chmod 600 /var/lib/rabbitmq/.erlang.cookie</li>
-<li>启动Master节点的rabbitmq进程<br>rabbitmq-server -detached</li>
-<li>在Slave节点上，执行如下操作加入集群<br>#启动rabbitmq<br>1)    rabbitmq-server -detached<br>#停止rabbitmq<br>2)    rabbitmqctl stop_app<br>#将该节点加入集群<br>3)    rabbitmqctl join_cluster rabbit@bdputil01<br>#启动<br>4)    rabbitmqctl start_app<br>#查看集群状态<br>5)    rabbitmqctl cluster_status</li>
-<li>配置高可用参数<br>#打开任意节点的RabbitMQ管理页面<br>ip:15672<br>（上方导航栏）Admin-&gt;（右侧导航栏）Policies<br>#添加配置信息 Add/update a policy<br>Name: ha-all<br>Pattern:<br>spdb<br>Definitions:<br>ha-mode=all<br>ha-sync-mode=automatic<br>Priority: 0</li>
-<li>使用HAProxy做负载均衡<br>使用ps -ef|grep haproxy查找当前执行的配置文件<br>进入配置文件，添加如下内容：<br>listen rabbitmq_admin<br>bind 0.0.0.0:15673<br>server rabbitmq1 bdputil01:15672<br>server rabbitmq2 bdputil02:15672<br>server rabbitmq3 bdpcm02:15672</li>
-</ol>
-<p>listen rabbitmq_cluster<br>    bind 0.0.0.0:5673<br>    #配置TCP模式<br>    mode tcp<br>    option tcplog<br>    #简单的轮询<br>    balance roundrobin<br>    #rabbitmq集群节点配置<br>    server rabbitmq1 bdputil01:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq2 bdputil02:5672 check inter 5000 rise 2 fall 2<br>    server rabbitmq3 bdpcm02:5672 check inter 5000 rise 2 fall 2</p>
-<p>4.5    登录web页面查看<br> 使用haproxy的ip查看rabbitmq的状态：<br>url：<a href="http://bdputil01:15673" target="_blank" rel="noopener">http://bdputil01:15673</a><br>user：guest<br> passwd：spdb1234</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -519,8 +329,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:25:20+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:38:56+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -677,8 +487,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:24:02+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:38:56+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -734,25 +544,14 @@ iv.    分发策略声明
 
       
         
-          
-            <p>Zookeeper在kafka中作用<br>    正如Zookeeper用于分布式系统的协调和促进，Kafka使用Zookeeper也是基于相同的原因。Zookeeeper用于管理、协调Kafka代理。每个Kafka代理都通过Zookeeper协调其他Kafka代理。当Kafka系统中新增了代理或者某个代理故障失效时，Zookeeper将通知生产者和消费者。生产者和消费者据此开始与其他代理协调工作。<br>    Zookeeper在Kafka中扮演的角色：Kafka将元数据信息保存在Zookeeper中，但是发送给Topic本身的数据不会发到Zk上<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/15842461617830.jpg" alt></p>
-<p>kafka的复制原理<br>kafka采用ISR复制机制进行副本同步<br>HW最高水平线，leader和fllower副本已经同步的消息位置<br>LEO每个log的最后一条消息的位置<br>leader负责ISR的维护<br>如果某个fllower的复制的位置落后leader太多或者时间太长，则会被leader剔除ISR列表存入OSR，leader新写入的消息不能立刻被consumer消费，leader会等待ISR中的副本同步后更新HW才可以被消费<br>ack确认选择权<br>1只需要leader确认<br>0不需要任何broker确认<br>all需要ISR队列中的所有broker确认<br>还可以设置最小同步数min.insync..replicas<br>Kafka分区分配策略<br>问题：<br>    ⽤过 Kafka 的同学⽤过都知道，每个 Topic ⼀般会有很多个 partitions。为了使得我们能够及时消费消息， 我们也可能会启动多个 Consumer 去消费， ⽽每个 Consumer ⼜会启动⼀个或多个streams去分别消费 Topic ⾥⾯的数据。 我们⼜知道， Kafka 存在 Consumer Group 的概念， 也就是 group.id ⼀样的 Consumer， 这些 Consumer 属于同⼀个Consumer Group， 组内的所有消费者协调在⼀起来消费订阅主题 (subscribed topics)的所有分区(partition)。 当然， 每个分区只能由同⼀个消费组内的⼀个consumer来消 费。 那么问题来了， 同⼀个 Consumer Group ⾥⾯的 Consumer 是如何知道该消费哪些分区⾥⾯的数据呢？<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/15842461781688.jpg" alt></p>
-<pre><code>如上图，Consumer1 为啥消费的是 Partition0 和 Partition2，⽽不是 Partition0 和 Partition3？这就涉及到 Kafka 内部分区分配策略（Partition Assignment Strategy）了。
-在 Kafka 内部存在两种默认的分区分配策略：Range 和 RoundRobin。 当以下事件发⽣时， Kafka 将会进 ⾏⼀次分区分配：
-•    同⼀个 Consumer Group 内新增消费者
-•    消费者离开当前所属的Consumer Group，包括shuts down 或 crashes
-•    订阅的主题新增分区
-将分区的所有权从⼀个消费者移到另⼀个消费者称为重新平衡（rebalance）， 如何rebalance就涉及到本 ⽂提到的分区分配策略。下⾯我们将详细介绍 Kafka 内置的两种分区分配策略。本⽂假设我们有个名为 T1 的主题， 其包含了10个分区， 然后我们有两个消费者（C1， C2）来消费这10个分区⾥⾯的数据， ⽽且 C1 的 num.streams = 1，C2 的 num.streams = 2。</code></pre><p>Range strategy：<br>    Range策略是对每个主题⽽⾔的， ⾸先对同⼀个主题⾥⾯的分区按照序号进⾏排序， 并对消费者按照字⺟ 顺序进⾏排序。在我们的例⼦⾥⾯，排完序的分区将会是0, 1, 2, 3, 4, 5, 6, 7, 8, 9；消费者线程排完序将会 是C1-0, C2-0, C2-1。 然后将partitions的个数除于消费者线程的总数来决定每个消费者线程消费⼏个分 区。 如果除不尽， 那么前⾯⼏个消费者线程将会多消费⼀个分区。 在我们的例⼦⾥⾯， 我们有10个分区， 3个消费者线程， 10 / 3 = 3， ⽽且除不尽， 那么消费者线程 C1-0 将会多消费⼀个分区， 所以最后分区分 配的结果看起来是这样的：<br>C1-0 将消费 0, 1, 2, 3 分区<br>C2-0 将消费 4, 5, 6 分区<br>C2-1 将消费 7, 8, 9 分区<br>假如我们有11个分区，那么最后分区分配的结果看起来是这样的：<br>C1-0 将消费 0, 1, 2, 3 分区<br>C2-0 将消费 4, 5, 6, 7 分区<br>C2-1 将消费 8, 9, 10 分区<br>假如我们有2个主题(T1和T2)，分别有10个分区，那么最后分区分配的结果看起来是这样的：<br>C1-0 将消费 T1主题的 0, 1, 2, 3 分区以及 T2主题的 0, 1, 2, 3分区<br>C2-0 将消费 T1主题的 4, 5, 6 分区以及 T2主题的 4, 5, 6分区<br>C2-1 将消费 T1主题的 7, 8, 9 分区以及 T2主题的 7, 8, 9分区<br>    可以看出， C1-0 消费者线程⽐其他消费者线程多消费了2个分区， 这就是Range strategy的⼀个很明显的弊端。<br>RoundRobin strategy：<br>使⽤RoundRobin策略有两个前提条件必须满⾜：<br>    •    同⼀个Consumer Group⾥⾯的所有消费者的num.streams必须相等；<br>    •    每个消费者订阅的主题必须相同。<br>所以这⾥假设前⾯提到的2个消费者的num.streams = 2。 RoundRobin策略的⼯作原理：将所有主题的分 区组成 TopicAndPartition 列表， 然后对 TopicAndPartition 列表按照 hashCode 进⾏排序， 这⾥⽂字可能 说不清，看下⾯的代码应该会明⽩：<br>val allTopicPartitions = ctx.partitionsForTopic.flatMap { case(topic, partitions) =&gt;<br>info(“Consumer %s rebalancing the following partitions for topic %s: %s” .format(ctx.consumerId, topic, partitions))<br>partitions.map(partition =&gt; { TopicAndPartition(topic, partition) })<br>}.toSeq.sortWith((topicPartition1, topicPartition2) =&gt; {<br>/* * Randomize the order by taking the hashcode to reduce the likelihood of all partitions of a given topic ending </p>
-<ul>
-<li>up on one consumer (if it has a high enough stream count).</li>
-<li>/<br>topicPartition1.toString.hashCode &lt; topicPartition2.toString.hashCode })<br>最后按照round-robin⻛格将分区分别分配给不同的消费者线程。<br>在我们的例⼦⾥⾯， 加⼊按照 hashCode 排序完的topic-partitions组依次为T1-5, T1-3, T1-0, T1-8, T1-2, T1-1, T1-4, T1-7, T1-6, T1-9， 我们的消费者线程排序为C1-0, C1-1, C2-0, C2-1， 最后分区分配的结果<br>为：<br>C1-0 将消费 T1-5, T1-2, T1-6 分区；<br>C1-1 将消费 T1-3, T1-1, T1-9 分区；<br>C2-0 将消费 T1-0, T1-4 分区；<br>C2-1 将消费 T1-8, T1-7 分区；<br>多个主题的分区分配和单个主题类似，这⾥就不在介绍了。<br>   根据上⾯的详细介绍相信⼤家已经对Kafka的分区分配策略原理很清楚了。不过遗憾的是，⽬前我们还不能 ⾃定义分区分配策略， 只能通过partition.assignment.strategy参数选择 range 或 roundrobin。 partition.assignment.strategy参数默认的值是range。</li>
-</ul>
-<p><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/15842461923334.jpg" alt></p>
-<p>对主题进行删除时，不是物理删除而是标记删除，<br>标记删除主题可以继续进行生产和消费<br>需要进行kafka重启后进行物理删除<br>当存在多个副本时，不会同时以多个副本对外写入与读出，而是保证高可靠<br>生产者发送消息到kafka可以采用同步或异步两种方式<br>何时返回确认消息呢？<br>     第一种，所有副本写好后返回，<br>     第二种，不用确认，<br>     第三种，leader副本确认<br>     第四种，部分确认<br>  此时会产生数据丢失或者数据重复的问题<br>副本所在的broker挂掉后，在没有rebanlence下副本是不会再复制一份<br>ISR：当前所有可用副本，重新选举leader副本时需要</p>
-<p>自定义分区<br>实现partitioner接口</p>
-<p>消息中间健选型</p>
-
-          
+          <h3 id="Zookeeper在kafka中作用"><a href="#Zookeeper在kafka中作用" class="headerlink" title="Zookeeper在kafka中作用"></a>Zookeeper在kafka中作用</h3><p>正如Zookeeper用于分布式系统的协调和促进，Kafka使用Zookeeper也是基于相同的原因。Zookeeeper用于管理、协调Kafka代理。每个Kafka代理都通过Zookeeper协调其他Kafka代理。当Kafka系统中新增了代理或者某个代理故障失效时，Zookeeper将通知生产者和消费者。生产者和消费者据此开始与其他代理协调工作。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -846,8 +645,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:21:18+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:38:43+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -903,12 +702,14 @@ iv.    分发策略声明
 
       
         
-          
-            <p>Kafka日志说明<br>    日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459478405.jpg" alt="-w376"><br>partition是分段的，每个段叫LogSegment，包括了一个数据文件和一个索引文件，下图是某个partition目录下的文件：<br>后缀“.index”和“.log”分别表示segment索引文件、数据文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459591845.jpg" alt="-w345"></p>
-<p>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message<br>的物理偏移地址。索引文件是为了提高插销的效率。<br>索引包含两个部分（均为4个字节的数字），分别为相对offset和position（物理偏移地址）。相对offset=数据文件offset -数据文件名offset<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459699322.jpg" alt="-w404"></p>
-<p>数据文件根据大小（默认1G）和回滚时间（通过配置文件设置）回滚，回滚的名称由起始的offset命名。<br>日志的清理方式有两种：<br>        delete方式通过设置过期时间和分区内总日志的大小<br>        compact方式是相同的key保留offset最大的消息<br>Two-level Api<br>High-level Api：由Zookeeper维护消费者的offset。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459855787.jpg" alt><br>Low-level Api：自己写代码实现对offset的维护。往往比较复杂，所以多数情况下使用High-level Api。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459976235.jpg" alt></p>
-
-          
+          <h3 id="Kafka日志说明"><a href="#Kafka日志说明" class="headerlink" title="Kafka日志说明"></a>Kafka日志说明</h3><p>日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1002,8 +803,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:19:00+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:38:19+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1059,17 +860,15 @@ iv.    分发策略声明
 
       
         
-          
-            <h2 id="Kafka介绍"><a href="#Kafka介绍" class="headerlink" title="Kafka介绍"></a>Kafka介绍</h2><h3 id="消息队列的类型"><a href="#消息队列的类型" class="headerlink" title="消息队列的类型"></a>消息队列的类型</h3><p>1)    点对点（P2P）：  一个生产者生产的消息只有一个消费者，消息只能被消费一次。<br>2)    发布订阅 Pub/Sub 每个消息放到指定的topci中，可以有多个消费者消费，互不影响。</p>
-<h3 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h3><p>Kafka是linkedin用于日志处理的分布式消息队列，同时支持离线和在线日志处理。kafka对消息保存时根据Topic进行归类，发送消息者成为Producer,消息接受者成为Consumer,此外kafka集群有多个kafka实例组成，每个实例(server)称为broker。无论是kafka集群，还是producer和consumer都依赖于zookeeper来保证系统可用性，为集群保存一些meta信息。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842455031660.jpg" alt></p>
-<p>kafka并没有提供JMS中的”事务性”、”消息确认机制”、”消息分组”等企业级特性，kafka只能作为”常规”的消息系统,在一定程度上,尚未确保消息的发送与接收绝对可靠(比如,消息重发,消息发送丢失等)。</p>
-<h3 id="Kafka组件说明"><a href="#Kafka组件说明" class="headerlink" title="Kafka组件说明"></a>Kafka组件说明</h3><p><strong>Topic/logs</strong><br>一个Topic可以认为是一类消息，每个topic将被分成多个partition(区),每个partition在存储层面是appendlog文件。任何发布到此partition的消息都会被直接追加到log文件的尾部，每条消息在文件中的位置称为offset（偏移量），offset为一个long型数字，它是唯一标记一条消息。kafka并没有提供其他额外的索引机制来存储offset，因为在kafka中几乎不允许对消息进行“随机读写”。</p>
-<p>在kafka中，即使消息被消费,消息仍然不会被立即删除。日志文件将会根据broker中的配置要求,保留一定的时间之后删除;比如log文件保留2天,那么两天后,文件会被清除,无论其中的消息是否被消费。kafka通过这种简单的手段,来释放磁盘空间,以及减少消息消费之后对文件内容改动的磁盘IO开支。<br>对于consumer而言,它需要保存消费消息的offset,对于offset的保存和使用,由consumer来控制;当consumer正常消费消息时,offset将会”线性”的向前驱动,即消息将依次顺序被消费。事实上consumer可以使用任意顺序消费消息,它只需要将offset重置为任意值。(offset将会保存在zookeeper中,参见下文)<br>kafka集群几乎不需要维护任何consumer和producer状态信息,这些信息由zookeeper保存;因此producer和consumer的客户端实现非常轻量级,它们可以随意离开,而不会对集群造成额外的影响。<br>partitions的设计目的有多个。最根本原因是kafka基于文件存储。通过分区,可以将日志内容分散到多个server上,来避免文件尺寸达到单机磁盘的上限,每个partiton都会被当前server(kafka实例)保存;可以将一个topic切分多任意多个partitions来保存消息。此外越多的partitions意味着可以容纳更多的consumer,有效提升并发消费的能力。(具体原理参见下文)。<br><strong>Distribution</strong><br>一个Topic的多个partitions,被分布在kafka集群中的多个server上;每个server(kafka实例)负责partitions中消息的读写操作;此外kafka还可以配置partitions需要备份的个数(replicas),每个partition将会被备份到多台机器上,以提高可用性，副本数要小于broker数量。<br>基于replicated方案,那么就意味着需要对多个备份进行调度;每个partition都有一个server为”leader”;leader负责所有的读写操作,如果leader失效,那么将会有其他follower来接管(成为新的leader);follower只是单调的和leader跟进,同步消息即可。由此可见作为leader的server承载了全部的请求压力,因此从集群的整体考虑,有多少个partitions就意味着有多少个”leader”,kafka会将”leader”均衡的分散在每个实例上,来确保整体的性能稳定。<br><strong>Producers</strong><br>    Producer将消息发布到指定的Topic中,同时Producer也能决定将此消息归属于哪个partition;比如基于”round-robin”方式或者通过其他的一些算法等。<br><strong>Consumers</strong><br>    本质上kafka只支持Topic。每个consumer属于一个consumergroup;反过来说,每个group中可以有多个consumer。发送到Topic的消息,只会被订阅此Topic的每个group中的一个consumer消费。<br>    如果所有的consumer都具有相同的group,这种情况和queue模式很像;消息将会在consumers之间负载均衡。<br>    如果所有的consumer都具有不同的group,那这就是”发布-订阅”，消息将会广播给所有的消费者。<br>    在kafka中,一个partition中的消息只会被group中的一个consumer消费;每个group中consumer消息消费互相独立;我们可以认为一个group是一个”订阅”者,一个Topic中的每个partions,只会被一个”订阅者”中的一个consumer消费,不过一个consumer可以消费多个partitions中的消息。kafka只能保证一个partition中的消息被某个consumer消费时,消息是顺序的。事实上,从Topic角度来说,消息仍不是有序的。<br>    kafka的设计原理决定,对于一个topic,同一个group中不能有多于partitions个数的consumer同时消费,否则将意味着某些consumer将无法得到消息。</p>
-<h3 id="主要配置"><a href="#主要配置" class="headerlink" title="主要配置"></a>主要配置</h3><p>Broker配置<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842455892707.jpg" alt></p>
-<p>Consumer配置<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842455991188.jpg" alt></p>
-<p>Producer配置<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842456079903.jpg" alt></p>
-
-          
+          <h2 id="Kafka介绍"><a href="#Kafka介绍" class="headerlink" title="Kafka介绍"></a>Kafka介绍</h2><h3 id="消息队列的类型"><a href="#消息队列的类型" class="headerlink" title="消息队列的类型"></a>消息队列的类型</h3><p>1)    点对点（P2P）：  一个生产者生产的消息只有一个消费者，消息只能被消费一次。<br>2)    发布订阅 Pub/Sub：每个消息放到指定的topci中，可以有多个消费者消费，互不影响。</p>
+<h3 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h3><p>Kafka是linkedin用于日志处理的分布式消息队列，同时支持离线和在线日志处理。kafka对消息保存时根据Topic进行归类，发送消息者成为Producer,消息接受者成为Consumer,此外kafka集群有多个kafka实例组成，每个实例(server)称为broker。无论是kafka集群，还是producer和consumer都依赖于zookeeper来保证系统可用性，为集群保存一些meta信息。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1483,8 +1282,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:16:53+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T11:04:46+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1540,10 +1339,21 @@ iv.    分发策略声明
 
       
         
-          
-            <p>Sqoop(Sql to Hadoop)的安装<br>    配置HADOOP_COMMON_HOME<br>    配置HADOOP_MAPRED_HOME<br>    配置HIVE_HOME<br>Sqoop使用<br>    要点<br>        HDFS端：path，文件导入或导出路径<br>        HIVE端：tablename，要导入或导出的表<br>        RDBMS端：<br>            connect，连接的URL<br>            username，连接的用户名<br>            password，连接的密码<br>            tablename，要连接的表<br>        方式：import/export<br>    帮助命令<br>        sqoop help，全局命令查看<br>        sqoop help command，指定命令查看<br>    常用命令<br>        RDBMS导入hdfs<br>            没指定目标路径时，会在用户目录下<br>            使用自定义查询导入，—query（一定要有where条件，其中还要有$CONDITIONS）<br>            使用自定义列导入，–columns<br>            使用自定义并发个数，–num-mappers<br>            使用自定义存储格式，–as-avrodatafile，–as-textfile等<br>            使用自定义数据压缩，–compress –compression-codec<br>            使用删除目标路径，–delete-target-dir<br>            使用数据增量导入，–append<br>            使用直接导入模式（更快），—direct<br>            使用边界查询，–boundary-query<br>            使用自定义分隔符，–fields-terminated-by<br>            使用条件导入，—where<br>        hdfs导出RDBMS<br>            指定输出目录，–export-dir<br>            指定输出字段分隔符，–fields-terminated-by<br>        RDBMS导入Hive<br>            指定导入hive，–hive-import<br>            指定导入数据库，–hive-database<br>            指定要导入的表，–hive-table<br>            指定字段分隔符，–fields-terminated-by<br>            创建指定表，–create-hive-table<br>        Hive导出到RDBMS<br>            和hdfs导出类似<br>高级用法<br>    —options-file<br>        将命令写入文件，用该参数进行执行 </p>
-
-          
+          <h3 id="Sqoop的安装"><a href="#Sqoop的安装" class="headerlink" title="Sqoop的安装"></a>Sqoop的安装</h3><ol>
+<li>配置HADOOP_COMMON_HOME </li>
+<li>配置HADOOP_MAPRED_HOME </li>
+<li>配置HIVE_HOME <h3 id="Sqoop使用"><a href="#Sqoop使用" class="headerlink" title="Sqoop使用"></a>Sqoop使用</h3></li>
+</ol>
+<ul>
+<li>HDFS端：path，文件导入或导出路径 </li>
+<li>HIVE端：tablename，要导入或导出的表</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1637,8 +1447,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:55+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:58:18+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1694,10 +1504,15 @@ iv.    分发策略声明
 
       
         
-          
-            <p>Redis降低内存占用<br>    Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。<br>    压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。<br>    如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又在平台的有符号整数范围内，同时元素个数又足够少的情况下，Redis就会以有序整数数组的方式存储集合，这种存储方式被称为整数集合。<br>使用压缩列表编码的配置项：<br>        列表：<br>        list-max-ziplist-entries 512   列表为压缩列表情况下允许包含的最大元素数量512<br>        list-max-ziplist-value   64    列表为压缩列表情况下每个元素的最大体积多少字节<br>        散列：<br>        hash-max-ziplist-entries 512   散列为压缩列表情况下允许包含的最大元素数量512<br>        hash-max-ziplist-value   64    散列为压缩列表情况下每个元素的最大体积多少字节<br>        有序集合：<br>        zset-max-ziplist-entries 512   有序集合为压缩列表情况下允许包含的最大元素数量512<br>        zset-max-ziplist-value   64    有序集合为压缩列表情况下每个元素的最大体积多少字节<br>        集合：<br>        set-max-intset-entries 512                  集合为整数集合情况下允许包含的最大元素数量512<br>长压缩列表和大整数集合带来的性能问题：<br>    1.    随着压缩列表和整数集合的体积越来越大，操作这些结构的速度就会变得越来越慢，此时可用分片结构来解决。<br>    2.    当一个结构突破了压缩列表和整数集合设置的限制条件时，Redis就会自动将它转化为典型的底层结构类型。<br>分片结构<br>    分片的本质就是将简单的规则将数据划分为更小的部分，然后根据数据的属性确定将数据发送到那个部分。<br>分片式列表：<br>    在不使用lua脚本的情况下，很难对列表进行分片。<br>分片式散列：<br>    根据散列中存储的键值对的键进行一定的规则转换，确定将该键存储到哪个分片中。<br>分片式集合：<br>    根据集合中的元素本身进行一定的规则转换，确定将该元素存储到哪个分片中。<br>Redis的性能提升<br>读性能提升<br>    •    保持压缩列表的长度不会太大导致影响性能<br>    •    根据需要选择最好性能的存储结构<br>    •    将大体积对象存储到redis前，考虑压缩<br>    •    使用非事务批量提交的方式执行命令<br>    •    添加只读从服务器<br>写性能提升<br>    •    检查程序，尽可能减少程序需要读取的数据量<br>    •    使用锁去替换watch类型的事务<br>    •    使用多实例redis，提前进行预分区</p>
-
-          
+          <h3 id="Redis降低内存占用"><a href="#Redis降低内存占用" class="headerlink" title="Redis降低内存占用"></a>Redis降低内存占用</h3><h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><p>Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。</p>
+<p>压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1791,8 +1606,8 @@ iv.    分发策略声明
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:00+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:53:14+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1848,10 +1663,175 @@ iv.    分发策略声明
 
       
         
-          
-            <p>Redis的主从复制<br>主从复制配置<br>        主：dir          快照和AOF文件的存储位置<br>        主：dbfilename   快照文件的名称<br>        从：slaveof host port  开启从服务器配置<br>主从复制步骤：<br>    1.    从：连接主服务器，发送SYNC命令<br>    2.    主：执行BGSAVE命令，并使用缓冲区记录BGSAVE之后执行的所有命令<br>    3.    从：根据配置选项来决定是否继续使用现有的数据处理客户端请求，还是返回错误<br>    4.    主：完成BGSAVE命令，向从服务器发送快照，发送期间继续使用缓冲区记录命令<br>    5.    从：丢弃所有就数据，开始载入最新的快照文件<br>    6.    主：继续向从服务器发送缓冲区里面的命令<br>    7.    从：完成快照文件载入，开始接收命令请求<br>    8.    主：完成缓冲区里命令的发送，从现在开始每执行一个写命令都要向从服务器发送相同的写命令<br>主从复制的问题：<br>    1.    实际中，最好让主服务器只使用50%～65%的内存，留下30%～45%的内存用于执行BGSAVE命令和创建记录写命令的缓冲区。<br>    2.    Redis不支持主主复制<br>    3.    当多个从服务器同时连接主服务器时，会导致主服务器的带宽占用过高，从而出现性能问题<br>    4.    从服务器同样可以拥有自己的从服务器，从而形成主从链<br>    5.    树形结构的主从链是合理的</p>
+          <h3 id="主从复制配置"><a href="#主从复制配置" class="headerlink" title="主从复制配置"></a>主从复制配置</h3><p>主：dir          快照和AOF文件的存储位置<br>主：dbfilename   快照文件的名称<br>从：slaveof host port  开启从服务器配置</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" itemprop="url">Redis核心—数据持久化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:08:32+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:58:45+08:00">
+                2020-03-17
+              </time>
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>数据持久化的两种方式：</p>
+<ol>
+<li>快照（snapshotting），可以讲存在于某一时刻的所有数据写入硬盘里。</li>
+<li>只追加文件（append-only file），在执行写命令时，讲被执行的写命令复制到硬盘里。<br>两种方式可以单独使用，也可以同时使用。</li></ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1935,7 +1915,7 @@ iv.    分发策略声明
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

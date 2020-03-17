@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="Kafka日志说明    日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。partition是分段的，每个段叫LogSegment，包括了一个数据文件和一个索引文件，下图是某个partition目录下的文件：后缀“">
+<meta name="description" content="Kafka日志说明日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka核心—日志">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Kafka日志说明    日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。partition是分段的，每个段叫LogSegment，包括了一个数据文件和一个索引文件，下图是某个partition目录下的文件：后缀“">
+<meta property="og:description" content="Kafka日志说明日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459478405.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459591845.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459699322.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459855787.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459976235.jpg">
 <meta property="article:published_time" content="2020-03-15T04:17:17.473Z">
-<meta property="article:modified_time" content="2020-03-15T04:21:18.926Z">
+<meta property="article:modified_time" content="2020-03-16T13:38:43.164Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="kafka">
 <meta name="twitter:card" content="summary">
@@ -337,8 +337,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:21:18+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:38:43+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -398,9 +398,12 @@
       
 
       
-        <p>Kafka日志说明<br>    日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459478405.jpg" alt="-w376"><br>partition是分段的，每个段叫LogSegment，包括了一个数据文件和一个索引文件，下图是某个partition目录下的文件：<br>后缀“.index”和“.log”分别表示segment索引文件、数据文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459591845.jpg" alt="-w345"></p>
-<p>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message<br>的物理偏移地址。索引文件是为了提高插销的效率。<br>索引包含两个部分（均为4个字节的数字），分别为相对offset和position（物理偏移地址）。相对offset=数据文件offset -数据文件名offset<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459699322.jpg" alt="-w404"></p>
-<p>数据文件根据大小（默认1G）和回滚时间（通过配置文件设置）回滚，回滚的名称由起始的offset命名。<br>日志的清理方式有两种：<br>        delete方式通过设置过期时间和分区内总日志的大小<br>        compact方式是相同的key保留offset最大的消息<br>Two-level Api<br>High-level Api：由Zookeeper维护消费者的offset。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459855787.jpg" alt><br>Low-level Api：自己写代码实现对offset的维护。往往比较复杂，所以多数情况下使用High-level Api。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459976235.jpg" alt></p>
+        <h3 id="Kafka日志说明"><a href="#Kafka日志说明" class="headerlink" title="Kafka日志说明"></a>Kafka日志说明</h3><p>日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。<a id="more"></a><br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459478405.jpg" alt="-w376"><br>partition是分段的，每个段叫LogSegment，包括了一个数据文件和一个索引文件，下图是某个partition目录下的文件：<br>后缀“.index”和“.log”分别表示segment索引文件、数据文件。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459591845.jpg" alt="-w345"><br>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。索引文件是为了提高插销的效率。<br>索引包含两个部分（均为4个字节的数字），分别为相对offset和position（物理偏移地址）。相对offset=数据文件offset -数据文件名offset<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459699322.jpg" alt="-w404"></p>
+<p>数据文件根据大小（默认1G）和回滚时间（通过配置文件设置）回滚，回滚的名称由起始的offset命名。<br>日志的清理方式有两种：</p>
+<ul>
+<li>delete方式通过设置过期时间和分区内总日志的大小</li>
+<li>compact方式是相同的key保留offset最大的消息<h3 id="Two-level-Api"><a href="#Two-level-Api" class="headerlink" title="Two-level Api"></a>Two-level Api</h3>High-level Api：由Zookeeper维护消费者的offset。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459855787.jpg" alt><br>Low-level Api：自己写代码实现对offset的维护。往往比较复杂，所以多数情况下使用High-level Api。<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/15842459976235.jpg" alt></li>
+</ul>
 
       
     </div>
@@ -513,8 +516,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -529,7 +541,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -574,6 +586,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka日志说明"><span class="nav-number">1.</span> <span class="nav-text">Kafka日志说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-level-Api"><span class="nav-number">2.</span> <span class="nav-text">Two-level Api</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

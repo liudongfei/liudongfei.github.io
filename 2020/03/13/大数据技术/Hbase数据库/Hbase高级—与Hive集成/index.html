@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="与Hive的集成表的数据存储在hbase中，元数据存储在hive中两种方式  管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除  外部表：现在已经存在Hbase表，需要对表中的数据进行分析 集成配置1）修改hive-site.xml配置文件，添加配置属1234&lt;property&gt;    	&lt;name&gt;hbase.zoo">
+<meta name="description" content="#与Hive的集成方式表的数据存储在hbase中，元数据存储在hive中。两种方式：  管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除  外部表：现在已经存在Hbase表，需要对表中的数据进行分析 集成配置1）修改hive-site.xml配置文件，添加配置属1234&lt;property&gt;    	&lt;name&gt;hbas">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase核心—与Hive集成">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EHive%E9%9B%86%E6%88%90/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="与Hive的集成表的数据存储在hbase中，元数据存储在hive中两种方式  管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除  外部表：现在已经存在Hbase表，需要对表中的数据进行分析 集成配置1）修改hive-site.xml配置文件，添加配置属1234&lt;property&gt;    	&lt;name&gt;hbase.zoo">
+<meta property="og:description" content="#与Hive的集成方式表的数据存储在hbase中，元数据存储在hive中。两种方式：  管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除  外部表：现在已经存在Hbase表，需要对表中的数据进行分析 集成配置1）修改hive-site.xml配置文件，添加配置属1234&lt;property&gt;    	&lt;name&gt;hbas">
 <meta property="article:published_time" content="2020-03-12T16:26:22.382Z">
-<meta property="article:modified_time" content="2020-03-14T07:23:54.323Z">
+<meta property="article:modified_time" content="2020-03-16T13:13:44.448Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:23:54+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:13:44+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -392,7 +392,7 @@
       
 
       
-        <h2 id="与Hive的集成"><a href="#与Hive的集成" class="headerlink" title="与Hive的集成"></a>与Hive的集成</h2><p>表的数据存储在hbase中，元数据存储在hive中<br>两种方式</p>
+        <h2 id="与Hive的集成方式"><a href="#与Hive的集成方式" class="headerlink" title="#与Hive的集成方式"></a>#与Hive的集成方式</h2><p>表的数据存储在hbase中，元数据存储在hive中。两种方式：</p>
 <ul>
 <li>管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除 </li>
 <li>外部表：现在已经存在Hbase表，需要对表中的数据进行分析 <h3 id="集成配置"><a href="#集成配置" class="headerlink" title="集成配置"></a>集成配置</h3>1）修改hive-site.xml配置文件，添加配置属<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    	&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">    	&lt;value&gt;mincdh:2181&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
@@ -544,7 +544,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -599,7 +599,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#与Hive的集成"><span class="nav-number">1.</span> <span class="nav-text">与Hive的集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成配置"><span class="nav-number">1.1.</span> <span class="nav-text">集成配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">1.2.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#与Hive的集成方式"><span class="nav-number">1.</span> <span class="nav-text">#与Hive的集成方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成配置"><span class="nav-number">1.1.</span> <span class="nav-text">集成配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">1.2.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></div>
             
 
           </div>

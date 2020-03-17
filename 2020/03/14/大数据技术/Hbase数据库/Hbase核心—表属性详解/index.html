@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="列簇字典            NAME，列簇名称            DATA_BLOCK_ENCODING，数据块编码            BLOOM FILTER ，数据结构BLOOM过滤器，用于建索引            VERSIONS，Cell版本数量            MIN_VERSIONS，最小Cell版本数量            COMPRESSION，压缩">
+<meta name="description" content="列簇字典 NAME #列簇名称  DATA_BLOCK_ENCODING #数据块编码  BLOOM FILTER #数据结构BLOOM过滤器，用于建索引  VERSIONS #Cell版本数量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase核心—表属性详解">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="列簇字典            NAME，列簇名称            DATA_BLOCK_ENCODING，数据块编码            BLOOM FILTER ，数据结构BLOOM过滤器，用于建索引            VERSIONS，Cell版本数量            MIN_VERSIONS，最小Cell版本数量            COMPRESSION，压缩">
+<meta property="og:description" content="列簇字典 NAME #列簇名称  DATA_BLOCK_ENCODING #数据块编码  BLOOM FILTER #数据结构BLOOM过滤器，用于建索引  VERSIONS #Cell版本数量">
 <meta property="article:published_time" content="2020-03-14T12:50:02.329Z">
-<meta property="article:modified_time" content="2020-03-14T12:50:35.631Z">
+<meta property="article:modified_time" content="2020-03-16T13:06:55.441Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:50:35+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:06:55+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -392,7 +392,23 @@
       
 
       
-        <p>列簇字典<br>            NAME，列簇名称<br>            DATA_BLOCK_ENCODING，数据块编码<br>            BLOOM FILTER ，数据结构BLOOM过滤器，用于建索引<br>            VERSIONS，Cell版本数量<br>            MIN_VERSIONS，最小Cell版本数量<br>            COMPRESSION，压缩<br>                配置HBase压缩<br>                    。。。<br>                创建表时配置压缩属性<br>                配置hbase-site.xml中的压缩属性，重启regionserver<br>            IN_MEMORY，<br>            BLOCK_CACHE，<br>                读取数据时，会按照以下顺序查找<br>                    》MemStore<br>                    》BlockCache -〉每个regionserver只有一个<br>                    》hfile<br>                    把读的数据放入BlockCache。由于BlockCache采用的是LRU策略，因此<br>                    当BlockCache达到上限时，会启动淘汰机制，淘汰最老的一批数据，<br>                    在注重读响应时间的应用场景下，可以将BlockCache设置大些。<br>                对BlockCache的分级<br>                    对于整个BlcokCache的内存，各级别的比例<br>                    single、multi、inmemory  0.25 0.5 0.25<br>                    Inmemory队列用于保存HBaseMeta元数据信息，如股票数据量很大的<br>                    用户表设置为inmemory的话，可能会导致Meta表缓存失效，进而对<br>                    集群性能产生影响<br>                RegionServer的内存消耗<br>                    write时，MemStore    40%<br>                    read时，BlockCache    40%<br>                    other    20% </p>
+        <h3 id="列簇字典"><a href="#列簇字典" class="headerlink" title="列簇字典"></a>列簇字典</h3><ul>
+<li>NAME #列簇名称 </li>
+<li>DATA_BLOCK_ENCODING #数据块编码 </li>
+<li>BLOOM FILTER #数据结构BLOOM过滤器，用于建索引 </li>
+<li>VERSIONS #Cell版本数量 <a id="more"></a></li>
+<li>MIN_VERSIONS #最小Cell版本数量 </li>
+<li>COMPRESSION #压缩。注意配置hbase-site.xml中的压缩属性，重启regionserver </li>
+<li>IN_MEMORY #是否加载入内存</li>
+<li>BLOCK_CACHE #设置读缓存<br>读取数据时，会按照以下顺序查找：</li>
+</ul>
+<ol>
+<li>MemStore </li>
+<li>BlockCache，每个regionserver只有一个 </li>
+<li>hfile<br>把读的数据放入BlockCache。由于BlockCache采用的是LRU策略，因此 当BlockCache达到上限时，会启动淘汰机制，淘汰最老的一批数据，在注重读响应时间的应用场景下，可以将BlockCache设置大些。 </li>
+</ol>
+<p>对BlockCache的分级：<br>对于整个BlcokCache的内存，各级别的比例 single：multi：inmemory  0.25：0.5：0.25 。Inmemory队列用于保存HBaseMeta元数据信息，如果数据量很大的用户表设置为inmemory的话，可能会导致Meta表缓存失效，进而对集群性能产生影响。</p>
+<p>RegionServer的内存配置：<br>write时，MemStore    40%<br>read时，BlockCache    40%<br>other    20% </p>
 
       
     </div>
@@ -505,8 +521,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +546,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +591,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#列簇字典"><span class="nav-number">1.</span> <span class="nav-text">列簇字典</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

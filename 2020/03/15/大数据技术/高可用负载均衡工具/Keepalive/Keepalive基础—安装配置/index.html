@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="KeepAlived安装配置keepalived介绍：    keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。安装keepalived：准备：需要安装服务的机器有两块网卡，一块给vip使用，两台机器时间必须同步配置keepalived：    notification">
+<meta name="description" content="Keepalived介绍keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Keepalive基础—安装配置">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%B7%A5%E5%85%B7/Keepalive/Keepalive%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="KeepAlived安装配置keepalived介绍：    keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。安装keepalived：准备：需要安装服务的机器有两块网卡，一块给vip使用，两台机器时间必须同步配置keepalived：    notification">
+<meta property="og:description" content="Keepalived介绍keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。">
 <meta property="article:published_time" content="2020-03-15T04:47:04.841Z">
-<meta property="article:modified_time" content="2020-03-15T04:47:56.437Z">
+<meta property="article:modified_time" content="2020-03-17T04:06:09.340Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="keepalive">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:47:56+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T12:06:09+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,7 +392,12 @@
       
 
       
-        <p>KeepAlived安装配置<br>keepalived介绍：<br>    keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。<br>安装keepalived：<br>准备：需要安装服务的机器有两块网卡，一块给vip使用，两台机器时间必须同步<br>配置keepalived：<br>    notification_email* 邮件配置：收件人、smtp服务器、发件人<br>    vrrp_instance  虚拟路由器的标识符，名称可以任意取，可以不用改<br>        state    该节点的状态，master或backup<br>        interface    选举通过的网卡端口<br>        virtual_router_id  虚拟路由id，不能大于255<br>        priority        初始化有限级权重<br>        authentication    用户认证机制<br>        virtual_ipaddress  vip配置<br>    vrrp_script    定义keepalived的检测机制，名称自定义<br>        script    执行脚本，执行失败则权重降低<br>        interval   间隔时间（s）<br>        weigth    条件成立权重变化 </p>
+        <h3 id="Keepalived介绍"><a href="#Keepalived介绍" class="headerlink" title="Keepalived介绍"></a>Keepalived介绍</h3><p>keepalived是基于vrrp（虚拟路由冗余协议）协议的一款高可用软件。有一台主服务器和多台备服务器，主备服务器服务配置相同，当主服务器故障时需你ip会自动漂移到备份的服务器。 <a id="more"></a></p>
+<h3 id="安装keepalived"><a href="#安装keepalived" class="headerlink" title="安装keepalived"></a>安装keepalived</h3><ul>
+<li>准备：需要安装服务的机器有两块网卡，一块给vip使用，两台机器时间必须同步 </li>
+<li>配置keepalived<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    notification_email* 邮件配置：收件人、smtp服务器、发件人 </span><br><span class="line">    vrrp_instance  虚拟路由器的标识符，名称可以任意取，可以不用改 </span><br><span class="line">    state    该节点的状态，master或backup </span><br><span class="line">    interface    选举通过的网卡端口 </span><br><span class="line">    virtual_router_id  虚拟路由id，不能大于255 </span><br><span class="line">    priority        初始化有限级权重 </span><br><span class="line">    authentication    用户认证机制 </span><br><span class="line">    virtual_ipaddress  vip配置 </span><br><span class="line">    vrrp_script    定义keepalived的检测机制，名称自定义 </span><br><span class="line">    script    执行脚本，执行失败则权重降低 </span><br><span class="line">    interval   间隔时间（s） </span><br><span class="line">    weigth    条件成立权重变化</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
       
     </div>
@@ -505,8 +510,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +535,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +580,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Keepalived介绍"><span class="nav-number">1.</span> <span class="nav-text">Keepalived介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装keepalived"><span class="nav-number">2.</span> <span class="nav-text">安装keepalived</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

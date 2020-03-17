@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="架构介绍        docker采用的是c&#x2F;s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信组件介绍    •    Docker Client：docker服务端的远程控制器，最常用的docker客户端是docker命令，也可以通过restapi与服务器通信    •    Do">
+<meta name="description" content="架构介绍docker采用的是c&#x2F;s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker基础—知识结构概述">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="架构介绍        docker采用的是c&#x2F;s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信组件介绍    •    Docker Client：docker服务端的远程控制器，最常用的docker客户端是docker命令，也可以通过restapi与服务器通信    •    Do">
+<meta property="og:description" content="架构介绍docker采用的是c&#x2F;s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信。">
 <meta property="article:published_time" content="2020-03-15T04:49:40.803Z">
-<meta property="article:modified_time" content="2020-03-15T04:51:16.513Z">
+<meta property="article:modified_time" content="2020-03-17T04:16:47.623Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:51:16+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T12:16:47+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,12 +392,30 @@
       
 
       
-        <p>架构介绍<br>        docker采用的是c/s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信<br>组件介绍<br>    •    Docker Client：docker服务端的远程控制器，最常用的docker客户端是docker命令，也可以通过restapi与服务器通信<br>    •    Docker Server：docker doemoon是服务器组件，以linux后台服务的方式运行在docker host上，负责创建、运行、监控容器，构建、存储镜像<br>    •    Image：可以将docker镜像看做只读模版，通过它可以创建docker同期，例如某个镜像可能包含一个Linux操作系统、一个Apache HTTP Server，以及用户开发的Web应用。惊喜那个可以有多种生成方法，可以从无到有开始创建镜像，也可以下载并使用别人创建好的现成镜像，还可以在现有镜像的基础上创建新的镜像。我们可以将镜像的内容和创建的步骤描述在一个文本文件中，这个文件被称作dockerfile。通过执行docker build命令可以创建出镜像。<br>    •    Container：docker容器就是docker镜像的运行实例，用户可以通过CLI或者API启动、停止、移动或者删除容器，可以这么任务，镜像是软件生命周期的构建和打包阶段，而容器则是启动和运行阶段<br>    •    Registry：registry是存放docker镜像的仓库，registry分私有和公有两种。docekrhub是默认的registry，由docker公司维护。出于对速度和安全的考虑，用户可以创建自己的registry。dockerpull命令可以从registry下载镜像，docker run命令是先下载（如果本地没有），然后在启动容器。<br>    •    Volume：将物理机的文件夹挂载到容器的内部<br>    •    Dockerfile：用于创建镜像的脚本<br>docker常用命令 </p>
-<p>命令<br>解释<br>常用可选项<br>docker info<br>查看docker相关信息</p>
-<p>docker image<br>查看运行的镜像<br>-a：列出所有安装的镜像<br>-f：根据条件过滤<br>-q：仅列出镜像id<br>docker search imageid/name<br>搜索镜像<br>-f：根据条件筛选</p>
-<p>docker pull imid/name           下载镜像<br>docker create imid/name command   创建一个容器（未运行）<br>docker run imid/name command      创建并运行容器<br>         —-name                       为容器命名<br>         -d                           以后台daemon的方式运行<br>         -it                          进入交互模式<br>         -v /path1:/path2             将host的/path1(存在)挂到容器的/path2目录(不存在)<br>         -p &lt;h_port:c_port&gt;           映射host端口到容器，方便外部访问容器内部服务<br>docker rmi imid/name               删除镜像<br>docker start/stop/restart/pause/unpause cid/name  启动/停止/重启/暂停/恢复(已创建的)容器<br>docker exec &lt;cid/name&gt; command    在运行中的容器上执行命令<br>        -d<br>        -it<br>docker kill cid/name    杀死容器<br>docker ps    查看容器<br>        -l   列出最近一次启动的容器<br>        -a   列出所有运行过的容器<br>         -q   仅仅列出容器的id<br>docker inspect cid/name    查看容器详细信息<br>docker logs containerid    查看容器日志<br>         -f    以滚动形式查看日志<br>        -t        显示日志的时间<br>        –tail num 显示尾部n条日志<br>docker commit cid newimname    保存修改后的容器形成新的镜像<br>docker rm cid/name    移除已经停止的容器<br>         -f    强制删除正在运行的容器<br>docker rm ·docker ps -a -q·    删除所有的容器<br>docker state    containerid    查看容器使用的资源<br>docker attach cid/name     将一个标准输入/输出/错误流接入运行的容器上</p>
-<p>DockerFile的指令<br>FROM<br>MAINTAINER<br>RUN<br>EXPOSE<br>CMD<br>ENTERYPOINT<br>ADD<br>COPY<br>VOLUME<br>WORKDIR<br>ENV<br>USER<br>ONBUILD</p>
-<p>linux的虚拟网桥docker0<br>特点：<br>可以设置IP地址<br>相当于拥有一个隐藏的虚拟网卡<br>docker0的地址划分：<br>IP：172.17.42.1<br>子网掩码：255.255.0.0<br>MAC：02:42:ac:00:00到02:42:ac:11:ff:ff<br>总共提供了65534个地址</p>
+        <h3 id="架构介绍"><a href="#架构介绍" class="headerlink" title="架构介绍"></a>架构介绍</h3><p>docker采用的是c/s架构，客户端向服务端发送请求，服务器负责构建、运行和分发容器。客户端和服务器可以运行在同一个host上，客户端也可以通过socket或restapi与服务器通信。<a id="more"></a><br>####组件介绍</p>
+<ul>
+<li>Docker Client：docker服务端的远程控制器，最常用的docker客户端是docker命令，也可以通过restapi与服务器通信</li>
+<li>Docker Server：docker doemoon是服务器组件，以linux后台服务的方式运行在docker host上，负责创建、运行、监控容器，构建、存储镜像</li>
+<li>Image：可以将docker镜像看做只读模版，通过它可以创建docker同期，例如某个镜像可能包含一个Linux操作系统、一个Apache HTTP Server，以及用户开发的Web应用。惊喜那个可以有多种生成方法，可以从无到有开始创建镜像，也可以下载并使用别人创建好的现成镜像，还可以在现有镜像的基础上创建新的镜像。我们可以将镜像的内容和创建的步骤描述在一个文本文件中，这个文件被称作dockerfile。通过执行docker build命令可以创建出镜像。</li>
+<li>Container：docker容器就是docker镜像的运行实例，用户可以通过CLI或者API启动、停止、移动或者删除容器，可以这么任务，镜像是软件生命周期的构建和打包阶段，而容器则是启动和运行阶段</li>
+<li>Registry：registry是存放docker镜像的仓库，registry分私有和公有两种。docekrhub是默认的registry，由docker公司维护。出于对速度和安全的考虑，用户可以创建自己的registry。dockerpull命令可以从registry下载镜像，docker run命令是先下载（如果本地没有），然后在启动容器。</li>
+<li>Volume：将物理机的文件夹挂载到容器的内部</li>
+<li>Dockerfile：用于创建镜像的脚本 <h4 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">docker info #查看docker相关信息</span><br><span class="line">docker image #查看运行的镜像</span><br><span class="line">    -a：列出所有安装的镜像</span><br><span class="line">    -f：根据条件过滤</span><br><span class="line">    -q：仅列出镜像id</span><br><span class="line">docker search imageid&#x2F;name #搜索镜像</span><br><span class="line">    -f：根据条件筛选</span><br><span class="line">docker pull imid&#x2F;name #下载镜像</span><br><span class="line">docker create imid&#x2F;name command #创建一个容器（未运行）</span><br><span class="line">docker run imid&#x2F;name command #创建并运行容器 </span><br><span class="line">    -name：为容器命名 </span><br><span class="line">    -d：以后台daemon的方式运行 </span><br><span class="line">    -it：进入交互模式 </span><br><span class="line">    -v &#x2F;path1:&#x2F;path2：将host的&#x2F;path1(存在)挂到容器的&#x2F;path2目录(不存在)</span><br><span class="line">    -p &lt;h_port:c_port&gt;：映射host端口到容器，方便外部访问容器内部服务 </span><br><span class="line">docker rmi imid&#x2F;name #删除镜像 </span><br><span class="line">docker start&#x2F;stop&#x2F;restart&#x2F;pause&#x2F;unpause cid&#x2F;name #启动&#x2F;停止&#x2F;重启&#x2F;暂停&#x2F;恢复(已创建的)容器  </span><br><span class="line">docker exec &lt;cid&#x2F;name&gt; command #在运行中的容器上执行命令</span><br><span class="line">    -d：</span><br><span class="line">    -it：</span><br><span class="line">docker kill cid&#x2F;name #杀死容器 </span><br><span class="line">docker ps #查看容器 </span><br><span class="line">    -l：列出最近一次启动的容器 </span><br><span class="line">    -a：列出所有运行过的容器 </span><br><span class="line">    -q：仅仅列出容器的id </span><br><span class="line">docker inspect cid&#x2F;name #查看容器详细信息 </span><br><span class="line">docker logs containerid #查看容器日志 </span><br><span class="line">    -f ：以滚动形式查看日志</span><br><span class="line">    -t：显示日志的时间</span><br><span class="line">    --tail num：显示尾部n条日志</span><br><span class="line">docker commit cid newimname #保存修改后的容器形成新的镜像 </span><br><span class="line">docker rm cid&#x2F;name #移除已经停止的容器 </span><br><span class="line">    -f ：强制删除正在运行的容器 </span><br><span class="line">docker rm ·docker ps -a -q· #删除所有的容器 </span><br><span class="line">docker state    containerid #查看容器使用的资源 </span><br><span class="line">docker attach cid&#x2F;name #将一个标准输入&#x2F;输出&#x2F;错误流接入运行的容器上</span><br></pre></td></tr></table></figure>
+<h3 id="DockerFile的指令"><a href="#DockerFile的指令" class="headerlink" title="DockerFile的指令"></a>DockerFile的指令</h3></li>
+<li>FROM</li>
+<li>MAINTAINER</li>
+<li>RUN</li>
+<li>EXPOSE</li>
+<li>CMD</li>
+<li>ENTERYPOINT</li>
+<li>ADD</li>
+<li>COPY</li>
+<li>VOLUME</li>
+<li>WORKDIR</li>
+<li>ENV</li>
+<li>USER</li>
+<li>ONBUILD</li>
+</ul>
 
       
     </div>
@@ -456,8 +474,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/" rel="prev" title="数据分析—算法理论">
-                数据分析—算法理论 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/15/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" rel="prev" title="Graphframe基础—使用手册">
+                Graphframe基础—使用手册 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -510,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -526,7 +553,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -571,6 +598,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构介绍"><span class="nav-number">1.</span> <span class="nav-text">架构介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker常用命令"><span class="nav-number">1.1.</span> <span class="nav-text">Docker常用命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DockerFile的指令"><span class="nav-number">2.</span> <span class="nav-text">DockerFile的指令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

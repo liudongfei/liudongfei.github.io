@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Redis降低内存占用    Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。    压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。    如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又">
+<meta name="description" content="Redis降低内存占用压缩列表Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。 压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis核心—优化及性能提升">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Redis降低内存占用    Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。    压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。    如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又">
+<meta property="og:description" content="Redis降低内存占用压缩列表Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。 压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。">
 <meta property="article:published_time" content="2020-03-14T15:10:22.537Z">
-<meta property="article:modified_time" content="2020-03-14T15:10:55.689Z">
+<meta property="article:modified_time" content="2020-03-17T05:58:18.552Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:10:55+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:58:18+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,7 +392,15 @@
       
 
       
-        <p>Redis降低内存占用<br>    Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。<br>    压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。<br>    如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又在平台的有符号整数范围内，同时元素个数又足够少的情况下，Redis就会以有序整数数组的方式存储集合，这种存储方式被称为整数集合。<br>使用压缩列表编码的配置项：<br>        列表：<br>        list-max-ziplist-entries 512   列表为压缩列表情况下允许包含的最大元素数量512<br>        list-max-ziplist-value   64    列表为压缩列表情况下每个元素的最大体积多少字节<br>        散列：<br>        hash-max-ziplist-entries 512   散列为压缩列表情况下允许包含的最大元素数量512<br>        hash-max-ziplist-value   64    散列为压缩列表情况下每个元素的最大体积多少字节<br>        有序集合：<br>        zset-max-ziplist-entries 512   有序集合为压缩列表情况下允许包含的最大元素数量512<br>        zset-max-ziplist-value   64    有序集合为压缩列表情况下每个元素的最大体积多少字节<br>        集合：<br>        set-max-intset-entries 512                  集合为整数集合情况下允许包含的最大元素数量512<br>长压缩列表和大整数集合带来的性能问题：<br>    1.    随着压缩列表和整数集合的体积越来越大，操作这些结构的速度就会变得越来越慢，此时可用分片结构来解决。<br>    2.    当一个结构突破了压缩列表和整数集合设置的限制条件时，Redis就会自动将它转化为典型的底层结构类型。<br>分片结构<br>    分片的本质就是将简单的规则将数据划分为更小的部分，然后根据数据的属性确定将数据发送到那个部分。<br>分片式列表：<br>    在不使用lua脚本的情况下，很难对列表进行分片。<br>分片式散列：<br>    根据散列中存储的键值对的键进行一定的规则转换，确定将该键存储到哪个分片中。<br>分片式集合：<br>    根据集合中的元素本身进行一定的规则转换，确定将该元素存储到哪个分片中。<br>Redis的性能提升<br>读性能提升<br>    •    保持压缩列表的长度不会太大导致影响性能<br>    •    根据需要选择最好性能的存储结构<br>    •    将大体积对象存储到redis前，考虑压缩<br>    •    使用非事务批量提交的方式执行命令<br>    •    添加只读从服务器<br>写性能提升<br>    •    检查程序，尽可能减少程序需要读取的数据量<br>    •    使用锁去替换watch类型的事务<br>    •    使用多实例redis，提前进行预分区</p>
+        <h3 id="Redis降低内存占用"><a href="#Redis降低内存占用" class="headerlink" title="Redis降低内存占用"></a>Redis降低内存占用</h3><h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><p>Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。</p>
+<p>压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。<a id="more"></a></p>
+<p>如果集合中包含的所有元素都可以被解释为十进制整数，且这些整数又在平台的有符号整数范围内，同时元素个数又足够少的情况下，Redis就会以有序整数数组的方式存储集合，这种存储方式被称为整数集合。<br>使用压缩列表编码的配置项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">列表：</span><br><span class="line">list-max-ziplist-entries 512   列表为压缩列表情况下允许包含的最大元素数量512</span><br><span class="line">list-max-ziplist-value   64    列表为压缩列表情况下每个元素的最大体积多少字节</span><br><span class="line">散列：</span><br><span class="line">hash-max-ziplist-entries 512   散列为压缩列表情况下允许包含的最大元素数量512</span><br><span class="line">hash-max-ziplist-value   64    散列为压缩列表情况下每个元素的最大体积多少字节</span><br><span class="line">有序集合：</span><br><span class="line">zset-max-ziplist-entries 512   有序集合为压缩列表情况下允许包含的最大元素数量512</span><br><span class="line">zset-max-ziplist-value   64    有序集合为压缩列表情况下每个元素的最大体积多少字节</span><br><span class="line">集合：</span><br><span class="line">set-max-intset-entries 512                  集合为整数集合情况下允许包含的最大元素数量512</span><br></pre></td></tr></table></figure>
+<p>长压缩列表和大整数集合带来的性能问题：</p>
+<ol>
+<li>随着压缩列表和整数集合的体积越来越大，操作这些结构的速度就会变得越来越慢，此时可用分片结构来解决。</li>
+<li>当一个结构突破了压缩列表和整数集合设置的限制条件时，Redis就会自动将它转化为典型的底层结构类型。<h4 id="分片结构"><a href="#分片结构" class="headerlink" title="分片结构"></a>分片结构</h4>分片的本质就是将简单的规则将数据划分为更小的部分，然后根据数据的属性确定将数据发送到那个部分。<br>分片式列表：在不使用lua脚本的情况下，很难对列表进行分片。<br>分片式散列：根据散列中存储的键值对的键进行一定的规则转换，确定将该键存储到哪个分片中。<br>分片式集合：根据集合中的元素本身进行一定的规则转换，确定将该元素存储到哪个分片中。<h3 id="Redis的性能提升"><a href="#Redis的性能提升" class="headerlink" title="Redis的性能提升"></a>Redis的性能提升</h3>读性能提升<br> •    保持压缩列表的长度不会太大导致影响性能<br> •    根据需要选择最好性能的存储结构<br> •    将大体积对象存储到redis前，考虑压缩<br> •    使用非事务批量提交的方式执行命令<br> •    添加只读从服务器<br>写性能提升<br> •    检查程序，尽可能减少程序需要读取的数据量<br> •    使用锁去替换watch类型的事务<br> •    使用多实例redis，提前进行预分区</li>
+</ol>
 
       
     </div>
@@ -505,8 +513,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +538,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +583,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis降低内存占用"><span class="nav-number">1.</span> <span class="nav-text">Redis降低内存占用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#压缩列表"><span class="nav-number">1.1.</span> <span class="nav-text">压缩列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分片结构"><span class="nav-number">1.2.</span> <span class="nav-text">分片结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis的性能提升"><span class="nav-number">2.</span> <span class="nav-text">Redis的性能提升</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

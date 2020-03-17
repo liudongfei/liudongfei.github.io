@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="命名空间相关操作        创建表时，可以针对每个列簇指定多个属性,也 可以对表的属性进行设置。        HBase表的预分区            默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向            该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建            一些region，多个region会被多个regionse">
+<meta name="description" content="HBase表的预分区默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建一些region，多个region会被多个regionserver管理。region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。预分区的方式                1）在shell中可以使用SPLITS&#x3D;&gt;[">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hbase核心—表的管理">
+<meta property="og:title" content="Hbase核心—表的设计">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="命名空间相关操作        创建表时，可以针对每个列簇指定多个属性,也 可以对表的属性进行设置。        HBase表的预分区            默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向            该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建            一些region，多个region会被多个regionse">
+<meta property="og:description" content="HBase表的预分区默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建一些region，多个region会被多个regionserver管理。region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。预分区的方式                1）在shell中可以使用SPLITS&#x3D;&gt;[">
 <meta property="article:published_time" content="2020-03-14T12:52:56.125Z">
-<meta property="article:modified_time" content="2020-03-14T12:53:43.735Z">
+<meta property="article:modified_time" content="2020-03-16T13:11:16.292Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -125,7 +125,7 @@
 
 
 
-  <title>Hbase核心—表的管理 | 琅琊的博客</title>
+  <title>Hbase核心—表的设计 | 琅琊的博客</title>
   
 
 
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hbase核心—表的管理</h1>
+          <h1 class="post-title" itemprop="name headline">Hbase核心—表的设计</h1>
         
 
         <div class="post-meta">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:53:43+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:11:16+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -392,7 +392,15 @@
       
 
       
-        <p>命名空间相关操作<br>        创建表时，可以针对每个列簇指定多个属性,也 可以对表的属性进行设置。<br>        HBase表的预分区<br>            默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向<br>            该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建<br>            一些region，多个region会被多个regionserver管理。<br>            region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。<br>            预分区的方式<br>                1）在shell中可以使用SPLITS=&gt;[key1, key2…]方式指定<br>                2）或者SPLITS_FILE =&gt; ‘path’<br>                3）NUMREGIONS=&gt;3,SPLITALGO=&gt;’HexStringSplit’(自定义rowkey函数)<br>            表的rowkey设计核心<br>                依据rowkey查询最快<br>                对rowkey进行范围查询range<br>                前缀匹配<br>            主表：存储所有的数据<br>            索引表：根据业务创建业务rowkey到主表rowkey的映射表<br>                创建方式：<br>                    hbase<br>                    solr<br>                问题：主表和索引表的同步问题<br>                解决：<br>                    程序，事物<br>                    phoenix，Hbase的sql<br>                        只有通过jdbc的方式<br>                    cloudera search    解决hbase和solr索引表的同步 </p>
+        <h3 id="HBase表的预分区"><a href="#HBase表的预分区" class="headerlink" title="HBase表的预分区"></a>HBase表的预分区</h3><p>默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建一些region，多个region会被多个regionserver管理。<br>region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。<br>预分区的方式<br>                1）在shell中可以使用SPLITS=&gt;[key1, key2…]方式指定<br>                2）或者SPLITS_FILE =&gt; ‘path’<br>                3）NUMREGIONS=&gt;3,SPLITALGO=&gt;’HexStringSplit’(自定义rowkey函数) </p>
+<h3 id="表的rowkey设计"><a href="#表的rowkey设计" class="headerlink" title="表的rowkey设计"></a>表的rowkey设计</h3><p>Hbase最快的三种查询方式：</p>
+<ul>
+<li>依据rowkey查询最快 </li>
+<li>对rowkey进行范围查询range </li>
+<li>前缀匹配 <h3 id="Hbase的二级索引"><a href="#Hbase的二级索引" class="headerlink" title="Hbase的二级索引"></a>Hbase的二级索引</h3>主表：存储所有的数据<br>索引表：根据业务创建业务rowkey到主表rowkey的映射表<br>创建方式： </li>
+<li>hbase </li>
+<li>solr<br>产生的问题：主表和索引表的同步问题<br>解决：<br>程序，事务<br>phoenix，Hbase的sql<br>只有通过jdbc的方式<br>cloudera search    解决hbase和solr索引表的同步 </li>
+</ul>
 
       
     </div>
@@ -413,7 +421,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="Hbase核心—表的管理">https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/</a>
+    <a href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="Hbase核心—表的设计">https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -505,8 +513,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +538,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +583,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HBase表的预分区"><span class="nav-number">1.</span> <span class="nav-text">HBase表的预分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表的rowkey设计"><span class="nav-number">2.</span> <span class="nav-text">表的rowkey设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase的二级索引"><span class="nav-number">3.</span> <span class="nav-text">Hbase的二级索引</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

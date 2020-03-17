@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Sqoop(Sql to Hadoop)的安装    配置HADOOP_COMMON_HOME    配置HADOOP_MAPRED_HOME    配置HIVE_HOMESqoop使用    要点        HDFS端：path，文件导入或导出路径        HIVE端：tablename，要导入或导出的表        RDBMS端：            connect，连接的URL">
+<meta name="description" content="Sqoop的安装 配置HADOOP_COMMON_HOME  配置HADOOP_MAPRED_HOME  配置HIVE_HOME Sqoop使用   HDFS端：path，文件导入或导出路径  HIVE端：tablename，要导入或导出的表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqoop基础—基本使用">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Sqoop(Sql to Hadoop)的安装    配置HADOOP_COMMON_HOME    配置HADOOP_MAPRED_HOME    配置HIVE_HOMESqoop使用    要点        HDFS端：path，文件导入或导出路径        HIVE端：tablename，要导入或导出的表        RDBMS端：            connect，连接的URL">
+<meta property="og:description" content="Sqoop的安装 配置HADOOP_COMMON_HOME  配置HADOOP_MAPRED_HOME  配置HIVE_HOME Sqoop使用   HDFS端：path，文件导入或导出路径  HIVE端：tablename，要导入或导出的表">
 <meta property="article:published_time" content="2020-03-14T15:11:41.573Z">
-<meta property="article:modified_time" content="2020-03-14T15:16:53.990Z">
+<meta property="article:modified_time" content="2020-03-17T03:04:46.041Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="sqoop">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:16:53+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T11:04:46+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,7 +392,44 @@
       
 
       
-        <p>Sqoop(Sql to Hadoop)的安装<br>    配置HADOOP_COMMON_HOME<br>    配置HADOOP_MAPRED_HOME<br>    配置HIVE_HOME<br>Sqoop使用<br>    要点<br>        HDFS端：path，文件导入或导出路径<br>        HIVE端：tablename，要导入或导出的表<br>        RDBMS端：<br>            connect，连接的URL<br>            username，连接的用户名<br>            password，连接的密码<br>            tablename，要连接的表<br>        方式：import/export<br>    帮助命令<br>        sqoop help，全局命令查看<br>        sqoop help command，指定命令查看<br>    常用命令<br>        RDBMS导入hdfs<br>            没指定目标路径时，会在用户目录下<br>            使用自定义查询导入，—query（一定要有where条件，其中还要有$CONDITIONS）<br>            使用自定义列导入，–columns<br>            使用自定义并发个数，–num-mappers<br>            使用自定义存储格式，–as-avrodatafile，–as-textfile等<br>            使用自定义数据压缩，–compress –compression-codec<br>            使用删除目标路径，–delete-target-dir<br>            使用数据增量导入，–append<br>            使用直接导入模式（更快），—direct<br>            使用边界查询，–boundary-query<br>            使用自定义分隔符，–fields-terminated-by<br>            使用条件导入，—where<br>        hdfs导出RDBMS<br>            指定输出目录，–export-dir<br>            指定输出字段分隔符，–fields-terminated-by<br>        RDBMS导入Hive<br>            指定导入hive，–hive-import<br>            指定导入数据库，–hive-database<br>            指定要导入的表，–hive-table<br>            指定字段分隔符，–fields-terminated-by<br>            创建指定表，–create-hive-table<br>        Hive导出到RDBMS<br>            和hdfs导出类似<br>高级用法<br>    —options-file<br>        将命令写入文件，用该参数进行执行 </p>
+        <h3 id="Sqoop的安装"><a href="#Sqoop的安装" class="headerlink" title="Sqoop的安装"></a>Sqoop的安装</h3><ol>
+<li>配置HADOOP_COMMON_HOME </li>
+<li>配置HADOOP_MAPRED_HOME </li>
+<li>配置HIVE_HOME <h3 id="Sqoop使用"><a href="#Sqoop使用" class="headerlink" title="Sqoop使用"></a>Sqoop使用</h3></li>
+</ol>
+<ul>
+<li>HDFS端：path，文件导入或导出路径 </li>
+<li>HIVE端：tablename，要导入或导出的表 <a id="more"></a></li>
+<li>RDBMS端： <pre><code>connect，连接的URL 
+username，连接的用户名 
+password，连接的密码 
+tablename，要连接的表 </code></pre></li>
+<li>方式：import/export </li>
+<li>帮助命令 <pre><code>sqoop help #全局命令查看 
+sqoop help command #指定命令查看 </code></pre><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3></li>
+</ul>
+<ul>
+<li>RDBMS导入hdfs <pre><code>没指定目标路径时，会在用户目录下 
+使用自定义查询导入，—query（一定要有where条件，其中还要有$CONDITIONS）  
+使用自定义列导入，--columns 
+使用自定义并发个数，--num-mappers 
+使用自定义存储格式，--as-avrodatafile，--as-textfile等 
+使用自定义数据压缩，--compress --compression-codec 
+使用删除目标路径，--delete-target-dir 
+使用数据增量导入，--append 
+使用直接导入模式（更快），—direct 
+使用边界查询，--boundary-query 
+使用自定义分隔符，--fields-terminated-by 
+使用条件导入，—where </code></pre></li>
+<li>hdfs导出RDBMS <pre><code>指定输出目录，--export-dir 
+指定输出字段分隔符，--fields-terminated-by </code></pre></li>
+<li>RDBMS导入Hive <pre><code>指定导入hive，--hive-import 
+指定导入数据库，--hive-database 
+指定要导入的表，--hive-table 
+指定字段分隔符，--fields-terminated-by 
+创建指定表，--create-hive-table </code></pre></li>
+<li>Hive导出到RDBMS <pre><code>和hdfs导出类似 </code></pre><h3 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h3><code>—options-file #将命令写入文件，用该参数进行执行</code></li>
+</ul>
 
       
     </div>
@@ -505,8 +542,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +567,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +612,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sqoop的安装"><span class="nav-number">1.</span> <span class="nav-text">Sqoop的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sqoop使用"><span class="nav-number">2.</span> <span class="nav-text">Sqoop使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用命令"><span class="nav-number">3.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级用法"><span class="nav-number">4.</span> <span class="nav-text">高级用法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

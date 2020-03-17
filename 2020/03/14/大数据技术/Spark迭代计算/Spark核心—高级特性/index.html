@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="共享变量    默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出CheckPoint    Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重">
+<meta name="description" content="共享变量默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出  CheckPointCheckpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父R">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark核心—高级特性">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="共享变量    默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出CheckPoint    Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重">
+<meta property="og:description" content="共享变量默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出  CheckPointCheckpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父R">
 <meta property="article:published_time" content="2020-03-14T15:03:42.389Z">
-<meta property="article:modified_time" content="2020-03-14T15:04:13.902Z">
+<meta property="article:modified_time" content="2020-03-16T14:09:49.277Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:04:13+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T22:09:49+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -392,7 +392,24 @@
       
 
       
-        <p>共享变量<br>    默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。<br>累加器的值只能在Driver中取出<br>CheckPoint<br>    Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint<br>SparkContext.setCheckpointDir()<br>Rdd.checkpoint()<br>checkpoint原理<br>    一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。<br>checkpoint与persist的区别<br>    与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。<br>动态资源调度<br>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略<br>    FIFO调度<br>    公平调度：spark.scheduler.mode，fair<br>    可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置<br>spark2.0的新版本特性<br>新增StructurtedStreaming模块，整合流计算和批处理<br>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理<br> cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大<br>Spark通过rest方式使用curl进行集群任务监控<br>通过metrics的sink机制进行集群监控<br>SparkSql的thriftserver服务<br>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据<br>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </p>
+        <h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出 </p>
+<h3 id="CheckPoint"><a href="#CheckPoint" class="headerlink" title="CheckPoint"></a>CheckPoint</h3><p>Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint：<br><code>SparkContext.setCheckpointDir()
+Rdd.checkpoint()</code></p>
+<h4 id="Checkpoint原理"><a href="#Checkpoint原理" class="headerlink" title="Checkpoint原理"></a>Checkpoint原理</h4><p>一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。 </p>
+<h4 id="checkpoint与persist的区别"><a href="#checkpoint与persist的区别" class="headerlink" title="checkpoint与persist的区别"></a>checkpoint与persist的区别</h4><p>与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。 </p>
+<h3 id="动态资源调度"><a href="#动态资源调度" class="headerlink" title="动态资源调度"></a>动态资源调度</h3><p>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略</p>
+<ul>
+<li>FIFO调度 </li>
+<li>公平调度：spark.scheduler.mode，fair<br>可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置 <h3 id="spark2-0的新版本特性"><a href="#spark2-0的新版本特性" class="headerlink" title="spark2.0的新版本特性"></a>spark2.0的新版本特性</h3></li>
+<li>新增StructurtedStreaming模块，整合流计算和批处理 </li>
+<li>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理 </li>
+<li>cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大 </li>
+<li>Spark通过rest方式使用curl进行集群任务监控 </li>
+<li>通过metrics的sink机制进行集群监控 </li>
+<li>SparkSql的thriftserver服务</li>
+<li>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据 </li>
+<li>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </li>
+</ul>
 
       
     </div>
@@ -505,8 +522,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +547,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +592,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#共享变量"><span class="nav-number">1.</span> <span class="nav-text">共享变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CheckPoint"><span class="nav-number">2.</span> <span class="nav-text">CheckPoint</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Checkpoint原理"><span class="nav-number">2.1.</span> <span class="nav-text">Checkpoint原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkpoint与persist的区别"><span class="nav-number">2.2.</span> <span class="nav-text">checkpoint与persist的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态资源调度"><span class="nav-number">3.</span> <span class="nav-text">动态资源调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark2-0的新版本特性"><span class="nav-number">4.</span> <span class="nav-text">spark2.0的新版本特性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

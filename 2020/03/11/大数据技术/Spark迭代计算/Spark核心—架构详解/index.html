@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Spark Standalone模式的Master和Worker启动脚本详解为啥要单独启动？在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark:&#x2F;&#x2F;host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态配置参数启">
+<meta name="description" content="Spark Standalone模式的Master和Worker启动脚本详解为啥要单独启动？在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark:&#x2F;&#x2F;host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark核心—架构详解">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Spark Standalone模式的Master和Worker启动脚本详解为啥要单独启动？在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark:&#x2F;&#x2F;host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态配置参数启">
+<meta property="og:description" content="Spark Standalone模式的Master和Worker启动脚本详解为啥要单独启动？在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark:&#x2F;&#x2F;host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839276926892.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839277273439.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839278553428.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839279353218.jpg">
 <meta property="article:published_time" content="2020-03-11T11:50:12.521Z">
-<meta property="article:modified_time" content="2020-03-14T09:13:53.994Z">
+<meta property="article:modified_time" content="2020-03-16T14:09:12.667Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -336,8 +336,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T17:13:53+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T22:09:12+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -397,7 +397,7 @@
       
 
       
-        <h2 id="Spark-Standalone模式的Master和Worker启动脚本详解"><a href="#Spark-Standalone模式的Master和Worker启动脚本详解" class="headerlink" title="Spark Standalone模式的Master和Worker启动脚本详解"></a>Spark Standalone模式的Master和Worker启动脚本详解</h2><p>为啥要单独启动？<br>在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark://host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态<br>配置参数启动<br>        -c CORES，仅限worker，spark的作业能够使用的cpu总数<br>        -m MEMORY，仅限worker，spark作业能够使用的memory总数<br>        等等，<br>单独关闭Master和Worker，顺序相反 </p>
+        <h2 id="Spark-Standalone模式的Master和Worker启动脚本详解"><a href="#Spark-Standalone模式的Master和Worker启动脚本详解" class="headerlink" title="Spark Standalone模式的Master和Worker启动脚本详解"></a>Spark Standalone模式的Master和Worker启动脚本详解</h2><p>为啥要单独启动？<br>在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark://host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态 <a id="more"></a><br>配置参数启动<br>        -c CORES，仅限worker，spark的作业能够使用的cpu总数<br>        -m MEMORY，仅限worker，spark作业能够使用的memory总数<br>        等等，<br>单独关闭Master和Worker，顺序相反 </p>
 <h3 id="worker节点的配置及spark-env-sh的配置参数详解"><a href="#worker节点的配置及spark-env-sh的配置参数详解" class="headerlink" title="worker节点的配置及spark-env.sh的配置参数详解"></a>worker节点的配置及spark-env.sh的配置参数详解</h3><p>配置conf/slaves文件，默认没有<br>配置hostname或ip，一台机器一行<br>master和worker是通过ssh连接，因此要配置免密<br>spark-env.sh，是spark最核心的配置文件 </p>
 <h2 id="Master主备切换原理剖析"><a href="#Master主备切换原理剖析" class="headerlink" title="Master主备切换原理剖析"></a>Master主备切换原理剖析</h2><pre><code>Master的主备切换机制有两种：一种是文件系统，一种是基于zookeeper的。基于文件系统的机制需要在主Master挂掉后，手动的切换到standby上，而基于zookeeper机制的可以实现自动切换。</code></pre><p><img src="/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839276926892.jpg" alt></p>
 <h2 id="Master的注册机制与源码分析"><a href="#Master的注册机制与源码分析" class="headerlink" title="Master的注册机制与源码分析"></a>Master的注册机制与源码分析</h2><p>注册机制包含如下几个部分：<br>    •    Worker启动后向Master注册<br>    •    Driver向Master注册<br>    •    Application向Master注册<br><img src="/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/15839277273439.jpg" alt></p>
@@ -547,7 +547,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

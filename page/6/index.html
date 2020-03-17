@@ -282,166 +282,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/" itemprop="url">Spring核心—IOC和DI</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T19:48:45+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T17:07:15+08:00">
-                2020-03-16
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h2><ul>
-<li>读作“反转控制”，更好理解，不是什么技术，而是一种设计思想，就是将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</li>
-<li>正控：若要使用某个对象，需要自己去负责对象的创建</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94IOC%E5%92%8CDI/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -648,8 +488,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T18:58:02+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:46:18+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -705,43 +545,17 @@
 
       
         
-          
-            <h2 id="安装mysql5-7"><a href="#安装mysql5-7" class="headerlink" title="安装mysql5.7"></a>安装mysql5.7</h2><ol>
+          <h3 id="安装mysql5-7"><a href="#安装mysql5-7" class="headerlink" title="安装mysql5.7"></a>安装mysql5.7</h3><ol>
 <li>下载并安装Mysql官方的yum repo<br><code>[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</code><br><code>[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</code></li>
 <li>开始安装mysql服务器<br><code>[root@localhost ~]# yum -y install mysql-community-server</code></li>
-<li>mysql数据库配置<br>启动mysql：<br><code>[root@localhost ~]# systemctl start mysqld.service</code><br><code>[root@localhost ~]# systemctl status mysqld.service</code><br>通过如下命令在日志文件中找出密码：<br><code>[root@localhost ~]# grep &quot;password&quot; /var/log/mysqld.log</code><br>进入mysql，修改密码和初始密码规则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global validate_password_policy&#x3D;0; </span><br><span class="line">mysql&gt; set global validate_password_length&#x3D;1;</span><br><span class="line">mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new password&#39;;</span><br></pre></td></tr></table></figure>
-修改编码：<br>在[mysqld]标签下加上以下内容：<br><code>character_set_server = utf8</code><br>在[client]标签下加上以下内容：<br><code>default-character-set = utf8</code><br>重启mysql，查看编码：<br><img src="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85mysql/15841830146221.jpg" alt></li>
-<li>卸载yum repo<br><code>[root@localhost ~]# yum -y remove mysql57-community-release-el7-10.noarch</code><h2 id="配置mysql主从"><a href="#配置mysql主从" class="headerlink" title="配置mysql主从"></a>配置mysql主从</h2></li>
-<li>配置主库，在master上操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">log-bin&#x3D;mysql-bin   &#x2F;&#x2F;[必须]启用二进制日志</span><br><span class="line">server-id&#x3D;145      &#x2F;&#x2F;[必须]服务器唯一ID,一般取IP最后一段</span><br></pre></td></tr></table></figure></li>
-<li>配置从库，在slave上操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">log-bin&#x3D;mysql-bin   &#x2F;&#x2F;[非必须]启用二进制日志</span><br><span class="line">server-id&#x3D;120      &#x2F;&#x2F;[必须]服务器唯一ID，一般取IP最后一段</span><br></pre></td></tr></table></figure></li>
-<li>重启两台服务器上mysql服务<br><code>systemctl restart mysqld</code></li>
-<li>在主服务器上建立用户授权slave<br>用root用户登陆，然后执行如下操作：<br><code>GRANT REPLICATION SLAVE ON *.* to &#39;slaveuser&#39;@&#39;%&#39; identified by &#39;spdb1234&#39;;</code></li>
-<li>登陆主服务器bdpkylin01，查询Master状态<br><code>show master status;</code><br>结果如下，即为正常<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Position</th>
-<th>Binlog_Do_DB</th>
-<th>Binlog_Ignore_DB</th>
-<th>Executed_Grid_Set</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mysql-bin.00001</td>
-<td>323</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li>配置从服务器的slave，用root用户在bdpkylin02上操作<br><code>change master to master_host=&#39;bdpkylin01’,master_user=&#39;slaveuser&#39;,master_password=&#39;spdb1234&#39;, master_log_file=&#39;mysql-bin.000001&#39;,master_log_pos=323;</code><br>注意：master_log_pos=323 应为master position 值</li>
-<li>启动从服务器复制功能，在bdpkylin02上操作<br><code>start slave;</code></li>
-<li>检查从服务器复制功能状态，在bdpkylin02上操作<br><code>show slave status \G;</code><br>需确保以下两个指标均为Yes，否则复制功能出现问题。<br><code>Slave_IO_Running: Yes
-Slave_SQL_Running: Yes</code></li>
-</ol>
-
-          
+<li>mysql数据库配置</li></ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85mysql/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1150,8 +964,8 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:23:54+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:13:44+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1208,7 +1022,7 @@ Slave_SQL_Running: Yes</code></li>
       
         
           
-            <h2 id="与Hive的集成"><a href="#与Hive的集成" class="headerlink" title="与Hive的集成"></a>与Hive的集成</h2><p>表的数据存储在hbase中，元数据存储在hive中<br>两种方式</p>
+            <h2 id="与Hive的集成方式"><a href="#与Hive的集成方式" class="headerlink" title="#与Hive的集成方式"></a>#与Hive的集成方式</h2><p>表的数据存储在hbase中，元数据存储在hive中。两种方式：</p>
 <ul>
 <li>管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除 </li>
 <li>外部表：现在已经存在Hbase表，需要对表中的数据进行分析 <h3 id="集成配置"><a href="#集成配置" class="headerlink" title="集成配置"></a>集成配置</h3>1）修改hive-site.xml配置文件，添加配置属<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    	&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">    	&lt;value&gt;mincdh:2181&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
@@ -1473,8 +1287,8 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:10:14+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T20:59:53+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1627,8 +1441,8 @@ Slave_SQL_Running: Yes</code></li>
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:07:39+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T20:58:56+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1684,26 +1498,14 @@ Slave_SQL_Running: Yes</code></li>
 
       
         
-          
-            <h3 id="FilterList"><a href="#FilterList" class="headerlink" title="FilterList"></a>FilterList</h3><p>FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：<code>FilterList.Operator.MUST_PASS_ALL</code><br>或关系（符合任一）：<code>FilterList.Operator.MUST_PASS_ONE</code><br>使用方法： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FilterList filterList &#x3D; new FilterList(FilterList.Operator.MUST_PASS_ONE); </span><br><span class="line">Scan s1 &#x3D; new Scan(); </span><br><span class="line">filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”), Comp areOp.EQUAL,Bytes.toBytes(“v1”) ) ); </span><br><span class="line">filterList.addFilter(new SingleColumnValueFilter(Bytes.toBytes(“f1”), Bytes.toBytes(“c2”), Compa reOp.EQUAL,Bytes.toBytes(“v2”) ) );</span><br><span class="line">&#x2F;&#x2F; 添加下面这一行后，则只返回指定的 cell，同一行中的其他 cell 不返回 </span><br><span class="line">s1.addColumn(Bytes.toBytes(“f1”), Bytes.toBytes(“c1”)); </span><br><span class="line">s1.setFilter(filterList); </span><br><span class="line">&#x2F;&#x2F; 设置 filter </span><br><span class="line">ResultScanner ResultScannerFilterList &#x3D; table.getScanner(s1); &#x2F;&#x2F;返回结果列表</span><br></pre></td></tr></table></figure>
-<p>过滤器的种类</p>
-<ul>
-<li>列值过滤器—SingleColumnValueFilter：过滤列值的相等、不等、范围等 </li>
-<li>列名前缀过滤器—ColumnPrefixFilter：过滤指定前缀的列名</li>
-<li>多个列名前缀过滤器—MultipleColumnPrefixFilter：过滤多个指定前缀的列名 </li>
-<li>rowKey 过滤器—RowFilter：通过正则，过滤 rowKey 值。    <h3 id="列植过滤器-—SingleColumnValueFilter"><a href="#列植过滤器-—SingleColumnValueFilter" class="headerlink" title="列植过滤器 —SingleColumnValueFilter"></a>列植过滤器 —SingleColumnValueFilter</h3>SingleColumnValueFilter 列值判断:</li>
-</ul>
-<ul>
-<li>相等 (CompareOp.EQUAL ), </li>
-<li>不等(CompareOp.NOT_EQUAL), </li>
-<li>范围 (e.g., CompareOp.GREATER)<br>下面示例检查列值和字符串’values’ 相等:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SingleColumnValueFilter f &#x3D; new SingleColumnValueFilter( Bytes.toBytes(&quot;cFamily&quot;) Bytes.toBytes(&quot;column&quot;),CompareFilter.CompareOp.EQUAL, Bytes.toBytes(&quot;values&quot;)); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
-注意：如果过滤器过滤的列在数据表中有的行中不存在，那么这个过滤器对此行无法过滤。<h3 id="列名前缀过滤器-—ColumnPrefixFilter"><a href="#列名前缀过滤器-—ColumnPrefixFilter" class="headerlink" title="列名前缀过滤器 —ColumnPrefixFilter"></a>列名前缀过滤器 —ColumnPrefixFilter</h3>ColumnPrefixFilter 用于指定列名前缀值相等。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ColumnPrefixFilter f &#x3D; new ColumnPrefixFilter(Bytes.toBytes(&quot;values&quot;)); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
-<h3 id="多个列值前缀过滤器-—MultipleColumnPrefixFilter"><a href="#多个列值前缀过滤器-—MultipleColumnPrefixFilter" class="headerlink" title="多个列值前缀过滤器 —MultipleColumnPrefixFilter"></a>多个列值前缀过滤器 —MultipleColumnPrefixFilter</h3>MultipleColumnPrefixFilter 和 ColumnPrefixFilter 行为差不多，但可以指定多个前缀。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">byte[][] prefixes &#x3D; new byte[][]&#123;Bytes.toBytes(&quot;value1&quot;),Bytes.toBytes(&quot;value2&quot;)&#125;; </span><br><span class="line">Filter f &#x3D; new MultipleColumnPrefixFilter(prefixes); </span><br><span class="line">s1.setFilter(f);</span><br></pre></td></tr></table></figure>
-<h3 id="rowKey过滤器—RowFilter"><a href="#rowKey过滤器—RowFilter" class="headerlink" title="rowKey过滤器—RowFilter"></a>rowKey过滤器—RowFilter</h3>RowFilter 是 rowkey 过滤器 通常根据 rowkey 来指定范围时，使用 scan 扫描器的 StartRow 和 StopRow 方法比较好。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Filter f &#x3D; new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(&quot;^1234&quot;)); </span><br><span class="line">&#x2F;&#x2F;匹配以 1234 开头的 </span><br><span class="line">rowkey s1.setFilter(f);</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          
+          <h3 id="FilterList"><a href="#FilterList" class="headerlink" title="FilterList"></a>FilterList</h3><p>FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：<code>FilterList.Operator.MUST_PASS_ALL</code><br>或关系（符合任一）：<code>FilterList.Operator.MUST_PASS_ONE</code><br>使用方法：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94filter%E4%BB%8B%E7%BB%8D/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1898,6 +1700,164 @@ Slave_SQL_Running: Yes</code></li>
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/" itemprop="url">Impala基础—安装impala</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T00:15:16+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T18:41:49+08:00">
+                2020-03-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="安装impala"><a href="#安装impala" class="headerlink" title="安装impala"></a>安装impala</h2><p>准备：<br>使用root用户或者具有sudo权限的普通用户。<br>下载安装包和依赖包：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Impala%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85impala/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1948,7 +1908,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

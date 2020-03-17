@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Hadoop的调度框架    crontab    Azkaban，    Oozie，由Cloudera开源    Zeus，由阿里开源功能架构    一个Oozie的job，就是一个MR的程序，只有map任务    需要部署到Java Servlet容器（tomcat）中运行    提供流程定义语言hPDL，通过XML文件格式来实现流程的定义    定义了控制流节点（Control Flow">
+<meta name="description" content="Hadoop的调度框架 crontab  Azkaban  Oozie：由Cloudera开源  Zeus：由阿里开源">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Oozie基础—基本概述">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Oozie/Oozie%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Hadoop的调度框架    crontab    Azkaban，    Oozie，由Cloudera开源    Zeus，由阿里开源功能架构    一个Oozie的job，就是一个MR的程序，只有map任务    需要部署到Java Servlet容器（tomcat）中运行    提供流程定义语言hPDL，通过XML文件格式来实现流程的定义    定义了控制流节点（Control Flow">
+<meta property="og:description" content="Hadoop的调度框架 crontab  Azkaban  Oozie：由Cloudera开源  Zeus：由阿里开源">
 <meta property="article:published_time" content="2020-03-15T04:37:12.699Z">
-<meta property="article:modified_time" content="2020-03-15T04:37:51.804Z">
+<meta property="article:modified_time" content="2020-03-17T03:53:48.611Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="airflow">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:37:51+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T11:53:48+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -392,7 +392,49 @@
       
 
       
-        <p>Hadoop的调度框架<br>    crontab<br>    Azkaban，<br>    Oozie，由Cloudera开源<br>    Zeus，由阿里开源<br>功能架构<br>    一个Oozie的job，就是一个MR的程序，只有map任务<br>    需要部署到Java Servlet容器（tomcat）中运行<br>    提供流程定义语言hPDL，通过XML文件格式来实现流程的定义<br>    定义了控制流节点（Control Flow Nodes）和动作节点（Action Nodes）<br>    控制流节点定义了流程的开始和结束，以及控制流程的执行路径。<br>    Workflow功能<br>    Coordinator功能<br>    Bundle功能<br>Oozie安装（结合官方文档）<br>    配置core-site.xml，添加Oozie的用户代理<br>    配置oozie-site.xml，配置hadoop的配置目录。<br>    配置oozie-site.xml，配置时区<br>    配置数据库驱动，url，username，password<br>    拷贝mysql的jar到lib下<br>    下载extjs2.2.zip<br>    解压hadooplibs到当前目录<br>    拷贝hadooplibs中的jar到新建libext目录下<br>    将extjs2.2.zip拷贝到libext目录下<br>    打war包<br>    上传jar包daohdfs（启动hdfs）<br>    创建数据库<br>Oozie的基本使用<br>    一个workflow的组成<br>        job.properties，作业的配置信息，及workflow的位置指向<br>        workflow.xml，作业的核心流程控制脚本<br>        coordinator.xml，调度时间配置<br>        lib，存放作业中需要调用的jar<br>        file/script，存放作业中需要调度的脚本或者环境的配置脚本<br>    各种Action的使用<br>        Mapreduce的Action<br>        Hive的Action<br>        Sqoop的Action<br>        Shell的Action<br>Oozie的高级使用<br>    Coordinator的使用<br>        两种机制，namely time，data availability<br>        三个属性<br>            startdate<br>            frenquency<br>            enddate<br>        支持UTC时间，修改为GMT+0800<br>        支持EL表达式或cron表达式的时间格式<br>        数据级dataset的定义<br>    Bundle的使用<br>        将一组Coordinator的作业捆绑在一起，进行统一管理 </p>
+        <h3 id="Hadoop的调度框架"><a href="#Hadoop的调度框架" class="headerlink" title="Hadoop的调度框架"></a>Hadoop的调度框架</h3><ul>
+<li>crontab </li>
+<li>Azkaban </li>
+<li>Oozie：由Cloudera开源 </li>
+<li>Zeus：由阿里开源 <a id="more"></a><h3 id="Oozie功能架构"><a href="#Oozie功能架构" class="headerlink" title="Oozie功能架构"></a>Oozie功能架构</h3>一个Oozie的job，就是一个MR的程序，只有map任务；需要部署到Java Servlet容器（tomcat）中运行；提供流程定义语言hPDL，通过XML文件格式来实现流程的定义；定义了控制流节点（Control Flow Nodes）和动作节点（Action Nodes） ；控制流节点定义了流程的开始和结束，以及控制流程的执行路径。 </li>
+<li>Workflow功能 </li>
+<li>Coordinator功能 </li>
+<li>Bundle功能 <h3 id="Oozie安装（结合官方文档）"><a href="#Oozie安装（结合官方文档）" class="headerlink" title="Oozie安装（结合官方文档）"></a>Oozie安装（结合官方文档）</h3></li>
+</ul>
+<ol>
+<li>配置core-site.xml，添加Oozie的用户代理 </li>
+<li>配置oozie-site.xml，配置hadoop的配置目录。 </li>
+<li>配置oozie-site.xml，配置时区 </li>
+<li>配置数据库驱动，url，username，password </li>
+<li>拷贝mysql的jar到lib下 </li>
+<li>下载extjs2.2.zip </li>
+<li>解压hadooplibs到当前目录 </li>
+<li>拷贝hadooplibs中的jar到新建libext目录下 </li>
+<li>将extjs2.2.zip拷贝到libext目录下 </li>
+<li>打war包 </li>
+<li>上传jar包到hdfs（启动hdfs） </li>
+<li>创建数据库 <h3 id="Oozie的基本使用"><a href="#Oozie的基本使用" class="headerlink" title="Oozie的基本使用"></a>Oozie的基本使用</h3>一个workflow的组成：</li>
+</ol>
+<ul>
+<li>job.properties，作业的配置信息，及workflow的位置指向 </li>
+<li>workflow.xml，作业的核心流程控制脚本 </li>
+<li>coordinator.xml，调度时间配置 </li>
+<li>lib，存放作业中需要调用的jar </li>
+<li>file/script，存放作业中需要调度的脚本或者环境的配置脚本<br>各种Action的使用 </li>
+</ul>
+<ul>
+<li>Mapreduce的Action </li>
+<li>Hive的Action </li>
+<li>Sqoop的Action </li>
+<li>Shell的Action <h3 id="Oozie的高级使用"><a href="#Oozie的高级使用" class="headerlink" title="Oozie的高级使用"></a>Oozie的高级使用</h3></li>
+</ul>
+<ul>
+<li>Coordinator的使用<br>两种机制：namely time和data availability<br>三个属性：</li>
+<li>startdate </li>
+<li>frenquency </li>
+<li>enddate<br>支持UTC时间，修改为GMT+0800<br>支持EL表达式或cron表达式的时间格式<br>数据级dataset的定义 </li>
+<li>Bundle的使用<br>将一组Coordinator的作业捆绑在一起，进行统一管理 </li>
+</ul>
 
       
     </div>
@@ -505,8 +547,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +572,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -566,6 +617,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop的调度框架"><span class="nav-number">1.</span> <span class="nav-text">Hadoop的调度框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oozie功能架构"><span class="nav-number">2.</span> <span class="nav-text">Oozie功能架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oozie安装（结合官方文档）"><span class="nav-number">3.</span> <span class="nav-text">Oozie安装（结合官方文档）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oozie的基本使用"><span class="nav-number">4.</span> <span class="nav-text">Oozie的基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oozie的高级使用"><span class="nav-number">5.</span> <span class="nav-text">Oozie的高级使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

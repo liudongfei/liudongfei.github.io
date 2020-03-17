@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Quartz概要介绍    Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。    Quartz用一个小Java库发布文件（.jar文件），这个库文件包含了所有Quartz核心功能。这些功能的主要接">
+<meta name="description" content="Quartz概要介绍Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Quartz基础—基本概述">
 <meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="Quartz概要介绍    Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。    Quartz用一个小Java库发布文件（.jar文件），这个库文件包含了所有Quartz核心功能。这些功能的主要接">
+<meta property="og:description" content="Quartz概要介绍Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842472259091.jpg">
 <meta property="article:published_time" content="2020-03-15T04:38:10.779Z">
-<meta property="article:modified_time" content="2020-03-15T04:42:56.485Z">
+<meta property="article:modified_time" content="2020-03-17T03:55:04.016Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="quartz">
 <meta name="twitter:card" content="summary">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-15T12:42:56+08:00">
-                2020-03-15
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T11:55:04+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -394,8 +394,13 @@
       
 
       
-        <p>Quartz概要介绍<br>    Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。<br>    Quartz用一个小Java库发布文件（.jar文件），这个库文件包含了所有Quartz核心功能。这些功能的主要接口(API)是Scheduler接口。它提供了简单的操作，例如：将任务纳入日程或者从日程中取消，开始/停止/暂停日程进度。<br>Quartz定时器的种类<br>    Quartz 中五种类型的 Trigger：<br>    ⁃    SimpleTrigger<br>    ⁃    CronTirgger<br>    ⁃    DateIntervalTrigger<br>    ⁃    NthIncludedDayTrigger<br>    ⁃    Calendar<br>Quartz的元数据存储方式</p>
-<table>
+        <h3 id="Quartz概要介绍"><a href="#Quartz概要介绍" class="headerlink" title="Quartz概要介绍"></a>Quartz概要介绍</h3><p>Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。<a id="more"></a></p>
+<p>Quartz用一个小Java库发布文件（.jar文件），这个库文件包含了所有Quartz核心功能。这些功能的主要接口(API)是Scheduler接口。它提供了简单的操作，例如：将任务纳入日程或者从日程中取消，开始/停止/暂停日程进度。</p>
+<h3 id="Quartz定时器的种类"><a href="#Quartz定时器的种类" class="headerlink" title="Quartz定时器的种类"></a>Quartz定时器的种类</h3><pre><code>⁃    SimpleTrigger
+⁃    CronTirgger
+⁃    DateIntervalTrigger
+⁃    NthIncludedDayTrigger
+⁃    Calendar</code></pre><h3 id="Quartz的元数据存储方式"><a href="#Quartz的元数据存储方式" class="headerlink" title="Quartz的元数据存储方式"></a>Quartz的元数据存储方式</h3><table>
 <thead>
 <tr>
 <th>类型</th>
@@ -414,7 +419,7 @@
 <td>运行速度的快慢取决与连接数据库的快慢</td>
 </tr>
 </tbody></table>
-<p>Quartz表关系和解释<br><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842472259091.jpg" alt="-w661"></p>
+<h3 id="Quartz表关系和解释"><a href="#Quartz表关系和解释" class="headerlink" title="Quartz表关系和解释"></a>Quartz表关系和解释</h3><p><img src="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/15842472259091.jpg" alt="-w661"></p>
 <table>
 <thead>
 <tr>
@@ -467,7 +472,19 @@
 <td></td>
 </tr>
 </tbody></table>
-<p>Quartz的核心类<br>    QuartzSchedulerThread：负责执行向QuartzScheduler注册的触发Trigger的工作的线程。<br>    ThreadPool：Scheduler使用一个线程池作为任务运行的基础设施，任务通过共享线程池中的线程提供运行效率。<br>    QuartzSchedulerResources：包含创建QuartzScheduler实例所需的所有资源（JobStore，ThreadPool等）。<br>    SchedulerFactory ：提供用于获取调度程序实例的客户端可用句柄的机制。<br>    JobStore： 通过类实现的接口，这些类要为org.quartz.core.QuartzScheduler的使用提供一个org.quartz.Job和org.quartz.Trigger存储机制。作业和触发器的存储应该以其名称和组的组合为唯一性。<br>    QuartzScheduler ：这是Quartz的核心，它是org.quartz.Scheduler接口的间接实现，包含调度org.quartz.Jobs，注册org.quartz.JobListener实例等的方法。<br>    Scheduler ：这是Quartz Scheduler的主要接口，代表一个独立运行容器。调度程序维护JobDetails和触发器的注册表。 一旦注册，调度程序负责执行作业，当他们的相关联的触发器触发（当他们的预定时间到达时）。<br>    Trigger ：具有所有触发器通用属性的基本接口，描述了job执行的时间出发规则。 - 使用TriggerBuilder实例化实际触发器。<br>    JobDetail ：传递给定作业实例的详细信息属性。 JobDetails将使用JobBuilder创建/定义。<br>    Job：要由表示要执行的“作业”的类实现的接口。只有一个方法 void execute(jobExecutionContext context)<br>    (jobExecutionContext 提供调度上下文各种信息，运行时数据保存在jobDataMap中)<br>    Job有个子接口StatefulJob ,代表有状态任务。有状态任务不可并发，前次任务没有执行完，后面任务处于阻塞等到。</p>
+<h3 id="Quartz的核心类"><a href="#Quartz的核心类" class="headerlink" title="Quartz的核心类"></a>Quartz的核心类</h3><ul>
+<li>QuartzSchedulerThread：负责执行向QuartzScheduler注册的触发Trigger的工作的线程。</li>
+<li>ThreadPool：Scheduler使用一个线程池作为任务运行的基础设施，任务通过共享线程池中的线程提供运行效率。</li>
+<li>QuartzSchedulerResources：包含创建QuartzScheduler实例所需的所有资源（JobStore，ThreadPool等）。</li>
+<li>SchedulerFactory ：提供用于获取调度程序实例的客户端可用句柄的机制。</li>
+<li>JobStore： 通过类实现的接口，这些类要为org.quartz.core.QuartzScheduler的使用提供一个org.quartz.Job和org.quartz.Trigger存储机制。作业和触发器的存储应该以其名称和组的组合为唯一性。</li>
+<li>QuartzScheduler ：这是Quartz的核心，它是org.quartz.Scheduler接口的间接实现，包含调度org.quartz.Jobs，注册org.quartz.JobListener实例等的方法。</li>
+<li>Scheduler ：这是Quartz Scheduler的主要接口，代表一个独立运行容器。调度程序维护JobDetails和触发器的注册表。 一旦注册，调度程序负责执行作业，当他们的相关联的触发器触发（当他们的预定时间到达时）。</li>
+<li>Trigger ：具有所有触发器通用属性的基本接口，描述了job执行的时间出发规则。 - 使用TriggerBuilder实例化实际触发器。</li>
+<li>JobDetail ：传递给定作业实例的详细信息属性。 JobDetails将使用JobBuilder创建/定义。</li>
+<li>Job：要由表示要执行的“作业”的类实现的接口。只有一个方法 void execute(jobExecutionContext context)(jobExecutionContext 提供调度上下文各种信息，运行时数据保存在jobDataMap中)</li>
+<li>Job有个子接口StatefulJob ,代表有状态任务。有状态任务不可并发，前次任务没有执行完，后面任务处于阻塞等到。</li>
+</ul>
 
       
     </div>
@@ -580,8 +597,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -596,7 +622,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -641,6 +667,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Quartz概要介绍"><span class="nav-number">1.</span> <span class="nav-text">Quartz概要介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quartz定时器的种类"><span class="nav-number">2.</span> <span class="nav-text">Quartz定时器的种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quartz的元数据存储方式"><span class="nav-number">3.</span> <span class="nav-text">Quartz的元数据存储方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quartz表关系和解释"><span class="nav-number">4.</span> <span class="nav-text">Quartz表关系和解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quartz的核心类"><span class="nav-number">5.</span> <span class="nav-text">Quartz的核心类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

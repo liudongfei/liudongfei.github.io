@@ -282,179 +282,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/" itemprop="url">Hbase核心—架构原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T01:08:27+08:00">
-                2020-03-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T15:09:23+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Hbase原理"><a href="#Hbase原理" class="headerlink" title="Hbase原理"></a>Hbase原理</h2><p><img src="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86/15839465523319.jpg" alt></p>
-<ul>
-<li>Region按大小分隔的，每个表开始只有一个Region，随着数据的增加， region不断增大，当增大到一个阈值时候，就会等分成两个新的region。每个region都有startkey和endkey，rowkey的范围包头不包尾。</li>
-<li>Region时Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同 RegionServer上 </li>
-<li>一个RegionServer管理多个Region ，一个RegionServer有一个或多个HLog，一般设置为只有一个 </li>
-<li>Region虽然时分布式存储的最小单元，但并不是存储的最小单元，Region由一个 或者多个Store组成，每个store保存一个column family，每个store又由一个memStore。和0到多个StoreFile组成。memStore存储在内存中，StoreFile存储在hdfs上，HFile。<h3 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h3></li>
-</ul>
-<ol>
-<li>client就是连接zk， 找到meta表的region及regionserver 向 hregionserver 发送写请求。</li>
-<li>hregionserver 将数据写到 hlog（write ahead log）。为了数据的持久化和恢复。</li>
-<li>hregionserver 将数据写到内存（memstore），达到指定阈值，溢写（flush）到磁盘，写成许Hfile（二进制格式小文件）。增长到一定阈值，许多的Hfile进行compact合并操作，多个Hfile合并成 一个Hfile，同时进行版本合并和数据删除，当单个的Hfile过大时，会触发Split操作，把当前的region split成为2个region，当前region会下线，新的2个region会被Hmaster分配到相应的HRegionServer上。</li>
-<li>反馈 client 写成功。<br>注：Hbase只是增加数据，所有的更新和删除操作，都是在Compact阶段完成的，所以用户的操作只需要进入内存即可立即返回，从而保证IO高性能。<h3 id="数据-flush-过程"><a href="#数据-flush-过程" class="headerlink" title="数据 flush 过程"></a>数据 flush 过程</h3></li>
-<li>当 memstore 数据达到阈值（默认是 64M），将数据刷到硬盘，将内存中的数据删除，同 时删除 Hlog 中的历史数据。 </li>
-<li>并将数据存储到 hdfs 中。 </li>
-<li>在 hlog 中做标记点。<h3 id="数据合并过程"><a href="#数据合并过程" class="headerlink" title="数据合并过程"></a>数据合并过程</h3></li>
-<li>当数据块达到 4 块，hmaster 将数据块加载到本地，进行合并</li>
-<li>当合并的数据超过 256M，进行拆分，将拆分后的 region 分配给不同的 hregionserver 管理</li>
-<li>当 hregionser 宕机后，将 hregionserver上的 hlog 拆分，然后分配给不同的hregionserver</li>
-<li>加载，修改.META.</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -977,8 +804,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T01:01:27+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T14:04:32+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1034,15 +861,15 @@
 
       
         
-          
-            <h2 id="为啥用raid"><a href="#为啥用raid" class="headerlink" title="为啥用raid"></a>为啥用raid</h2><p>把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能<br>优点：提高存储系统的吞吐量；通过数据校验提供容错功能</p>
-<h2 id="RAID0"><a href="#RAID0" class="headerlink" title="RAID0"></a>RAID0</h2><p>如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2</p>
-<h2 id="RAID1"><a href="#RAID1" class="headerlink" title="RAID1"></a>RAID1</h2><p>正因为RAID 0太不可靠，所以衍生出了RAID 1。如果你有n块磁盘，把其中n/2块磁盘作为镜像磁盘，在往其中一块磁盘写入数据时，也同时往另一块写数据。坏了其中一块时，镜像磁盘自动顶上，可靠性最佳，但空间利用率太低。n最少为2</p>
-<h2 id="RAID3"><a href="#RAID3" class="headerlink" title="RAID3"></a>RAID3</h2><p>若你有n块盘，其中1块盘作为校验盘，剩余n-1块盘相当于作RAID 0同时读写，当其中一块盘坏掉时，可以通过校验码还原出坏掉盘的原始数据。这个校验方式比较特别，奇偶检验，1 XOR 0 XOR 1=0，0 XOR 1 XOR 0=1，最后的数据时校验数据，当中间缺了一个数据时，可以通过其他盘的数据和校验数据推算出来。但是这有个问题，由于n-1块盘做了RAID 0，每一次读写都要牵动所有盘来为它服务，而且万一校验盘坏掉就完蛋了。最多允许坏一块盘。n最少为3.</p>
-<h2 id="RAID5"><a href="#RAID5" class="headerlink" title="RAID5"></a>RAID5</h2><p>在RAID 3的基础上有所区别，同样是相当于是1块盘的大小作为校验盘，n-1块盘的大小作为数据盘，但校验码分布在各个磁盘中，不是单独的一块磁盘，也就是分布式校验盘，这样做好处多多。最多坏一块盘。n最少为3</p>
-<h2 id="RAID6"><a href="#RAID6" class="headerlink" title="RAID6"></a>RAID6</h2><p>在RAID 5的基础上，又增加了一种校验码，和解方程似的，一种校验码一个方程，最多有两个未知数，也就是最多坏两块盘</p>
-
-          
+          <h2 id="为啥用raid"><a href="#为啥用raid" class="headerlink" title="为啥用raid"></a>为啥用raid</h2><p>把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能<br>优点：提高存储系统的吞吐量；通过数据校验提供容错功能。</p>
+<h2 id="RAID0"><a href="#RAID0" class="headerlink" title="RAID0"></a>RAID0</h2><p>如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1136,8 +963,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:58:22+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T14:00:50+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1193,10 +1020,15 @@
 
       
         
-          
-            <h2 id="数据库三范式"><a href="#数据库三范式" class="headerlink" title="数据库三范式"></a>数据库三范式</h2><p>第一范式(1NF):字段具有原子性,不可再分。所有关系型数据库系统都满足第一范式)<br>    数据库表中的字段都是单一属性的，不可再分。例如，姓名字段，其中的姓和名必 须作为一个整体，无法区分哪部分是姓，哪部分是名，如果要区分出姓和名，必须设计成两 个独立的字段。<br>    第二范式(2NF): 第二范式(2NF)是在第一范式(1NF)的基础上建立起来的，即满足第二范式(2NF)必<br>须先满足第一范式(1NF)。<br>    要求数据库表中的每个实例或行必须可以被惟一地区分。通常需要为表加上一个列，以存储 各个实例的惟一标识。这个惟一属性列被称为主关键字或主键。<br>    第二范式(2NF)要求实体的属性完全依赖于主关键字。所谓完全依赖是指不能存在仅依赖 主关键字一部分的属性，如果存在，那么这个属性和主关键字的这一部分应该分离出来形成 一个新的实体，新实体与原实体之间是一对多的关系。为实现区分通常需要为表加上一个列， 以存储各个实例的惟一标识。简而言之，第二范式就是非主属性非部分依赖于主关键字。<br>第三范式的要求如下:<br>满足第三范式(3NF)必须先满足第二范式(2NF)。简而言之，第三范式(3NF)要求一 个数据库表中不包含已在其它表中已包含的非主关键字信息。<br>所以第三范式具有如下特征:<br>1，每一列只有一个值。<br>2，每一行都能区分。<br>3，每一个表都不包含其他表已经包含的非主关键字信息。<br>    例如，帖子表中只能出现发帖人的 id，而不能出现发帖人的 id，还同时出现发帖人姓名， 否则，只要出现同一发帖人 id 的所有记录，它们中的姓名部分都必须严格保持一致，这就是数据冗余。 </p>
-
-          
+          <h2 id="数据库三范式"><a href="#数据库三范式" class="headerlink" title="数据库三范式"></a>数据库三范式</h2><ul>
+<li>第一范式(1NF):字段具有原子性,不可再分。所有关系型数据库系统都满足第一范式)<br>数据库表中的字段都是单一属性的，不可再分。例如，姓名字段，其中的姓和名必 须作为一个整体，无法区分哪部分是姓，哪部分是名，如果要区分出姓和名，必须设计成两 个独立的字段。</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%B8%89%E8%8C%83%E5%BC%8F/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1290,8 +1122,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:44:31+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T14:02:26+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1347,20 +1179,17 @@
 
       
         
-          
-            <h2 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h2><p>事务是逻辑上的一组操作，要么都执行，要么都不执行。</p>
-<h3 id="事物的四大特性-ACID"><a href="#事物的四大特性-ACID" class="headerlink" title="事物的四大特性(ACID)"></a>事物的四大特性(ACID)</h3><pre><code>1.    原子性（Atomicity）：事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；
-2.    一致性（Consistency）：执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；
-3.    隔离性（Isolation）：并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；
-4.    持久性（Durability）：一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</code></pre><h3 id="并发事务带来的问题"><a href="#并发事务带来的问题" class="headerlink" title="并发事务带来的问题"></a>并发事务带来的问题</h3><pre><code>在典型的应用程序中，多个事务并发运行，经常会操作相同的数据来完成各自的任务（多个用户对同一数据进行操作）。并发虽然是必须的，但可能会导致以下的问题。
-▪    脏读（Dirty read）: 当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是不正确的。
-▪    丢失修改（Lost to modify）: 指在一个事务读取一个数据时，另外一个事务也访问了该数据，那么在第一个事务中修改了这个数据后，第二个事务也修改了这个数据。这样第一个事务内的修改结果就被丢失，因此称为丢失修改。    例如：事务1读取某表中的数据A=20，事务2也读取A=20，事务1修改A=A-1，事务2也修改A=A-1，最终结果A=19，事务1的修改被丢失。
-▪    不可重复读（Unrepeatableread）: 指在一个事务内多次读同一数据。在这个事务还没有结束时，另一个事务也访问该数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改导致第一个事务两次读取的数据可能不太一样。这就发生了在一个事务内两次读到的数据是不一样的情况，因此称为不可重复读。
-▪    幻读（Phantom read）: 幻读与不可重复读类似。它发生在一个事务（T1）读取了几行数据，接着另一个并发事务（T2）插入了一些数据时。在随后的查询中，第一个事务（T1）就会发现多了一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。</code></pre><h3 id="不可重复读和幻读区别："><a href="#不可重复读和幻读区别：" class="headerlink" title="不可重复读和幻读区别："></a>不可重复读和幻读区别：</h3><pre><code>不可重复读的重点是修改比如多次读取一条记录发现其中某些列的值被修改，幻读的重点在于新增或者删除比如多次读取一条记录发现记录增多或减少了。</code></pre><h3 id="SQL-标准定义了四个隔离级别："><a href="#SQL-标准定义了四个隔离级别：" class="headerlink" title="SQL 标准定义了四个隔离级别："></a>SQL 标准定义了四个隔离级别：</h3><pre><code>▪    READ-UNCOMMITTED(读取未提交)：最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。
-▪    READ-COMMITTED(读取已提交)：允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。
-▪    REPEATABLE-READ(可重复读)：对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。
-▪    SERIALIZABLE(可串行化)：最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</code></pre>
-          
+          <h2 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h2><p>事务是逻辑上的一组操作，要么都执行，要么都不执行。</p>
+<h3 id="事物的四大特性-ACID"><a href="#事物的四大特性-ACID" class="headerlink" title="事物的四大特性(ACID)"></a>事物的四大特性(ACID)</h3><ol>
+<li>原子性（Atomicity）：事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；</li>
+<li>一致性（Consistency）：执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；</li></ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA%E2%80%94%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1454,8 +1283,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-12T00:42:36+08:00">
-                2020-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T14:04:35+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -1511,11 +1340,14 @@
 
       
         
-          
-            <h2 id="行存储和列存储的区别"><a href="#行存储和列存储的区别" class="headerlink" title="行存储和列存储的区别"></a>行存储和列存储的区别</h2><p>结构布局<br>行存储数据排列<br><img src="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E5%88%97%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%AD%98%E5%82%A8/15839447213178.jpg" alt></p>
-<p>列存储数据排列<br><img src="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E5%88%97%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%AD%98%E5%82%A8/15839447302865.jpg" alt><br>    两种存储的数据都是从上至下，从左向右的排列。行是列的组合，行存储以一行记录为单位，列存储以列数据集合为单位，或称列簇。列存储的读写过程是一致的，都是从第一列开始，到最后一列结束。列储存的读取是列数据集中的一段或者全部数据，写入时，一行记录被拆分为多列，每一列数据追加到对应列的末尾处。<br>对比<br>    行存储的写入是一次完成。如果这种写入建立在操作系统的文件系统上，可以保证写入过程的成功或者失败，数据的完整性因此可以确定。列存储由于需要把一行记录拆分分成单列保存，写入次数明显比存储多，再加上磁头需要在盘片上移动和定位花费的时间，实际时间消耗会更大。所以列存储在写入上占有很大的优势。<br>    数据修改，这实际也是一次写入过程。不同的是，数据修改是对磁盘上的记录做删除标记。行存储是在指定位置写入一次，列存储是将磁盘定位到多个列上分别写入，这个过程仍是行存储的列数倍。所以，数据修改也是以行存储占优。<br>    数据读取时，行存储通常将一行数据完全读出，如果只需要其中几列数据的情况，就会存在冗余列，出于缩短处理时间的考量，消除冗余列的过程通常在内存中进行的。列存储每次读取的数据是集合的一段或者全部，如果读取多列时，就需要移动磁头再次定位到下一个位置继续读取。<br>    再谈两种存储的数据分布。由于列存储的每一列数据类型是相同的，不存在二义性问题。比如说某列数据类型为整型，那么它的数据集合一定是整型数据。这种情况使得数据解析变得十分容易。相比之下，行存储则要复杂得多，因为在一行记录中保存了多种类型的数据，数据解析需要在多种数据类型之间频繁转换，这个操作很消耗CPU，增加了解析的时间。所以列存储的解析过程更有利于分析大数据。<br>    行存储的优缺点：行存储的写入是一次性完成，消耗的时间比列存储少，并且能保证数据的完整性，缺点是数据读取过程中会产生荣誉数据，如果只有少量的数据，此影响可以忽略，数据量大可能会影响到数据的处理效率。<br>    列存储的优缺点：列存储在写入效率、保证数据完整性上都不如行存储，它的优势是在读取过程，不会产生冗余数据，这对数据完整性要求不高的大数据处理领域尤为重要。<br>改进<br>    行存储读取过程中避免产生冗余数据，列存储提高读写效率。<br>    行存储的改进：减少冗余数据首先是用户在定义数据时避免冗余列的产生；其次是优化数据存储记录，保存从磁盘独处的数据进入内存后，能够被快速分解，消除冗余列的产生。用上高端的CPU和内存处理的过程会更加快速。<br>    列存储的改进：1在计算机上安装多块硬盘，以多线程并行的方式读写它们。多块硬盘并行工作可以减少磁盘读写竞用。这种方式对提高处理效率优势十分明显。缺点是需要更多的磁盘，这会增加 投入的成本。2对写过程的数据完整性问题，可以考虑在写入过程中加入类似关系数据库的“回滚”机制，当某一列发生写入失败时，此前写入的数据全部失效，同时加入散列校验码校验，进一步保证数据的完整性。<br>    共同改进的地方：频繁的小量的数据写入对磁盘的影响很大，更好的解决办法是将数据在内存中暂时保存并正霖，到达一定数量后，一次性写入磁盘，这样消耗时间更少一些。<br>为什么Column-Store⽐Row-Store好那么多<br>    1.    IO效率高。分析类查询往往只查询⼀个表⾥⾯很少的⼏个字段， Column-Store只需要从磁盘读取 ⽤户查询的Column， ⽽Row-Store读取每⼀条记录的时候你会把所有Column的数据读 出来， 在IO上Column-Store⽐Row-Store效率⾼很多， 因此性能更好。<br>    2.    块遍历。块遍历(Block Iteration)是相对于单记录遍历(per-tuple iteration)⽽⾔的， 其实说⽩了就是⼀种批量化的操作。单记录遍历的问题在于对于每个条数据， 我们都要从Row数据⾥⾯ 抽取出我们需要的column(针对Row-Store来说)， 然后调⽤相应的函数去处理， 函数调⽤的次数跟数据的条数成是 1:1 的， 在⼤数据量的情况下这个开销⾮常可观。 ⽽块遍历， 因 为是⼀次性处理多条数据， 函数调⽤次数被降下来， 当然可以提⾼性能。这种提⾼性能的⽅法在Row-Store⾥⾯是case-by-case实现的(不是⼀种共识), ⽽对于Column-Store来说已经形成共识， ⼤家都是这么做的。 ⽽如果column的值是字节意义上等宽的， ⽐如数字类型， Column-Store可以进⼀步提⾼性能， 因为查询引擎要从⼀个Block⾥ 取出其中⼀个值进⾏处理的时候直接⽤数组下标就可以获取数据， 进⼀步提升性能。 ⽽且 以数组的⽅式对数据进⾏访问使得我们可以利⽤现代CPU的⼀些优化措施⽐如SIMD(Single Instruction Multiple Data)来实现并⾏化执⾏， 进⼀步提⾼性能。<br>    3.    压缩。压缩⾸先带来的硬盘上存储空间的降低， 但是硬盘不值钱。 它的真正意义在于：数据占⽤的硬盘空间越⼩， 查询引擎花在IO上的时间就 越少(不管是从硬盘⾥⾯把数据读⼊内存， 还是从内存⾥⾯把数据读⼊CPU)。同时要记住 的是数据压缩之后， 要进⾏处理很多时候要需要解压缩(不管是Column-Store还是RowStore), 因此压缩⽐不是我们追求的唯⼀， 因为后⾯解压也需要花时间， 因此⼀般会在压缩 ⽐和解压速度之间做⼀个权衡。</p>
-
-          
+          <h3 id="行存储和列存储的区别"><a href="#行存储和列存储的区别" class="headerlink" title="行存储和列存储的区别"></a>行存储和列存储的区别</h3><p>####结构布局<br>行存储数据排列<br><img src="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E5%88%97%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%AD%98%E5%82%A8/15839447213178.jpg" alt><br>列存储数据排列</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E5%88%97%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%AD%98%E5%82%A8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1948,6 +1780,168 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Flink基础—编程模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:11:26+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T18:09:45+08:00">
+                2020-03-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><ul>
+<li>原生数据类型</li>
+<li>Java Tuples类型</li>
+<li>Scala Case Class类型</li>
+<li>POJOs类型</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1998,7 +1992,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

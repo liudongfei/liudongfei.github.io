@@ -282,160 +282,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" itemprop="url">Redis核心—数据持久化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T23:08:32+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:09:26+08:00">
-                2020-03-14
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Redis的数据持久化<br>数据持久化的两种方式：<br>    1.    快照（snapshotting），可以讲存在于某一时刻的所有数据写入硬盘里。<br>    2.    只追加文件（append-only file），在执行写命令时，讲被执行的写命令复制到硬盘里。<br>两种方式可以单独使用，也可以同时使用。<br>快照持久化<br>快照持久化配置项：<br>        save 60 1000                     多久执行一次快照操作，60秒内有1000次写入<br>        stop-writes-on-bgsave-error no   创建快照失败后是否继续执行写命令<br>        rdbcompression yes               是否对快照文件进行压缩<br>        dbfilename dump.rdb              硬盘上的快照文件名<br>快照的检查命令：<br>        redis-check-dump                 检查快照文件的正确性<br>创建快照的方式：<br>    1.    客户端使用BGSAVE命令创建一个快照。Redis调用fork创建一个子进程来负责将快照写入磁盘，主进程继续处理命令请求。<br>    2.    客户端使用SAVE命令创建一个快照。Redis接收到SAVE命令之后，在快照创建完成之前不再响应任何其他命令。<br>    3.    用户设置的save配置选项被触发，会调用BGSAVE命令创建一个快照。<br>    4.    服务器接收到SHUTDOWN命令时，会触发一次SAVE命令创建一个快照。<br>    5.    当一个Redis服务器连接另一个Redis服务器，并向对方发送SYNC命令来开始一次复制操作的时候，主服务器会执行一次BGSAVE命令<br>快照持久化的问题：<br>    1.    快照持久化只适用于那些即使丢失一部分数据也不会造成任何问题的应用程序。<br>    2.    随着Redis占用的内存越来越多，BGSAVE命令的耗时也会越来越长，此时如果系统的剩余内存不多时，会引发系统大量的使用虚拟内存，从而导致Redis的的性能降低至无法使用。<br>    3.    为了防止Redis创建子进程而导致停顿，建议关闭自动保存，通过手动执行SAVE或BGSAVE命令进行持久化。<br>AOF持久化<br>AOF持久化配置项：<br>        appendonly no              是否使用AOF持久化<br>        appendfsync everysec [always] [no]               多久才将写入的内容同步到磁盘，每秒<br>        no-appendfsync-on-rewrite no     在对AOF进行重写的时候能否执行同步操作<br>        auto-aof-rewrite-percentage 100  多久执行一次AOF文件重写<br>        auto-aof-rewrite-min-size 64mb  当AOF文件大于64M，并且AOF文件的体积比上一次重写后增加一倍<br>AOF的检查和修复命令：<br>        redis-check-aof  —-fix     检查并修复AOF文件<br>AOF持久化的问题：<br>    1.    AOF文件越来越大，会造成Redis重启后的还原操作耗时越来越长，解决的方式是进行定期执行AOF文件重写。<br>AOF文件重写：<br>    1.    为了解决AOF文件持续增大的问题，可以使用BGREWRITEAOF命令来移除AOF文件中的冗余命令来重写AOF文件，使AOF文件变小<br>    2.    BGREWRITEAOF命令和BGSAVE命令的原理相同，因此也存在相同的问题。<br>    3.    通过配置项自动触发执行BGREWRITEAOF命令。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BA%8B%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -483,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:07:42+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:53:57+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -540,10 +386,15 @@
 
       
         
-          
-            <p>Redis的事务机制<br>事务相关的命令：<br>        discard        取消事务<br>        exec           执行事务<br>        multi          开启事务<br>        unwatch        取消watch命令对于所有key的监控<br>        watch          监控一个key，如果事务执行之前这个key被其他命令改动，那么事务会被打断<br> Redis的事务机制一次可以执行多个命令：<br>    1.    使用watch命令对键进行指定的监控<br>    2.    使用multi开启事务<br>    3.    将要执行的命令放入缓存队列<br>    4.    在watch监控后exec提交前这段时间，如果被监控的键发生改变，则使用discard取消事务，或者重试操作<br>    5.    如果被监控的键没有发生改变，使用exec提交事务执行命令<br>Redis事务的特点：<br>    1.    单个redis的命令的执行是原子性的，但redis在事务上没有增加任何维持原子性的机制，所以事务的执行并不是原子性的<br>    2.    事务可以理解为一个打包批量执行的脚本，但批量命令并非原子化操作，中间某条命令失败不会导致前面已做的指令回滚，也不会造成后续的指令不做<br>    3.    这个事务可以在不被其他客户端打断的情况下执行多个命令<br>    4.    Redis只会在数据已经被其他客户端抢先改变了的情况下，通知执行了watch命令的客户端，这种做法被称为乐观锁。关系型数据库则使用的是悲观锁<br>    5.    对于上述事务去掉watch命令，可以变成非事务流水线，可以尽可能的减少应用程序和Redis之间的通讯往返次数<br>    6.    随着应用负载的增加，由watch命令导致的程序进行重试的次数越来越多，导致资源浪费。因此，应减少对watch的使用。<br>Redis使用SETNX构建锁：<br>    1.    使用setnx命令获取锁（包含锁的超时时间）。这个命令只会在键不存在的情况下为键设定值。<br>    2.    执行事务内容<br>    3.    检查是否还持有该锁，并释放锁</p>
-
-          
+          <h3 id="事务相关的命令"><a href="#事务相关的命令" class="headerlink" title="事务相关的命令"></a>事务相关的命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">discard        #取消事务 </span><br><span class="line">exec           #执行事务 </span><br><span class="line">multi         # 开启事务 </span><br><span class="line">unwatch        #取消watch命令对于所有key的监控 </span><br><span class="line">watch         #监控一个key，如果事务执行之前这个key被其他命令改动，那么事务会被打断</span><br></pre></td></tr></table></figure>
+<p>Redis的事务机制一次可以执行多个命令：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -637,8 +488,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:08:32+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T13:55:33+08:00">
+                2020-03-17
               </time>
             
           </span>
@@ -694,10 +545,17 @@
 
       
         
-          
-            <p>Redis简介<br>    ·    异常快速：每秒能执行11万集合，每秒约81000+条记录<br>    •    支持丰富的数据类型：支持字符串、列表、集合、有序集合、散列数据类型<br>    •    操作都是原子性：所有的redis操作都是原子的<br>    •    支持多个数据库，并且每个数据库中的数据是隔离的，不可共享，并且基于单机才有，集群模式没有数据库的概念。数据库默认从0开始以递增数字命名，默认支持16个，可以修改配置支持更多，客户端连接时自动连接数据库0，可以使用select命令选择数据库<br>    •    不支持自定义数据库的名称，不支持为每个数据库设置不同的密码。FlushAll可以清空一个Redis实例中的所有数据<br>Redis基本数据类型<br>字符串（String）<br>    该类型是一个由字节组成的序列，底层存储为二进制，可以包含任何数据，最大存储512M。<br>    该类型明确区分字符串、整数、浮点数，对于整数、浮点数可以执行自增或自减操作。<br>    该类型对于不存在的键进行自增或自减操作，初始化值默认为 0。<br>列表（List）<br>       该类型是一种双向链表，可以从列表的两端推入或者弹出元素。<br>集合 （Set）<br>       该类型以无序的方式存储多个各不相同的元素。<br>有序集合（Zset）<br>       该类型给Set中的元素赋予一个权重（分数）映射，按照权重排序。<br>散列（Hash）<br>    Hash：散列，键值对集合（字典），适合存储对象，可以update某一属性。<br>    Rdis的服务器命令<br>            info                   获取redis服务器的各种信息和统计信息<br>            shutdown save          保存当前数据到磁盘并关闭服务器<br>            client list            获取所有的客户端列表<br>            client kill            关闭指定的数据库连接<br>            dbsize                 获取当前数据库中key的数量<br>            save                   同步保存数据到磁盘<br>            bgsave                 在后台异步保存当前的数据到磁盘<br>            command                获取redis的命令详情数组<br>            flushdb                删除当前数据库中的所有的key<br>            flushall               删除所有的数据库中的key<br>            config get name        查看配置项<br>            config set name value      设置配置项<br>            config get requirepass 查看是否设置了密码验证<br>        config set requirepass 设置密码验证<br>        auth password          进行密码验证<br>Redis性能测试<br>使用redis-benchmark实现<br>redis-benchmark -h 127.0.0.1 -p 6379 -t set.lpush -n 10000 -q<br>以上实例测试本地redis实例执行1000次的set和lpush请求后测算出来的每秒请求数量 </p>
-
-          
+          <h3 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h3><ul>
+<li>异常快速：每秒能执行11万集合，每秒约81000+条记录</li>
+<li>支持丰富的数据类型：支持字符串、列表、集合、有序集合、散列数据类型</li>
+<li>操作都是原子性：所有的redis操作都是原子的</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -791,8 +649,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:04:13+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T22:09:49+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -849,7 +707,24 @@
       
         
           
-            <p>共享变量<br>    默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。<br>累加器的值只能在Driver中取出<br>CheckPoint<br>    Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint<br>SparkContext.setCheckpointDir()<br>Rdd.checkpoint()<br>checkpoint原理<br>    一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。<br>checkpoint与persist的区别<br>    与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。<br>动态资源调度<br>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略<br>    FIFO调度<br>    公平调度：spark.scheduler.mode，fair<br>    可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置<br>spark2.0的新版本特性<br>新增StructurtedStreaming模块，整合流计算和批处理<br>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理<br> cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大<br>Spark通过rest方式使用curl进行集群任务监控<br>通过metrics的sink机制进行集群监控<br>SparkSql的thriftserver服务<br>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据<br>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </p>
+            <h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出 </p>
+<h3 id="CheckPoint"><a href="#CheckPoint" class="headerlink" title="CheckPoint"></a>CheckPoint</h3><p>Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint：<br><code>SparkContext.setCheckpointDir()
+Rdd.checkpoint()</code></p>
+<h4 id="Checkpoint原理"><a href="#Checkpoint原理" class="headerlink" title="Checkpoint原理"></a>Checkpoint原理</h4><p>一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。 </p>
+<h4 id="checkpoint与persist的区别"><a href="#checkpoint与persist的区别" class="headerlink" title="checkpoint与persist的区别"></a>checkpoint与persist的区别</h4><p>与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。 </p>
+<h3 id="动态资源调度"><a href="#动态资源调度" class="headerlink" title="动态资源调度"></a>动态资源调度</h3><p>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略</p>
+<ul>
+<li>FIFO调度 </li>
+<li>公平调度：spark.scheduler.mode，fair<br>可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置 <h3 id="spark2-0的新版本特性"><a href="#spark2-0的新版本特性" class="headerlink" title="spark2.0的新版本特性"></a>spark2.0的新版本特性</h3></li>
+<li>新增StructurtedStreaming模块，整合流计算和批处理 </li>
+<li>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理 </li>
+<li>cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大 </li>
+<li>Spark通过rest方式使用curl进行集群任务监控 </li>
+<li>通过metrics的sink机制进行集群监控 </li>
+<li>SparkSql的thriftserver服务</li>
+<li>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据 </li>
+<li>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </li>
+</ul>
 
           
         
@@ -945,8 +820,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T23:02:36+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:57:40+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1002,10 +877,15 @@
 
       
         
-          
-            <p>Spark-sql的DataFrame<br>    SparkSQL的核心编程抽象，以列的形式组织的，分布式的数据集合 。SQLContext，SparkSQL的上下文。HiveContext是SQLContext的子类，包含除了SQLContext之外的一些针对Hive的功能，支持使用UDF，对与Spark1.3以上的版本都推荐使用HiveContext 。<br>DataFrame的生成<br>    ⁃    使用反射的方式生成<br>         javaAPI仅支持简单的javabean方式，row形式的RDD<br>           注：java的row在从DF转换成RDD时，会发生数据列顺序的变化<br>                scalaAPI支持复杂的javabean方式，row形式的RDD，需要使用SQLContext的隐式转换<br>                    注：scala的row在从DF转换成RDD时，会保持数据列的顺序<br>    ⁃    使用schema的方式编程动态生成<br>                JavaAPI使用RowFactory生成Row，使用DataTypes生成StructField和StructType<br>                ScalaAPI，Row，StructField和StructType都是caseclass<br>Spark-sql读取parquet文件<br>parquet是面向分析型业务的列式存储格式，对比行式存储的优势有：<br>    ▪    可以跳过不符合条件的列，只读取需要的数据，降低磁盘的IO<br>    ▪    压缩编码可以降低磁盘存储空间，同一列的数据类型相同<br>    ▪    只读取需要的列，支持向量运算，能获取更好的扫描性能<br>Sparksql对parquet数据源的支持在如下几个方面：<br>    ✓    支持parquet数据源的自动分区推断，可以根据目录名自动推断出分区信息。目前仅支持推断数值类型和字符串类型的，通过设置如下参数spark.sql.sources.partitionColumnTypeInference.enabled，默认为true，设置为false即是禁用推断分区列的数据类型，此时所有分区列的数据类型都为String<br>    ✓    支持多个parquet文件元数据合并，因该操作比较消耗性能，从1.5开始默认是关闭的读取parquet数据源时，将选项mergeSchema，设置为true。使用SQLContext.setConf()，将spark.sqlparquet.mergeSchema参数设置为True。通过上面两种方式中任意一种开启<br>Spark-sql对hive进行数据的读写<br>操作hive时要使用HiveContext，继承于SQLContext<br>dataset和dataframe的区别<br>dataframe就是dataset[row],是untyped<br>dataset是dataset[T],是typed类型的<br>dataset和dataframe的相互转换：as、toDF<br>ds、df基本的action操作和rdd的操作相同，<br>ds、df基本操作，创建临时视图，获取执行计划<br>typed操作（需要将df转换成ds）<br>    ⁃    coalesce：重新定义分区，只能减少分区，可以选择不发生shuffle操作<br>    ⁃     repartition：重新定义分区，可以增加或减少分区，必须进行shuffle<br>    ⁃    distinct：去重，一条记录完整内容去重<br>    ⁃    dropDuplicates：去重，根据选择的字段内容去重<br>    ⁃    except：获取当前ds中存在，但是在另外一ds中不存在的记录<br>    ⁃    filter：根据自己的逻辑进行过滤<br>    ⁃    intersect：获取两个ds的交集<br>    ⁃    map：将数据中的每条数据都做映射返回一个新数据<br>    ⁃    mapPartition：一次性对一个partition中的数据进行处理<br>    ⁃    flatMap：将数据中的每条数据都做映射返回多条新数据<br>    ⁃    joinWith：两个ds进行join操作<br>    ⁃    sort：根据字段进行排序<br>    ⁃    randomSplit：对ds进行切分<br>    ⁃    sample：从ds中随机取一定的样本<br>untyped操作<br>    ⁃    select：投影<br>    ⁃    where：过滤<br>    ⁃    groupBy：分组<br>    ⁃    agg：聚合<br>    ⁃    col：取列<br>    ⁃    join：连接 </p>
-
-          
+          <h3 id="DataFrame的生成"><a href="#DataFrame的生成" class="headerlink" title="DataFrame的生成"></a>DataFrame的生成</h3><ul>
+<li>使用反射的方式生成<br>javaAPI仅支持简单的javabean方式，row形式的RDD。<br>注：java的row在从DF转换成RDD时，会发生数据列顺序的变化<br>scalaAPI支持复杂的javabean方式，row形式的RDD，需要使用SQLContext的隐式转换<br>注：scala的row在从DF转换成RDD时，会保持数据列的顺序</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1099,8 +979,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:55:23+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:16:45+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1156,10 +1036,14 @@
 
       
         
-          
-            <p>与Mapreduce集成<br>    classpath添加：<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖<br>    实现方法：<br>maven依赖：hbase-server<br>Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。<br> 1、写个 mapper 继承 TableMapper&lt;Text, IntWritable&gt;<br>参数：Text：mapper 的输出 key 类型； IntWritable：mapper 的输出 value 类型。<br>其中的 map 方法如下： map(ImmutableBytesWritable key, Result value,Context context)<br>参数：key：rowKey；value： Result ，一行数据； context 上下文<br> 2、写个 reduce 继承 TableReducer&lt;Text, IntWritable, ImmutableBytesWritable&gt;<br>参数：Text:reducer 的输入 key； IntWritable：reduce 的输入 value； ImmutableBytesWritable：reduce 输出到 hbase 中的 rowKey 类型。<br>其中的 reduce 方法如下： reduce(Text key, Iterable<IntWritable> values,Context context)<br>参数： key：reduce 的输入 key；values：reduce 的输入 value；<br>    准备表：<br>1、建立数据来源表‘word’，包含一个列族‘content’ 向表中添加数据，在列族中放入列‘info’，并将短文数据放入该列中，如此插入多行，行 键为不同的数据即可<br>2、建立输出表‘stat’，包含一个列族‘content’<br>3、通过 Mr 操作 Hbase 的‘word’表，对‘content：info’中的短文做词频统计，并将统计 结果写入‘stat’表的‘content：info 中’，行键为单词<br>    实现：</IntWritable></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line">package com.beicai.hbase;</span><br><span class="line"></span><br><span class="line">import java.io.IOException; </span><br><span class="line">import java.util.ArrayList; </span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.conf.Configuration; </span><br><span class="line">import org.apache.hadoop.hbase.HBaseConfiguration; </span><br><span class="line">import org.apache.hadoop.hbase.HColumnDescriptor; </span><br><span class="line">import org.apache.hadoop.hbase.HTableDescriptor;</span><br><span class="line">import org.apache.hadoop.hbase.client.HBaseAdmin; </span><br><span class="line">import org.apache.hadoop.hbase.client.HTable; </span><br><span class="line">import org.apache.hadoop.hbase.client.Put; </span><br><span class="line">import org.apache.hadoop.hbase.client.Result; </span><br><span class="line">import org.apache.hadoop.hbase.client.Scan; </span><br><span class="line">import org.apache.hadoop.hbase.io.ImmutableBytesWritable; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableMapper; </span><br><span class="line">import org.apache.hadoop.hbase.mapreduce.TableReducer; </span><br><span class="line">import org.apache.hadoop.hbase.util.Bytes; </span><br><span class="line">import org.apache.hadoop.io.IntWritable;</span><br><span class="line">import org.apache.hadoop.io.Text; </span><br><span class="line">import org.apache.hadoop.mapreduce.Job; </span><br><span class="line">&#x2F;** </span><br><span class="line">  * mapreduce 操作 hbase </span><br><span class="line">  * @author liudongfei </span><br><span class="line">  *&#x2F; </span><br><span class="line">public class HBaseMr &#123; </span><br><span class="line">&#x2F;** * 创建 hbase 配置 *&#x2F; </span><br><span class="line">static Configuration config &#x3D; null; </span><br><span class="line">static &#123; </span><br><span class="line">	config &#x3D; HBaseConfiguration.create(); </span><br><span class="line">	config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;slave1,slave2,slave3&quot;); 	config.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** * 表信息 *&#x2F; </span><br><span class="line">public static final String tableName &#x3D; &quot;word&quot;;&#x2F;&#x2F;表名 1 </span><br><span class="line">public static final String colf &#x3D; &quot;content&quot;;&#x2F;&#x2F;列族 </span><br><span class="line">public static final String col &#x3D; &quot;info&quot;;&#x2F;&#x2F;列 </span><br><span class="line">public static final String tableName2 &#x3D; &quot;stat&quot;;&#x2F;&#x2F;表名 2 </span><br><span class="line">&#x2F;** * 初始化表结构，及其数据 *&#x2F; </span><br><span class="line">public static void initTB() &#123; </span><br><span class="line">HTable table&#x3D;null; </span><br><span class="line">HBaseAdmin admin&#x3D;null;</span><br><span class="line">try &#123; </span><br><span class="line">	admin &#x3D; new HBaseAdmin(config);&#x2F;&#x2F;创建表管理 </span><br><span class="line">	&#x2F;*删除表*&#x2F; </span><br><span class="line">	if (admin.tableExists(tableName)||admin.tableExists(tableName2)) &#123; </span><br><span class="line">		System.out.println(&quot;table is already exists!&quot;); </span><br><span class="line">		admin.disableTable(tableName); </span><br><span class="line">		admin.deleteTable(tableName); </span><br><span class="line">		admin.disableTable(tableName2); </span><br><span class="line">		admin.deleteTable(tableName2); </span><br><span class="line">	&#125; </span><br><span class="line">	&#x2F;*创建表*&#x2F; </span><br><span class="line">	HTableDescriptor desc &#x3D; new HTableDescriptor(tableName); </span><br><span class="line">	HColumnDescriptor family &#x3D; new HColumnDescriptor(colf); </span><br><span class="line">	desc.addFamily(family);</span><br><span class="line">	admin.createTable(desc); </span><br><span class="line">	HTableDescriptor desc2 &#x3D; new HTableDescriptor(tableName2); </span><br><span class="line">	HColumnDescriptor family2 &#x3D; new HColumnDescriptor(colf); </span><br><span class="line">	desc2.addFamily(family2); </span><br><span class="line">	admin.createTable(desc2); </span><br><span class="line">	&#x2F;*插入数据*&#x2F; </span><br><span class="line">	table &#x3D; new HTable(config,tableName); </span><br><span class="line">	table.setAutoFlush(false); </span><br><span class="line">	table.setWriteBufferSize(5); </span><br><span class="line">	List&lt;Put&gt; lp &#x3D; new ArrayList&lt;Put&gt;(); </span><br><span class="line">	Put p1 &#x3D; new Put(Bytes.toBytes(&quot;1&quot;)); </span><br><span class="line">	p1.add(colf.getBytes(), col.getBytes(),(&quot;The Apache Hadoop software library is a framework&quot;).getBytes()); </span><br><span class="line">	lp.add(p1); </span><br><span class="line">	Put p2 &#x3D; new Put(Bytes.toBytes(&quot;2&quot;));</span><br><span class="line">	p2.add(colf.getBytes(),col.getBytes(),(&quot;The common utilities that support the 	other Hadoop modules&quot;).getBytes()); </span><br><span class="line">	lp.add(p2); </span><br><span class="line">	Put p3 &#x3D; new Put(Bytes.toBytes(&quot;3&quot;)); </span><br><span class="line">	p3.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop by reading the documentation&quot;).getBytes()); lp.add(p3); </span><br><span class="line">	Put p4 &#x3D; new Put(Bytes.toBytes(&quot;4&quot;)); </span><br><span class="line">	p4.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop from the release page&quot;).getBytes()); </span><br><span class="line">	lp.add(p4); </span><br><span class="line">	Put p5 &#x3D; new Put(Bytes.toBytes(&quot;5&quot;)); </span><br><span class="line">	p5.add(colf.getBytes(), col.getBytes(),(&quot;Hadoop on the mailing list&quot;).getBytes()); </span><br><span class="line">	lp.add(p5); </span><br><span class="line">	table.put(lp); </span><br><span class="line">	table.flushCommits(); </span><br><span class="line">	lp.clear();</span><br><span class="line">&#125; catch (Exception e) &#123; </span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125; finally &#123; </span><br><span class="line">	try &#123; </span><br><span class="line">		if(table!&#x3D;null)&#123; </span><br><span class="line">			table.close(); </span><br><span class="line">		&#125; </span><br><span class="line">	&#125; catch (IOException e) &#123; </span><br><span class="line">		e.printStackTrace(); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** </span><br><span class="line">* MyMapper 继承 TableMapper </span><br><span class="line">* TableMapper&lt;Text,IntWritable&gt; </span><br><span class="line">* Text:输出的 key 类型， </span><br><span class="line">* IntWritable：输出的 value 类型 </span><br><span class="line">*&#x2F; </span><br><span class="line">public static class MyMapper extends TableMapper&lt;Text, IntWritable&gt; &#123; </span><br><span class="line">private static IntWritable one &#x3D; new IntWritable(1); </span><br><span class="line">private static Text word &#x3D; new Text(); @Override </span><br><span class="line">&#x2F;&#x2F;输入的类型为：key：rowKey； value：一行数据的结果集 </span><br><span class="line">Result protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException &#123; </span><br><span class="line">&#x2F;&#x2F;获取一行数据中的 colf：col </span><br><span class="line">String words &#x3D; Bytes.toString(value.getValue(Bytes.toBytes(colf), Bytes.toBytes(col)));&#x2F;&#x2F; 表里面只有一个列族，所以我就直接获取每一行的值 </span><br><span class="line">&#x2F;&#x2F;按空格分割 </span><br><span class="line">String itr[] &#x3D; words.toString().split(&quot; &quot;); </span><br><span class="line">&#x2F;&#x2F;循环输出 word 和 1 </span><br><span class="line">for (int i &#x3D; 0; i &lt; itr.length; i++) &#123; </span><br><span class="line">	word.set(itr[i]); </span><br><span class="line">	context.write(word, one); &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;** </span><br><span class="line">* MyReducer 继承 TableReducer </span><br><span class="line">* TableReducer&lt;Text,IntWritable&gt; </span><br><span class="line">* Text:输入的 key 类型， </span><br><span class="line">* IntWritable：输入的 value 类型， </span><br><span class="line">* ImmutableBytesWritable：输出类型，表示 rowkey 的类型 </span><br><span class="line">*&#x2F; </span><br><span class="line">public static class MyReducer extends</span><br><span class="line">TableReducer&lt;Text, IntWritable, ImmutableBytesWritable&gt; &#123;</span><br><span class="line">@Override</span><br><span class="line">protected void reduce(Text key, Iterable&lt;IntWritable&gt; values, Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">&#x2F;&#x2F;对 mapper 的数据求和</span><br><span class="line">int sum &#x3D; 0;</span><br><span class="line">for (IntWritable val : values) &#123;</span><br><span class="line">	&#x2F;&#x2F;叠加 </span><br><span class="line">	sum +&#x3D; val.get();</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 创建 put，设置 rowkey 为单词</span><br><span class="line">Put put &#x3D; new Put(Bytes.toBytes(key.toString())); </span><br><span class="line">&#x2F;&#x2F; 封装数据 </span><br><span class="line">put.add(Bytes.toBytes(colf), Bytes.toBytes(col),Bytes.toBytes(String.valueOf(sum))); </span><br><span class="line">&#x2F;&#x2F;写到 hbase,需要指定 rowkey、put </span><br><span class="line">context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())),put);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123; </span><br><span class="line">config.set(&quot;df.default.name&quot;, &quot;hdfs:&#x2F;&#x2F;master:9000&#x2F;&quot;);&#x2F;&#x2F;设置 hdfs 的默认路径 </span><br><span class="line">config.set(&quot;hadoop.job.ugi&quot;, &quot;hadoop,hadoop&quot;);&#x2F;&#x2F;用户名，组 </span><br><span class="line">config.set(&quot;mapred.job.tracker&quot;, &quot;master:9001&quot;);&#x2F;&#x2F;设置 jobtracker 在哪 </span><br><span class="line">&#x2F;&#x2F;初始化表 </span><br><span class="line">initTB();&#x2F;&#x2F;初始化表 </span><br><span class="line">&#x2F;&#x2F;创建 job </span><br><span class="line">Job job &#x3D; new Job(config, &quot;HBaseMr&quot;);&#x2F;&#x2F;job </span><br><span class="line">job.setJarByClass(HBaseMr.class);&#x2F;&#x2F;主类 </span><br><span class="line">&#x2F;&#x2F;创建 scan </span><br><span class="line">Scan scan &#x3D; new Scan(); </span><br><span class="line">&#x2F;&#x2F;可以指定查询某一列 </span><br><span class="line">scan.addColumn(Bytes.toBytes(colf), Bytes.toBytes(col)); </span><br><span class="line">&#x2F;&#x2F;创建查询 hbase 的 mapper，设置表名、scan、mapper 类、mapper 的输出 key、 mapper 的输出 value </span><br><span class="line">TableMapReduceUtil.initTableMapperJob(tableName, scan, MyMapper.class,Text.class, IntWritable.class, job); </span><br><span class="line">&#x2F;&#x2F;创建写入 hbase 的 reducer，指定表名、reducer 类、job TableMapReduceUtil.initTableReducerJob(tableName2, MyReducer.class, job); System.exit(job.waitForCompletion(true) ? 0 : 1); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">	提交并运行jar：</span><br><span class="line">hadoop_classpath&#x3D;&#96;hbase mapredcp&#96; yarn jar *.jar mainenter</span><br></pre></td></tr></table></figure>
-          
+          <p>第一步，classpath添加。<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖。<br>第二步，maven依赖添加。<br>POM文件中添加hbase-server依赖。Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94%E4%B8%8EMR%E9%9B%86%E6%88%90/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1225,7 +1109,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/" itemprop="url">Hbase核心—表的管理</a></h1>
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1/" itemprop="url">Hbase核心—表的设计</a></h1>
         
 
         <div class="post-meta">
@@ -1253,8 +1137,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:53:43+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:11:16+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1311,7 +1195,15 @@
       
         
           
-            <p>命名空间相关操作<br>        创建表时，可以针对每个列簇指定多个属性,也 可以对表的属性进行设置。<br>        HBase表的预分区<br>            默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向<br>            该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建<br>            一些region，多个region会被多个regionserver管理。<br>            region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。<br>            预分区的方式<br>                1）在shell中可以使用SPLITS=&gt;[key1, key2…]方式指定<br>                2）或者SPLITS_FILE =&gt; ‘path’<br>                3）NUMREGIONS=&gt;3,SPLITALGO=&gt;’HexStringSplit’(自定义rowkey函数)<br>            表的rowkey设计核心<br>                依据rowkey查询最快<br>                对rowkey进行范围查询range<br>                前缀匹配<br>            主表：存储所有的数据<br>            索引表：根据业务创建业务rowkey到主表rowkey的映射表<br>                创建方式：<br>                    hbase<br>                    solr<br>                问题：主表和索引表的同步问题<br>                解决：<br>                    程序，事物<br>                    phoenix，Hbase的sql<br>                        只有通过jdbc的方式<br>                    cloudera search    解决hbase和solr索引表的同步 </p>
+            <h3 id="HBase表的预分区"><a href="#HBase表的预分区" class="headerlink" title="HBase表的预分区"></a>HBase表的预分区</h3><p>默认情况下，一张表在新创建时，会默认分配一个region，此时如果大量向该表中导入大量数据，可能会出现问题。此时可以在创建表时，多创建一些region，多个region会被多个regionserver管理。<br>region的预分区依赖于rowkey，可以在创建表时预先估计一些rowkey。<br>预分区的方式<br>                1）在shell中可以使用SPLITS=&gt;[key1, key2…]方式指定<br>                2）或者SPLITS_FILE =&gt; ‘path’<br>                3）NUMREGIONS=&gt;3,SPLITALGO=&gt;’HexStringSplit’(自定义rowkey函数) </p>
+<h3 id="表的rowkey设计"><a href="#表的rowkey设计" class="headerlink" title="表的rowkey设计"></a>表的rowkey设计</h3><p>Hbase最快的三种查询方式：</p>
+<ul>
+<li>依据rowkey查询最快 </li>
+<li>对rowkey进行范围查询range </li>
+<li>前缀匹配 <h3 id="Hbase的二级索引"><a href="#Hbase的二级索引" class="headerlink" title="Hbase的二级索引"></a>Hbase的二级索引</h3>主表：存储所有的数据<br>索引表：根据业务创建业务rowkey到主表rowkey的映射表<br>创建方式： </li>
+<li>hbase </li>
+<li>solr<br>产生的问题：主表和索引表的同步问题<br>解决：<br>程序，事务<br>phoenix，Hbase的sql<br>只有通过jdbc的方式<br>cloudera search    解决hbase和solr索引表的同步 </li>
+</ul>
 
           
         
@@ -1565,8 +1457,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:53:29+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:07:02+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1623,7 +1515,7 @@
       
         
           
-            <p>表管理的方式<br>            Master webUI<br>            Hbase shell 管理表       ddl命令组<br>                表的enable disable<br>            Hbase shell 访问数据        dml命令组<br>                管理hbase:meta<br>            Hbase shell管理集群        tools命令组<br>            Hbase shell 执行java方法    用于分区类<br>            row counter 统计条目数<br>            hbase hlog 预写日志分析工具<br>            hbase hfile HFile文件分析工具<br>            HBase hbck 检查HBase集群的健康状况分析<br>                -fix<br>                -fixmeta </p>
+            <p>Master webUI<br>Hbase shell 管理表       ddl命令组<br>表的enable disable<br>Hbase shell 访问数据        dml命令组<br>管理hbase:meta<br>Hbase shell管理集群        tools命令组<br>Hbase shell 执行java方法    用于分区类<br>row counter 统计条目数<br>hbase hlog 预写日志分析工具<br>hbase hfile HFile文件分析工具<br>HBase hbck 检查HBase集群的健康状况分析<br>    -fix<br>    -fixmeta </p>
 
           
         
@@ -1719,8 +1611,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-14T20:50:35+08:00">
-                2020-03-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:06:55+08:00">
+                2020-03-16
               </time>
             
           </span>
@@ -1776,10 +1668,178 @@
 
       
         
-          
-            <p>列簇字典<br>            NAME，列簇名称<br>            DATA_BLOCK_ENCODING，数据块编码<br>            BLOOM FILTER ，数据结构BLOOM过滤器，用于建索引<br>            VERSIONS，Cell版本数量<br>            MIN_VERSIONS，最小Cell版本数量<br>            COMPRESSION，压缩<br>                配置HBase压缩<br>                    。。。<br>                创建表时配置压缩属性<br>                配置hbase-site.xml中的压缩属性，重启regionserver<br>            IN_MEMORY，<br>            BLOCK_CACHE，<br>                读取数据时，会按照以下顺序查找<br>                    》MemStore<br>                    》BlockCache -〉每个regionserver只有一个<br>                    》hfile<br>                    把读的数据放入BlockCache。由于BlockCache采用的是LRU策略，因此<br>                    当BlockCache达到上限时，会启动淘汰机制，淘汰最老的一批数据，<br>                    在注重读响应时间的应用场景下，可以将BlockCache设置大些。<br>                对BlockCache的分级<br>                    对于整个BlcokCache的内存，各级别的比例<br>                    single、multi、inmemory  0.25 0.5 0.25<br>                    Inmemory队列用于保存HBaseMeta元数据信息，如股票数据量很大的<br>                    用户表设置为inmemory的话，可能会导致Meta表缓存失效，进而对<br>                    集群性能产生影响<br>                RegionServer的内存消耗<br>                    write时，MemStore    40%<br>                    read时，BlockCache    40%<br>                    other    20% </p>
+          <h3 id="列簇字典"><a href="#列簇字典" class="headerlink" title="列簇字典"></a>列簇字典</h3><ul>
+<li>NAME #列簇名称 </li>
+<li>DATA_BLOCK_ENCODING #数据块编码 </li>
+<li>BLOOM FILTER #数据结构BLOOM过滤器，用于建索引 </li>
+<li>VERSIONS #Cell版本数量</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E8%A1%A8%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F/" itemprop="url">Hbase核心—数据加载的方式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T20:48:54+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T20:58:56+08:00">
+                2020-03-16
+              </time>
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="使用Hbase的PUT-API"><a href="#使用Hbase的PUT-API" class="headerlink" title="使用Hbase的PUT API"></a>使用Hbase的PUT API</h3><h3 id="使用HBase的bulkload-tool-：十分重要"><a href="#使用HBase的bulkload-tool-：十分重要" class="headerlink" title="使用HBase的bulkload tool ：十分重要"></a>使用HBase的bulkload tool ：十分重要</h3><p>将数据文件直接转换成HFile格式文件，然后采取load的方式加载到HBase。优点如下：</p>
+<ul>
+<li>可以完成巨量数据的快速入库</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1863,7 +1923,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
