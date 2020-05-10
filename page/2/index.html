@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E5%AE%A2%E6%88%B7%E7%AB%AF/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E5%AE%A2%E6%88%B7%E7%AB%AF/" itemprop="url">Hbase核心—Hbase客户端</a></h1>
+                <a class="post-title-link" href="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%88/" itemprop="url">数据结构—栈</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T13:43:11+08:00">
-                2020-04-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-29T09:28:22+08:00">
+                2020-04-29
               </time>
             
 
@@ -329,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-27T18:36:59+08:00">
-                2020-04-27
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-10T20:14:04+08:00">
+                2020-05-10
               </time>
             
           </span>
@@ -348,195 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Hbase提供了面向Java、C/C++、Python等多种语言的客户端。由于Hbase本身时Java开发的，对于非Java的客户端推荐使用ThriftServer的方式来访问Hbase。</p>
-<h3 id="客户端访问Hbase过程"><a href="#客户端访问Hbase过程" class="headerlink" title="客户端访问Hbase过程"></a>客户端访问Hbase过程</h3><ul>
-<li>步骤1:获取集群的Configuration对象。需要3个配置文件：hbase-site.xml、core-site.xml、hdfs-site.xml。</li>
-<li>步骤2:通过Configuration初始化连接集群的Connection。一个进程一般只需要为一个独立的集群建立一个Conn即可，不需要建立连接池。Hbase的Connection本质上就是由连接多个集群的TCP链接组成，客户端的请求分发到不同的物理节点，因此吞吐并不是问题。</li>
-<li>步骤3:通过Connection初始化Table。Table是一个非常轻量级的对象，由同一个Conn创建的多个Table，都会共享连接、配置信息、线程池、Meta缓存这些资源。</li>
-<li>步骤4:通过Table执行Put和Scan操作。</li>
-</ul>
-<h3 id="定位Meta表"><a href="#定位Meta表" class="headerlink" title="定位Meta表"></a>定位Meta表</h3><p>Hbase的一张表是由多个Region构成，这些Region分布在整个集群的RegionServer上。客户端在做任何数据操作时，需要先确认数据在哪个Region，然后根据Region的RegionServer信息，去对应的RegionServer上操作。因此，Hbase设计了一张特殊的表hbase:meta表，来专门存放集群所有的Region信息。HBase保证hbase:meta表始终只有一个Region，这是为了确保meta表多次操作的原子性，因为Hbase本质上只支持Region级别的事务。（Region级别事务就是当多个操作落在同一个Region内时，Hbase能保证这一批操作执行的原子性）。hbase:meta表的一个rowkey就对应一个region，其结构如下：</p>
-<ul>
-<li>rowkey：主要由TableName、StartRow、TimeStamp、EncodedName4个字段拼接而成。</li>
-<li>info:regsioninfo：该列对应的Value主要存储4个信息，即EncodedName、RegionName、Region的StartRow、Region的StopRow。</li>
-<li>info:seqnumDuringOpen：该列存储Region打开时的sequenceId。</li>
-<li>info:server：该列存储Region在哪个RegionServer上。</li>
-<li>info:serverstartcode：该列存储Region所在RegionServer的启动Timestamp。</li>
-</ul>
-<p>一个大的集群可能承担数千万的查询写入请求，meta表只有一个Region，如果所有的流量都先请求meta所在的RegionServer，那么meta表将承担巨大的压力，这个Region将马上成为热点的Region，如何解决这个问题呢？很简单：将meta表的Region信息缓存在Hbase客户端。</p>
-<h3 id="Scan的原理及过程"><a href="#Scan的原理及过程" class="headerlink" title="Scan的原理及过程"></a>Scan的原理及过程</h3><p>客户端Scan的核心流程如下图：<br><img src="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E5%AE%A2%E6%88%B7%E7%AB%AF/15879785733300.jpg" alt><br>用户每次执行Scanner.next()，都会尝试去名为cache的队列中拿result。如果cache队列已经为空，则会发起一次RPC向服务端请求当前scanner的后续result数据（步骤1）。客户端收到result列表后（步骤2），通过scanResultCache把这些results内的多个cell进行重组，最终形成用户需要的result放入cache中（步骤3），其中步骤1、2、3统称为loadcache操作。<br>为什么会有步骤3呢？因为多个维度的资源限制，如果不进行整理，客户端拿到的result可能不是一行完整的数据。<br>几个Scan的重要概念：<br>    - caching：每次loadcache操作最多放caching个reulst到cache队列中。控制caching也就能控制每次loadcache向服务端请求的数据量，避免某一次scanner.next()操作耗时过长。<br>    - batch：用户拿到的result中，最多含有一行数据中的batch个cell。如果某一行有5个cell，Scan设的batch为2，那么用户会拿到3个result，每个result中cell的个数一次为2，2，1。<br>    - allowPartial：用户能容忍拿到一行部分cell的result。设置了这个属性，将会跳过步骤3。<br>    - maxResultSize：loadcache时单次RPC操作最多拿到maxResultSize字节的结果集。</p>
-<h3 id="Hbase客户端避坑指南"><a href="#Hbase客户端避坑指南" class="headerlink" title="Hbase客户端避坑指南"></a>Hbase客户端避坑指南</h3><h4 id="RPC重试配置要点"><a href="#RPC重试配置要点" class="headerlink" title="RPC重试配置要点"></a>RPC重试配置要点</h4><p>有如下几种常见的重试异常：</p>
-<ul>
-<li>待访问的Region的RegionServeer发生宕机。</li>
-<li>服务端负载较大，导致单次RPC响应超时。</li>
-<li>访问meta表或者Zookeeper异常。<br>Hbase常见的几个超时参数：</li>
-</ul>
-<ul>
-<li>hbase.rpc.timeout：表示单次RPC请求的超时时间。</li>
-<li>hbase.client.retries.number：API最多容许RPC重试次数。</li>
-<li>hbase.client.pause：表示连续两次RPC重试之间的休眠时间。注意，Hbase的重试休眠时间时按照随机退避算法计算的。</li>
-<li>hbase.client.operation.timeout：表示单次API的超时时间。一次API可能有多次RPC重试。</li>
-</ul>
-<h4 id="Scan-的Filter设置"><a href="#Scan-的Filter设置" class="headerlink" title="Scan 的Filter设置"></a>Scan 的Filter设置</h4><p><strong>FilterList</strong><br>FilterList 代表一个过滤器列表，可以添加多个过滤器进行查询，多个过滤器之间的关系有：<br>与关系（符合所有）：<code>FilterList.Operator.MUST_PASS_ALL</code><br>或关系（符合任一）：<code>FilterList.Operator.MUST_PASS_ONE</code><br>使用方法：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E5%AE%A2%E6%88%B7%E7%AB%AF/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E4%BE%9D%E8%B5%96%E6%9C%8D%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E4%BE%9D%E8%B5%96%E6%9C%8D%E5%8A%A1/" itemprop="url">Hbase核心—Hbase依赖服务</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T11:56:12+08:00">
-                2020-04-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-27T13:29:49+08:00">
-                2020-04-27
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
                   </a>
                 </span>
 
@@ -574,43 +387,8 @@
       
         
           
-            <p>Hbase集群需要至少依赖Zookeeper和HDFS两个Apche顶级项目。<br>Zookeeper和HDFS的介绍详见相关章节。</p>
-<h3 id="Hbase在Zookeeper的节点分布"><a href="#Hbase在Zookeeper的节点分布" class="headerlink" title="Hbase在Zookeeper的节点分布"></a>Hbase在Zookeeper的节点分布</h3><p>下面内容是Hbase在Zookeeper根节点下创建的主要子节点：<br>根节点：/hbase，可配置</p>
-<ul>
-<li>meta-regionserver：存储Hbase集群hbase:meta元数据表所在的RegionServer访问地址。</li>
-<li>backup-masters：master的备份节点，可以是一个也可以是多个。</li>
-<li>table：集群中所有表的信息。</li>
-<li>region-in-transition： 记录Hbase迁移Region过程中各个阶段的状态。</li>
-<li>table-lock：Hbase系统使用Zookeeper相关机制实现分布式锁。在对一张表的DDL操作通常是典型的分布式操作。每次执行DDL操作之前都需要首先获取相关的表锁，防止多个DDL操作之间出现冲突。</li>
-<li>rs：集群中所有运行RegionServer。</li>
-<li>online-snapshot：用来实现在线snapshot操作。表级别的snapshot是一个分布式操作，需要对目标表的每个Region都执行snapshot，全部成功后才能返回成功。</li>
-<li>replication：用来实现Hbase复制功能。</li>
-<li>splitWAL/recovering-regions：用来实现Hbase分布式故障恢复。</li>
-</ul>
-<h3 id="Hbase在HDFS中的文件布局"><a href="#Hbase在HDFS中的文件布局" class="headerlink" title="Hbase在HDFS中的文件布局"></a>Hbase在HDFS中的文件布局</h3><p>下面内容是Hbase在HDFS中的文件分布布局：<br>根目录：/hbase</p>
-<ul>
-<li>.hbase-snapshot：snapshot文件存储目录。</li>
-<li>.tmp：临时文件目录，主要用于Hbase表的创建和删除。</li>
-<li>WALs：存储集群中所有RegionServer的HLog日志文件。</li>
-<li>MasterProcWALs：存储Master Procedure过程中的WAL文件。Master Procedure功能主要用于可恢复的分布式DDL操作。</li>
-<li>archive：文件归档目录。这个额目录中主要会在一下几个场景使用：<ul>
-<li>所有对hfile文件的删除操作都会将待删除文件临时存放在该目录。</li>
-<li>进行Snapshot或者升级的时候使用到的归档目录</li>
-<li>comapction删除hfile的时候，也会把旧的hfile移动到这里。</li>
-</ul>
-</li>
-<li>corrupt：存储损坏的HLog文件或者HFile文件。</li>
-<li>data：存储集群中所有Region的HFile数据。HFile文件在data目录下的完整路径如下所示：<br>  /hbase/data/namespacename/tablename/regionname/familyname/hfilename<br>  除了hfile外，该目录还存储了一些重要的子目录和子文件。<ul>
-<li>.tabledesc：表描述文件，记录对应表的基本schema信息。</li>
-<li>.tmp：表临时目录，主要用来存储Flush和Compaction过程中的中间结果。</li>
-<li>.regioninfo：Region描述文件。</li>
-<li>recovered.edits：存储故障恢复时该Region需要回放的WAL日志数据。</li>
-</ul>
-</li>
-<li>hbase.id：集群启动初始化时，创建集群的唯一id。</li>
-<li>hbase.version：Hbase软件版本文件，代码静态版本。</li>
-<li>oldWALs：WAL归档目录。当MemStore中的所有数据持久化到磁盘，那么该WAL文件就会被移动到这里。</li>
-</ul>
+            <h3 id="栈的简介"><a href="#栈的简介" class="headerlink" title="栈的简介"></a>栈的简介</h3><p>栈是一种特殊的线性表，仅在线性表的一端操作，栈顶允许操作，栈底不允许操作。栈的特点是先进后出，或者后进先出，从栈顶放入元素的操作叫入栈，取出元素叫出栈。</p>
+<p>根据线性表分为顺序表和链表的特点，栈又分为顺序栈和链栈。<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%88/15881617734324.jpg" alt><br><strong>适用场景</strong><br>栈常用于递归功能方面的场景，例如斐波那契数列。</p>
 
           
         
@@ -659,7 +437,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -678,7 +456,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url">Hbase核心—Hbase数据结构与算法</a></h1>
+                <a class="post-title-link" href="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8/" itemprop="url">数据结构—表</a></h1>
         
 
         <div class="post-meta">
@@ -690,7 +468,179 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T10:14:50+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-29T09:27:24+08:00">
+                2020-04-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-10T20:14:04+08:00">
+                2020-05-10
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="表的简介"><a href="#表的简介" class="headerlink" title="表的简介"></a>表的简介</h3><p>表是一种重要的数据结构，又分为线性表和非线性表，在这里只介绍最常用到的线性表。</p>
+<p>线性表包括顺序表和链表。顺序表里面的元素地址是连续的，例如数组。而链表里面的节点是不连续的，而是通过指针关联起来的。</p>
+<h3 id="链表的简介"><a href="#链表的简介" class="headerlink" title="链表的简介"></a>链表的简介</h3><p>链表是物理存储单元上非连续的、非顺序的存储结构，数据元素的逻辑顺序是通过链表的指针地址实现，每个元素包含两个节点，一个是存储元素的数据域，另一个是指向下一个元素地址的指针域。根据指针的不同，链表能形成不同的结构：</p>
+<ol>
+<li>单链表</li>
+<li>双链表</li>
+<li>循环链表<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8/15881683553949.jpg" alt></li>
+</ol>
+<p><strong>链表的优点：</strong></p>
+<ul>
+<li>链表是很常用的一种数据结构，不需要初始化容量，可以任意加减元素。</li>
+<li>添加或者删除元素时，只需要改变前后两个元素节点的指针域指向地址即可，所以添加和删除很快。</li>
+</ul>
+<p><strong>链表的缺点：</strong></p>
+<ul>
+<li>因为含有大量的指针域，占用空间比较大。</li>
+<li>查找元素需要遍历链表，非常耗时。</li>
+</ul>
+<p><strong>适用场景：</strong><br>数据量较小，需要频繁增加、删除操作的场景。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E8%BF%90%E7%BB%B4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E8%BF%90%E7%BB%B4/" itemprop="url">Hbase高级—Hbase运维</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:47:16+08:00">
                 2020-04-27
               </time>
             
@@ -706,7 +656,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T09:50:09+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T22:37:23+08:00">
                 2020-04-28
               </time>
             
@@ -764,33 +714,7 @@
       
         
           
-            <p><strong>程序 = 算法 + 数据结构</strong><br>一些核心的数据结构包括：链表、栈、队列、平衡二叉树、堆等。<br>Hbase的一个列簇本质上是一个LSM（Log-Structured Merge-Tree）树。LSM树分为内存部分和磁盘部分。内存部分是一个维护有序数据集合的数据结构，这个数据结构可以选择平衡二叉树、红黑树、跳跃表等，这里出于并发性能考虑，选择跳跃表。磁盘部分由一个个独立的文件组成。对于数据存储在磁盘上的数据库系统来讲，磁盘寻道及数据读取都是十分耗时的操作，为了减少IO耗时，可以在磁盘中额外存储一些二进制数据用来判断给定的key是否有可能存在这个数据块中，这个算法叫布隆过滤器。</p>
-<h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><p>跳跃表是一种能高效实现插入、删除、查找的内存数据结构，这些操作的期望复杂度都是O(logN)。与红黑树以及其他的二分查找树相比，跳跃表的优势在于实现简单，而且在并发场景下加锁粒度更小，从而可以实现更高的并发性。<br>跳跃表详细介绍见数据结构与算法章节。</p>
-<h3 id="LSM树"><a href="#LSM树" class="headerlink" title="LSM树"></a>LSM树</h3><p>LSM树本质上和B+树一样，是一种磁盘数据的索引结构，但是LSM树的索引对写入的请求更友好。无论何种写入请求LSM树都会将写入操作处理为一次顺序写，而HDFS擅长的正是顺序写。</p>
-<p>LSM树架构有如下几个非常明显的优势：</p>
-<ul>
-<li>这种写入方式将一次随机IO转换成一个顺序IO写入（HLog写入）加上一次内存写入（MemStore写入），使得写入性能得到极大提升。</li>
-<li>HFile中KV数据需要按照K进行排序，排序后可以在文件级别根据有序的Key建立索引树，提高数据读取效率。</li>
-<li>MemStore作为一个缓存级的存储组件，总是缓存着最近写入的数据，可以提升热点数据查询的效率。</li>
-<li>在KV写入HFile之前，可以在内存中对KV进行很多高级的优化。比如只保留当前最新的版本。</li>
-</ul>
-<p>一个LSM树的索引主要由两部分构成：内存部分和磁盘部分。内存部分是一个ConcurrentSkipListMap，数据写入MemStore中，随着不断写入超过一定的阈值，就把内存部分数据导入，形成一个有序的数据文件，这个过程称为Flush。为了避免Flush影响写入性能，会把当前写入的MemStore设为Snapshot，不再容许新的写入操作写入这个Snapshot的MemStore。另开一个内存空间作为MemStore，让后续的数据写入。</p>
-<p>随着写入的增加，内存的数据会不断的刷新道磁盘上，最终的磁盘文件会越来越多。此时，一旦用户有读取请求，则需要将大量的磁盘文件进行多路归并，之后才能读取到所需的那些数据。所以磁盘文件越多，在读取的时候随机读取的次数会越多，从而影响读操作的性能。</p>
-<p>为了优化读取操作的性能，可以设置一定的策略将选中的多个hifle进行多路归并，合并成为一个文件。文件的个数越少则读取的性能就越好。hbase根据选取文件的个数降compact操作分为两种major compact和minor compact。</p>
-<p>major compact是将所有的hfile一次性多路归并成为了一个文件。这种方式的优点是，合并之后的读取性能是最好的。缺点是，合并所有的文件可能需要很长的时间和大量的IO带宽。因此major compact不宜使用太频繁，适合周期性的跑。</p>
-<p>minor compact是选中少数几个hfile将它们多路归并成为一个文件。这种方式的优点是，可以进行局部的compact，通过少量的IO减少文件个数，提升读取操作的性能，适合较高频率的跑。缺点是，只合并了局部的数据，对于那些恶全局删除的操作，无法在合并过程中完全删除。</p>
-<h3 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h3><p>如何高效的判断元素w是够在于集合A之中？首先可以想到的答案是，把集合A中的元素一个个放置到哈希表中，然后在hash表中查一下w即可。这样可以解决小数据量场景下元素的存在性判断，但是如果A中的元素数据量巨大，该如何解决问题呢？实现一个基于磁盘和内存的hash索引当然可以解决这个问题。而另一种低成本的方式就是借助布隆过滤器实现。</p>
-<p>布隆过滤器对于任何给定的元素w，给出的存在性结果为两种：</p>
-<ul>
-<li>w可能存在于集合A中。</li>
-<li>w肯定不在集合A中。</li>
-</ul>
-<p>在Hbase1.X版本中，用户可以对某些列设置不同类型的布隆过滤器。共3种：</p>
-<ul>
-<li>NONE：关闭布隆过滤器。</li>
-<li>ROW：按照rowkey来计算布隆过滤器的二进制串并存储。</li>
-<li>ROWCOL：按照rowkey+family+qualifier这3个字段拼出byte[]来计算布隆过滤器值并存储。</li>
-</ul>
+            <p>//正在整理中</p>
 
           
         
@@ -839,7 +763,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/22/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -858,7 +782,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/04/22/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Hbase基础—知识图谱</a></h1>
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/" itemprop="url">Hbase高级—Hbase备份与恢复</a></h1>
         
 
         <div class="post-meta">
@@ -870,8 +794,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-22T20:31:06+08:00">
-                2020-04-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:46:50+08:00">
+                2020-04-27
               </time>
             
 
@@ -886,8 +810,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-22T20:33:09+08:00">
-                2020-04-22
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T22:37:23+08:00">
+                2020-04-28
               </time>
             
           </span>
@@ -944,7 +868,7 @@
       
         
           
-            <p><img src="/2020/04/22/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/15875586997270.jpg" alt></p>
+            <p>//正在整理中</p>
 
           
         
@@ -993,7 +917,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1012,7 +936,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Redis基础—知识图谱</a></h1>
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/" itemprop="url">Hbase高级—Hbase系统调优</a></h1>
         
 
         <div class="post-meta">
@@ -1024,8 +948,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-22T11:05:18+08:00">
-                2020-04-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:40:59+08:00">
+                2020-04-27
               </time>
             
 
@@ -1040,8 +964,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-22T11:08:04+08:00">
-                2020-04-22
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T22:37:23+08:00">
+                2020-04-28
               </time>
             
           </span>
@@ -1059,8 +983,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1098,7 +1022,7 @@
       
         
           
-            <p><img src="/2020/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Redis/Redis%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/15875247669110.jpg" alt></p>
+            <p>//正在整理中</p>
 
           
         
@@ -1147,7 +1071,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1166,7 +1090,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/" itemprop="url">RPC详解</a></h1>
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" itemprop="url">Hbase高级—Hbase的负载均衡</a></h1>
         
 
         <div class="post-meta">
@@ -1178,8 +1102,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-17T18:53:33+08:00">
-                2020-04-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:39:55+08:00">
+                2020-04-27
               </time>
             
 
@@ -1194,8 +1118,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-18T16:15:13+08:00">
-                2020-04-18
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T22:37:23+08:00">
+                2020-04-28
               </time>
             
           </span>
@@ -1213,8 +1137,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1252,94 +1176,7 @@
       
         
           
-            <p>RPC（Remote Procedure Call）：远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的思想。</p>
-<p>RPC 是一种技术思想而非一种规范或协议，常见 RPC 技术和框架有：</p>
-<ul>
-<li>应用级的服务框架：阿里的 Dubbo/Dubbox、Google gRPC、Spring Boot/Spring Cloud。</li>
-<li>远程通信协议：RMI、Socket、SOAP(HTTP XML)、REST(HTTP JSON)。</li>
-<li>通信框架：MINA 和 Netty。</li>
-</ul>
-<p>目前流行的开源 RPC 框架还是比较多的，有阿里巴巴的 Dubbo、Facebook 的 Thrift、Google 的 gRPC、Twitter 的 Finagle 等。</p>
-<p>下面重点介绍三种：<br>gRPC：是 Google 公布的开源软件，基于最新的 HTTP 2.0 协议，并支持常见的众多编程语言。RPC 框架是基于 HTTP 协议实现的，底层使用到了 Netty 框架的支持。<br>Thrift：是 Facebook 的开源 RPC 框架，主要是一个跨语言的服务开发框架。<br>用户只要在其之上进行二次开发就行，应用对于底层的 RPC 通讯等都是透明的。不过这个对于用户来说需要学习特定领域语言这个特性，还是有一定成本的。<br>Dubbo：是阿里集团开源的一个极为出名的 RPC 框架，在很多互联网公司和企业应用中广泛使用。协议和序列化框架都可以插拔是极其鲜明的特色。</p>
-<h3 id="完整的RPC框架"><a href="#完整的RPC框架" class="headerlink" title="完整的RPC框架"></a>完整的RPC框架</h3><p>在一个典型 RPC 的使用场景中，包含了服务发现、负载、容错、网络传输、序列化等组件，其中“RPC 协议”就指明了程序如何进行网络传输和序列化。<br><img src="/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871224938478.jpg" alt><br>如下是 Dubbo 的设计架构图，分层清晰，功能复杂：<br><img src="/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871226078157.jpg" alt></p>
-<h3 id="RPC核心功能"><a href="#RPC核心功能" class="headerlink" title="RPC核心功能"></a>RPC核心功能</h3><p>一个 RPC 的核心功能主要有 5 个部分组成，分别是：客户端、客户端 Stub、网络传输模块、服务端 Stub、服务端等。<br><img src="/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871227051907.jpg" alt><br>下面分别介绍核心 RPC 框架的重要组成：</p>
-<ul>
-<li>客户端（Client）：服务调用方。</li>
-<li>客户端存根（Client Stub）：存放服务端地址信息，将客户端的请求参数数据信息打包成网络消息，再通过网络传输发送给服务端。</li>
-<li>服务端存根（Server Stub）：接收客户端发送过来的请求消息并进行解包，然后再调用本地服务进行处理。</li>
-<li>服务端（Server）：服务的真正提供者。</li>
-<li>Network Service：底层传输，可以是 TCP 或 HTTP。</li>
-</ul>
-<h3 id="RPC之核心功能实现"><a href="#RPC之核心功能实现" class="headerlink" title="RPC之核心功能实现"></a>RPC之核心功能实现</h3><p>RPC 的核心功能主要由 5 个模块组成，如果想要自己实现一个 RPC，最简单的方式要实现三个技术点，分别是：</p>
-<ul>
-<li>服务寻址</li>
-<li>数据流的序列化和反序列化</li>
-<li>网络传输<h3 id="服务寻址"><a href="#服务寻址" class="headerlink" title="服务寻址"></a>服务寻址</h3>服务寻址可以使用 Call ID 映射。在本地调用中，函数体是直接通过函数指针来指定的，但是在远程调用中，函数指针是不行的，因为两个进程的地址空间是完全不一样的。所以在 RPC 中，所有的函数都必须有自己的一个 ID。这个 ID 在所有进程中都是唯一确定的。</li>
-</ul>
-<p>客户端在做远程过程调用时，必须附上这个 ID。然后我们还需要在客户端和服务端分别维护一个函数和Call ID的对应表。当客户端需要进行远程调用时，它就查一下这个表，找出相应的 Call ID，然后把它传给服务端，服务端也通过查表，来确定客户端需要调用的函数，然后执行相应函数的代码。</p>
-<p>实现方式：服务注册中心。</p>
-<p>要调用服务，首先你需要一个服务注册中心去查询对方服务都有哪些实例。Dubbo 的服务注册中心是可以配置的，官方推荐使用 Zookeeper。</p>
-<p>实现案例：RMI（Remote Method Invocation，远程方法调用）也就是 RPC 本身的实现方式。</p>
-<p><img src="/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871966549825.jpg" alt></p>
-<p>Registry(服务发现)：借助 JNDI 发布并调用了 RMI 服务。实际上，JNDI 就是一个注册表，服务端将服务对象放入到注册表中，客户端从注册表中获取服务对象。</p>
-<p>RMI 服务在服务端实现之后需要注册到 RMI Server 上，然后客户端从指定的 RMI 地址上 Lookup 服务，调用该服务对应的方法即可完成远程方法调用。</p>
-<p>Registry 是个很重要的功能，当服务端开发完服务之后，要对外暴露，如果没有服务注册，则客户端是无从调用的，即使服务端的服务就在那里。</p>
-<h3 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h3><p>客户端怎么把参数值传给远程的函数呢？在本地调用中，我们只需要把参数压到栈里，然后让函数自己去栈里读就行。但是在远程过程调用时，客户端跟服务端是不同的进程，不能通过内存来传递参数。</p>
-<p>这时候就需要客户端把参数先转成一个字节流，传给服务端后，再把字节流转成自己能读取的格式。<br>只有二进制数据才能在网络中传输，序列化和反序列化的定义是：</p>
-<ul>
-<li>将对象转换成二进制流的过程叫做序列化</li>
-<li>将二进制流转换成对象的过程叫做反序列化</li>
-</ul>
-<p>这个过程叫序列化和反序列化。同理，从服务端返回的值也需要序列化反序列化的过程。</p>
-<h3 id="网络传输"><a href="#网络传输" class="headerlink" title="网络传输"></a>网络传输</h3><p>网络传输：远程调用往往用在网络上，客户端和服务端是通过网络连接的。</p>
-<p>所有的数据都需要通过网络传输，因此就需要有一个网络传输层。网络传输层需要把 Call ID 和序列化后的参数字节流传给服务端，然后再把序列化后的调用结果传回客户端。</p>
-<p>只要能完成这两者的，都可以作为传输层使用。因此，它所使用的协议其实是不限的，能完成传输就行。尽管大部分 RPC 框架都使用 TCP 协议，但其实 UDP 也可以，而 gRPC 干脆就用了 HTTP2。</p>
-<p>TCP 的连接是最常见的，简要分析基于 TCP 的连接：通常 TCP 连接可以是按需连接（需要调用的时候就先建立连接，调用结束后就立马断掉），也可以是长连接（客户端和服务器建立起连接之后保持长期持有，不管此时有无数据包的发送，可以配合心跳检测机制定期检测建立的连接是否存活有效），多个远程过程调用共享同一个连接。</p>
-<p>所以，要实现一个 RPC 框架，只需要把以下三点实现了就基本完成了：</p>
-<ul>
-<li>Call ID 映射：可以直接使用函数字符串，也可以使用整数 ID。映射表一般就是一个哈希表。</li>
-<li>序列化反序列化：可以自己写，也可以使用 Protobuf 或者 FlatBuffers 之类的。</li>
-<li>网络传输库：可以自己写 Socket，或者用 Asio，ZeroMQ，Netty 之类。</li>
-</ul>
-<h3 id="RPC-核心之网络传输协议"><a href="#RPC-核心之网络传输协议" class="headerlink" title="RPC 核心之网络传输协议"></a>RPC 核心之网络传输协议</h3><p>在 RPC 中可选的网络传输方式有多种，可以选择 TCP 协议、UDP 协议、HTTP 协议。每一种协议对整体的性能和效率都有不同的影响，如何选择一个正确的网络传输协议呢？首先要搞明白各种传输协议在 RPC 中的工作方式。</p>
-<h4 id="基于-TCP-协议的-RPC-调用"><a href="#基于-TCP-协议的-RPC-调用" class="headerlink" title="基于 TCP 协议的 RPC 调用"></a>基于 TCP 协议的 RPC 调用</h4><p>由服务的调用方与服务的提供方建立 Socket 连接，并由服务的调用方通过 Socket 将需要调用的接口名称、方法名称和参数序列化后传递给服务的提供方，服务的提供方反序列化后再利用反射调用相关的方法。</p>
-<p>最后将结果返回给服务的调用方，整个基于 TCP 协议的 RPC 调用大致如此。</p>
-<p>但是在实例应用中则会进行一系列的封装，如 RMI 便是在 TCP 协议上传递可序列化的 Java 对象。</p>
-<h4 id="基于-HTTP-协议的-RPC-调用"><a href="#基于-HTTP-协议的-RPC-调用" class="headerlink" title="基于 HTTP 协议的 RPC 调用"></a>基于 HTTP 协议的 RPC 调用</h4><p>该方法更像是访问网页一样，只是它的返回结果更加单一简单。其大致流程为：由服务的调用者向服务的提供者发送请求，这种请求的方式可能是 GET、POST、PUT、DELETE 等中的一种，服务的提供者可能会根据不同的请求方式做出不同的处理，或者某个方法只允许某种请求方式。</p>
-<p>而调用的具体方法则是根据 URL 进行方法调用，而方法所需要的参数可能是对服务调用方传输过去的 XML 数据或者 JSON 数据解析后的结果，最后返回 JOSN 或者 XML 的数据结果。</p>
-<p>由于目前有很多开源的 Web 服务器，如 Tomcat，所以其实现起来更加容易，就像做 Web 项目一样。</p>
-<h4 id="两种方式对比"><a href="#两种方式对比" class="headerlink" title="两种方式对比"></a>两种方式对比</h4><p>基于 TCP 的协议实现的 RPC 调用，由于 TCP 协议处于协议栈的下层，能够更加灵活地对协议字段进行定制，减少网络开销，提高性能，实现更大的吞吐量和并发数。</p>
-<p>但是需要更多关注底层复杂的细节，实现的代价更高。同时对不同平台，如安卓，iOS 等，需要重新开发出不同的工具包来进行请求发送和相应解析，工作量大，难以快速响应和满足用户需求。</p>
-<p>基于 HTTP 协议实现的 RPC 则可以使用 JSON 和 XML 格式的请求或响应数据。</p>
-<p>而 JSON 和 XML 作为通用的格式标准（使用 HTTP 协议也需要序列化和反序列化，不过这不是该协议下关心的内容，成熟的 Web 程序已经做好了序列化内容），开源的解析工具已经相当成熟，在其上进行二次开发会非常便捷和简单。</p>
-<p>但是由于 HTTP 协议是上层协议，发送包含同等内容的信息，使用 HTTP 协议传输所占用的字节数会比使用 TCP 协议传输所占用的字节数更高。</p>
-<p>因此在同等网络下，通过 HTTP 协议传输相同内容，效率会比基于 TCP 协议的数据效率要低，信息传输所占用的时间也会更长，当然压缩数据，能够缩小这一差距。</p>
-<h3 id="简单对比-RPC-和-Restful-API"><a href="#简单对比-RPC-和-Restful-API" class="headerlink" title="简单对比 RPC 和 Restful API"></a>简单对比 RPC 和 Restful API</h3><p>RESTful API 架构<br>REST 最大的几个特点为：资源、统一接口、URI 和无状态。</p>
-<p>①资源<br>所谓”资源”，就是网络上的一个实体，或者说是网络上的一个具体信息。它可以是一段文本、一张图片、一首歌曲、一种服务，就是一个具体的实在。</p>
-<p>②统一接口<br>RESTful 架构风格规定，数据的元操作，即 CRUD(Create，Read，Update 和 Delete，即数据的增删查改)操作，分别对应于 HTTP 方法：GET 用来获取资源，POST 用来新建资源（也可以用于更新资源），PUT 用来更新资源，DELETE 用来删除资源，这样就统一了数据操作的接口，仅通过 HTTP 方法，就可以完成对数据的所有增删查改工作。</p>
-<p>③URL<br>可以用一个 URI（统一资源定位符）指向资源，即每个 URI 都对应一个特定的资源。<br>要获取这个资源，访问它的 URI 就可以，因此 URI 就成了每一个资源的地址或识别符。</p>
-<p>④无状态<br>所谓无状态的，即所有的资源，都可以通过 URI 定位，而且这个定位与其他资源无关，也不会因为其他资源的变化而改变。有状态和无状态的区别，举个简单的例子说明一下。</p>
-<p>如查询员工的工资，如果查询工资是需要登录系统，进入查询工资的页面，执行相关操作后，获取工资的多少，则这种情况是有状态的。因为查询工资的每一步操作都依赖于前一步操作，只要前置操作不成功，后续操作就无法执行。</p>
-<p>如果输入一个 URI 即可得到指定员工的工资，则这种情况是无状态的，因为获取工资不依赖于其他资源或状态。且这种情况下，员工工资是一个资源，由一个 URI 与之对应，可以通过 HTTP 中的 GET 方法得到资源，这是典型的 RESTful 风格。</p>
-<h4 id="RPC-和-Restful-API-对比"><a href="#RPC-和-Restful-API-对比" class="headerlink" title="RPC 和 Restful API 对比"></a>RPC 和 Restful API 对比</h4><p>面对对象不同：</p>
-<ul>
-<li>RPC 更侧重于动作。</li>
-<li>REST 的主体是资源。<br>RESTful 是面向资源的设计架构，但在系统中有很多对象不能抽象成资源，比如登录，修改密码等而 RPC 可以通过动作去操作资源。所以在操作的全面性上 RPC 大于 RESTful。</li>
-</ul>
-<p>传输效率：</p>
-<ul>
-<li>RPC 效率更高。RPC，使用自定义的 TCP 协议，可以让请求报文体积更小，或者使用 HTTP2 协议，也可以很好的减少报文的体积，提高传输效率。</li>
-</ul>
-<p>复杂度：</p>
-<ul>
-<li>RPC 实现复杂，流程繁琐。</li>
-<li>REST 调用及测试都很方便。<br>RPC 实现（参见第一节）需要实现编码，序列化，网络传输等。而 RESTful 不要关注这些，RESTful 实现更简单。</li>
-</ul>
-<p>灵活性：</p>
-<ul>
-<li>HTTP 相对更规范，更标准，更通用，无论哪种语言都支持 HTTP 协议。</li>
-<li>RPC 可以实现跨语言调用，但整体灵活性不如 RESTful。</li>
-</ul>
+            <p>//正在整理中</p>
 
           
         
@@ -1388,7 +1225,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Table/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1407,7 +1244,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" itemprop="url">Mysql优化—分页查询优化</a></h1>
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Table/" itemprop="url">Hbase核心—Hbase的Table</a></h1>
         
 
         <div class="post-meta">
@@ -1419,8 +1256,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-09T14:29:30+08:00">
-                2020-04-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:35:46+08:00">
+                2020-04-27
               </time>
             
 
@@ -1435,8 +1272,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-09T22:09:19+08:00">
-                2020-04-09
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T22:34:32+08:00">
+                2020-04-28
               </time>
             
           </span>
@@ -1454,8 +1291,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1492,532 +1329,11 @@
 
       
         
-          
-            <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。</p>
-<ul>
-<li>表名：order_history</li>
-<li>描述：某个业务的订单历史表</li>
-<li>主要字段：unsigned int id，tinyint(4) int type</li>
-<li>字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。</li>
-<li>数据量：5709294</li>
-<li>MySQL版本：5.7.16</li>
-<li>线下找一张百万级的测试表可不容易，如果需要自己测试的话，可以写shell脚本什么的插入数据进行测试。<br>以下的 sql 所有语句执行的环境没有发生改变，下面是基本测试结果：<br><code>select count(*) from orders_history;</code><br>返回结果：5709294<br>三次查询时间分别为：<br><code>8903 ms
-8323 ms
-8401 ms</code><h3 id="一般分页查询"><a href="#一般分页查询" class="headerlink" title="一般分页查询"></a>一般分页查询</h3>一般的分页查询使用简单的 limit 子句就可以实现。limit 子句声明如下：<br><code>SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</code><br>LIMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</li>
-<li>第一个参数指定第一个返回记录行的偏移量，注意从0开始</li>
-<li>第二个参数指定返回记录行的最大数目</li>
-<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
-<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
-<li>初始记录行的偏移量是 0(而不是 1)</li>
-</ul>
-<p>针对这种查询方式，下面测试查询记录量对时间的影响：<br><code>select * from orders_history where type=8 limit 10000,1;
-select * from orders_history where type=8 limit 10000,10;
-select * from orders_history where type=8 limit 10000,100;
-select * from orders_history where type=8 limit 10000,1000;
-select * from orders_history where type=8 limit 10000,10000;</code><br>三次查询时间如下：<br><code>查询1条记录：3072ms 3092ms 3002ms
-查询10条记录：3081ms 3077ms 3032ms
-查询100条记录：3118ms 3200ms 3128ms
-查询1000条记录：3412ms 3468ms 3394ms
-查询10000条记录：3749ms 3802ms 3696ms</code><br>随着查询偏移的增大，尤其查询偏移大于10万以后，查询时间急剧增加。这种分页查询方式会从数据库第一条记录开始扫描，所以越往后，查询速度越慢，而且查询的数据越多，也会拖慢总查询速度。</p>
-<h3 id="使用子查询优化"><a href="#使用子查询优化" class="headerlink" title="使用子查询优化"></a>使用子查询优化</h3><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。<br><code>select * from orders_history where type=8 limit 100000,1;
-select id from orders_history where type=8 limit 100000,1;
-select * from orders_history where type=8 and id&gt;=(select id from orders_history where type=8 limit 100000,1) limit 100;
-select * from orders_history where type=8 limit 100000,100;</code><br>4条语句的查询时间如下：<br><code>第1条语句：3674ms
-第2条语句：1315ms
-第3条语句：1327ms
-第4条语句：3710ms</code><br>针对上面的查询需要注意：<br>比较第1条语句和第2条语句：使用 select id 代替 select * 速度增加了3倍<br>比较第2条语句和第3条语句：速度相差几十毫秒<br>比较第3条语句和第4条语句：得益于 select id 速度增加，第3条语句查询速度增加了3倍<br>这种方式相较于原始一般的查询方法，将会增快数倍。</p>
-<h3 id="使用-id-限定优化"><a href="#使用-id-限定优化" class="headerlink" title="使用 id 限定优化"></a>使用 id 限定优化</h3><p>这种方式假设数据表的id是 连续递增 的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：<br><code>select * from orders_history where type=2 and id between 1000000 and 1000100 limit 100;</code><br>查询时间：15ms 12ms 9ms</p>
-<p>这种查询方式能够极大地优化查询速度，基本能够在几十毫秒之内完成。限制是只能使用于明确知道id的情况，不过一般建立表的时候，都会添加基本的id字段，这为分页查询带来很多便利。</p>
-<p>当然还可以使用 in 的方式来进行查询，这种方式经常用在多表关联的时候进行查询，使用其他表查询的id集合，来进行查询：<br><code>select * from orders_history where id in (select order_id from trade_2 where goods = &#39;pen&#39;) limit 100;</code><br>这种 in 查询的方式要注意：某些 mysql 版本不支持在 in 子句中使用 limit。</p>
-<h3 id="使用临时表优化"><a href="#使用临时表优化" class="headerlink" title="使用临时表优化"></a>使用临时表优化</h3><p>这种方式已经不属于查询优化，这儿附带提一下。</p>
-<p>对于使用 id 限定优化中的问题，需要 id 是连续递增的，但是在一些场景下，比如使用历史表的时候，或者出现过数据缺失问题时，可以考虑使用临时存储的表来记录分页的id，使用分页的id来进行 in 查询。这样能够极大的提高传统的分页查询速度，尤其是数据量上千万的时候。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/Spark%E5%92%8CFlink%E5%AF%B9%E6%AF%94/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/Spark%E5%92%8CFlink%E5%AF%B9%E6%AF%94/" itemprop="url">Spark和Flink对比</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-09T11:45:58+08:00">
-                2020-04-09
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-09T14:04:47+08:00">
-                2020-04-09
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="从Spark-Streaming迁移到Flink的效果总结"><a href="#从Spark-Streaming迁移到Flink的效果总结" class="headerlink" title="从Spark Streaming迁移到Flink的效果总结"></a>从Spark Streaming迁移到Flink的效果总结</h3><p>从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，我们提供了一些使用效果小结，其中有几个关键点：</p>
-<ul>
-<li>对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不做介绍）；</li>
-<li>对后端存储系统的写入延迟从 80ms 降低到了 20ms 左右，如下图（这是因为 Spark Streaming 的 mini batch 模式会在 batch 最后有批量写存储系统的操作，从而造成写请求尖峰，Flink 则没有类似问题）:</li>
-<li>对于简单的从消息队列 Talos 到存储系统 HDFS 的数据清洗作业（ETL），由之前 Spark Streaming 的占用 210 个 CPU Core 降到了 Flink 的 32 个 CPU Core，资源利用率提高了 84.8%；<h3 id="调度计算-VS-调度数据"><a href="#调度计算-VS-调度数据" class="headerlink" title="调度计算 VS 调度数据"></a>调度计算 VS 调度数据</h3>对于任何一个分布式计算框架而言，如果“数据”和“计算”不在同一个节点上，那么它们中必须有一个需要移动到另一个所在的节点。如果把计算调度到数据所在的节点，那就是“调度计算”，反之则是“调度数据”；在这一点上 Spark Streaming 和 Flink 的实现是不同的。Spark 在调度该分片的计算的时候，会尽量把该分片的计算调度到数据所在的节点，从而提高计算效率。</li>
-</ul>
-<p>“调度计算”的方法在批处理中有很大的优势，因为”计算”相比于”数据”来讲一般信息量比较小，如果“计算”可以在“数据”所在的节点执行的话，会省去大量网络传输，节省带宽的同时提高了计算效率。</p>
-<p>但是在流式计算中，以 Spark Streaming 的调度方法为例，由于需要频繁的调度”计算“，则会有一些效率上的损耗。首先，每次”计算“的调度都是要消耗一些时间的，比如“计算”信息的序列化 → 传输 → 反序列化 → 初始化相关资源 → 计算执行→执行完的清理和结果上报等，这些都是一些”损耗”。另外，用户的计算中一般会有一些资源的初始化逻辑，比如初始化外部系统的客户端（类似于 Kafka Producer 或 Consumer)；每次计算的重复调度容易导致这些资源的重复初始化，需要用户对执行逻辑有一定的理解，才能合理地初始化资源，避免资源的重复创建；这就提高了使用门槛，容易埋下隐患；通过业务支持发现，在实际生产过程中，经常会遇到大并发的 Spark Streaming 作业给 Kafka 或 HBase 等存储系统带来巨大连接压力的情况，就是因为用户在计算逻辑中一直重复创建连接。</p>
-<p>Flink 和 Storm 类似，都是通过“调度数据”来完成计算的，也就是“计算逻辑”初始化并启动后，如果没有异常会一直执行，源源不断地消费上游的数据，处理后发送到下游；有点像工厂里的流水线，货物在传送带上一直传递，每个工人专注完成自己的处理逻辑即可。</p>
-<p>虽然“调度数据”和“调度计算”有各自的优势，但是在流式计算的实际生产场景中，“调度计算”很可能“有力使不出来”；比如一般流式计算都是消费消息队列 Kafka或 Talos 的数据进行处理，而实际生产环境中为了保证消息队列的低延迟和易维护，一般不会和计算节点（比如 Yarn 服务的节点）混布，而是有各自的机器（不过很多时候是在同一机房）；所以无论是 Spark 还是 Flink，都无法避免消息队列数据的跨网络传输。所以从实际使用体验上讲，Flink 的调度数据模式，显然更容易减少损耗，提高计算效率，同时在使用上更符合用户“直觉”，不易出现重复创建资源的情况。</p>
-<p>不过这里不得不提的一点是，Spark Streaming 的“调度计算”模式，对于处理计算系统中的“慢节点”或“异常节点”有天然的优势。比如如果 Yarn 集群中有一台节点磁盘存在异常，导致计算不停地失败，Spark 可以通过 blacklist 机制停止调度计算到该节点，从而保证整个作业的稳定性。或者有一台计算节点的 CPU Load 偏高，导致处理比较慢，Spark 也可以通过 speculation 机制及时把同一计算调度到其他节点，避免慢节点拖慢整个作业；而以上特性在 Flink 中都是缺失的。</p>
-<h3 id="Mini-batch-VS-streaming"><a href="#Mini-batch-VS-streaming" class="headerlink" title="Mini batch VS streaming"></a>Mini batch VS streaming</h3><p>Spark Streaming 并不是真正意义上的流式计算，而是从批处理衍生出来的 mini batch 计算。Spark 根据 RDD 依赖关系中的 shuffle dependency 进行作业的 Stage 划分，每个 Stage 根据 RDD 的 partition 信息切分成不同的分片；在实际执行的时候，只有当每个分片对应的计算结束之后，整个 Stage 才算计算完成。这种模式容易出现“长尾效应”，比如如果某个分片数据量偏大，那么其他分片也必须等这个分片计算完成后，才能进行下一轮的计算(Spark speculation对这种情况也没有好的作用，因为这个是由于分片数据不均匀导致的），这样既增加了其他分片的数据处理延迟，也浪费了资源。</p>
-<p>而 Flink 则是为真正的流式计算而设计的（并且把批处理抽象成有限流的数据计算），上游数据是持续发送到下游的，这样就避免了某个长尾分片导致其他分片计算“空闲”的情况，而是持续在处理数据，这在一定程度上提高了计算资源的利用率，降低了延迟。</p>
-<p>这里说一下 mini batch 的优点了，那就在异常恢复的时候，可以以比较低的代价把缺失的分片数据恢复过来，这个主要归功于 RDD 的依赖关系抽象；如上图所示，如果黑色块表示的数据丢失（比如节点异常），Spark 仅需要通过重放“Good-Replay”表示的数据分片就可以把丢失的数据恢复，这个恢复效率是很高的。而 Flink 的话则需要停止整个“流水线”上的算子，并从 Checkpoint 恢复和重放数据；虽然 Flink 对这一点有一些优化，比如可以配置 failover strategy 为 region 来减少受影响的算子，不过相比于 Spark 只需要从上个 Stage 的数据恢复受影响的分片来讲，代价还是有点大。</p>
-<h3 id="数据序列化"><a href="#数据序列化" class="headerlink" title="数据序列化"></a>数据序列化</h3><p>简单来说，数据的序列化是指把一个 object 转化为 byte stream，反序列化则相反。序列化主要用于对象的持久化或者网络传输。常见的序列化格式有 binary、json、xml、yaml 等；常见的序列化框架有 Java 原生序列化、Kryo、Thrift、Protobuf、Avro等。</p>
-<p>对于分布式计算来讲，数据的传输效率非常重要。好的序列化框架可以通过较低    的序列化时间和较低的内存占用大大提高计算效率和作业稳定性。在数据序列化上，Flink 和 Spark 采用了不同的方式；Spark 对于所有数据默认采用 Java 原生序列化方式，用户也可以配置使用 Kryo；而 Flink 则是自己实现了一套高效率的序列化方法。</p>
-<p>首先说一下 Java 原生的序列化方式，这种方式的好处是比较简单通用，只要对象实现了 Serializable 接口即可；缺点就是效率比较低，而且如果用户没有指定 serialVersionUID 的话，很容易出现作业重新编译后，之前的数据无法反序列化出来的情况（这也是 Spark Streaming Checkpoint 的一个痛点，在业务使用中经常出现修改了代码之后，无法从 Checkpoint 恢复的问题）；当然Java原生序列化还有一些其他弊端，这里不做深入讨论。</p>
-<p>相比于 Java 原生序列化方式，无论是在序列化效率还是序列化结果的内存占用上，Kryo 则更好一些（Spark 声称一般 Kryo 会比 Java 原生节省 10x 内存占用）；Spark 文档中表示它们之所以没有把 Kryo 设置为默认序列化框架的唯一原因是因为 Kryo 需要用户自己注册需要序列化的类，并且建议用户通过配置开启 Kryo。<br>虽然如此，根据 Flink 的测试，Kryo 依然比 Flink 自己实现的序列化方式效率要低一些；如图所示是 Flink 序列化器（PojoSerializer、RowSerializer、TupleSerializer）和 Kryo 等其他序列化框架的对比，可以看出 Flink 序列化器还是比较占优势的：</p>
-<p>那么 Flink 到底是怎么做的呢？网上关于 Flink 序列化的文章已经很多了，这里我简单地说一下我的理解。<br>像 Kryo 这种序列化方式，在序列化数据的时候，除了数据中的“值”信息本身，还需要把一些数据的 meta 信息也写进去（比如对象的 Class 信息；如果是已经注册过的 Class，则写一个更节省内存的 ID）。<br>但是在 Flink 场景中则完全不需要这样，因为在一个 Flink 作业 DAG 中，上游和下游之间传输的数据类型是固定且已知的，所以在序列化的时候只需要按照一定的排列规则把“值”信息写入即可（当然还有一些其他信息，比如是否为 null）。</p>
-<p>凡事都有两面性，自己实现序列化方式也是有一些劣势，比如状态数据的格式兼容性(State Schema Evolution)；如果你使用 Flink 自带的序列化框架序进行状态保存，那么修改状态数据的类信息后，可能在恢复状态时出现不兼容问题（目前 Flink仅支持 POJO 和 Avro 的格式兼容升级）。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" itemprop="url">CM基础—安装和配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:12:28+08:00">
-                2020-03-15
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T12:07:05+08:00">
-                2020-03-17
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>创建启动cdh容器的命令<br><code>docker run --privileged=true --hostname=quickstart.cloudera --name cdh-liu -v /Users/liudongfei:/root/liudongfei -p 7180:7180  -p 8888:8888 -p 3306:3306 -t -i 4239cd2958c6 /usr/bin/docker-quickstart</code><br>启动cm的命令<br><code>/home/cloudera/cloudera-manager --force --express</code></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">ShadowSocks安装配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T13:06:28+08:00">
-                2020-03-15
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T12:19:02+08:00">
-                2020-03-17
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>###准备工作</p>
-<ol>
-<li>准备一台可以访问google的外网服务器</li>
-<li>服务器的系统为redhat</li>
-<li>使用具有sudo权限的普通用户</li></ol>
+          <h2 id="Hbase的表设计"><a href="#Hbase的表设计" class="headerlink" title="Hbase的表设计"></a>Hbase的表设计</h2><p>建表语句整体上可以拆分成三个部分：表名、列簇属性设置、表属性设置。</p>
+<h3 id="表名"><a href="#表名" class="headerlink" title="表名"></a>表名</h3><p>强烈建议生产线创建表时不要单独使用表名，而应该使用命名空间+表名的形式。同一个业务的相关表放在同一个命名空间下，不同的业务使用不同的命名空间。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/03/15/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/#more" rel="contents">
+            <a class="btn" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Table/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -2055,11 +1371,573 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/" itemprop="url">Hbase核心—Hbase的Compaction</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:33:22+08:00">
+                2020-04-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T19:44:50+08:00">
+                2020-04-28
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Compaction的核心功能是将小文件合并成大文件，提升读取效率。一般基于LSM树体系架构的系统都会设计Comapction。<br>Hbase根据合并规模将Compaction分为两类：</p>
+<ul>
+<li>minor compaction：选取部分小的、相邻的HFile，将它们合并成为一个更大的HFile。</li>
+<li>major compaction：将一个Store中所有的HFile合并成为一个HFile，这个过程还会完全清除三类无意义数据：被删除的数据、TTL过期数据、版本号超过设定版本号的数据。major compaction持续的时间会比较长，整个过程会消耗大量的系统资源，对上层业务有比较大的影响。因此线上部分数据量较的业务通常推荐关闭自动触发major compaction功能，改为在业务低峰期手动触发。<br>Hbase的Compaction有一下核心作用：</li>
+<li>合并小文件。</li>
+<li>提高数据本地化率。major compaction可以将数据本地化率提升到100%。</li>
+<li>清除无效数据，减少数据存储量。<h3 id="Compaction的基本流程"><a href="#Compaction的基本流程" class="headerlink" title="Compaction的基本流程"></a>Compaction的基本流程</h3>Hbase的Compaction的基本流程如下：</li>
+</ul>
+<ol>
+<li>Compaction触发。</li>
+<li>选择合适HFile合并。</li>
+<li>挑选合适的线程池。</li>
+<li>执行HFile文件合并。<h3 id="Compaction触发时机"><a href="#Compaction触发时机" class="headerlink" title="Compaction触发时机"></a>Compaction触发时机</h3>Hbase中触发Compaction的时机有如下三种：</li>
+</ol>
+<ul>
+<li>MemStore Flush：每次执行完flush都会检查当前Store中的文件数量，compaction都是以Store为单位的。</li>
+<li>后台线程周期性检查：RegionServer会在后台启动一个线程CompactionChecker，定期触发检查对应的Store。</li>
+<li>手动触发：一般，手动触发Compaction大多是为了执行major compaction<h3 id="待合并HFile集合选择策略"><a href="#待合并HFile集合选择策略" class="headerlink" title="待合并HFile集合选择策略"></a>待合并HFile集合选择策略</h3>选择合适的文件进行合并是整个Compaction的核心。Hbase提出了两种minor compaction选择策略：</li>
+<li>RatioBasedCompactionPolicy</li>
+<li>ExploringCompactionPolicy<br>所有的策略都会对该Store中的所有HFile逐一排查，排除不满足条件的部分文件：</li>
+</ul>
+<ul>
+<li>排除当前正在执行Compaction的文件及比这些文件更新的所有文件。</li>
+<li>排除某些过大的文件<br>经过排除后留下来的文件称为候选文件。</li>
+<li><em>RatioBasedCompactionPolicy*</em><br>从老到新逐一扫描所有候选文件，满足其中之一便停止扫描：</li>
+</ul>
+<ol>
+<li>当前文件大小&lt;比当前文件新的所有文件大小总和 * ratio。其中ratio是一个可变的比例，高峰期为1.2，非高峰期为5。</li>
+<li>当前所剩候选文件树&lt;= hbase.store.compaction.min。<br>停止扫描后，待合并文件就选择出来了，即当前扫描文件以及比它更新的所有文件。</li>
+</ol>
+<p><strong>ExploringCompactionPolicy</strong><br>和RatioBasedCompactionPolicy相同，Ratio策略在在找到一个合适的文件集合后就停止扫描了，而Exploring策略会记录所有合适的集合，并且在这些集合中选择最优解：待合并文件数最多或者待合并文件数量相同的情况下文件较小，这样有利于减少Compaction带来的IO消耗。</p>
+<h3 id="Compaction相关注意事项"><a href="#Compaction相关注意事项" class="headerlink" title="Compaction相关注意事项"></a>Compaction相关注意事项</h3><ol>
+<li>Limit Compaction Speed<br>该优化方案通过感知Compaction的压力情况自动调节系统的Compaction吞吐量，在压力大的时候降低合并吞吐量，压力小的时候增加合并吞吐量。</li>
+<li>Compaction BandWidth Limit</li>
+</ol>
+<ul>
+<li>compactBwLimit：一次Compaction的最大带宽使用量</li>
+<li>numOfFilesDisableCompactLimit：当Store中HFile数量超过该值，带宽限制就会失效。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%B7%A5%E5%85%B7%E7%B1%BB/" itemprop="url">Hbase高级—自带工具类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T19:11:05+08:00">
+                2020-04-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-27T19:11:51+08:00">
+                2020-04-27
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>查看hbase-server*.jar包含哪些工具：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_CLASSPATH&#x3D;·hbase mapredcp&#96; yarn jar $&#123;HBASE_HOME&#125;&#x2F;lib&#x2F;hbase-server*.jar</span><br><span class="line">	CellCounter: Count cells in HBase table.</span><br><span class="line">  	WALPlayer: Replay WAL files.</span><br><span class="line">  	completebulkload: Complete a bulk data load.</span><br><span class="line">  	copytable: Export a table from local cluster to peer cluster.</span><br><span class="line">  	export: Write table data to HDFS.</span><br><span class="line">  	exportsnapshot: Export the specific snapshot to a given FileSystem.</span><br><span class="line">  	import: Import data written by Export.</span><br><span class="line">  	importtsv: Import data in TSV format.</span><br><span class="line">  	rowcounter: Count rows in HBase table.</span><br><span class="line">  	verifyrep: Compare the data from tables in two different clusters.</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/" itemprop="url">Hbase核心—Hbase的读写过程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T13:45:18+08:00">
+                2020-04-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T22:33:37+08:00">
+                2020-04-28
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Hbase采用LSM树架构，天生适合用于写多读少的应用场景。Hbase对于数据的更新、删除操作在服务器端也认为是写入操作，不同的是，更新操作会写入一个最新版本的数据，删除操作会写入一条标记为deleted的KV数据，所以Hbase种更新、删除操作的流程与写入流程完全一致。<br>##Hbase写入流程<br>从整体架构的视角来看，写入流程可以分为三个阶段：</p>
+<ul>
+<li>客户端处理阶段：客户端将用户的写入请求进行预处理，并根据meta表定位写入数据所在的RegionServer，将请求发给对应的RegionServer。</li>
+<li>Region写入阶段：RegionServer接收写入请求后将数据解析出来，首先写入WAL，再写Region列簇的MemStore。</li>
+<li>MemStore Flush阶段：当Region中的MemStore容量超过一定阈值，系统会异步执行flush操作，形成Hfile。<h3 id="客户端处理阶段"><a href="#客户端处理阶段" class="headerlink" title="客户端处理阶段"></a>客户端处理阶段</h3></li>
+</ul>
+<ol>
+<li>Hbase客户端会将写入数据添加本地缓冲区中，符合一定条件就会异步批量提交。默认autoflush=true，表示put请求会直接提交到服务器进行处理。</li>
+<li>根据rowkey从meta表中查询它们所属的RegionServer，把这些rowkey按照HRegionLocation分组，不同的分组对应着不同的RegionServer，每个分组对应一次RPC请求。</li>
+<li>Hbase会为每个HRegionLocation构造一个RPC，对请求进行Protobuf序列化后，发送给对应的RegionServer。<h3 id="Region写入阶段"><a href="#Region写入阶段" class="headerlink" title="Region写入阶段"></a>Region写入阶段</h3></li>
+<li>RegionServer接收客户端请求后，首先反序列化为put对象，执行各种检查。</li>
+<li>获取行锁。</li>
+<li>更新所有待写入KV的时间戳。</li>
+<li>构建WAL edit，将WAL edit添加到WAL中。</li>
+<li>将数据写入MemStore。</li>
+<li>释放行锁。</li>
+<li>同步wal到hdfs。如果同步失败，回滚MemStore中已经写入的数据。<br>总体来说，可以抽象为两步：追加写入HLog，随机写入MemStore。</li>
+</ol>
+<p><strong>HLog持久化等级</strong></p>
+<ul>
+<li>SKIP_WAL：只写缓存不屑HLog日志。极大提高写入性能，但是数据有丢失风险。</li>
+<li>ASYNC_WAL：异步将数据写入HLog中。</li>
+<li>SYNC_WAL：同步将数据写入HLog中，此时数据只是被写入文件系统，并没有真正落盘。</li>
+<li>FSYNC_WAL：同步将数据写入HLog中，并强制落盘。</li>
+<li>USER_DEFAULT：默认SYNC_WAL等级持久化。</li>
+</ul>
+<p><strong>HLog写入模型</strong><br>Hbase使用LMAX Disruptor框架实现了无锁有界队列操作。<br><strong>随机写入MemStore</strong></p>
+<ol>
+<li>检查当前的Chunk是否写满，如果写满，重新申请一个2M的Chunk。</li>
+<li>将当前的KV在内存中重新构建，在可用Chunk的制定offset处，申请内存创建新的KV。</li>
+<li>将新创建的KV对戏那个写入ConcurrentSkipListMap。<h3 id="MemStore-Flush阶段"><a href="#MemStore-Flush阶段" class="headerlink" title="MemStore Flush阶段"></a>MemStore Flush阶段</h3>关注三个问题：</li>
+<li>MemStore Flush机制的触发时机。</li>
+<li>MemStore Flush的整体流程。</li>
+<li>HFile的构建。</li>
+</ol>
+<p><strong>触发条件</strong></p>
+<ul>
+<li>MemStore级别限制：</li>
+<li>Region级别限制：</li>
+<li>RegionServer级别限制：</li>
+<li>当一个RegionServer中HLog数量达到上限。</li>
+<li>Hbase定期刷新MemStore。</li>
+<li>手动执行flush。</li>
+</ul>
+<p>MemStore和HFile的详细介绍参见其它相关章节。<br>##Hbase读取流程<br>相比写入流程，Hbase的读取流程更加复杂。读取数据时，会按照以下顺序查找：</p>
+<ol>
+<li>MemStore </li>
+<li>BlockCache</li>
+<li>hfile<br>Hbase最快的三种查询方式：</li>
+</ol>
+<ul>
+<li>依据rowkey查询最快 </li>
+<li>对rowkey进行范围查询range </li>
+<li>前缀匹配 <h3 id="Client—Server读取交互逻辑"><a href="#Client—Server读取交互逻辑" class="headerlink" title="Client—Server读取交互逻辑"></a>Client—Server读取交互逻辑</h3>Hbase数据读取可以分为Get和Scan两类。但是从技术实现的角度来看get请求也是一种scan请求（最简单的scan请求）。<br>Hbase Client与Server端的Scan操作并没有设计为一次RPC，因为一次大规模的scan操作可能是一次全表扫描，扫描结果非常大，通过一次RPC将大量结果返回客户端会导致：</li>
+<li>大量网络带宽资源被占用，影响其它业务。</li>
+<li>导致客户端OOM。<br>实际上，Hbase会将一次大的Scan操作拆分为RPC请求。每个RPC请求称为一次next请求。<br>scan的详细介绍见Hbase客户端章节。<h3 id="Server-端的Scan框架体系"><a href="#Server-端的Scan框架体系" class="headerlink" title="Server 端的Scan框架体系"></a>Server 端的Scan框架体系</h3>RegionServer接收到客户端的get/scan请求之后做了两件事情：首先构建scanner iterator体系；然后执行next函数获取KV，并对其进行条件过滤。<br>Scanner的核心体系包括三层Scanner：RegionServer，StoreScanner，MemStoreScanner和StoreFileScanner。三者的层级关系：</li>
+<li>一个RegionScanner由多个StoreScanner。一个表由多少个列簇组成，就有多少个StoreScanner。</li>
+<li>一个StoreScanner由MemStoreScanner和StoreFileScanner构成。<h2 id="Coprocessor介绍"><a href="#Coprocessor介绍" class="headerlink" title="Coprocessor介绍"></a>Coprocessor介绍</h2>Hbase的Coprocessor分为：Observer和Endpoint。<br>Observer接收有四种实现：</li>
+<li>RegionObserver：主要监听Region相关事件，比如：get、put、scan、delete以及flush等。</li>
+<li>RegionServerObserver：主要监听RegionServer相关事件，比如RegionServer启动、关闭。</li>
+<li>WALObserver：主要监听WAL相关事件，比如WAL写入、滚动等。</li>
+<li>MasterObserver：监听Master相关事件，比如建表、删除、以及修改表结构。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
   </nav>
 
 
@@ -2105,7 +1983,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-count">119</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2116,7 +1994,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2127,7 +2005,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
