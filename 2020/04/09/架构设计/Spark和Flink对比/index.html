@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="从Spark Streaming迁移到Flink的效果总结从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，我们提供了一些使用效果小结，其中有几个关键点：  对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不">
+<meta name="description" content="从Spark Streaming迁移到Flink的效果总结从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，提供了一些使用效果小结，其中有几个关键点：  对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不做介">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark和Flink对比">
 <meta property="og:url" content="https://liudongfei.github.io/2020/04/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/Spark%E5%92%8CFlink%E5%AF%B9%E6%AF%94/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="从Spark Streaming迁移到Flink的效果总结从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，我们提供了一些使用效果小结，其中有几个关键点：  对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不">
+<meta property="og:description" content="从Spark Streaming迁移到Flink的效果总结从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，提供了一些使用效果小结，其中有几个关键点：  对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不做介">
 <meta property="article:published_time" content="2020-04-09T03:45:58.546Z">
-<meta property="article:modified_time" content="2020-04-09T06:04:47.676Z">
+<meta property="article:modified_time" content="2020-05-13T08:32:15.427Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-09T14:04:47+08:00">
-                2020-04-09
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-13T16:32:15+08:00">
+                2020-05-13
               </time>
             
           </span>
@@ -392,7 +392,7 @@
       
 
       
-        <h3 id="从Spark-Streaming迁移到Flink的效果总结"><a href="#从Spark-Streaming迁移到Flink的效果总结" class="headerlink" title="从Spark Streaming迁移到Flink的效果总结"></a>从Spark Streaming迁移到Flink的效果总结</h3><p>从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，我们提供了一些使用效果小结，其中有几个关键点：</p>
+        <h3 id="从Spark-Streaming迁移到Flink的效果总结"><a href="#从Spark-Streaming迁移到Flink的效果总结" class="headerlink" title="从Spark Streaming迁移到Flink的效果总结"></a>从Spark Streaming迁移到Flink的效果总结</h3><p>从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，提供了一些使用效果小结，其中有几个关键点：</p>
 <ul>
 <li>对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不做介绍）；</li>
 <li>对后端存储系统的写入延迟从 80ms 降低到了 20ms 左右，如下图（这是因为 Spark Streaming 的 mini batch 模式会在 batch 最后有批量写存储系统的操作，从而造成写请求尖峰，Flink 则没有类似问题）:</li>
@@ -549,7 +549,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">119</span>
+                  <span class="site-state-item-count">127</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

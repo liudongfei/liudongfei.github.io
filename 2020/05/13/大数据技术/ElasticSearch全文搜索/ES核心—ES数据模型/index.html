@@ -79,14 +79,12 @@
 
 
 
-<meta name="description" content="索引(Index)索引是ES存放具体数据的地方，是一类具有相似特征的文档集合。ES中的索引具有不同的意思，这里的索引相当于关系型数据库的一个实例。在ES中还可以作为动词，表示对数据进行索引操作。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ES基础—核心概念">
-<meta property="og:url" content="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:title" content="ES基础—ES数据模型">
+<meta property="og:url" content="https://liudongfei.github.io/2020/05/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="索引(Index)索引是ES存放具体数据的地方，是一类具有相似特征的文档集合。ES中的索引具有不同的意思，这里的索引相当于关系型数据库的一个实例。在ES中还可以作为动词，表示对数据进行索引操作。">
-<meta property="article:published_time" content="2020-03-15T03:38:53.958Z">
-<meta property="article:modified_time" content="2020-05-07T02:47:22.863Z">
+<meta property="article:published_time" content="2020-05-13T03:37:11.555Z">
+<meta property="article:modified_time" content="2020-05-13T03:38:45.231Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="es">
 <meta name="twitter:card" content="summary">
@@ -119,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/2020/03/15/大数据技术/ElasticSearch全文搜索/ES基础—核心概念/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/05/13/大数据技术/ElasticSearch全文搜索/ES核心—ES数据模型/"/>
 
 
 
 
 
-  <title>ES基础—核心概念 | 琅琊的博客</title>
+  <title>ES基础—ES数据模型 | 琅琊的博客</title>
   
 
 
@@ -286,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/05/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -303,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ES基础—核心概念</h1>
+          <h1 class="post-title" itemprop="name headline">ES基础—ES数据模型</h1>
         
 
         <div class="post-meta">
@@ -315,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:38:53+08:00">
-                2020-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-13T11:37:11+08:00">
+                2020-05-13
               </time>
             
 
@@ -331,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-05-07T10:47:22+08:00">
-                2020-05-07
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-13T11:38:45+08:00">
+                2020-05-13
               </time>
             
           </span>
@@ -392,229 +390,7 @@
       
 
       
-        <h3 id="索引-Index"><a href="#索引-Index" class="headerlink" title="索引(Index)"></a>索引(Index)</h3><p>索引是ES存放具体数据的地方，是一类具有相似特征的文档集合。ES中的索引具有不同的意思，这里的索引相当于关系型数据库的一个实例。在ES中还可以作为动词，表示对数据进行索引操作。<a id="more"></a></p>
-<h3 id="类型-Type"><a href="#类型-Type" class="headerlink" title="类型(Type)"></a>类型(Type)</h3><p>在6.0版本之前，在一个ES的索引中可以有多个类型，从6.0版本开始，一个索引中，只有一个类型，一个类型是索引的一个逻辑上的分类，通常是一组具有相同字段的文档组成。ES的类型概念相当于关系数据库中的数据表。</p>
-<h3 id="文档-Doc"><a href="#文档-Doc" class="headerlink" title="文档(Doc)"></a>文档(Doc)</h3><p>文档是ES可被索引的基础单元，相当于关系数据库中数据表的一条数据。ES的文档具有Json格式，由多个字段组成，字段相当于关系数据库中列的概念。</p>
-<h3 id="映射-Mapping"><a href="#映射-Mapping" class="headerlink" title="映射(Mapping)"></a>映射(Mapping)</h3><p>ES用映射来定义一个文档，可以定义所包含的字段以及字段的类型、分词起及属性等。<br>映射可以分为动态映射和静态映射：<br><strong>动态映射</strong>：这种机制下，不需要在ES的索引中事先定义映射，文档写入ES会根据字段自动识别类型。<br>动态映射规则如下：</p>
-<table>
-<thead>
-<tr>
-<th>Json数据</th>
-<th>自动推测的类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>null</td>
-<td>没有字段被添加</td>
-</tr>
-<tr>
-<td>true或者false</td>
-<td>boolean型</td>
-</tr>
-<tr>
-<td>小数</td>
-<td>float型</td>
-</tr>
-<tr>
-<td>数字</td>
-<td>long型</td>
-</tr>
-<tr>
-<td>日期</td>
-<td>date或text</td>
-</tr>
-<tr>
-<td>字符串</td>
-<td>text</td>
-</tr>
-<tr>
-<td>数组</td>
-<td>由数组的第一个非空值决定</td>
-</tr>
-<tr>
-<td>Json对象</td>
-<td>object类型</td>
-</tr>
-<tr>
-<td><strong>静态映射</strong>：这种机制下，在ES的索引中事先定义好映射，在进行文档插入。</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>动态+静态</strong>：首先，预先定义好映射，在插入文档时，映射中存在的属性采用静态映射确定属性类型，映射中不存在的属性采用动态映射自动推测类型</td>
-<td></td>
-</tr>
-<tr>
-<td>映射(mapping)元数据</td>
-<td></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>元数据</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>_index</td>
-<td>文档所属的索引</td>
-</tr>
-<tr>
-<td>_id</td>
-<td>文档的id</td>
-</tr>
-<tr>
-<td>_type</td>
-<td>文档所属类型</td>
-</tr>
-<tr>
-<td>_source</td>
-<td>文档的原生json字符串</td>
-</tr>
-<tr>
-<td>_size</td>
-<td>整个_source字段的字节数大小</td>
-</tr>
-<tr>
-<td>_field_names</td>
-<td>索引了每个字段的名称</td>
-</tr>
-<tr>
-<td>_routing</td>
-<td>将一个文档根据路由存储到指定的分片上</td>
-</tr>
-<tr>
-<td>_meta</td>
-<td>用于自定义元数据</td>
-</tr>
-</tbody></table>
-<p>映射(mapping)参数</p>
-<ul>
-<li>analyzer：指定分词器</li>
-<li>normalizer：用于解析前的标准化配置，如把所有的字母转换成小写</li>
-<li>boost：通过boost值来控制查询子句的相对权重，该值默认为1。一个大于1的boost会增加该查询子句的相对权重</li>
-<li>coerce：用于清除脏数据，默认值true。字符串会被强制转换为整数，浮点数被强制转换为整数。</li>
-<li>dynamic：用于检测新发现的字段，有三个取值：true，新发现的字段添加到映射中；false，新检测的字段被忽略，必须显式添加新字段。strict，如果新检测到字段，就会引发异常并拒绝文档。</li>
-<li>enabled：ES默认会索引所有字段，enabled设置为false的字段，es会跳过字段内容，该字段只能从_source字段中获取，但是不可搜索。</li>
-<li>format：指定字段值的格式</li>
-<li>ignore_above：指定字段索引和存储的长度最大值，超过最大值的会被忽略<h3 id="ES与关系数据库的对比"><a href="#ES与关系数据库的对比" class="headerlink" title="ES与关系数据库的对比"></a>ES与关系数据库的对比</h3></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>ES</th>
-<th>关系数据库</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>索引(index)</td>
-<td>数据库(database)</td>
-</tr>
-<tr>
-<td>类型(type)</td>
-<td>表(table)</td>
-</tr>
-<tr>
-<td>文档(Doc)</td>
-<td>行(row)</td>
-</tr>
-<tr>
-<td>字段(field)</td>
-<td>列(column)</td>
-</tr>
-<tr>
-<td>映射(mapping)</td>
-<td>表结构(schema)</td>
-</tr>
-<tr>
-<td>查询DSL</td>
-<td>SQL</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>select</td>
-</tr>
-<tr>
-<td>PUT/POST</td>
-<td>update</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>delete</td>
-</tr>
-<tr>
-<td>### 类型(Type)</td>
-<td></td>
-</tr>
-<tr>
-<td>类型是Elasticsearch的一个设计失误，6.0开始后面的版本将不再支持。</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>在Elasticsearch索引中，在不同映射类型中具有相同名称的字段在内部由相同的Lucene字段支持。类型中的user_name字段和user类型中的字段存储在完全相同的user_name字段中tweet，并且两个 user_name字段在两种类型中都必须具有相同的映射（定义）。</p>
-<h3 id="分片-shard"><a href="#分片-shard" class="headerlink" title="分片(shard)"></a>分片(shard)</h3><p>当数据量较大时，索引的存储空间需求超出单个节点磁盘容量的限制，或者出现单个节点处理速度较慢。为了解决这些问题，ES将索引中的数据进行切分成多个分片（shard），每个分片存储这个索引的一部分数据，分布在不同节点上。当需要查询索引时，ElasticSearch将查询发送到每个相关分片，之后将查询结果合并，这个过程对ES应用来说是透明的，用户感知不到分片的存在。 一个索引的分片一旦指定，不能再修改。</p>
-<h3 id="副本-replicas"><a href="#副本-replicas" class="headerlink" title="副本(replicas)"></a>副本(replicas)</h3><p>分片全称是主分片，简称为分片。主分片是相对于副本来说的，副本是对主分片的一个或多个复制版本（或称拷贝），这些复制版本（拷贝）可以称为复制分片，可以直接称之为副本。当主分片丢失时，集群可以将一个副本升级为新的主分片。<br>ES的字段类型</p>
-<h4 id="核心类型"><a href="#核心类型" class="headerlink" title="核心类型"></a>核心类型</h4><table>
-<thead>
-<tr>
-<th>分类</th>
-<th>具体类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>字符串类型</td>
-<td>string,text,keyword</td>
-</tr>
-<tr>
-<td>整数类型</td>
-<td>integer,long,short,byte</td>
-</tr>
-<tr>
-<td>浮点类型</td>
-<td>double,float,half_float,scaled_float</td>
-</tr>
-<tr>
-<td>逻辑类型</td>
-<td>boolean</td>
-</tr>
-<tr>
-<td>日期类型</td>
-<td>date</td>
-</tr>
-<tr>
-<td>范围类型</td>
-<td>range</td>
-</tr>
-<tr>
-<td>二进制类型</td>
-<td>binary</td>
-</tr>
-<tr>
-<td>#### 复合类型</td>
-<td></td>
-</tr>
-<tr>
-<td>分类</td>
-<td>具体类型</td>
-</tr>
-<tr>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>数组类型</td>
-<td>array</td>
-</tr>
-<tr>
-<td>对象类型</td>
-<td>integer,long,short,byte</td>
-</tr>
-<tr>
-<td>嵌套类型</td>
-<td>double,float,half_float,scaled_float</td>
-</tr>
-</tbody></table>
-
+        
       
     </div>
     
@@ -634,7 +410,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" title="ES基础—核心概念">https://liudongfei.github.io/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</a>
+    <a href="https://liudongfei.github.io/2020/05/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" title="ES基础—ES数据模型">https://liudongfei.github.io/2020/05/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -662,8 +438,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" rel="next" title="Sqoop基础—基本使用">
-                <i class="fa fa-chevron-left"></i> Sqoop基础—基本使用
+              <a href="/2020/05/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" rel="next" title="ES核心—启动流程">
+                <i class="fa fa-chevron-left"></i> ES核心—启动流程
               </a>
             
           </div>
@@ -672,8 +448,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/" rel="prev" title="ES核心—全文检索">
-                ES核心—全文检索 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/13/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/" rel="prev" title="ES核心—系统调优">
+                ES核心—系统调优 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -726,17 +502,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -751,7 +518,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">119</span>
+                  <span class="site-state-item-count">127</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -796,22 +563,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引-Index"><span class="nav-number">1.</span> <span class="nav-text">索引(Index)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型-Type"><span class="nav-number">2.</span> <span class="nav-text">类型(Type)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档-Doc"><span class="nav-number">3.</span> <span class="nav-text">文档(Doc)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#映射-Mapping"><span class="nav-number">4.</span> <span class="nav-text">映射(Mapping)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES与关系数据库的对比"><span class="nav-number">5.</span> <span class="nav-text">ES与关系数据库的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分片-shard"><span class="nav-number">6.</span> <span class="nav-text">分片(shard)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#副本-replicas"><span class="nav-number">7.</span> <span class="nav-text">副本(replicas)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核心类型"><span class="nav-number">7.1.</span> <span class="nav-text">核心类型</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
