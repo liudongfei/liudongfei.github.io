@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="查询方式Match类查询match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。  match查询：先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。 match_phrase查询：先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。 multi_match查询：两个字段进行匹配，其中一个字段有这个文档就满足。">
 <meta property="article:published_time" content="2020-05-13T07:22:38.204Z">
-<meta property="article:modified_time" content="2020-05-13T07:40:26.049Z">
+<meta property="article:modified_time" content="2020-05-19T04:05:45.386Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="es">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-05-13T15:40:26+08:00">
-                2020-05-13
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T12:05:45+08:00">
+                2020-05-19
               </time>
             
           </span>
@@ -401,55 +401,24 @@
 <li>Term查询：Term是代表完全匹配，也就是精确查询，搜索前不会再对搜索词进行分词，所以我们的搜索词必须是文档分词集合中的一个。</li>
 <li>Terms查询：Terms 跟 Term 有点类似，但 terms 允许指定多个匹配条件。 如果某个字段指定了多个值，那么文档需要一起去做匹配。匹配条件之间默认时或的关系。注意分词过后英文单词的大写会编程小写</li>
 </ul>
-<p><strong>Ids查询</strong>:<br><code>{
-    &quot;query&quot;: {
-        &quot;ids&quot; : {
-            &quot;type&quot; : &quot;blog&quot;,
-            &quot;values&quot; : [&quot;2&quot;, &quot;3&quot;]
-        }
-    }
-}</code><br><strong>Range查询</strong>:<br>按照指定范围查找一批数据。范围操作符包含：</p>
+<p><strong>Ids查询</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;ids&quot; : &#123;</span><br><span class="line">            &quot;type&quot; : &quot;blog&quot;,</span><br><span class="line">            &quot;values&quot; : [&quot;2&quot;, &quot;3&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Range查询</strong>:<br>按照指定范围查找一批数据。范围操作符包含：</p>
 <ul>
 <li>gt：大于</li>
 <li>gte：大于等于</li>
 <li>lt：小于</li>
-<li>lte：小于等于<br>`<br>{<br>  “query”: {<pre><code>&quot;range&quot; : {
-    &quot;age&quot; : {
-        &quot;gte&quot; : 10,
-        &quot;lte&quot; : 20,
-        &quot;boost&quot; : 2.0
-    }
-}</code></pre>  }<br>}<br>`</li>
+<li>lte：小于等于<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;range&quot; : &#123;</span><br><span class="line">            &quot;age&quot; : &#123;</span><br><span class="line">                &quot;gte&quot; : 10,</span><br><span class="line">                &quot;lte&quot; : 20,</span><br><span class="line">                &quot;boost&quot; : 2.0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><strong>Regexp查询</strong>:<br>针对某个字段使用正则表达式进行ES的条件查询。<br><code>{
-    &quot;query&quot;: {
-        &quot;regexp&quot;:{
-            &quot;title&quot;: &quot;gc.*&quot;
-        }
-    }
-}</code><br><strong>Prefix查询</strong>:<br>针对某个字段使用前缀方式进行ES的条件查询。下面，查询user字段中ki开头的文档。<br><code>{ &quot;query&quot;: {
-    &quot;prefix&quot; : { &quot;user&quot; : &quot;ki&quot; }
-  }
-}</code><br><strong>Exists查询</strong>:<br>返回原始字段中至少包含一个非空值的文档，如下返回包含user字段的文档:<br><code>{
-    &quot;query&quot;: {
-        &quot;exists&quot; : { &quot;field&quot; : &quot;user&quot; }
-    }
-}</code><br><strong>Bool复合查询</strong>:<br>想要请求”content中带宝马，但是tag中不带宝马”这样类似的需求，就需要用到bool联合查询。联合查询就会使用到must,should,must_not三种关键词。<br>    ✓    must：文档必须完全匹配条件<br>    ✓    should：should下面会带上一个以上的条件，至少满足一个条件，这个文档就符合should<br>    ✓    must_not：文档必须不匹配条件<br><code>{
-  &quot;query&quot;: {
-    &quot;bool&quot;: {
-      &quot;must&quot;: {
-        &quot;term&quot;: {
-          &quot;content&quot;: &quot;宝马&quot;
-        }
-      },
-      &quot;must_not&quot;: {
-        &quot;term&quot;: {
-          &quot;tags&quot;: &quot;宝马&quot;
-        }
-      }
-    }
-  }
-}</code><br><strong>过滤条件</strong>:</p>
+<p><strong>Regexp查询</strong>:<br>针对某个字段使用正则表达式进行ES的条件查询。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;regexp&quot;:&#123;</span><br><span class="line">            &quot;title&quot;: &quot;gc.*&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Prefix查询</strong>:<br>针对某个字段使用前缀方式进行ES的条件查询。下面，查询user字段中ki开头的文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;query&quot;: &#123;</span><br><span class="line">    &quot;prefix&quot; : &#123; &quot;user&quot; : &quot;ki&quot; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Exists查询</strong>:<br>返回原始字段中至少包含一个非空值的文档，如下返回包含user字段的文档:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;exists&quot; : &#123; &quot;field&quot; : &quot;user&quot; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Bool复合查询</strong>:<br>想要请求”content中带宝马，但是tag中不带宝马”这样类似的需求，就需要用到bool联合查询。联合查询就会使用到must,should,must_not三种关键词。<br>    ✓    must：文档必须完全匹配条件<br>    ✓    should：should下面会带上一个以上的条件，至少满足一个条件，这个文档就符合should<br>    ✓    must_not：文档必须不匹配条件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: &#123;</span><br><span class="line">        &quot;term&quot;: &#123;</span><br><span class="line">          &quot;content&quot;: &quot;宝马&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;must_not&quot;: &#123;</span><br><span class="line">        &quot;term&quot;: &#123;</span><br><span class="line">          &quot;tags&quot;: &quot;宝马&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>过滤条件</strong>:</p>
 <ul>
 <li>字段过滤</li>
 <li>评分过滤</li>
@@ -458,14 +427,7 @@
 <ul>
 <li>添加顺序排序</li>
 <li>评分排序</li>
-<li>单字段排序<br><code>{
-&quot;query&quot;: {
-  &quot;match_all&quot;: {}
-}, 
-&quot;sort&quot;: [
-  {&quot;postdate&quot;:{&quot;order&quot;:&quot;desc&quot;}}
-]
-}</code></li>
+<li>单字段排序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;, </span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;&quot;postdate&quot;:&#123;&quot;order&quot;:&quot;desc&quot;&#125;&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>多字段排序</li>
 </ul>
 

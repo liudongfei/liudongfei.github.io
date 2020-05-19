@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="创建kerberos的principle和keytab文件创建kerberos的principle，登陆kadmin">
 <meta property="article:published_time" content="2020-03-15T04:43:26.959Z">
-<meta property="article:modified_time" content="2020-03-17T03:59:25.931Z">
+<meta property="article:modified_time" content="2020-05-19T04:15:34.079Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="kerberos">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T11:59:25+08:00">
-                2020-03-17
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T12:15:34+08:00">
+                2020-05-19
               </time>
             
           </span>
@@ -393,18 +393,10 @@
 
       
         <ul>
-<li>创建kerberos的principle和keytab文件<br>创建kerberos的principle，登陆kadmin <a id="more"></a><br><code>kadmin.local #在KDC本机登陆
-kadmin -p root/admin@LIUDF.COM #非kdc节点登陆
-添加principle
-kadmin: add_principal liudongfei@LIUDF.COM
-Enter password for principal &quot;liudongfei@LIUDF.COM&quot;: password
-Re-enter password for principal &quot;liudongfei@LIUDF.COM&quot;: password</code><br>生成keytab<br>`<br>add_entry -password -p principal_name -k number -e encryption_type for each encryption type<br>[root@test5~]#ktutil<br>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des3-cbc-sha1-kd<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </li>
+<li>创建kerberos的principle和keytab文件<br>创建kerberos的principle，登陆kadmin <a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kadmin.local #在KDC本机登陆</span><br><span class="line">kadmin -p root&#x2F;admin@LIUDF.COM #非kdc节点登陆</span><br><span class="line">添加principle</span><br><span class="line">kadmin: add_principal liudongfei@LIUDF.COM</span><br><span class="line">Enter password for principal &quot;liudongfei@LIUDF.COM&quot;: password</span><br><span class="line">Re-enter password for principal &quot;liudongfei@LIUDF.COM&quot;: password</span><br></pre></td></tr></table></figure>
+生成keytab<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">add_entry -password -p principal_name -k number -e encryption_type for each encryption type</span><br><span class="line">[root@test5~]#ktutil</span><br><span class="line">ktutil: add_entry -password -p liudongfei@LIUDF.COM -k 1 -e des3-cbc-sha1-kd </span><br><span class="line">Password for liudongfei@LIUDF.COM: </span><br><span class="line">ktutil: add_entry -password -p liudongfei@LIUDF.COM -k 1 -e arcfour-hmac-md5 </span><br><span class="line">Password for liudongfei@LIUDF.COM: </span><br><span class="line">ktutil: add_entry -password -p liudongfei@LIUDF.COM -k 1 -e des-hmac-sha1 </span><br><span class="line">Password for liudongfei@LIUDF.COM: </span><br><span class="line">ktutil: add_entry -password -p liudongfei@LIUDF.COM -k 1 -e des-cbc-md5 </span><br><span class="line">Password for liudongfei@LIUDF.COM: </span><br><span class="line">ktutil: add_entry -password -p liudongfei@LIUDF.COM -k 1 -e des-cbc-md4 </span><br><span class="line">Password for liudongfei@LIUDF.COM:</span><br><span class="line">ktutil: wkt &#x2F;home&#x2F;parallels&#x2F;liudongfei.keytab</span><br><span class="line">ktutil: q</span><br></pre></td></tr></table></figure>
+验证keytab：<br><code>[root@test5~]#kinit -k -t /home/parallels/liudongfei.keytab liudongfei@LIUDF.COM</code></li>
 </ul>
-<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e arcfour-hmac-md5<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
-<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des-hmac-sha1<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
-<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des-cbc-md5<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>: </p>
-<p>ktutil: add_entry -password -p <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a> -k 1 -e des-cbc-md4<br>Password for <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>:</p>
-<p>ktutil: wkt /home/parallels/liudongfei.keytab<br>ktutil: q<br><code>验证keytab：</code>[root@test5~]#kinit -k -t /home/parallels/liudongfei.keytab <a href="mailto:liudongfei@LIUDF.COM">liudongfei@LIUDF.COM</a>`</p>
 
       
     </div>

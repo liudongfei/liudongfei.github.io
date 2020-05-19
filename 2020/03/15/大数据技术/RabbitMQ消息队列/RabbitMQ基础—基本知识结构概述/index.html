@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="组件介绍常用命令rabbitmqctl list_queues name messages_ready messages_unacknowledged #列出当前队列、队列信息数量、队列未确认信息数量rabbitmqctl list_exchanges  #列出当前交换机">
 <meta property="article:published_time" content="2020-03-15T04:26:54.088Z">
-<meta property="article:modified_time" content="2020-03-16T13:52:31.952Z">
+<meta property="article:modified_time" content="2020-05-19T04:14:54.610Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="rabbitmq">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T21:52:31+08:00">
-                2020-03-16
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T12:14:54+08:00">
+                2020-05-19
               </time>
             
           </span>
@@ -393,39 +393,19 @@
 
       
         <h3 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h3><p>常用命令<br>rabbitmqctl list_queues name messages_ready messages_unacknowledged #列出当前队列、队列信息数量、队列未确认信息数量<br>rabbitmqctl list_exchanges  #列出当前交换机<a id="more"></a><br>rabbitmqctl list_bindings #列出当前交换机和队列的绑定</p>
-<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><p><code>yum install rabbitmq-server
-rabbitmq-plugins enable rabbitmq_management</code><br>启动rabbitmq server<br><code>service rabbitmq-server restart
-chkconfig rabbitmq-server on</code><br>更改初始密码<br><code>rabbitmqctl change_password guest spdb1234</code></p>
+<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install rabbitmq-server</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+<p>启动rabbitmq server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server restart</span><br><span class="line">chkconfig rabbitmq-server on</span><br></pre></td></tr></table></figure>
+<p>更改初始密码<br><code>rabbitmqctl change_password guest spdb1234</code></p>
 <h3 id="RABBITMQ集群搭建"><a href="#RABBITMQ集群搭建" class="headerlink" title="RABBITMQ集群搭建"></a>RABBITMQ集群搭建</h3><ol>
 <li>停止所有节点rabbitmq服务：rabbitmqctl stop</li>
 <li>备份非主节点bdpcm02、bdputil02的erlange.cookie<br><code>mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.bak</code></li>
 <li>将主节点bdputil01上的erlange.cookie复制到其他节点/var/lib/rabbitmq目录下。</li>
-<li>修改所有节点上，erlange.cookie的权限<br><code>chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie</code><br><code>chmod 600 /var/lib/rabbitmq/.erlang.cookie</code></li>
+<li>修改所有节点上，erlange.cookie的权限<figure class="highlight plain"><figcaption><span>rabbitmq:rabbitmq</span><a href="/var/lib/rabbitmq/.erlang.cookie">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 600 &#x2F;var&#x2F;lib&#x2F;rabbitmq&#x2F;.erlang.cookie</span><br></pre></td></tr></table></figure></li>
 <li>启动Master节点的rabbitmq进程<br><code>rabbitmq-server -detached</code></li>
 <li>在Slave节点上，执行如下操作加入集群<br>#启动rabbitmq<br>1)    rabbitmq-server -detached<br>#停止rabbitmq<br>2)    rabbitmqctl stop_app<br>#将该节点加入集群<br>3)    rabbitmqctl join_cluster rabbit@bdputil01<br>#启动<br>4)    rabbitmqctl start_app<br>#查看集群状态<br>5)    rabbitmqctl cluster_status</li>
-<li>配置高可用参数<br>#打开任意节点的RabbitMQ管理页面（上方导航栏）Admin-&gt;（右侧导航栏）Policies<br>#添加配置信息 Add/update a policy<br><code>Name: ha-all
-Pattern:
-spdb
-Definitions:
-ha-mode=all
-ha-sync-mode=automatic
-Priority: 0</code></li>
-<li>使用HAProxy做负载均衡<br>使用ps -ef|grep haproxy查找当前执行的配置文件<br>进入配置文件，添加如下内容：<br><code>listen rabbitmq_admin
-bind 0.0.0.0:15673   
-server rabbitmq1 bdputil01:15672 
-server rabbitmq2 bdputil02:15672   
-server rabbitmq3 bdpcm02:15672
-listen rabbitmq_cluster
-bind 0.0.0.0:5673
-#配置TCP模式
-mode tcp
-option tcplog
-#简单的轮询
-balance roundrobin
-#rabbitmq集群节点配置
-server rabbitmq1 bdputil01:5672 check inter 5000 rise 2 fall 2
-server rabbitmq2 bdputil02:5672 check inter 5000 rise 2 fall 2
-server rabbitmq3 bdpcm02:5672 check inter 5000 rise 2 fall 2</code></li>
+<li>配置高可用参数<br>#打开任意节点的RabbitMQ管理页面（上方导航栏）Admin-&gt;（右侧导航栏）Policies<br>#添加配置信息 Add/update a policy<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Name: ha-all</span><br><span class="line">Pattern:</span><br><span class="line">    spdb</span><br><span class="line">Definitions:</span><br><span class="line">    ha-mode&#x3D;all</span><br><span class="line">    ha-sync-mode&#x3D;automatic</span><br><span class="line">Priority: 0</span><br></pre></td></tr></table></figure></li>
+<li>使用HAProxy做负载均衡<br>使用ps -ef|grep haproxy查找当前执行的配置文件<br>进入配置文件，添加如下内容：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">listen rabbitmq_admin</span><br><span class="line">    bind 0.0.0.0:15673   </span><br><span class="line">    server rabbitmq1 bdputil01:15672 </span><br><span class="line">    server rabbitmq2 bdputil02:15672   </span><br><span class="line">    server rabbitmq3 bdpcm02:15672</span><br><span class="line">listen rabbitmq_cluster</span><br><span class="line">    bind 0.0.0.0:5673</span><br><span class="line">    #配置TCP模式</span><br><span class="line">    mode tcp</span><br><span class="line">    option tcplog</span><br><span class="line">    #简单的轮询</span><br><span class="line">    balance roundrobin</span><br><span class="line">    #rabbitmq集群节点配置</span><br><span class="line">    server rabbitmq1 bdputil01:5672 check inter 5000 rise 2 fall 2</span><br><span class="line">    server rabbitmq2 bdputil02:5672 check inter 5000 rise 2 fall 2</span><br><span class="line">    server rabbitmq3 bdpcm02:5672 check inter 5000 rise 2 fall 2</span><br></pre></td></tr></table></figure></li>
 <li>5    登录web页面查看<br>使用haproxy的ip查看rabbitmq的状态：url：<a href="http://bdputil01:15673" target="_blank" rel="noopener">http://bdputil01:15673</a><br>user：guest<br>passwd：****</li>
 </ol>
 

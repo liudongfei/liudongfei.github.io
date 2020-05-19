@@ -109,7 +109,7 @@
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082032494.jpg">
 <meta property="og:image" content="https://liudongfei.github.io/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082207362.jpg">
 <meta property="article:published_time" content="2020-03-11T06:24:46.170Z">
-<meta property="article:modified_time" content="2020-03-16T09:51:24.173Z">
+<meta property="article:modified_time" content="2020-05-19T04:04:52.396Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -355,8 +355,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-16T17:51:24+08:00">
-                2020-03-16
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T12:04:52+08:00">
+                2020-05-19
               </time>
             
           </span>
@@ -520,25 +520,12 @@
 <li>jinfo (Configuration Info for Java) : Configuration Info forJava,显示虚拟机配置信息;</li>
 <li>jmap (Memory Map for Java) :生成堆转储快照;</li>
 <li>jhat (JVM Heap Dump Browser ) : 用于分析 heapdump 文件，它会建立一个 HTTP/HTML 服务器，让用户可以在浏览器上查看分析结果;</li>
-<li>jstack (Stack Trace for Java):生成虚拟机当前时刻的线程快照，线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈的集合。<br><code>jps: 查看所有 Java 进程
-jps -l: 输出主类的全名，如果进程执行的是 Jar 包，输出 Jar 路径。
-jps -v: 输出虚拟机进程启动时 JVM 参数。
-jps -m: 输出传递给 Java 进程 main() 函数的参数。
-jstat: 监视虚拟机各种运行状态信息</code><br>jstat 命令使用格式：<br><code>jstat -&lt;option&gt; [-t] [-h&lt;lines&gt;] &lt;vmid&gt; [&lt;interval&gt; [&lt;count&gt;]]</code><br>比如 jstat -gc -h3 31736 1000 10表示分析进程 id 为 31736 的 gc 情况，每隔 1000ms 打印一次记录，打印 10 次停止，每 3 行后打印指标头部。<br>常见的 option 如下：<br><code>▪    jstat -class vmid ：显示 ClassLoader 的相关信息；
-  ▪    jstat -compiler vmid ：显示 JIT 编译的相关信息；
-  ▪    jstat -gc vmid ：显示与 GC 相关的堆信息；
-  ▪    jstat -gccapacity vmid ：显示各个代的容量及使用情况；
-  ▪    jstat -gcnew vmid ：显示新生代信息；
-  ▪    jstat -gcnewcapcacity vmid ：显示新生代大小与使用情况；
-  ▪    jstat -gcold vmid ：显示老年代和永久代的信息；
-  ▪    jstat -gcoldcapacity vmid ：显示老年代的大小；
-  ▪    jstat -gcpermcapacity vmid ：显示永久代大小；
-  ▪    jstat -gcutil vmid ：显示垃圾收集信息；</code><br>另外，加上 -t参数可以在输出信息上加一个 Timestamp 列，显示程序的运行时间。<h2 id="JDK-可视化分析工具"><a href="#JDK-可视化分析工具" class="headerlink" title="JDK 可视化分析工具"></a>JDK 可视化分析工具</h2><h3 id="JConsole-Java-监视与管理控制台"><a href="#JConsole-Java-监视与管理控制台" class="headerlink" title="JConsole:Java 监视与管理控制台"></a>JConsole:Java 监视与管理控制台</h3>JConsole 是基于 JMX 的可视化监视、管理工具。可以很方便的监视本地及远程服务器的 java 进程的内存使用情况。<br><img src="/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082207362.jpg" alt="-w669"></li>
+<li>jstack (Stack Trace for Java):生成虚拟机当前时刻的线程快照，线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jps: 查看所有 Java 进程</span><br><span class="line">jps -l: 输出主类的全名，如果进程执行的是 Jar 包，输出 Jar 路径。</span><br><span class="line">jps -v: 输出虚拟机进程启动时 JVM 参数。</span><br><span class="line">jps -m: 输出传递给 Java 进程 main() 函数的参数。</span><br><span class="line">jstat: 监视虚拟机各种运行状态信息</span><br></pre></td></tr></table></figure>
+jstat 命令使用格式：<br><code>jstat -&lt;option&gt; [-t] [-h&lt;lines&gt;] &lt;vmid&gt; [&lt;interval&gt; [&lt;count&gt;]]</code><br>比如 jstat -gc -h3 31736 1000 10表示分析进程 id 为 31736 的 gc 情况，每隔 1000ms 打印一次记录，打印 10 次停止，每 3 行后打印指标头部。<br>常见的 option 如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">▪	jstat -class vmid ：显示 ClassLoader 的相关信息；</span><br><span class="line">▪	jstat -compiler vmid ：显示 JIT 编译的相关信息；</span><br><span class="line">▪	jstat -gc vmid ：显示与 GC 相关的堆信息；</span><br><span class="line">▪	jstat -gccapacity vmid ：显示各个代的容量及使用情况；</span><br><span class="line">▪	jstat -gcnew vmid ：显示新生代信息；</span><br><span class="line">▪	jstat -gcnewcapcacity vmid ：显示新生代大小与使用情况；</span><br><span class="line">▪	jstat -gcold vmid ：显示老年代和永久代的信息；</span><br><span class="line">▪	jstat -gcoldcapacity vmid ：显示老年代的大小；</span><br><span class="line">▪	jstat -gcpermcapacity vmid ：显示永久代大小；</span><br><span class="line">▪	jstat -gcutil vmid ：显示垃圾收集信息；</span><br></pre></td></tr></table></figure>
+另外，加上 -t参数可以在输出信息上加一个 Timestamp 列，显示程序的运行时间。<h2 id="JDK-可视化分析工具"><a href="#JDK-可视化分析工具" class="headerlink" title="JDK 可视化分析工具"></a>JDK 可视化分析工具</h2><h3 id="JConsole-Java-监视与管理控制台"><a href="#JConsole-Java-监视与管理控制台" class="headerlink" title="JConsole:Java 监视与管理控制台"></a>JConsole:Java 监视与管理控制台</h3>JConsole 是基于 JMX 的可视化监视、管理工具。可以很方便的监视本地及远程服务器的 java 进程的内存使用情况。<br><img src="/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/15839082207362.jpg" alt="-w669"></li>
 </ul>
-<p>如果需要使用 JConsole 连接远程进程，可以在远程 Java 程序启动时加上下面这些参数:<br><code>-Djava.rmi.server.hostname=外网访问 ip 地址 
--Dcom.sun.management.jmxremote.port=60001   //监控的端口号
--Dcom.sun.management.jmxremote.authenticate=false   //关闭认证
--Dcom.sun.management.jmxremote.ssl=false</code></p>
+<p>如果需要使用 JConsole 连接远程进程，可以在远程 Java 程序启动时加上下面这些参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Djava.rmi.server.hostname&#x3D;外网访问 ip 地址 </span><br><span class="line">-Dcom.sun.management.jmxremote.port&#x3D;60001   &#x2F;&#x2F;监控的端口号</span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate&#x3D;false   &#x2F;&#x2F;关闭认证</span><br><span class="line">-Dcom.sun.management.jmxremote.ssl&#x3D;false</span><br></pre></td></tr></table></figure>
 <h3 id="Visual-VM-多合一故障处理工具"><a href="#Visual-VM-多合一故障处理工具" class="headerlink" title="Visual VM:多合一故障处理工具"></a>Visual VM:多合一故障处理工具</h3><p>VisualVM 提供在 Java 虚拟机 (Java Virutal Machine, JVM) 上运行的 Java 应用程序的详细信息。在 VisualVM 的图形用户界面中，您可以方便、快捷地查看多个 Java 应用程序的相关信息。Visual VM 官网：<a href="https://visualvm.github.io/" target="_blank" rel="noopener">https://visualvm.github.io/</a> 。Visual VM 中文文档:<a href="https://visualvm.github.io/documentation.html。" target="_blank" rel="noopener">https://visualvm.github.io/documentation.html。</a></p>
 <p>VisualVM 基于 NetBeans 平台开发，因此他一开始就具备了插件扩展功能的特性，通过插件扩展支持，VisualVM 可以做到：</p>
 <ul>

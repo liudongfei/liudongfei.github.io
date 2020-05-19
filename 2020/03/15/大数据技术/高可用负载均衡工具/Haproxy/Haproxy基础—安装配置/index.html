@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="HAproxy介绍HAproxy是一个开源的、高性能的基于HTTP（7层）和TCP（4层）应用代理的高可用，负载均衡服务软件。它支持双热备，高可用，负载均衡。有图形界面。">
 <meta property="article:published_time" content="2020-03-15T04:46:06.323Z">
-<meta property="article:modified_time" content="2020-03-17T04:04:35.970Z">
+<meta property="article:modified_time" content="2020-05-19T04:15:34.074Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="haproxy">
 <meta name="twitter:card" content="summary">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-03-17T12:04:35+08:00">
-                2020-03-17
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T12:15:34+08:00">
+                2020-05-19
               </time>
             
           </span>
@@ -395,24 +395,7 @@
         <h3 id="HAproxy介绍"><a href="#HAproxy介绍" class="headerlink" title="HAproxy介绍"></a>HAproxy介绍</h3><p>HAproxy是一个开源的、高性能的基于HTTP（7层）和TCP（4层）应用代理的高可用，负载均衡服务软件。它支持双热备，高可用，负载均衡。有图形界面。 <a id="more"></a></p>
 <h3 id="安装-HAproxy"><a href="#安装-HAproxy" class="headerlink" title="安装 HAproxy"></a>安装 HAproxy</h3><p><code>yum install -y haproxy</code></p>
 <h3 id="启动-HAproxy"><a href="#启动-HAproxy" class="headerlink" title="启动 HAproxy"></a>启动 HAproxy</h3><p><code>haproxy -f ./haproxy.cfg</code></p>
-<h3 id="配置-HAproxy"><a href="#配置-HAproxy" class="headerlink" title="配置 HAproxy"></a>配置 HAproxy</h3><p><code>vi /etc/haproxy/haproxy.cfg
-    global 
-        log 127.0.0.1 local0 info #日志输出配置 
-        daemon #后台方式运行 
-        pidfile #pid记录文件 
-    defaults 
-        mode #采用模式，默认http 
-        maxconn #最大连接数 
-        contimeout #连接超时时间 
-        clitimeout #客户端连接超时时间 
-        srvtimeout #服务端连接超时时间 
-        retries #失败重连接次数 
-    frontend前端节点定义 
-        acl #控制策略配置 
-    backend后端节点定义 
-        balance #负载均衡策略,roundrobin，轮询;static-rr，基于权重轮询;source，源地址hash
-    server #真实服务器配置 
-    listen #监听端口</code></p>
+<h3 id="配置-HAproxy"><a href="#配置-HAproxy" class="headerlink" title="配置 HAproxy"></a>配置 HAproxy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    vi &#x2F;etc&#x2F;haproxy&#x2F;haproxy.cfg</span><br><span class="line">    global </span><br><span class="line">        log 127.0.0.1 local0 info #日志输出配置 </span><br><span class="line">        daemon #后台方式运行 </span><br><span class="line">        pidfile #pid记录文件 </span><br><span class="line">    defaults </span><br><span class="line">        mode #采用模式，默认http </span><br><span class="line">        maxconn #最大连接数 </span><br><span class="line">        contimeout #连接超时时间 </span><br><span class="line">        clitimeout #客户端连接超时时间 </span><br><span class="line">        srvtimeout #服务端连接超时时间 </span><br><span class="line">        retries #失败重连接次数 </span><br><span class="line">    frontend前端节点定义 </span><br><span class="line">        acl #控制策略配置 </span><br><span class="line">    backend后端节点定义 </span><br><span class="line">        balance #负载均衡策略,roundrobin，轮询;static-rr，基于权重轮询;source，源地址hash</span><br><span class="line">    server #真实服务器配置 </span><br><span class="line">    listen #监听端口</span><br></pre></td></tr></table></figure>
 <h3 id="三大负载均衡工具"><a href="#三大负载均衡工具" class="headerlink" title="三大负载均衡工具"></a>三大负载均衡工具</h3><ul>
 <li>LVS:工作在网路4层,以vrrp协议转发；抗负载能力强,耗能低；配置复杂，网络依赖强 </li>
 <li>Ngnix：工作在7层,针对http做分流；抗负载能力强;仅支持http/https/email协议；配置简单 </li>
