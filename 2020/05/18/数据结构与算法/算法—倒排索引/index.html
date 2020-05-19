@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。 “文档2”的ID &gt; 此文档出现的关键词列表。这样的">
+<meta name="description" content="在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。“文档2”的ID &gt; 此文档出现的关键词列表。这样的结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法—倒排索引">
 <meta property="og:url" content="https://liudongfei.github.io/2020/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。 “文档2”的ID &gt; 此文档出现的关键词列表。这样的">
+<meta property="og:description" content="在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。“文档2”的ID &gt; 此文档出现的关键词列表。这样的结">
 <meta property="og:image" content="https://liudongfei.github.io/2020/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897844586829.png">
 <meta property="og:image" content="https://liudongfei.github.io/2020/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897846072984.png">
 <meta property="og:image" content="https://liudongfei.github.io/2020/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897879973106.png">
 <meta property="og:image" content="https://liudongfei.github.io/2020/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897881312276.png">
 <meta property="article:published_time" content="2020-05-18T03:45:38.942Z">
-<meta property="article:modified_time" content="2020-05-19T03:42:51.021Z">
+<meta property="article:modified_time" content="2020-05-19T03:48:30.060Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="data structures and algorithms">
 <meta name="twitter:card" content="summary">
@@ -336,7 +336,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T11:42:51+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-19T11:48:30+08:00">
                 2020-05-19
               </time>
             
@@ -397,8 +397,7 @@
       
 
       
-        <p>在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：<br><code>“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。
-“文档2”的ID &gt; 此文档出现的关键词列表。</code><br>这样的结构是正向索引。</p>
+        <p>在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：<br><code>“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。</code><br><code>“文档2”的ID &gt; 此文档出现的关键词列表。</code><br>这样的结构是正向索引。</p>
 <p>当用户在主页上搜索关键词“华为手机”时，假设只存在正向索引，那么就需要扫描索引库中的所有文档，找出所有包含关键词“华为手机”的文档，再根据打分模型进行打分，排出名次后呈现给用户。因为互联网上收录在搜索引擎中的文档的数目是个天文数字，这样的索引结构根本无法满足实时返回排名结果的要求。所以，搜索引擎会将正向索引重新构建为倒排索引，即把文件ID对应到关键词的映射转换为关键词到文件ID的映射，每个关键词都对应着一系列的文件，这些文件中都出现这个关键词。结构如下：<br><code>“关键词1” &gt; “文档1”的ID，“文档2”的ID，…………。
 “关键词2” &gt; 带有此关键词的文档ID列表。</code><br>这样的结构就是倒排索引。</p>
 <h3 id="单词——文档矩阵"><a href="#单词——文档矩阵" class="headerlink" title="单词——文档矩阵"></a>单词——文档矩阵</h3><p>单词-文档矩阵是表达两者之间所具有的一种包含关系的概念模型，下图的每列代表一个文档，每行代表一个单词，打对勾的位置代表包含关系。<br><img src="/2020/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897844586829.png" alt><br>从纵向即文档这个维度来看，每列代表文档包含了哪些单词，比如文档1包含了词汇1和词汇4，而不包含其它单词。从横向即单词这个维度来看，每行代表了哪些文档包含了某个单词。比如对于词汇1来说，文档1和文档4中出现过单词1，而其它文档不包含词汇1。矩阵中其它的行列也可作此种解读。</p>
