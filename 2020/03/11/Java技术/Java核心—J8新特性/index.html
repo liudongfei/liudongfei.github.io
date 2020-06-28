@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="mysql," />
+  <meta name="keywords" content="java,java8," />
 
 
 
@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="准备工作为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。  表名：order_history 描述：某个业务的订单历史表 主要字段：unsigned int id，tinyint(4) int type 字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。 数据量：5709294 MySQL版本：5.7.16 线下找一张">
+<meta name="description" content="Java8新特性接口的默认方法(Default Methods for Interfaces)Java 8使我们能够通过使用 default 关键字向接口添加非抽象方法实现。 Lambda表达式(Lambda expressions)在Java 8中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql优化—分页查询优化">
-<meta property="og:url" content="https://liudongfei.github.io/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:title" content="Java核心—J8新特性">
+<meta property="og:url" content="https://liudongfei.github.io/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="琅琊的博客">
-<meta property="og:description" content="准备工作为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。  表名：order_history 描述：某个业务的订单历史表 主要字段：unsigned int id，tinyint(4) int type 字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。 数据量：5709294 MySQL版本：5.7.16 线下找一张">
-<meta property="article:published_time" content="2020-04-09T06:29:30.720Z">
-<meta property="article:modified_time" content="2020-04-09T14:09:19.653Z">
+<meta property="og:description" content="Java8新特性接口的默认方法(Default Methods for Interfaces)Java 8使我们能够通过使用 default 关键字向接口添加非抽象方法实现。 Lambda表达式(Lambda expressions)在Java 8中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：">
+<meta property="article:published_time" content="2020-03-11T06:36:07.677Z">
+<meta property="article:modified_time" content="2020-05-24T12:33:31.960Z">
 <meta property="article:author" content="dongfeiliu">
-<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="java8">
 <meta name="twitter:card" content="summary">
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://liudongfei.github.io/2020/04/09/数据库技术/Mysql/Mysql优化—分页查询优化/"/>
+  <link rel="canonical" href="https://liudongfei.github.io/2020/03/11/Java技术/Java核心—J8新特性/"/>
 
 
 
 
 
-  <title>Mysql优化—分页查询优化 | 琅琊的博客</title>
+  <title>Java核心—J8新特性 | 琅琊的博客</title>
   
 
 
@@ -286,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -303,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mysql优化—分页查询优化</h1>
+          <h1 class="post-title" itemprop="name headline">Java核心—J8新特性</h1>
         
 
         <div class="post-meta">
@@ -315,8 +316,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-09T14:29:30+08:00">
-                2020-04-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T14:36:07+08:00">
+                2020-03-11
               </time>
             
 
@@ -331,8 +332,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-09T22:09:19+08:00">
-                2020-04-09
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-24T20:33:31+08:00">
+                2020-05-24
               </time>
             
           </span>
@@ -350,8 +351,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -392,44 +393,29 @@
       
 
       
-        <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。</p>
-<ul>
-<li>表名：order_history</li>
-<li>描述：某个业务的订单历史表</li>
-<li>主要字段：unsigned int id，tinyint(4) int type</li>
-<li>字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。</li>
-<li>数据量：5709294</li>
-<li>MySQL版本：5.7.16</li>
-<li>线下找一张百万级的测试表可不容易，如果需要自己测试的话，可以写shell脚本什么的插入数据进行测试。<br>以下的 sql 所有语句执行的环境没有发生改变，下面是基本测试结果：<br><code>select count(*) from orders_history;</code><br>返回结果：5709294<br>三次查询时间分别为：<br><code>8903 ms
-8323 ms
-8401 ms</code><h3 id="一般分页查询"><a href="#一般分页查询" class="headerlink" title="一般分页查询"></a>一般分页查询</h3>一般的分页查询使用简单的 limit 子句就可以实现。limit 子句声明如下：<br><code>SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</code><br>LIMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</li>
-<li>第一个参数指定第一个返回记录行的偏移量，注意从0开始</li>
-<li>第二个参数指定返回记录行的最大数目</li>
-<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
-<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
-<li>初始记录行的偏移量是 0(而不是 1)</li>
-</ul>
-<p>针对这种查询方式，下面测试查询记录量对时间的影响：<br><code>select * from orders_history where type=8 limit 10000,1;
-select * from orders_history where type=8 limit 10000,10;
-select * from orders_history where type=8 limit 10000,100;
-select * from orders_history where type=8 limit 10000,1000;
-select * from orders_history where type=8 limit 10000,10000;</code><br>三次查询时间如下：<br><code>查询1条记录：3072ms 3092ms 3002ms
-查询10条记录：3081ms 3077ms 3032ms
-查询100条记录：3118ms 3200ms 3128ms
-查询1000条记录：3412ms 3468ms 3394ms
-查询10000条记录：3749ms 3802ms 3696ms</code><br>随着查询偏移的增大，尤其查询偏移大于10万以后，查询时间急剧增加。这种分页查询方式会从数据库第一条记录开始扫描，所以越往后，查询速度越慢，而且查询的数据越多，也会拖慢总查询速度。</p>
-<h3 id="使用子查询优化"><a href="#使用子查询优化" class="headerlink" title="使用子查询优化"></a>使用子查询优化</h3><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。<br><code>select * from orders_history where type=8 limit 100000,1;
-select id from orders_history where type=8 limit 100000,1;
-select * from orders_history where type=8 and id&gt;=(select id from orders_history where type=8 limit 100000,1) limit 100;
-select * from orders_history where type=8 limit 100000,100;</code><br>4条语句的查询时间如下：<br><code>第1条语句：3674ms
-第2条语句：1315ms
-第3条语句：1327ms
-第4条语句：3710ms</code><br>针对上面的查询需要注意：<br>比较第1条语句和第2条语句：使用 select id 代替 select * 速度增加了3倍<br>比较第2条语句和第3条语句：速度相差几十毫秒<br>比较第3条语句和第4条语句：得益于 select id 速度增加，第3条语句查询速度增加了3倍<br>这种方式相较于原始一般的查询方法，将会增快数倍。</p>
-<h3 id="使用-id-限定优化"><a href="#使用-id-限定优化" class="headerlink" title="使用 id 限定优化"></a>使用 id 限定优化</h3><p>这种方式假设数据表的id是 连续递增 的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：<br><code>select * from orders_history where type=2 and id between 1000000 and 1000100 limit 100;</code><br>查询时间：15ms 12ms 9ms</p>
-<p>这种查询方式能够极大地优化查询速度，基本能够在几十毫秒之内完成。限制是只能使用于明确知道id的情况，不过一般建立表的时候，都会添加基本的id字段，这为分页查询带来很多便利。</p>
-<p>当然还可以使用 in 的方式来进行查询，这种方式经常用在多表关联的时候进行查询，使用其他表查询的id集合，来进行查询：<br><code>select * from orders_history where id in (select order_id from trade_2 where goods = &#39;pen&#39;) limit 100;</code><br>这种 in 查询的方式要注意：某些 mysql 版本不支持在 in 子句中使用 limit。</p>
-<h3 id="使用临时表优化"><a href="#使用临时表优化" class="headerlink" title="使用临时表优化"></a>使用临时表优化</h3><p>这种方式已经不属于查询优化，这儿附带提一下。</p>
-<p>对于使用 id 限定优化中的问题，需要 id 是连续递增的，但是在一些场景下，比如使用历史表的时候，或者出现过数据缺失问题时，可以考虑使用临时存储的表来记录分页的id，使用分页的id来进行 in 查询。这样能够极大的提高传统的分页查询速度，尤其是数据量上千万的时候。</p>
+        <h2 id="Java8新特性"><a href="#Java8新特性" class="headerlink" title="Java8新特性"></a>Java8新特性</h2><h3 id="接口的默认方法-Default-Methods-for-Interfaces"><a href="#接口的默认方法-Default-Methods-for-Interfaces" class="headerlink" title="接口的默认方法(Default Methods for Interfaces)"></a>接口的默认方法(Default Methods for Interfaces)</h3><p>Java 8使我们能够通过使用 default 关键字向接口添加非抽象方法实现。</p>
+<h3 id="Lambda表达式-Lambda-expressions"><a href="#Lambda表达式-Lambda-expressions" class="headerlink" title="Lambda表达式(Lambda expressions)"></a>Lambda表达式(Lambda expressions)</h3><p>在Java 8中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Collections.sort(names, (String a, String b) -&gt; &#123;</span><br><span class="line">    return b.compareTo(a);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看出，代码变得更段且更具有可读性，但是实际上还可以写得更短：<br><code>Collections.sort(names, (String a, String b) -&gt; b.compareTo(a));</code><br>对于函数体只有一行代码的，你可以去掉大括号{}以及return关键字，但是你还可以写得更短点：<br><code>names.sort((a, b) -&gt; b.compareTo(a));</code></p>
+<h3 id="函数式接口-Functional-Interfaces"><a href="#函数式接口-Functional-Interfaces" class="headerlink" title="函数式接口(Functional Interfaces)"></a>函数式接口(Functional Interfaces)</h3><p>“函数式接口”是指仅仅只包含一个抽象方法,但是可以有多个非抽象方法(也就是上面提到的默认方法)的接口。像这样的接口，可以被隐式转换为lambda表达式。java.lang.Runnable与 java.util.concurrent.Callable是函数式接口最典型的两个例子。Java8增加了一种特殊的注解@FunctionalInterface,但是这个注解通常不是必须的(某些情况建议使用)，只要接口只包含一个抽象方法，虚拟机会自动判断该接口为函数式接口。</p>
+<h3 id="Optionals"><a href="#Optionals" class="headerlink" title="Optionals"></a>Optionals</h3><p>Optional 是一个简单的容器，其值可能是null或者不是null。在Java 8之前一般某个函数应该返回非空对象但是有时却什么也没有返回，而在Java 8中，你应该返回 Optional 而不是 null。</p>
+<h3 id="Streams-流"><a href="#Streams-流" class="headerlink" title="Streams(流)"></a>Streams(流)</h3><p>java.util.Stream 表示能应用在一组元素上一次执行的操作序列。Stream 操作分为中间操作或者最终操作两种，最终操作返回一特定类型的计算结果，而中间操作返回Stream本身，这样你就可以将多个操作依次串起来。Stream 的创建需要指定一个数据源，比如java.util.Collection 的子类，List 或者 Set， Map 不支持。Stream 的操作可以串行执行或者并行执行。<br>Java 8扩展了集合类，可以通过 Collection.stream() 或者 Collection.parallelStream() 来创建一个Stream。下面几节将详细解释常用的Stream操作：<br><strong>Filter(过滤)</strong><br>过滤通过一个predicate接口来过滤并只保留符合条件的元素，该操作属于中间操作，所以我们可以在过滤后的结果来应用其他Stream操作（比如forEach）。forEach需要一个函数来对过滤后的元素依次执行。forEach是一个最终操作，所以我们不能在forEach之后来执行其他Stream操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 测试 Filter(过滤)</span><br><span class="line">        stringList</span><br><span class="line">                .stream()</span><br><span class="line">                .filter((s) -&gt; s.startsWith(&quot;a&quot;))</span><br><span class="line">                .forEach(System.out::println);&#x2F;&#x2F;aaa2 aaa1</span><br></pre></td></tr></table></figure>
+<p><strong>Sorted(排序)</strong><br>排序是一个 中间操作，返回的是排序好后的 Stream。如果你不指定一个自定义的 Comparator 则会使用默认排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 测试 Sort (排序)</span><br><span class="line">        stringList</span><br><span class="line">                .stream()</span><br><span class="line">                .sorted()</span><br><span class="line">                .filter((s) -&gt; s.startsWith(&quot;a&quot;))</span><br><span class="line">                .forEach(System.out::println);&#x2F;&#x2F; aaa1 aaa2</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，排序只创建了一个排列好后的Stream，而不会影响原有的数据源，排序之后原数据stringCollection是不会被修改的。<br><strong>Map(映射)</strong><br>中间操作 map 会将元素根据指定的 Function 接口来依次将元素转成另外的对象。</p>
+<p>下面的示例展示了将字符串转换为大写字符串。你也可以通过map来将对象转换成其他类型，map返回的Stream类型是根据你map传递进去的函数的返回值决定的。<br><strong>Match(匹配)</strong><br>Stream提供了多种匹配操作，允许检测指定的Predicate是否匹配整个Stream。所有的匹配操作都是 最终操作 ，并返回一个 boolean 类型的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 测试 Match (匹配)操作</span><br><span class="line">        boolean anyStartsWithA &#x3D;</span><br><span class="line">                stringList</span><br><span class="line">                        .stream()</span><br><span class="line">                        .anyMatch((s) -&gt; s.startsWith(&quot;a&quot;));</span><br><span class="line">        System.out.println(anyStartsWithA);      &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">        boolean allStartsWithA &#x3D;</span><br><span class="line">                stringList</span><br><span class="line">                        .stream()</span><br><span class="line">                        .allMatch((s) -&gt; s.startsWith(&quot;a&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(allStartsWithA);      &#x2F;&#x2F; false</span><br><span class="line"></span><br><span class="line">        boolean noneStartsWithZ &#x3D;</span><br><span class="line">                stringList</span><br><span class="line">                        .stream()</span><br><span class="line">                        .noneMatch((s) -&gt; s.startsWith(&quot;z&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(noneStartsWithZ);      &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<p><strong>Count(计数)</strong><br>计数是一个 最终操作，返回Stream中元素的个数，返回值类型是 long。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;测试 Count (计数)操作</span><br><span class="line">        long startsWithB &#x3D;</span><br><span class="line">                stringList</span><br><span class="line">                        .stream()</span><br><span class="line">                        .filter((s) -&gt; s.startsWith(&quot;b&quot;))</span><br><span class="line">                        .count();</span><br><span class="line">        System.out.println(startsWithB);    &#x2F;&#x2F; 3</span><br></pre></td></tr></table></figure>
+<p><strong>Reduce(规约)</strong><br>这是一个最终操作，允许通过指定的函数来讲stream中的多个元素规约为一个元素，规约后的结果是通过Optional 接口表示的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;测试 Reduce (规约)操作</span><br><span class="line">       Optional&lt;String&gt; reduced &#x3D;</span><br><span class="line">               stringList</span><br><span class="line">                       .stream()</span><br><span class="line">                       .sorted()</span><br><span class="line">                       .reduce((s1, s2) -&gt; s1 + &quot;#&quot; + s2);</span><br><span class="line">       reduced.ifPresent(System.out::println);&#x2F;&#x2F;aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2</span><br></pre></td></tr></table></figure>
+<p> 这个方法的主要作用是把Stream元素组合起来。它提供一个起始值（种子），然后依照运算规则（BinaryOperator），和前面 Stream 的第一个、第二个、第 n 个元素组合。从这个意义上说，字符串拼接、数值的 sum、min、max、average 都是特殊的 reduce。例如 Stream 的 sum 就相当于Integer sum = integers.reduce(0, (a, b) -&gt; a+b);也有没有起始值的情况，这时会把 Stream 的前面两个元素组合起来，返回的是 Optional。<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 字符串连接，concat &#x3D; &quot;ABCD&quot;</span><br><span class="line">String concat &#x3D; Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;).reduce(&quot;&quot;, String::concat); </span><br><span class="line">&#x2F;&#x2F; 求最小值，minValue &#x3D; -3.0</span><br><span class="line">double minValue &#x3D; Stream.of(-1.5, 1.0, -3.0, -2.0).reduce(Double.MAX_VALUE, Double::min); </span><br><span class="line">&#x2F;&#x2F; 求和，sumValue &#x3D; 10, 有起始值</span><br><span class="line">int sumValue &#x3D; Stream.of(1, 2, 3, 4).reduce(0, Integer::sum);</span><br><span class="line">&#x2F;&#x2F; 求和，sumValue &#x3D; 10, 无起始值</span><br><span class="line">sumValue &#x3D; Stream.of(1, 2, 3, 4).reduce(Integer::sum).get();</span><br><span class="line">&#x2F;&#x2F; 过滤，字符串连接，concat &#x3D; &quot;ace&quot;</span><br><span class="line">concat &#x3D; Stream.of(&quot;a&quot;, &quot;B&quot;, &quot;c&quot;, &quot;D&quot;, &quot;e&quot;, &quot;F&quot;).</span><br><span class="line"> filter(x -&gt; x.compareTo(&quot;Z&quot;) &gt; 0).</span><br><span class="line"> reduce(&quot;&quot;, String::concat);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Maps"><a href="#Maps" class="headerlink" title="Maps"></a>Maps</h3><p>前面提到过，Map类型不支持streams，不过Map提供了一些新的有用的方法来处理一些日常任务。Map接口本身没有可用的stream（）方法，但是你可以在键，值上创建专门的流或者通过 map.keySet().stream(),map.values().stream()和map.entrySet().stream()。<br>此外,Maps 支持各种新的和有用的方法来执行常见任务。<br>此示例显示如何使用函数在 map 上计算代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">map.computeIfPresent(3, (num, val) -&gt; val + num);</span><br><span class="line">map.get(3);             &#x2F;&#x2F; val33</span><br><span class="line"></span><br><span class="line">map.computeIfPresent(9, (num, val) -&gt; null);</span><br><span class="line">map.containsKey(9);     &#x2F;&#x2F; false</span><br><span class="line"></span><br><span class="line">map.computeIfAbsent(23, num -&gt; &quot;val&quot; + num);</span><br><span class="line">map.containsKey(23);    &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">map.computeIfAbsent(3, num -&gt; &quot;bam&quot;);</span><br><span class="line">map.get(3);             &#x2F;&#x2F; val33</span><br></pre></td></tr></table></figure>
+<p>接下来展示如何在Map里删除一个键值全都匹配的项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">map.remove(3, &quot;val3&quot;);</span><br><span class="line">map.get(3);             &#x2F;&#x2F; val33</span><br><span class="line">map.remove(3, &quot;val33&quot;);</span><br><span class="line">map.get(3);             &#x2F;&#x2F; null</span><br><span class="line">map.getOrDefault(42, &quot;not found&quot;);  &#x2F;&#x2F; not found</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -450,7 +436,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://liudongfei.github.io/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" title="Mysql优化—分页查询优化">https://liudongfei.github.io/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/</a>
+    <a href="https://liudongfei.github.io/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/" title="Java核心—J8新特性">https://liudongfei.github.io/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -465,7 +451,9 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/java8/" rel="tag"># java8</a>
           
         </div>
       
@@ -478,8 +466,8 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/Spark%E5%92%8CFlink%E5%AF%B9%E6%AF%94/" rel="next" title="Spark和Flink对比">
-                <i class="fa fa-chevron-left"></i> Spark和Flink对比
+              <a href="/2020/03/11/Java%E6%8A%80%E6%9C%AF/Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="next" title="Java核心—虚拟机">
+                <i class="fa fa-chevron-left"></i> Java核心—虚拟机
               </a>
             
           </div>
@@ -488,8 +476,8 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/17/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/" rel="prev" title="RPC详解">
-                RPC详解 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/11/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/" rel="prev" title="Spark基础—RDD">
+                Spark基础—RDD <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -567,7 +555,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">130</span>
+                  <span class="site-state-item-count">131</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -622,7 +610,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一般分页查询"><span class="nav-number">2.</span> <span class="nav-text">一般分页查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用子查询优化"><span class="nav-number">3.</span> <span class="nav-text">使用子查询优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-id-限定优化"><span class="nav-number">4.</span> <span class="nav-text">使用 id 限定优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用临时表优化"><span class="nav-number">5.</span> <span class="nav-text">使用临时表优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java8新特性"><span class="nav-number">1.</span> <span class="nav-text">Java8新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口的默认方法-Default-Methods-for-Interfaces"><span class="nav-number">1.1.</span> <span class="nav-text">接口的默认方法(Default Methods for Interfaces)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda表达式-Lambda-expressions"><span class="nav-number">1.2.</span> <span class="nav-text">Lambda表达式(Lambda expressions)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数式接口-Functional-Interfaces"><span class="nav-number">1.3.</span> <span class="nav-text">函数式接口(Functional Interfaces)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Optionals"><span class="nav-number">1.4.</span> <span class="nav-text">Optionals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Streams-流"><span class="nav-number">1.5.</span> <span class="nav-text">Streams(流)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maps"><span class="nav-number">1.6.</span> <span class="nav-text">Maps</span></a></li></ol></li></ol></div>
             
 
           </div>

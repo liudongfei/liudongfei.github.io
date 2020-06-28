@@ -282,6 +282,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/" itemprop="url">算法—算法复杂度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-29T16:38:24+08:00">
+                2020-04-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-05-21T12:01:32+08:00">
+                2020-05-21
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>算法具有以下特性：</p>
+<ul>
+<li>有穷性：算法是由若干条指令组成的有穷序列，总是在执行若干次之后结束，不可能永不停止。</li>
+<li>确定性：每条语句都有确定的含义，无歧义。</li>
+<li>可行性：算法在当前环境条件下可以通过有限次运算实现。</li>
+<li>输入输出：有零个或多个输入，一个或多个输出。<br>“好”算法的标准如下：</li>
+</ul>
+<ol>
+<li>正确性：指算法能满足具体问题的需求，程序运行正常，能够通过典型的软件测试，达到预期的需求。</li>
+<li>易读性：算法遵循标识符命名规则，简洁易懂，注释语句恰当适量，方便后期调试和修改。</li>
+<li>健壮性：算法对非法数据及操作有较好的反应和处理。</li>
+<li>高效性：指算法运行效率高，即算法运行消耗的时间短。算法时间复杂度就是算法运行需要的时间。将算法基本运算的执行次数作为时间复杂度的衡量标准。</li>
+<li>低存储性：指算法所需的存储空间低。对于手机、平板这样的嵌入式设备，算法如果占用空间过大，则无法运行。算法占用的空间大小称为空间复杂度。<br>除了1～3中的基本标准外，我们对算法的评判标准就是高效率、低存储。<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3>时间复杂度是指算法运行所需要的时间，一般将算法的执行次数作为时间复杂度的度量标准。分析如下算法的复杂度：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sum &#x3D; 0;                                            &#x2F;&#x2F; 运行1次</span><br><span class="line">total &#x3D; 0;                                           &#x2F;&#x2F; 运行1次</span><br><span class="line">for (i &#x3D; 0; i &lt;&#x3D; n; i++) &#123;                   &#x2F;&#x2F; 运行n次</span><br><span class="line">    sum &#x3D; sum + i;                             &#x2F;&#x2F; 运行n次</span><br><span class="line">    for (j &#x3D; 0; j &lt;&#x3D; n; j++) &#123;               &#x2F;&#x2F; 运行n * n次</span><br><span class="line">        total &#x3D; total + i * j;                   &#x2F;&#x2F; 运行n * n次</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+把算法的所有语句加起来：1 + 1 + n + n + n * n + n * n，可以用一个函数T(n)表达：<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900268369216.jpg" alt="-w322"><br>当n足够大的时候，算法运行的时间主要取决于第一项，后面的甚至可以忽略不计。用极限表示为：<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900269497804.jpg" alt="-w566"><br>如果用时间复杂度的渐近上界表示，如图1-1，当n &gt; n0时 T(n) &lt; Cf(n)。当n足够大时，T(n) 和 f(n) 近似相等。因此，用O(f(n))来表示时间复杂度渐近上界。<br>还有渐近下界，如图1-2，当n &gt; n0时  T(n) &gt; Cf(n)。当n足够大时，T(n) 和 f(n) 近似相等。因此，用Ω(f(n))来表示时间复杂度渐近下界。<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900275812842.jpg" alt="-w968"><br>通常使用时间复杂度的渐近上界O (f(n))来表示时间复杂度。<br>有些算法，如排序、查找、插入等算法很难计算程序中执行了多少次，可以分为最好、最坏和平均情况分别求算法的近似复杂度，但是衡量一个算法的好坏一般衡量的是最坏的情况，最坏情况对于衡量算法好坏有实际意义。<br>常见算法的时间复杂度有以下几类：</li>
+</ol>
+<ul>
+<li>常数阶：这类算法运行的次数是一个常数，如5、10、100。常数阶的算法复杂度通常用O(1)表示。</li>
+<li>多项式阶：很多算法的时间复杂度都是多项式阶，通常用O(n)、O(n * n)、O(n * n * n)等表示。</li>
+<li>指数阶：该类算法运行效率极差，使用这样的算法要慎重。</li>
+<li>对数阶：该类算法的运行效率较高，常见的有O(logn)、O(n * logn)等。<br>这些复杂度之间的大小关系如下：<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900335421175.jpg" alt="-w912"></li>
+</ul>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>空间复杂度是指算法占用的空间大小，一般将算法的辅助空间作为衡量空间复杂度的标准，本意是指算法在运行过程中占用了多少存储空间。算法占用的存储空间包括：</p>
+<ol>
+<li>输入/输出数据；</li>
+<li>算法本身；</li>
+<li>额外需要的辅助空间。<br>输入/输出数据占用的空间是必需的，算法本身占用的空间可以通过精简算法来缩减，但是这个压缩量是很小的，可以忽略不计。而算法运行时需要的辅助空间是衡量空间复杂度的关键因素。</li>
+</ol>
+<p>分析如下递归算法的空间复杂度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fac(int n) &#123;</span><br><span class="line">    if (n &lt; 0) &#123;</span><br><span class="line">        printf(&quot;n &lt; 0，data error!&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125; else if (n &#x3D;&#x3D; 0 || n &#x3D;&#x3D; 1) &#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return n * fac(n - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>阶乘是典型的递归调用问题，递归包括递推和回归。递推是将原问题不断分解成子问题，直到达到结束条件，返回最近子问题的解；然后逆向逐一回归，最终达到递推开始的原问题，返回原问题的解。5的阶乘的递推和回归过程如下：<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900304811215.jpg" alt="-w909"><br>计算机使用数据结构—栈来实现这个过程，后进先出。5的阶乘进栈过程如下图：<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900306461483.jpg" alt="-w863"><br>5的阶乘出栈过程如下图：<br><img src="/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900307209194.jpg" alt="-w857"><br>从阶乘的进栈和出栈过程中，使用了n个栈空间作为辅助空间，因此阶乘算法的空间复杂度为O(n)。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1692,203 +1875,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/" itemprop="url">Hbase核心—Hbase的Compaction</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:33:22+08:00">
-                2020-04-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T19:44:50+08:00">
-                2020-04-28
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Compaction的核心功能是将小文件合并成大文件，提升读取效率。一般基于LSM树体系架构的系统都会设计Comapction。<br>Hbase根据合并规模将Compaction分为两类：</p>
-<ul>
-<li>minor compaction：选取部分小的、相邻的HFile，将它们合并成为一个更大的HFile。</li>
-<li>major compaction：将一个Store中所有的HFile合并成为一个HFile，这个过程还会完全清除三类无意义数据：被删除的数据、TTL过期数据、版本号超过设定版本号的数据。major compaction持续的时间会比较长，整个过程会消耗大量的系统资源，对上层业务有比较大的影响。因此线上部分数据量较的业务通常推荐关闭自动触发major compaction功能，改为在业务低峰期手动触发。<br>Hbase的Compaction有一下核心作用：</li>
-<li>合并小文件。</li>
-<li>提高数据本地化率。major compaction可以将数据本地化率提升到100%。</li>
-<li>清除无效数据，减少数据存储量。<h3 id="Compaction的基本流程"><a href="#Compaction的基本流程" class="headerlink" title="Compaction的基本流程"></a>Compaction的基本流程</h3>Hbase的Compaction的基本流程如下：</li>
-</ul>
-<ol>
-<li>Compaction触发。</li>
-<li>选择合适HFile合并。</li>
-<li>挑选合适的线程池。</li>
-<li>执行HFile文件合并。<h3 id="Compaction触发时机"><a href="#Compaction触发时机" class="headerlink" title="Compaction触发时机"></a>Compaction触发时机</h3>Hbase中触发Compaction的时机有如下三种：</li>
-</ol>
-<ul>
-<li>MemStore Flush：每次执行完flush都会检查当前Store中的文件数量，compaction都是以Store为单位的。</li>
-<li>后台线程周期性检查：RegionServer会在后台启动一个线程CompactionChecker，定期触发检查对应的Store。</li>
-<li>手动触发：一般，手动触发Compaction大多是为了执行major compaction<h3 id="待合并HFile集合选择策略"><a href="#待合并HFile集合选择策略" class="headerlink" title="待合并HFile集合选择策略"></a>待合并HFile集合选择策略</h3>选择合适的文件进行合并是整个Compaction的核心。Hbase提出了两种minor compaction选择策略：</li>
-<li>RatioBasedCompactionPolicy</li>
-<li>ExploringCompactionPolicy<br>所有的策略都会对该Store中的所有HFile逐一排查，排除不满足条件的部分文件：</li>
-</ul>
-<ul>
-<li>排除当前正在执行Compaction的文件及比这些文件更新的所有文件。</li>
-<li>排除某些过大的文件<br>经过排除后留下来的文件称为候选文件。</li>
-<li><em>RatioBasedCompactionPolicy*</em><br>从老到新逐一扫描所有候选文件，满足其中之一便停止扫描：</li>
-</ul>
-<ol>
-<li>当前文件大小&lt;比当前文件新的所有文件大小总和 * ratio。其中ratio是一个可变的比例，高峰期为1.2，非高峰期为5。</li>
-<li>当前所剩候选文件树&lt;= hbase.store.compaction.min。<br>停止扫描后，待合并文件就选择出来了，即当前扫描文件以及比它更新的所有文件。</li>
-</ol>
-<p><strong>ExploringCompactionPolicy</strong><br>和RatioBasedCompactionPolicy相同，Ratio策略在在找到一个合适的文件集合后就停止扫描了，而Exploring策略会记录所有合适的集合，并且在这些集合中选择最优解：待合并文件数最多或者待合并文件数量相同的情况下文件较小，这样有利于减少Compaction带来的IO消耗。</p>
-<h3 id="Compaction相关注意事项"><a href="#Compaction相关注意事项" class="headerlink" title="Compaction相关注意事项"></a>Compaction相关注意事项</h3><ol>
-<li>Limit Compaction Speed<br>该优化方案通过感知Compaction的压力情况自动调节系统的Compaction吞吐量，在压力大的时候降低合并吞吐量，压力小的时候增加合并吞吐量。</li>
-<li>Compaction BandWidth Limit</li>
-</ol>
-<ul>
-<li>compactBwLimit：一次Compaction的最大带宽使用量</li>
-<li>numOfFilesDisableCompactLimit：当Store中HFile数量超过该值，带宽限制就会失效。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
   </nav>
 
 
@@ -1934,7 +1925,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">130</span>
+                  <span class="site-state-item-count">131</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

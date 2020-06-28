@@ -282,6 +282,198 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/" itemprop="url">Hbase核心—Hbase的Compaction</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-27T20:33:22+08:00">
+                2020-04-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2020-04-28T19:44:50+08:00">
+                2020-04-28
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Compaction的核心功能是将小文件合并成大文件，提升读取效率。一般基于LSM树体系架构的系统都会设计Comapction。<br>Hbase根据合并规模将Compaction分为两类：</p>
+<ul>
+<li>minor compaction：选取部分小的、相邻的HFile，将它们合并成为一个更大的HFile。</li>
+<li>major compaction：将一个Store中所有的HFile合并成为一个HFile，这个过程还会完全清除三类无意义数据：被删除的数据、TTL过期数据、版本号超过设定版本号的数据。major compaction持续的时间会比较长，整个过程会消耗大量的系统资源，对上层业务有比较大的影响。因此线上部分数据量较的业务通常推荐关闭自动触发major compaction功能，改为在业务低峰期手动触发。<br>Hbase的Compaction有一下核心作用：</li>
+<li>合并小文件。</li>
+<li>提高数据本地化率。major compaction可以将数据本地化率提升到100%。</li>
+<li>清除无效数据，减少数据存储量。<h3 id="Compaction的基本流程"><a href="#Compaction的基本流程" class="headerlink" title="Compaction的基本流程"></a>Compaction的基本流程</h3>Hbase的Compaction的基本流程如下：</li>
+</ul>
+<ol>
+<li>Compaction触发。</li>
+<li>选择合适HFile合并。</li>
+<li>挑选合适的线程池。</li>
+<li>执行HFile文件合并。<h3 id="Compaction触发时机"><a href="#Compaction触发时机" class="headerlink" title="Compaction触发时机"></a>Compaction触发时机</h3>Hbase中触发Compaction的时机有如下三种：</li>
+</ol>
+<ul>
+<li>MemStore Flush：每次执行完flush都会检查当前Store中的文件数量，compaction都是以Store为单位的。</li>
+<li>后台线程周期性检查：RegionServer会在后台启动一个线程CompactionChecker，定期触发检查对应的Store。</li>
+<li>手动触发：一般，手动触发Compaction大多是为了执行major compaction<h3 id="待合并HFile集合选择策略"><a href="#待合并HFile集合选择策略" class="headerlink" title="待合并HFile集合选择策略"></a>待合并HFile集合选择策略</h3>选择合适的文件进行合并是整个Compaction的核心。Hbase提出了两种minor compaction选择策略：</li>
+<li>RatioBasedCompactionPolicy</li>
+<li>ExploringCompactionPolicy<br>所有的策略都会对该Store中的所有HFile逐一排查，排除不满足条件的部分文件：</li>
+</ul>
+<ul>
+<li>排除当前正在执行Compaction的文件及比这些文件更新的所有文件。</li>
+<li>排除某些过大的文件<br>经过排除后留下来的文件称为候选文件。</li>
+<li><em>RatioBasedCompactionPolicy*</em><br>从老到新逐一扫描所有候选文件，满足其中之一便停止扫描：</li>
+</ul>
+<ol>
+<li>当前文件大小&lt;比当前文件新的所有文件大小总和 * ratio。其中ratio是一个可变的比例，高峰期为1.2，非高峰期为5。</li>
+<li>当前所剩候选文件树&lt;= hbase.store.compaction.min。<br>停止扫描后，待合并文件就选择出来了，即当前扫描文件以及比它更新的所有文件。</li>
+</ol>
+<p><strong>ExploringCompactionPolicy</strong><br>和RatioBasedCompactionPolicy相同，Ratio策略在在找到一个合适的文件集合后就停止扫描了，而Exploring策略会记录所有合适的集合，并且在这些集合中选择最优解：待合并文件数最多或者待合并文件数量相同的情况下文件较小，这样有利于减少Compaction带来的IO消耗。</p>
+<h3 id="Compaction相关注意事项"><a href="#Compaction相关注意事项" class="headerlink" title="Compaction相关注意事项"></a>Compaction相关注意事项</h3><ol>
+<li>Limit Compaction Speed<br>该优化方案通过感知Compaction的压力情况自动调节系统的Compaction吞吐量，在压力大的时候降低合并吞吐量，压力小的时候增加合并吞吐量。</li>
+<li>Compaction BandWidth Limit</li>
+</ol>
+<ul>
+<li>compactBwLimit：一次Compaction的最大带宽使用量</li>
+<li>numOfFilesDisableCompactLimit：当Store中HFile数量超过该值，带宽限制就会失效。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%B7%A5%E5%85%B7%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1939,202 +2131,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/Mysql/Mysql%E4%BC%98%E5%8C%96%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" itemprop="url">Mysql优化—分页查询优化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-09T14:29:30+08:00">
-                2020-04-09
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2020-04-09T22:09:19+08:00">
-                2020-04-09
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。</p>
-<ul>
-<li>表名：order_history</li>
-<li>描述：某个业务的订单历史表</li>
-<li>主要字段：unsigned int id，tinyint(4) int type</li>
-<li>字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。</li>
-<li>数据量：5709294</li>
-<li>MySQL版本：5.7.16</li>
-<li>线下找一张百万级的测试表可不容易，如果需要自己测试的话，可以写shell脚本什么的插入数据进行测试。<br>以下的 sql 所有语句执行的环境没有发生改变，下面是基本测试结果：<br><code>select count(*) from orders_history;</code><br>返回结果：5709294<br>三次查询时间分别为：<br><code>8903 ms
-8323 ms
-8401 ms</code><h3 id="一般分页查询"><a href="#一般分页查询" class="headerlink" title="一般分页查询"></a>一般分页查询</h3>一般的分页查询使用简单的 limit 子句就可以实现。limit 子句声明如下：<br><code>SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</code><br>LIMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</li>
-<li>第一个参数指定第一个返回记录行的偏移量，注意从0开始</li>
-<li>第二个参数指定返回记录行的最大数目</li>
-<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
-<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
-<li>初始记录行的偏移量是 0(而不是 1)</li>
-</ul>
-<p>针对这种查询方式，下面测试查询记录量对时间的影响：<br><code>select * from orders_history where type=8 limit 10000,1;
-select * from orders_history where type=8 limit 10000,10;
-select * from orders_history where type=8 limit 10000,100;
-select * from orders_history where type=8 limit 10000,1000;
-select * from orders_history where type=8 limit 10000,10000;</code><br>三次查询时间如下：<br><code>查询1条记录：3072ms 3092ms 3002ms
-查询10条记录：3081ms 3077ms 3032ms
-查询100条记录：3118ms 3200ms 3128ms
-查询1000条记录：3412ms 3468ms 3394ms
-查询10000条记录：3749ms 3802ms 3696ms</code><br>随着查询偏移的增大，尤其查询偏移大于10万以后，查询时间急剧增加。这种分页查询方式会从数据库第一条记录开始扫描，所以越往后，查询速度越慢，而且查询的数据越多，也会拖慢总查询速度。</p>
-<h3 id="使用子查询优化"><a href="#使用子查询优化" class="headerlink" title="使用子查询优化"></a>使用子查询优化</h3><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。<br><code>select * from orders_history where type=8 limit 100000,1;
-select id from orders_history where type=8 limit 100000,1;
-select * from orders_history where type=8 and id&gt;=(select id from orders_history where type=8 limit 100000,1) limit 100;
-select * from orders_history where type=8 limit 100000,100;</code><br>4条语句的查询时间如下：<br><code>第1条语句：3674ms
-第2条语句：1315ms
-第3条语句：1327ms
-第4条语句：3710ms</code><br>针对上面的查询需要注意：<br>比较第1条语句和第2条语句：使用 select id 代替 select * 速度增加了3倍<br>比较第2条语句和第3条语句：速度相差几十毫秒<br>比较第3条语句和第4条语句：得益于 select id 速度增加，第3条语句查询速度增加了3倍<br>这种方式相较于原始一般的查询方法，将会增快数倍。</p>
-<h3 id="使用-id-限定优化"><a href="#使用-id-限定优化" class="headerlink" title="使用 id 限定优化"></a>使用 id 限定优化</h3><p>这种方式假设数据表的id是 连续递增 的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：<br><code>select * from orders_history where type=2 and id between 1000000 and 1000100 limit 100;</code><br>查询时间：15ms 12ms 9ms</p>
-<p>这种查询方式能够极大地优化查询速度，基本能够在几十毫秒之内完成。限制是只能使用于明确知道id的情况，不过一般建立表的时候，都会添加基本的id字段，这为分页查询带来很多便利。</p>
-<p>当然还可以使用 in 的方式来进行查询，这种方式经常用在多表关联的时候进行查询，使用其他表查询的id集合，来进行查询：<br><code>select * from orders_history where id in (select order_id from trade_2 where goods = &#39;pen&#39;) limit 100;</code><br>这种 in 查询的方式要注意：某些 mysql 版本不支持在 in 子句中使用 limit。</p>
-<h3 id="使用临时表优化"><a href="#使用临时表优化" class="headerlink" title="使用临时表优化"></a>使用临时表优化</h3><p>这种方式已经不属于查询优化，这儿附带提一下。</p>
-<p>对于使用 id 限定优化中的问题，需要 id 是连续递增的，但是在一些场景下，比如使用历史表的时候，或者出现过数据缺失问题时，可以考虑使用临时存储的表来记录分页的id，使用分页的id来进行 in 查询。这样能够极大的提高传统的分页查询速度，尤其是数据量上千万的时候。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/5/">&gt;</a>
   </nav>
 
 
@@ -2180,7 +2181,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">130</span>
+                  <span class="site-state-item-count">131</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
