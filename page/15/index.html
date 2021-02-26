@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2019/05/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Idea%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/12/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Idea%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%EF%BC%89/" itemprop="url">Idea常用快捷键（Mac）</a></h1>
+                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/" itemprop="url">数据持久化—磁盘阵列</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-12T16:22:02+08:00">
-                2019-05-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
               </time>
             
 
@@ -329,8 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2019-05-13T22:51:06+08:00">
-                2019-05-13
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
               </time>
             
           </span>
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -386,85 +386,15 @@
 
       
         
-          
-            <table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>command + d</td>
-<td>快速复制并在下一行插入当前行</td>
-</tr>
-<tr>
-<td>command + /</td>
-<td>注释当前行的代码</td>
-</tr>
-<tr>
-<td>command + y</td>
-<td>删除当前行的代码</td>
-</tr>
-<tr>
-<td>command + p</td>
-<td>方法参数提示</td>
-</tr>
-<tr>
-<td>command + j</td>
-<td>快速自动生成一些自动代码，如for循环</td>
-</tr>
-<tr>
-<td>command + b</td>
-<td>快速定位到变量的来源</td>
-</tr>
-<tr>
-<td>control + h</td>
-<td>查看类的继承关系</td>
-</tr>
-<tr>
-<td>command + o</td>
-<td>根据类名全局查看类</td>
-</tr>
-<tr>
-<td>command + shift + 8</td>
-<td>列编辑模式</td>
-</tr>
-<tr>
-<td>command + shift + ↑↓</td>
-<td>将选中的代码上下移动</td>
-</tr>
-<tr>
-<td>command + option + l</td>
-<td>格式化代码</td>
-</tr>
-<tr>
-<td>command + option + t</td>
-<td>把选中的代码放到try{}if{}里</td>
-</tr>
-<tr>
-<td>command + option + b</td>
-<td>导航到一个抽象方法的实现代码</td>
-</tr>
-<tr>
-<td>shift + enter</td>
-<td>切换到下一行</td>
-</tr>
-<tr>
-<td>option + enter</td>
-<td>快速导入包</td>
-</tr>
-<tr>
-<td>control + enter</td>
-<td>新建界面或getter，setter界面</td>
-</tr>
-<tr>
-<td>control + o</td>
-<td>快速覆写父类中的方法</td>
-</tr>
-</tbody></table>
-
-          
+          <h2 id="为啥用raid"><a href="#为啥用raid" class="headerlink" title="为啥用raid"></a>为啥用raid</h2><p>把相同的数据存放在多个硬盘的不同的地方，让输出和输出以平衡的方式交叠，改良性能<br>优点：提高存储系统的吞吐量；通过数据校验提供容错功能。</p>
+<h2 id="RAID0"><a href="#RAID0" class="headerlink" title="RAID0"></a>RAID0</h2><p>如果你有n块磁盘，原来只能同时写一块磁盘，写满了再下一块，做了RAID 0之后，n块可以同时写，速度提升很快，但由于没有备份，可靠性很差。n最少为2。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%94%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
