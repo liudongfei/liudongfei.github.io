@@ -85,8 +85,8 @@
 <meta property="og:url" content="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="Hbase采用LSM树架构，天生适合用于写多读少的应用场景。Hbase对于数据的更新、删除操作在服务器端也认为是写入操作，不同的是，更新操作会写入一个最新版本的数据，删除操作会写入一条标记为deleted的KV数据，所以Hbase种更新、删除操作的流程与写入流程完全一致。##Hbase写入流程从整体架构的视角来看，写入流程可以分为三个阶段：  客户端处理阶段：客户端将用户的写入请求进行预处理，并根">
-<meta property="article:published_time" content="2021-02-26T08:08:33.086Z">
-<meta property="article:modified_time" content="2021-02-26T08:08:33.087Z">
+<meta property="article:published_time" content="2021-02-26T08:08:33.000Z">
+<meta property="article:modified_time" content="2021-02-26T08:08:33.000Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="hbase">
 <meta name="twitter:card" content="summary">
@@ -503,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EHive%E9%9B%86%E6%88%90/" rel="next" title="Hbase高级—Hbase与Hive集成">
-                <i class="fa fa-chevron-left"></i> Hbase高级—Hbase与Hive集成
+              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84RegionServer/" rel="next" title="Hbase核心—Hbase的RegsionServer">
+                <i class="fa fa-chevron-left"></i> Hbase核心—Hbase的RegsionServer
               </a>
             
           </div>
@@ -513,8 +513,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E5%AE%A2%E6%88%B7%E7%AB%AF/" rel="prev" title="Hbase核心—Hbase客户端">
-                Hbase核心—Hbase客户端 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/" rel="prev" title="Hbase核心—Hbase的Compaction">
+                Hbase核心—Hbase的Compaction <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

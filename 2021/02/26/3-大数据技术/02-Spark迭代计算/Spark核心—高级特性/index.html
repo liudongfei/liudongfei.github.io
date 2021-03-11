@@ -85,8 +85,8 @@
 <meta property="og:url" content="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="琅琊的博客">
 <meta property="og:description" content="共享变量默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出  CheckPointCheckpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父R">
-<meta property="article:published_time" content="2021-02-26T08:08:33.045Z">
-<meta property="article:modified_time" content="2021-02-26T08:08:33.045Z">
+<meta property="article:published_time" content="2021-02-26T08:08:33.000Z">
+<meta property="article:modified_time" content="2021-02-26T08:08:33.000Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -458,8 +458,8 @@ Rdd.checkpoint()</code></p>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/" rel="next" title="Spark核心—任务提交">
-                <i class="fa fa-chevron-left"></i> Spark核心—任务提交
+              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94UDF%E7%BC%96%E7%A8%8B/" rel="next" title="Hive核心—UDF编程">
+                <i class="fa fa-chevron-left"></i> Hive核心—UDF编程
               </a>
             
           </div>
@@ -468,8 +468,8 @@ Rdd.checkpoint()</code></p>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/" rel="prev" title="Spark核心—任务提交">
-                Spark核心—任务提交 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E6%A0%B8%E5%BF%83%E2%80%94Yarn%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%8F%8A%E8%B0%83%E5%BA%A6/" rel="prev" title="Hadoop核心—Yarn资源管理及调度">
+                Hadoop核心—Yarn资源管理及调度 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

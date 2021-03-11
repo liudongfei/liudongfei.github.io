@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E4%BE%9D%E8%B5%96%E6%9C%8D%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E4%BE%9D%E8%B5%96%E6%9C%8D%E5%8A%A1/" itemprop="url">Hbase核心—Hbase依赖服务</a></h1>
+                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">ShadowSocks安装配置</a></h1>
         
 
         <div class="post-meta">
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -386,354 +386,14 @@
 
       
         
-          
-            <p>Hbase集群需要至少依赖Zookeeper和HDFS两个Apche顶级项目。<br>Zookeeper和HDFS的介绍详见相关章节。</p>
-<h3 id="Hbase在Zookeeper的节点分布"><a href="#Hbase在Zookeeper的节点分布" class="headerlink" title="Hbase在Zookeeper的节点分布"></a>Hbase在Zookeeper的节点分布</h3><p>下面内容是Hbase在Zookeeper根节点下创建的主要子节点：<br>根节点：/hbase，可配置</p>
-<ul>
-<li>meta-regionserver：存储Hbase集群hbase:meta元数据表所在的RegionServer访问地址。</li>
-<li>backup-masters：master的备份节点，可以是一个也可以是多个。</li>
-<li>table：集群中所有表的信息。</li>
-<li>region-in-transition： 记录Hbase迁移Region过程中各个阶段的状态。</li>
-<li>table-lock：Hbase系统使用Zookeeper相关机制实现分布式锁。在对一张表的DDL操作通常是典型的分布式操作。每次执行DDL操作之前都需要首先获取相关的表锁，防止多个DDL操作之间出现冲突。</li>
-<li>rs：集群中所有运行RegionServer。</li>
-<li>online-snapshot：用来实现在线snapshot操作。表级别的snapshot是一个分布式操作，需要对目标表的每个Region都执行snapshot，全部成功后才能返回成功。</li>
-<li>replication：用来实现Hbase复制功能。</li>
-<li>splitWAL/recovering-regions：用来实现Hbase分布式故障恢复。</li>
-</ul>
-<h3 id="Hbase在HDFS中的文件布局"><a href="#Hbase在HDFS中的文件布局" class="headerlink" title="Hbase在HDFS中的文件布局"></a>Hbase在HDFS中的文件布局</h3><p>下面内容是Hbase在HDFS中的文件分布布局：<br>根目录：/hbase</p>
-<ul>
-<li>.hbase-snapshot：snapshot文件存储目录。</li>
-<li>.tmp：临时文件目录，主要用于Hbase表的创建和删除。</li>
-<li>WALs：存储集群中所有RegionServer的HLog日志文件。</li>
-<li>MasterProcWALs：存储Master Procedure过程中的WAL文件。Master Procedure功能主要用于可恢复的分布式DDL操作。</li>
-<li>archive：文件归档目录。这个额目录中主要会在一下几个场景使用：<ul>
-<li>所有对hfile文件的删除操作都会将待删除文件临时存放在该目录。</li>
-<li>进行Snapshot或者升级的时候使用到的归档目录</li>
-<li>comapction删除hfile的时候，也会把旧的hfile移动到这里。</li>
-</ul>
-</li>
-<li>corrupt：存储损坏的HLog文件或者HFile文件。</li>
-<li>data：存储集群中所有Region的HFile数据。HFile文件在data目录下的完整路径如下所示：<br>  /hbase/data/namespacename/tablename/regionname/familyname/hfilename<br>  除了hfile外，该目录还存储了一些重要的子目录和子文件。<ul>
-<li>.tabledesc：表描述文件，记录对应表的基本schema信息。</li>
-<li>.tmp：表临时目录，主要用来存储Flush和Compaction过程中的中间结果。</li>
-<li>.regioninfo：Region描述文件。</li>
-<li>recovered.edits：存储故障恢复时该Region需要回放的WAL日志数据。</li>
-</ul>
-</li>
-<li>hbase.id：集群启动初始化时，创建集群的唯一id。</li>
-<li>hbase.version：Hbase软件版本文件，代码静态版本。</li>
-<li>oldWALs：WAL归档目录。当MemStore中的所有数据持久化到磁盘，那么该WAL文件就会被移动到这里。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/00Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/00Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Hbase基础—知识图谱</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/00Hbase%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/15875586997270.jpg" alt></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/" itemprop="url">Hbase高级—Hbase与MR集成</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>第一步，classpath添加。<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖。<br>第二步，maven依赖添加。<br>POM文件中添加hbase-server依赖。Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。</p>
+          <p>###准备工作</p>
+<ol>
+<li>准备一台可以访问google的外网服务器</li>
+<li>服务器的系统为redhat</li>
+<li>使用具有sudo权限的普通用户</li></ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -784,7 +444,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84RegionServer/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Sublime%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -803,7 +463,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84RegionServer/" itemprop="url">Hbase核心—Hbase的RegsionServer</a></h1>
+                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Sublime%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/" itemprop="url">Sublime常用快捷键（Mac）</a></h1>
         
 
         <div class="post-meta">
@@ -850,8 +510,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -889,47 +549,90 @@
       
         
           
-            <h3 id="RegsionServer的内部结构"><a href="#RegsionServer的内部结构" class="headerlink" title="RegsionServer的内部结构"></a>RegsionServer的内部结构</h3><p>RegionServer是Hbase系统响应用户读写请求的工作节点组件，由多个核心模块组成，其内部结构图如下：<br><img src="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84RegionServer/15879937361968.jpg" alt></p>
-<h3 id="HLog"><a href="#HLog" class="headerlink" title="HLog"></a>HLog</h3><p>Hbase中系统故障恢复以及主从复制都基于HLog实现。</p>
-<ul>
-<li>每个RegionServer拥有一个或者多个HLog（1.1版本可以开启多个）。每个HLog是多个Region共享的。</li>
-<li>HLog中，日志的最小单元是WALEntry表示一次行级更新的最小追加单元，由HLogKey和WALEdit两部分组成。</li>
-<li>HLog存储在HDFS的/hbase/WALs和/hbase/oldWALs两个目录下。前者存储当前还未过期的日志；后者存储已经过期的日志。</li>
-<li>可以使用hbase hlog命令查看HLog文件的内容。<h4 id="HLog生命周期"><a href="#HLog生命周期" class="headerlink" title="HLog生命周期"></a>HLog生命周期</h4>HLog生命周期包含4个阶段：</li>
-</ul>
-<ol>
-<li>HLog构建：Hbase的任何写入操作都会先将记录追加写入到HLog文件中。</li>
-<li>HLog滚动：Hbase后台启动一个线程，每隔一段时间（默认1h）进行日志滚动。日志滚动会新建一个新的日志文件，接收新的日志数据。</li>
-<li>HLog失效：写入数据一旦从MemStore中落盘，对应的日志数据就会失效，为了方便处理，Hbase中的日志失效删除总是以文件为单位执行的。</li>
-<li>HLog删除：Master后台会启动一个线程，每隔一段时间（默认1h）检查一次文件夹oldWALs下的所有失效日志文件，确认是否可以删除：<ul>
-<li>该HLog文件是否还在参与主从复制。</li>
-<li>该HLog文件是否已经在OldWALs目录存在10min。<h3 id="MemStore"><a href="#MemStore" class="headerlink" title="MemStore"></a>MemStore</h3>Hbase将不同的列簇数据存储在不同的Store中，每隔Store由一个MemStore和一系列的HFile组成。<h4 id="MemStore的内部结构"><a href="#MemStore的内部结构" class="headerlink" title="MemStore的内部结构"></a>MemStore的内部结构</h4>MemStore应该采用什么样的数据结构，既能保证高效的写入效率，又能够保证高效的多线程读取效率？<br>Hbase采用了跳跃表来实现，采用了JDK自带的数据结构ConcurrentSkipListMap，其底层使用跳跃表来保证数据的有序性，并且保证数据的写入、查找、删除操作都可以在O(logN)的时间复杂度完成。<br>MemStore由两个ConcurrentSkipListMap（A和B）实现，写入操作会将数据写入A，当A的数据量超过一定的阈值后会创建一个新的B来接收用户新的需求，之前的A会执行异步Flush操作落盘形成HFile。</li>
-</ul>
-</li>
-</ol>
-<h4 id="MemStore的GC问题"><a href="#MemStore的GC问题" class="headerlink" title="MemStore的GC问题"></a>MemStore的GC问题</h4><p>由于MemStore本质上是写缓存，本身会占用大量内存，因此会面临GC问题。Hbase中MemStore从左模式的特殊性更会引起严重的内存碎片，无法分配一块完整的可用内存，这样就会触发长时间的FullGC。</p>
-<p>为什么MemStore的工作模式会引起严重的内存碎片？因为一个RegionServer由多个Region构成，每个Region根据列簇的不同又包含多个MemStore，这些MemStore都是共享JVM内存的，所有的MemStore的数据都是混合在一起写入Heap的。<br><strong>解决方案</strong><br> 为了优化这种大量内存碎片问题，Hbase借鉴了线程本地分配缓存（Thread-Local Allocation Buffer，TLAB）的内存管理方式，通过顺序化分配内存、内存数据分块等特性使得内存碎片更加粗粒度，实现步骤如下：</p>
-<ol>
-<li>每个MemStore会实例化得到一个MemStoreLAB对象。</li>
-<li>MemStoreLAB会申请一个2M大小的Chunk数组，同时维护一个Chunk偏移量，初始值为0。</li>
-<li>当一个KV插入MemStore后，MemStoreLAB会首先通过KV.getBuffer()取得data数组，并将data数组复制到Chunk数组中，移动偏移量。</li>
-<li>当前Chunk满了之后，再申请一个2M的新的Chunk。</li>
-</ol>
-<p>通过这种内存管理方式，使得fulsh之后残留的内存碎片更加粗粒度，极大降低了FullGC的触发频率。但是，这种方式还有一些问题：一旦Chunk写满后，系统会在JVM新生代中申请新的内存，如果申请比较频繁会导致JVM新生代Eden区满掉，触发YGC。<br><strong>进一步解决方案</strong><br>如果这些Chunk能够被循环利用，系统就不需要申请新的Chunk，这样会使得YGC的频率降低，晋升到老年代的Chunk就会减少，CMS GC发生的频率也会降低。具体实现步骤如下：</p>
-<ol>
-<li>系统创建一个Chunk Pool来管理所有未被引用的Chunk，这些Chunk就不会再被当作垃圾回收。</li>
-<li>如果一个Chunk没有再被引用，将其放入Chunk Pool。</li>
-<li>如果当前Chunk Pool已经达到了容量最大值，就不会再接纳新的Chunk。</li>
-<li>如果需要申请新的Chunk来存储KV，首先从Chunk Pool中获取，如果能够获取就重复利用，否则就重新申请一个新的Chunk。</li>
-</ol>
-<p><strong>MSLAB配置</strong><br>Hbase中MSLAB功能默认是开启的，默认的ChunkSize是2M，也可以通过“hbase.hregion.memstore.mslab.chunksize” 进行设置。<br>Chunk Pool功能默认是关闭的，需要配置“hbase.hregion.memstore.chunkpool.maxsize”大于0才能开启，取值为[0,1]，表示Chunk Pool占用MemStore的内存比例。“hbase.hregion.memstore.chunkpool.initialsize”取值为[0,1]，表示初始化时申请多少个Chunk放到Pool里面。</p>
-<h3 id="HFile"><a href="#HFile" class="headerlink" title="HFile"></a>HFile</h3><p>Hbase诞生到现在，HFile经历了23个版本，其中V2在0.92引入，V3在0.98引入。<br>HFile的结构在此不详细介绍。<br>HFile文件的查看工具：hbase hfile</p>
-<h3 id="BlockCache"><a href="#BlockCache" class="headerlink" title="BlockCache"></a>BlockCache</h3><p>Hbase实现了一种读缓存结构—BlockCache。客户端读取某个Block，首先会检查该Block是否存在于BlockCache，如果存在就直接加载，如果不存在则去Hfile文件中加载，加载出来后放到BlockCache中。</p>
-<p>BlockCache是RegsionServer级别的，一个RegsionServer只有一个BlockCache，在RegsionServer启动时完。BlockCache的初始化动作。Block是Hbase中最小的数据读取单元。</p>
-<p>Hbase目前实现了3种BlockCache方案，这3种方案的不同之处在于内存管理模式。<br><strong>LRUBlockCache</strong><br>这种方式是Hbase目前默认的BlockCache机制，将所有的数据都存放到JVM Heap中。实现方式很简单，用一个ConcurrentHashMap管理BlockKey到Block的映射关系。当Block Cache总量达到一定阈值之后会启动淘汰机制—LRU淘汰算法，最近最少使用的Block会被置换出来。<br>1.缓存分层策略<br>Hbase采用了缓存分层设计，将整个BlockCache分为3个部分：single-access、multi-access和in-memory，分别占到整个BlockCache大小为25%、50%、25%。<br>在一次随机读取中，一个Block从hdfs加载出来之后首先放入single-access区，后续如果有多个请求访问到这个block，就会将这个block移动到multi-access区。而in-memory表示数据可以常驻内存（需要加载后才可以写入），一般用来存放访问频繁、量小的数据，也可以LRU淘汰机制进行淘汰。</p>
-<p>在每次block cache时，系统会检查BlockCache总量是否达到阈值，如果达到，就会唤醒淘汰线程对Map中的Block进行淘汰。系统设置3个MinMaxPriorityQueue对应3个层，每个队列中的元素按照最近最少被使用的规则排序，系统会优先取出最近最少使用的Block，将其内存进行释放。<br>2.方案优缺点<br>这种方式管理缓存简单有效，但是随着数据从新生代到老年代，会导致大量的内存碎片，产生FullGC。<br><strong>SlabCache</strong><br>为了解决LRUBlockCache方案中因JVM垃圾回收导致服务中断问题，SlabCache方案提出了使用Java NIO DirectByteBuffer技术实现堆外内存存储，不再由JVM管理数据内存。默认情况下，BlockCache分配两个缓存区，分别占整个BlockCache的80%和20%，前者主要存储《=64K的Block，后者存储《=128K的Block。如果一个Block 太大就会导致两个区都无法存储。<br><strong>BucketCache</strong><br>SlabCache方案在实际使用中并没有很大程度改善原有的LRUBlockCache的GC弊端，还引入了堆外内存使用率低的问题。因此，在Slab的基础上，开发了BuketCache。</p>
-<p>BucketCache会在初始化的时候申请14种不同大小的Bucket，而且如果某一种Bucket空间不足，系统就会从其他Bucket空间借用内存使用，因此不会出现内存使用率低的情况。相比LRUBlockCache，BucketCache实现相对比较复杂，，没有使用JVM内存管理算法来管理缓存，而是自己对内存进行管理。</p>
-<p>BucketCache默认有三种工作模式：heap、offheap和file，这三种工作模式在内存逻辑组织形式以及缓存流程上都是相同的，但是三者对应的最终存储介质有所不同。heap和offheap都是使用内存作为最终的存储介质，但是heap使用的是JVM提供的heap区内存，offheap使用系统内存，二者性能表现各有不同。file使用SSD等作为存储介质，相比昂贵的内存，这样可以提供更大的存储容量，可以极大的提升缓存命中率。</p>
+            <table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>command + option + 鼠标</td>
+<td>列编辑</td>
+</tr>
+<tr>
+<td>command + F</td>
+<td>在当前文件中查找</td>
+</tr>
+<tr>
+<td>command + W</td>
+<td>关闭当前sheet</td>
+</tr>
+<tr>
+<td>command + option + F</td>
+<td>替换</td>
+</tr>
+<tr>
+<td>command + shift + F</td>
+<td>在打开的所有文件中查找</td>
+</tr>
+<tr>
+<td>command + N</td>
+<td>创建一个新的sheet</td>
+</tr>
+<tr>
+<td>command + L</td>
+<td>选中当前行，重复按下将下一行加入选</td>
+</tr>
+<tr>
+<td>command + b</td>
+<td>快速定位到变量的来源</td>
+</tr>
+<tr>
+<td>control + [</td>
+<td>向左缩进</td>
+</tr>
+<tr>
+<td>command + ]</td>
+<td>向右缩进</td>
+</tr>
+<tr>
+<td>command + control + ↑↓</td>
+<td>上下移动当前行</td>
+</tr>
+<tr>
+<td>command + K + U</td>
+<td>将字母改为大写</td>
+</tr>
+<tr>
+<td>command + K + L</td>
+<td>将字母改为小写</td>
+</tr>
+<tr>
+<td>command + K + K</td>
+<td>从光标处删除至行尾</td>
+</tr>
+<tr>
+<td>command + K + backspace</td>
+<td>从光标处删除至行首</td>
+</tr>
+<tr>
+<td>shift + control + K</td>
+<td>删除当前行</td>
+</tr>
+<tr>
+<td>command + J</td>
+<td>合并多行</td>
+</tr>
+<tr>
+<td>command + option + 1234</td>
+<td>将窗口分割成1、2、3、4列</td>
+</tr>
+<tr>
+<td>command + enter</td>
+<td>在当前行后插入新行</td>
+</tr>
+</tbody></table>
 
           
         
@@ -978,7 +681,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -997,7 +700,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Compaction/" itemprop="url">Hbase核心—Hbase的Compaction</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hadoop%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">3-大数据技术/00-Hadoop生态圈/Hadoop基础—知识图谱</a></h1>
         
 
         <div class="post-meta">
@@ -1032,28 +735,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -1083,46 +764,7 @@
       
         
           
-            <p>Compaction的核心功能是将小文件合并成大文件，提升读取效率。一般基于LSM树体系架构的系统都会设计Comapction。<br>Hbase根据合并规模将Compaction分为两类：</p>
-<ul>
-<li>minor compaction：选取部分小的、相邻的HFile，将它们合并成为一个更大的HFile。</li>
-<li>major compaction：将一个Store中所有的HFile合并成为一个HFile，这个过程还会完全清除三类无意义数据：被删除的数据、TTL过期数据、版本号超过设定版本号的数据。major compaction持续的时间会比较长，整个过程会消耗大量的系统资源，对上层业务有比较大的影响。因此线上部分数据量较的业务通常推荐关闭自动触发major compaction功能，改为在业务低峰期手动触发。<br>Hbase的Compaction有一下核心作用：</li>
-<li>合并小文件。</li>
-<li>提高数据本地化率。major compaction可以将数据本地化率提升到100%。</li>
-<li>清除无效数据，减少数据存储量。<h3 id="Compaction的基本流程"><a href="#Compaction的基本流程" class="headerlink" title="Compaction的基本流程"></a>Compaction的基本流程</h3>Hbase的Compaction的基本流程如下：</li>
-</ul>
-<ol>
-<li>Compaction触发。</li>
-<li>选择合适HFile合并。</li>
-<li>挑选合适的线程池。</li>
-<li>执行HFile文件合并。<h3 id="Compaction触发时机"><a href="#Compaction触发时机" class="headerlink" title="Compaction触发时机"></a>Compaction触发时机</h3>Hbase中触发Compaction的时机有如下三种：</li>
-</ol>
-<ul>
-<li>MemStore Flush：每次执行完flush都会检查当前Store中的文件数量，compaction都是以Store为单位的。</li>
-<li>后台线程周期性检查：RegionServer会在后台启动一个线程CompactionChecker，定期触发检查对应的Store。</li>
-<li>手动触发：一般，手动触发Compaction大多是为了执行major compaction<h3 id="待合并HFile集合选择策略"><a href="#待合并HFile集合选择策略" class="headerlink" title="待合并HFile集合选择策略"></a>待合并HFile集合选择策略</h3>选择合适的文件进行合并是整个Compaction的核心。Hbase提出了两种minor compaction选择策略：</li>
-<li>RatioBasedCompactionPolicy</li>
-<li>ExploringCompactionPolicy<br>所有的策略都会对该Store中的所有HFile逐一排查，排除不满足条件的部分文件：</li>
-</ul>
-<ul>
-<li>排除当前正在执行Compaction的文件及比这些文件更新的所有文件。</li>
-<li>排除某些过大的文件<br>经过排除后留下来的文件称为候选文件。</li>
-<li><em>RatioBasedCompactionPolicy*</em><br>从老到新逐一扫描所有候选文件，满足其中之一便停止扫描：</li>
-</ul>
-<ol>
-<li>当前文件大小&lt;比当前文件新的所有文件大小总和 * ratio。其中ratio是一个可变的比例，高峰期为1.2，非高峰期为5。</li>
-<li>当前所剩候选文件树&lt;= hbase.store.compaction.min。<br>停止扫描后，待合并文件就选择出来了，即当前扫描文件以及比它更新的所有文件。</li>
-</ol>
-<p><strong>ExploringCompactionPolicy</strong><br>和RatioBasedCompactionPolicy相同，Ratio策略在在找到一个合适的文件集合后就停止扫描了，而Exploring策略会记录所有合适的集合，并且在这些集合中选择最优解：待合并文件数最多或者待合并文件数量相同的情况下文件较小，这样有利于减少Compaction带来的IO消耗。</p>
-<h3 id="Compaction相关注意事项"><a href="#Compaction相关注意事项" class="headerlink" title="Compaction相关注意事项"></a>Compaction相关注意事项</h3><ol>
-<li>Limit Compaction Speed<br>该优化方案通过感知Compaction的压力情况自动调节系统的Compaction吞吐量，在压力大的时候降低合并吞吐量，压力小的时候增加合并吞吐量。</li>
-<li>Compaction BandWidth Limit</li>
-</ol>
-<ul>
-<li>compactBwLimit：一次Compaction的最大带宽使用量</li>
-<li>numOfFilesDisableCompactLimit：当Store中HFile数量超过该值，带宽限制就会失效。</li>
-</ul>
-
+            
           
         
       
@@ -1170,7 +812,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/04-Zookeeper%E7%BB%9F%E4%B8%80%E5%8D%8F%E8%B0%83/Zookeeper%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1189,7 +831,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/" itemprop="url">Hbase高级—Hbase系统调优</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/04-Zookeeper%E7%BB%9F%E4%B8%80%E5%8D%8F%E8%B0%83/Zookeeper%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">3-大数据技术/04-Zookeeper统一协调/Zookeeper基础—知识图谱</a></h1>
         
 
         <div class="post-meta">
@@ -1224,28 +866,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -1275,8 +895,7 @@
       
         
           
-            <p>//正在整理中</p>
-
+            
           
         
       
@@ -1324,7 +943,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/00Docker%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1343,7 +962,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/" itemprop="url">Hbase高级—Hbase备份与恢复</a></h1>
+                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/00Docker%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">4-微服务技术/Docker/00Docker基础—知识图谱</a></h1>
         
 
         <div class="post-meta">
@@ -1378,28 +997,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -1429,8 +1026,7 @@
       
         
           
-            <p>//正在整理中</p>
-
+            
           
         
       
@@ -1478,7 +1074,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/00SpringCloud%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1497,7 +1093,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" itemprop="url">Hbase高级—Hbase的负载均衡</a></h1>
+                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/00SpringCloud%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">4-微服务技术/SpringCloud/00SpringCloud基础—知识图谱</a></h1>
         
 
         <div class="post-meta">
@@ -1532,28 +1128,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -1583,8 +1157,7 @@
       
         
           
-            <p>//正在整理中</p>
-
+            
           
         
       
@@ -1632,7 +1205,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Table/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1651,7 +1224,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Table/" itemprop="url">Hbase核心—Hbase的Table</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/" itemprop="url">Spark基础—RDD</a></h1>
         
 
         <div class="post-meta">
@@ -1736,11 +1309,11 @@
 
       
         
-          <h2 id="Hbase的表设计"><a href="#Hbase的表设计" class="headerlink" title="Hbase的表设计"></a>Hbase的表设计</h2><p>建表语句整体上可以拆分成三个部分：表名、列簇属性设置、表属性设置。</p>
-<h3 id="表名"><a href="#表名" class="headerlink" title="表名"></a>表名</h3><p>强烈建议生产线创建表时不要单独使用表名，而应该使用命名空间+表名的形式。同一个业务的相关表放在同一个命名空间下，不同的业务使用不同的命名空间。</p>
+          <h3 id="RDD的概念"><a href="#RDD的概念" class="headerlink" title="RDD的概念"></a>RDD的概念</h3><p>弹性分布式数据集，抽象的数据集合；含有多个分区，分区散落在不同的节点上，可以并发执行；内存优先存放，若内存放不下时，会缓存到磁盘；具有容错性。</p>
+<h3 id="RDD的创建"><a href="#RDD的创建" class="headerlink" title="RDD的创建"></a>RDD的创建</h3><p>集合创建，本地文件创建，HDFS文件创建（spark默认会为hdfs的每个block创建一个partition，手动指定时只能比block多。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E6%A0%B8%E5%BF%83%E2%80%94Hbase%E7%9A%84Table/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1791,7 +1364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94API%E5%92%8C%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1810,7 +1383,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94API%E5%92%8C%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" itemprop="url">Hbase基础—API使用和配置详解</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/" itemprop="url">Spark基础—DF</a></h1>
         
 
         <div class="post-meta">
@@ -1895,10 +1468,332 @@
 
       
         
-          <h2 id="连接原理和配置"><a href="#连接原理和配置" class="headerlink" title="连接原理和配置"></a>连接原理和配置</h2><p>HBase Master是服务器负责管理所有的HRegion服务器，HBase Master并不存储HBase服务器的任何数据，HBase 逻辑上的表可能会划分为多个 HRegion，然后存储在 HRegion Server 群中，HBase Master Server 中存储的是从数据到 HRegion Server 的映射。</p>
+          <h3 id="DataFrame的生成"><a href="#DataFrame的生成" class="headerlink" title="DataFrame的生成"></a>DataFrame的生成</h3><ul>
+<li>使用反射的方式生成<br>javaAPI仅支持简单的javabean方式，row形式的RDD。<br>注：java的row在从DF转换成RDD时，会发生数据列顺序的变化<br>scalaAPI支持复杂的javabean方式，row形式的RDD，需要使用SQLContext的隐式转换<br>注：scala的row在从DF转换成RDD时，会保持数据列的顺序</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E5%9F%BA%E7%A1%80%E2%80%94API%E5%92%8C%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/" itemprop="url">Spark核心—任务提交</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Spark的Shuffle过程原理剖析及源码分析"><a href="#Spark的Shuffle过程原理剖析及源码分析" class="headerlink" title="Spark的Shuffle过程原理剖析及源码分析"></a>Spark的Shuffle过程原理剖析及源码分析</h2><h3 id="什么情况下会发生shuffle"><a href="#什么情况下会发生shuffle" class="headerlink" title="什么情况下会发生shuffle"></a>什么情况下会发生shuffle</h3><p>在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。</p>
+<h3 id="默认情况下的shuffle原理剖析"><a href="#默认情况下的shuffle原理剖析" class="headerlink" title="默认情况下的shuffle原理剖析"></a>默认情况下的shuffle原理剖析</h3><p>默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/" itemprop="url">Spark基础—生态圈</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Spark生态圈介绍"><a href="#Spark生态圈介绍" class="headerlink" title="Spark生态圈介绍"></a>Spark生态圈介绍</h3><ul>
+<li>Spark Core：核心模块，基于Rdd处理数据</li>
+<li>Spark SQL：sql处理模块，基于dataframe的处理结构化数据</li>
+<li>Spark Streaming：流处理模块，用于处理流式数据的组件</li>
+<li>Spark MLLib：机器学习模块</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
