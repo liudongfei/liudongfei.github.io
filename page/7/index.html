@@ -1933,7 +1933,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1952,7 +1952,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/" itemprop="url">Hbase高级—Hbase备份与恢复</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/" itemprop="url">Hbase高级—Hbase与MR集成</a></h1>
         
 
         <div class="post-meta">
@@ -2037,10 +2037,14 @@
 
       
         
-          
-            <p>//正在整理中</p>
-
-          
+          <p>第一步，classpath添加。<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖。<br>第二步，maven依赖添加。<br>POM文件中添加hbase-server依赖。Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
