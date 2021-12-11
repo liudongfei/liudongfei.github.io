@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,772 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" itemprop="url">ES核心—启动流程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" itemprop="url">ES基础—ES数据模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/" itemprop="url">ES核心—系统调优</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/" itemprop="url">ES核心—ES读写流程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E9%AB%98%E7%BA%A7%E2%80%94ES%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E4%B8%8E%E6%81%A2%E5%A4%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E9%AB%98%E7%BA%A7%E2%80%94ES%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E4%B8%8E%E6%81%A2%E5%A4%8D/" itemprop="url">ES高级—数据迁移与恢复</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Flink基础—编程模型</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/" itemprop="url">Spark基础—RDD</a></h1>
         
 
         <div class="post-meta">
@@ -1151,14 +386,11 @@
 
       
         
-          <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><ul>
-<li>原生数据类型</li>
-<li>Java Tuples类型</li>
-<li>Scala Case Class类型</li>
-<li>POJOs类型</li></ul>
+          <h3 id="RDD的概念"><a href="#RDD的概念" class="headerlink" title="RDD的概念"></a>RDD的概念</h3><p>弹性分布式数据集，抽象的数据集合；含有多个分区，分区散落在不同的节点上，可以并发执行；内存优先存放，若内存放不下时，会缓存到磁盘；具有容错性。</p>
+<h3 id="RDD的创建"><a href="#RDD的创建" class="headerlink" title="RDD的创建"></a>RDD的创建</h3><p>集合创建，本地文件创建，HDFS文件创建（spark默认会为hdfs的每个block创建一个partition，手动指定时只能比block多。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94RDD/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1209,7 +441,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1228,7 +460,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/" itemprop="url">Flink核心—WaterMark和Window</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" itemprop="url">Spark核心—高级特性</a></h1>
         
 
         <div class="post-meta">
@@ -1313,337 +545,182 @@
 
       
         
-          <h2 id="Flink的Time类型"><a href="#Flink的Time类型" class="headerlink" title="Flink的Time类型"></a>Flink的Time类型</h2><ul>
-<li>事件时间</li>
-<li>接入时间</li>
-<li>处理时间<h2 id="Flink的WaterMark机制"><a href="#Flink的WaterMark机制" class="headerlink" title="Flink的WaterMark机制"></a>Flink的WaterMark机制</h2><h3 id="WaterMark的类型"><a href="#WaterMark的类型" class="headerlink" title="WaterMark的类型"></a>WaterMark的类型</h3></li>
-<li>Periodic WaterMark：根据固定的时间间隔，周期性的生成WaterMark</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/07-RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/07-RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">RabbitMQ基础—知识结构概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h3><p>常用命令<br>rabbitmqctl list_queues name messages_ready messages_unacknowledged #列出当前队列、队列信息数量、队列未确认信息数量<br>rabbitmqctl list_exchanges  #列出当前交换机</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/07-RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/09-Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/09-Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" itemprop="url">Sqoop基础—基本使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Sqoop的安装"><a href="#Sqoop的安装" class="headerlink" title="Sqoop的安装"></a>Sqoop的安装</h3><ol>
-<li>配置HADOOP_COMMON_HOME </li>
-<li>配置HADOOP_MAPRED_HOME </li>
-<li>配置HIVE_HOME <h3 id="Sqoop使用"><a href="#Sqoop使用" class="headerlink" title="Sqoop使用"></a>Sqoop使用</h3></li>
-</ol>
+            <h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出 </p>
+<h3 id="CheckPoint"><a href="#CheckPoint" class="headerlink" title="CheckPoint"></a>CheckPoint</h3><p>Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint：<br><code>SparkContext.setCheckpointDir()
+Rdd.checkpoint()</code></p>
+<h4 id="Checkpoint原理"><a href="#Checkpoint原理" class="headerlink" title="Checkpoint原理"></a>Checkpoint原理</h4><p>一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。 </p>
+<h4 id="checkpoint与persist的区别"><a href="#checkpoint与persist的区别" class="headerlink" title="checkpoint与persist的区别"></a>checkpoint与persist的区别</h4><p>与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。 </p>
+<h3 id="动态资源调度"><a href="#动态资源调度" class="headerlink" title="动态资源调度"></a>动态资源调度</h3><p>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略</p>
 <ul>
-<li>HDFS端：path，文件导入或导出路径 </li>
-<li>HIVE端：tablename，要导入或导出的表</li></ul>
+<li>FIFO调度 </li>
+<li>公平调度：spark.scheduler.mode，fair<br>可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置 <h3 id="spark2-0的新版本特性"><a href="#spark2-0的新版本特性" class="headerlink" title="spark2.0的新版本特性"></a>spark2.0的新版本特性</h3></li>
+<li>新增StructurtedStreaming模块，整合流计算和批处理 </li>
+<li>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理 </li>
+<li>cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大 </li>
+<li>Spark通过rest方式使用curl进行集群任务监控 </li>
+<li>通过metrics的sink机制进行集群监控 </li>
+<li>SparkSql的thriftserver服务</li>
+<li>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据 </li>
+<li>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Kafka基础—基本概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Kafka介绍"><a href="#Kafka介绍" class="headerlink" title="Kafka介绍"></a>Kafka介绍</h2><h3 id="消息队列的类型"><a href="#消息队列的类型" class="headerlink" title="消息队列的类型"></a>消息队列的类型</h3><p>1)    点对点（P2P）：  一个生产者生产的消息只有一个消费者，消息只能被消费一次。<br>2)    发布订阅 Pub/Sub：每个消息放到指定的topci中，可以有多个消费者消费，互不影响。</p>
+<h3 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h3><p>Kafka是linkedin用于日志处理的分布式消息队列，同时支持离线和在线日志处理。kafka对消息保存时根据Topic进行归类，发送消息者成为Producer,消息接受者成为Consumer,此外kafka集群有多个kafka实例组成，每个实例(server)称为broker。无论是kafka集群，还是producer和consumer都依赖于zookeeper来保证系统可用性，为集群保存一些meta信息。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/09-Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1694,7 +771,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Dubbo/00Dubbo%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1713,7 +790,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Dubbo/00Dubbo%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">4-微服务技术/Dubbo/00Dubbo基础—知识图谱</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Kafka基础—知识图谱</a></h1>
         
 
         <div class="post-meta">
@@ -1748,6 +825,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1777,7 +876,956 @@
       
         
           
-            <h1 id><a href="#" class="headerlink" title></a></h1>
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">Kafka基础—知识结构概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kafka基本概念<br>Producer<br>Consumer<br>Broker<br>Topic<br>Partition<br>Replica<br>Leader<br>Follower<br>AR<br>ISR<br>OSR<br>HW<br>LEO</p>
+<p>序列化器<br>分区器<br>生产拦截器</p>
+<p>反序列化器<br>消费者拦截器<br>再均衡接口<br>分区分配策略<br>自定义分区分配策略<br>消费者协调器<br>__consumer_offsets剖析<br>事务支持</p>
+<p>分区副本分配<br>配置管理<br>优先副本选举<br>分区重分配<br>复制限流<br>性能测试工具<br>控制器<br>分区leader的选举</p>
+<p>日志文件目录布局<br>日志格式V0<br>日志格式V1<br>日志格式V2<br>日志偏移量索引<br>日志事件戳索引<br>日志清理基于时间<br>日志清理基于大小</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/" itemprop="url">Kafka核心—分区分配策略</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Zookeeper在kafka中作用"><a href="#Zookeeper在kafka中作用" class="headerlink" title="Zookeeper在kafka中作用"></a>Zookeeper在kafka中作用</h3><p>正如Zookeeper用于分布式系统的协调和促进，Kafka使用Zookeeper也是基于相同的原因。Zookeeeper用于管理、协调Kafka代理。每个Kafka代理都通过Zookeeper协调其他Kafka代理。当Kafka系统中新增了代理或者某个代理故障失效时，Zookeeper将通知生产者和消费者。生产者和消费者据此开始与其他代理协调工作。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/" itemprop="url">Kafka核心—日志</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Kafka日志说明"><a href="#Kafka日志说明" class="headerlink" title="Kafka日志说明"></a>Kafka日志说明</h3><p>日志文件按照topic组织，每个topic可以分成多个partition，日志文件的存储根路径由配置文件server.properties中的log.dir属性决定，该路径下由主题名-分区名为子目录存储每个topic的各个分区的文件。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E6%A0%B8%E5%BF%83%E2%80%94%E6%97%A5%E5%BF%97/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94ES%E7%9A%84%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94ES%E7%9A%84%E7%AE%80%E4%BB%8B/" itemprop="url">ES基础—ES的简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="ES的基本概念"><a href="#ES的基本概念" class="headerlink" title="ES的基本概念"></a>ES的基本概念</h3><ul>
+<li>索引(Index): 索引是ES存放具体数据的地方，是一类具有相似特征的文档集合。ES中的索引具有不同的意思，这里的索引相当于关系型数据库的一个实例。在ES中还可以作为动词，表示对文档数据进行索引操作。</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94ES%E7%9A%84%E7%AE%80%E4%BB%8B/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%9F%A5%E8%AF%A2%E5%92%8C%E8%81%9A%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%9F%A5%E8%AF%A2%E5%92%8C%E8%81%9A%E5%90%88/" itemprop="url">ES基础—查询和聚合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="查询方式"><a href="#查询方式" class="headerlink" title="查询方式"></a>查询方式</h3><h4 id="Match类查询"><a href="#Match类查询" class="headerlink" title="Match类查询"></a>Match类查询</h4><p>match类的查询会先对搜索词进行分词,分词完毕后再逐个对分词结果进行匹配。</p>
+<ul>
+<li>match查询：先对搜索词进行分词，只要搜索词的分词集合中的一个或多个存在于文档中即可。</li>
+<li>match_phrase查询：先对搜索词进行分词，只要搜索词的分词集合中的所有分词项。</li>
+<li>multi_match查询：两个字段进行匹配，其中一个字段有这个文档就满足。</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E6%9F%A5%E8%AF%A2%E5%92%8C%E8%81%9A%E5%90%88/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">ES基础—知识图谱</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/15893572293849.jpg" alt></p>
+
           
         
       
