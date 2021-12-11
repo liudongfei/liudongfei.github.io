@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="给出了关于GraphFrames的基本查询，模式查询和一些最基本的图算法，包含python和scala编码  创建GraphFrames用户可以从顶点和边的DataFrame中创建 。顶点的DataFrame应该包含一个列名为“id”的特殊列，这列指定了整个图中每个顶点的唯一ID 。边的DataFrame应该包含两个列名为“src“（边的起点ID）和”dst“（边的终点ID） 。两种DataFra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graphframe基础—使用手册">
+<meta property="og:url" content="https://liudongfei.github.io/2021/02/26/7-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/index.html">
+<meta property="og:site_name" content="琅琊的博客">
+<meta property="og:description" content="给出了关于GraphFrames的基本查询，模式查询和一些最基本的图算法，包含python和scala编码  创建GraphFrames用户可以从顶点和边的DataFrame中创建 。顶点的DataFrame应该包含一个列名为“id”的特殊列，这列指定了整个图中每个顶点的唯一ID 。边的DataFrame应该包含两个列名为“src“（边的起点ID）和”dst“（边的终点ID） 。两种DataFra">
+<meta property="article:published_time" content="2021-02-26T08:08:33.000Z">
+<meta property="article:modified_time" content="2021-02-26T08:08:33.000Z">
+<meta property="article:author" content="dongfeiliu">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://liudongfei.github.io/2021/02/26/7-数据分析技术/Graphframe/Graphframe基础—使用手册/"/>
+
+
+
+
+
+  <title>Graphframe基础—使用手册 | 琅琊的博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">琅琊的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/7-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Graphframe基础—使用手册</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>给出了关于GraphFrames的基本查询，模式查询和一些最基本的图算法，包含python和scala编码 </p>
+<h3 id="创建GraphFrames"><a href="#创建GraphFrames" class="headerlink" title="创建GraphFrames"></a>创建GraphFrames</h3><p>用户可以从顶点和边的DataFrame中创建 。顶点的DataFrame应该包含一个列名为“id”的特殊列，这列指定了整个图中每个顶点的唯一ID 。边的DataFrame应该包含两个列名为“src“（边的起点ID）和”dst“（边的终点ID） 。两种DataFrame可以包含任意的其他列，这些列代表了顶点和边的属性。<br>用户也可以从一个包含边信息的DataFrame中创建，图中的顶点由边的起点和终点确定。<br>下面的例子是如何从顶点和边的DataFrame中创建GraphFrame。<a id="more"></a><br>Scala代码： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.GraphFrame</span><br><span class="line">&#x2F;&#x2F; Vertex DataFrame</span><br><span class="line">val v &#x3D; sqlContext.createDataFrame(List(</span><br><span class="line">  (&quot;a&quot;, &quot;Alice&quot;, 34), </span><br><span class="line">  (&quot;b&quot;, &quot;Bob&quot;, 36), </span><br><span class="line">  (&quot;c&quot;, &quot;Charlie&quot;, 30), </span><br><span class="line">  (&quot;d&quot;, &quot;David&quot;, 29), </span><br><span class="line">  (&quot;e&quot;, &quot;Esther&quot;, 32), </span><br><span class="line">  (&quot;f&quot;, &quot;Fanny&quot;, 36),</span><br><span class="line">  (&quot;g&quot;, &quot;Gabby&quot;, 60) </span><br><span class="line">)).toDF(&quot;id&quot;, &quot;name&quot;, &quot;age&quot;)</span><br><span class="line">&#x2F;&#x2F; Edge DataFrame</span><br><span class="line">val e &#x3D; sqlContext.createDataFrame(List(</span><br><span class="line">  (&quot;a&quot;, &quot;b&quot;, &quot;friend&quot;), </span><br><span class="line">  (&quot;b&quot;, &quot;c&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;c&quot;, &quot;b&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;f&quot;, &quot;c&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;e&quot;, &quot;f&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;e&quot;, &quot;d&quot;, &quot;friend&quot;), </span><br><span class="line">  (&quot;d&quot;, &quot;a&quot;, &quot;friend&quot;), </span><br><span class="line">  (&quot;a&quot;, &quot;e&quot;, &quot;friend&quot;) </span><br><span class="line">)).toDF(&quot;src&quot;, &quot;dst&quot;, &quot;relationship&quot;)</span><br><span class="line">&#x2F;&#x2F; Create a GraphFrame</span><br><span class="line">val g &#x3D; GraphFrame(v, e)</span><br></pre></td></tr></table></figure>
+<p>上面创建的GraohFrame可以在下面的包中找到 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends</span><br></pre></td></tr></table></figure>
+<p>python代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> # Vertex DataFrame</span><br><span class="line"> v &#x3D; sqlContext.createDataFrame([</span><br><span class="line">  (&quot;a&quot;, &quot;Alice&quot;, 34), </span><br><span class="line">  (&quot;b&quot;, &quot;Bob&quot;, 36), </span><br><span class="line">  (&quot;c&quot;, &quot;Charlie&quot;, 30), </span><br><span class="line">  (&quot;d&quot;, &quot;David&quot;, 29), </span><br><span class="line">  (&quot;e&quot;, &quot;Esther&quot;, 32), </span><br><span class="line">  (&quot;f&quot;, &quot;Fanny&quot;, 36), </span><br><span class="line">  (&quot;g&quot;, &quot;Gabby&quot;, 60) </span><br><span class="line">], [&quot;id&quot;, &quot;name&quot;, &quot;age&quot;])</span><br><span class="line"> # Edge DataFrame</span><br><span class="line"> e &#x3D; sqlContext.createDataFrame([</span><br><span class="line">  (&quot;a&quot;, &quot;b&quot;, &quot;friend&quot;), </span><br><span class="line">  (&quot;b&quot;, &quot;c&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;c&quot;, &quot;b&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;f&quot;, &quot;c&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;e&quot;, &quot;f&quot;, &quot;follow&quot;), </span><br><span class="line">  (&quot;e&quot;, &quot;d&quot;, &quot;friend&quot;), </span><br><span class="line">  (&quot;d&quot;, &quot;a&quot;, &quot;friend&quot;), </span><br><span class="line">  (&quot;a&quot;, &quot;e&quot;, &quot;friend&quot;) </span><br><span class="line">], [&quot;src&quot;, &quot;dst&quot;, &quot;relationship&quot;])</span><br><span class="line"> # Create a GraphFrame</span><br><span class="line">g &#x3D; GraphFrame(v, e)</span><br></pre></td></tr></table></figure>
+<p>上面创建的GraohFrame可以在下面的包中找到 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()</span><br></pre></td></tr></table></figure>
+<h3 id="基本的图和DataFrame查询"><a href="#基本的图和DataFrame查询" class="headerlink" title="基本的图和DataFrame查询"></a>基本的图和DataFrame查询</h3><p>GraphFrames提供了多种简单的图查询，如顶点的度。顶点的DataFrame和边的DataFrame可以在GraohFrame的vertice和edges属性中获取。<br>Scala代码 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Display the vertex and edge DataFrames</span><br><span class="line">g.vertices.show()</span><br><span class="line">&#x2F;&#x2F; +--+-------+---+</span><br><span class="line">&#x2F;&#x2F; |id|   name|age| </span><br><span class="line">&#x2F;&#x2F; +--+-------+---+</span><br><span class="line">&#x2F;&#x2F; | a|  Alice| 34| </span><br><span class="line">&#x2F;&#x2F; | b|    Bob| 36| </span><br><span class="line">&#x2F;&#x2F; | c|Charlie| 30|</span><br><span class="line">&#x2F;&#x2F; | d|  David| 29| </span><br><span class="line">&#x2F;&#x2F; | e| Esther| 32|</span><br><span class="line">&#x2F;&#x2F; | f|  Fanny| 36| </span><br><span class="line">&#x2F;&#x2F; | g|  Gabby| 60| </span><br><span class="line">&#x2F;&#x2F; +--+-------+---+</span><br><span class="line">g.edges.show()</span><br><span class="line">&#x2F;&#x2F; +---+---+------------+</span><br><span class="line">&#x2F;&#x2F; |src|dst|relationship|</span><br><span class="line">&#x2F;&#x2F; +---+---+------------+</span><br><span class="line">&#x2F;&#x2F; |  a|  b|      friend| </span><br><span class="line">&#x2F;&#x2F; |  b|  c|      follow| </span><br><span class="line">&#x2F;&#x2F; |  c|  b|      follow| </span><br><span class="line">&#x2F;&#x2F; |  f|  c|      follow| </span><br><span class="line">&#x2F;&#x2F; |  e|  f|      follow| </span><br><span class="line">&#x2F;&#x2F; |  e|  d|      friend| </span><br><span class="line">&#x2F;&#x2F; |  d|  a|      friend| </span><br><span class="line">&#x2F;&#x2F; |  a|  e|      friend| </span><br><span class="line">&#x2F;&#x2F; +---+---+------------+</span><br><span class="line">&#x2F;&#x2F; import Spark SQL package</span><br><span class="line">import org.apache.spark.sql.DataFrame</span><br><span class="line">&#x2F;&#x2F; Get a DataFrame with columns &quot;id&quot; and &quot;inDeg&quot; (in-degree)</span><br><span class="line">val vertexInDegrees: DataFrame &#x3D; g.inDegrees</span><br><span class="line">&#x2F;&#x2F; Find the youngest user&#39;s age in the graph.</span><br><span class="line">&#x2F;&#x2F; This queries the vertex DataFrame.</span><br><span class="line">g.vertices.groupBy().min(&quot;age&quot;).show()</span><br><span class="line">&#x2F;&#x2F; Count the number of &quot;follows&quot; in the graph.</span><br><span class="line">&#x2F;&#x2F; This queries the edge DataFrame.</span><br><span class="line">val numFollows &#x3D; g.edges.filter(&quot;relationship &#x3D; &#39;follow&#39;&quot;).count()</span><br></pre></td></tr></table></figure>
+<p>Python代码： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Display the vertex and edge DataFrames</span><br><span class="line">g.vertices.show()</span><br><span class="line"> # +--+-------+---+</span><br><span class="line"> # |id|   name|age| </span><br><span class="line"> # +--+-------+---+</span><br><span class="line"> # | a|  Alice| 34| </span><br><span class="line"> # | b|    Bob| 36| </span><br><span class="line"> # | c|Charlie| 30|</span><br><span class="line"> # | d|  David| 29| </span><br><span class="line"> # | e| Esther| 32|</span><br><span class="line"> # | f|  Fanny| 36| </span><br><span class="line"> # | g|  Gabby| 60| </span><br><span class="line"> # +--+-------+---+</span><br><span class="line">g.edges.show()</span><br><span class="line"> # +---+---+------------+</span><br><span class="line"> # |src|dst|relationship|</span><br><span class="line"> # +---+---+------------+</span><br><span class="line"> # |  a|  b|      friend| </span><br><span class="line"> # |  b|  c|      follow| </span><br><span class="line"> # |  c|  b|      follow| </span><br><span class="line"> # |  f|  c|      follow| </span><br><span class="line"> # |  e|  f|      follow| </span><br><span class="line"> # |  e|  d|      friend| </span><br><span class="line"> # |  d|  a|      friend| </span><br><span class="line"> # |  a|  e|      friend| </span><br><span class="line"> # +---+---+------------+</span><br><span class="line"> # Get a DataFrame with columns &quot;id&quot; and &quot;inDegree&quot; (in-degree)</span><br><span class="line">vertexInDegrees &#x3D; g.inDegrees</span><br><span class="line"> # Find the youngest user&#39;s age in the graph.</span><br><span class="line"> # This queries the vertex DataFrame.</span><br><span class="line">g.vertices.groupBy().min(&quot;age&quot;).show()</span><br><span class="line"> # Count the number of &quot;follows&quot; in the graph.</span><br><span class="line"> # This queries the edge DataFrame.</span><br><span class="line">numFollows &#x3D; g.edges.filter(&quot;relationship &#x3D; &#39;follow&#39;&quot;).count()</span><br></pre></td></tr></table></figure>
+<h3 id="模式查询"><a href="#模式查询" class="headerlink" title="模式查询"></a>模式查询</h3><p>表示在一个图中搜寻指定的结构样式 。</p>
+<p>GraphFrame的模式查询使用一种简单Domain-Specific Language (DSL)表示结构查询。 例如，raph.find(“(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)”)查询一对双向互通的顶点，返回一个DataFrame，包含图中所有这种结构，列名就是表达式中的元素名称，在这个例子中，返回的列名是”a, b, e, e2.”。</p>
+<p>DSL表达式： 模式中最基本的单元是边，例如”(a)-[e]-&gt;(b)”表示一个从顶点a到顶点b的边e，顶点使用圆括号（a）表示，边使用方括号[e]表示。 一个表达式可以由一系列的边表示，用分号隔开，例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示a到b到c的两条边 在一个表达式中，边和顶点的名称是可以指定的，例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示边e的终点和边e2的起点’b’是相同的。这样命名有两个目的： </p>
+<ul>
+<li>可以区分边之间的元素，例如例如”(a)-[e]-&gt;(b); (b)-[e2]-&gt;(c)”表示边e的终点和边e2的起点’b’是相同的 </li>
+<li>用于结果中的一列的列名<br>要知道不同的表名可能表示相同的顶点，例如，中的’a’和’c’可能表示相同的顶点。省略不需要的顶点和边的名称也是可以的，例如表示’a，b’之间的边，但是不用命名，结果中不会显示该列，被称为匿名的边和列。表达式中的边可以使用否定来表示这条边不会在图中出现，例如查找’a’到’b’但是’b’到不了’a’的边。规定： </li>
+<li>不允许出现不包含任何元素名称的模式表达式出现，例如”()-[]-&gt;()”、”!()-[]-&gt;()” </li>
+<li>被命名的边中不允许包含被排除的顶点名称，例如”!(a)-[ab]-&gt;(b)”是非法的，”!(a)-[]-&gt;(b)”是合法的<br>更多复杂的查询，例如对顶点或者边属性的操作可以使用表达式对结果的DataFrame进行过滤<br>Scala代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Search for pairs of vertices with edges in both directions between them.</span><br><span class="line">val motifs: GraphFrame &#x3D; g.find(&quot;(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)&quot;)</span><br><span class="line">motifs.show()</span><br><span class="line">&#x2F;&#x2F; More complex queries can be expressed by applying filters.</span><br><span class="line">motifs.filter(&quot;b.age &gt; 30&quot;).show()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Search for pairs of vertices with edges in both directions between them.</span><br><span class="line">motifs &#x3D; g.find(&quot;(a)-[e]-&gt;(b); (b)-[e2]-&gt;(a)&quot;)</span><br><span class="line">motifs.show()</span><br><span class="line"> # More complex queries can be expressed by applying filters.</span><br><span class="line">motifs.filter(&quot;b.age &gt; 30&quot;).show()</span><br></pre></td></tr></table></figure>
+许多的模式查询都是非常简单的，就如上面的出现的一样，下面的这些携带状态的例子更加复杂，这样的查询可以结合GraphFrame的模式查找和结果过滤，对结果中的列使用表达式操作进行过滤。<br>Scala代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.Column</span><br><span class="line">import org.apache.spark.sql.functions.&#123;col, when&#125;</span><br><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Find chains of 4 vertices.</span><br><span class="line">val chain4 &#x3D; g.find(&quot;(a)-[ab]-&gt;(b); (b)-[bc]-&gt;(c); (c)-[cd]-&gt;(d)&quot;)</span><br><span class="line">&#x2F;&#x2F; Query on sequence, with state (cnt)</span><br><span class="line">&#x2F;&#x2F;  (a) Define method for updating state given the next element of the motif. </span><br><span class="line">def sumFriends(cnt: Column, relationship: Column): Column &#x3D; &#123;</span><br><span class="line">  when(relationship &#x3D;&#x3D;&#x3D; &quot;friend&quot;, cnt + 1).otherwise(cnt) </span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;  (b) Use sequence operation to apply method to sequence of elements in motif. </span><br><span class="line">&#x2F;&#x2F;      In this case, the elements are the 3 edges. </span><br><span class="line">val condition &#x3D; &#123; Seq(&quot;ab&quot;, &quot;bc&quot;, &quot;cd&quot;)</span><br><span class="line">  .foldLeft(lit(0))((cnt, e) &#x3D;&gt; sumFriends(cnt, col(e)(&quot;relationship&quot;))) &#125; </span><br><span class="line">&#x2F;&#x2F;  (c) Apply filter to DataFrame. </span><br><span class="line">val chainWith2Friends2 &#x3D; chain4.where(condition &gt;&#x3D; 2)</span><br><span class="line">chainWith2Friends2.show()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from pyspark.sql.functions import col, lit, when</span><br><span class="line">from pyspark.sql.types import IntegerType</span><br><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line">chain4 &#x3D; g.find(&quot;(a)-[ab]-&gt;(b); (b)-[bc]-&gt;(c); (c)-[cd]-&gt;(d)&quot;)</span><br><span class="line"># Query on sequence, with state (cnt)</span><br><span class="line">#  (a) Define method for updating state given the next element of the motif. </span><br><span class="line">sumFriends &#x3D; lambda cnt,relationship: when(relationship &#x3D;&#x3D; &quot;friend&quot;, cnt+1).otherwise(cnt) </span><br><span class="line">#  (b) Use sequence operation to apply method to sequence of elements in motif. </span><br><span class="line">#      In this case, the elements are the 3 edges. </span><br><span class="line">condition &#x3D; reduce(lambda cnt,e: sumFriends(cnt, col(e).relationship), [&quot;ab&quot;, &quot;bc&quot;, &quot;cd&quot;], lit(0)) </span><br><span class="line">#  (c) Apply filter to DataFrame. </span><br><span class="line">chainWith2Friends2 &#x3D; chain4.where(condition &gt;&#x3D; 2)</span><br><span class="line">chainWith2Friends2.show()</span><br></pre></td></tr></table></figure>
+上面这个例子是查找一个固定长度的链，显然，想要查询变量定义的这种模式，用户需要查询每一条可能的路线，然而上面的固定长度查询模式允许用户重复使用相同的代码，只需要更新模式识别中的元素 如（’ab’，’bc’，’cd’） <h3 id="子图"><a href="#子图" class="headerlink" title="子图"></a>子图</h3>在GraphX中，’subfraph‘方法接受一个边的triplet，允许用户根据triplet和顶点选择一个子图。GraphFrames提供了一个更强大的方式，基于模式识别和DataFrame筛选结合，来选择子图，我们提供了三个辅助的方法来辅助子图选择，<code>filterVertices(condition)</code>, <code>filterEdges(condition)</code>, and <code>dropIsolatedVertices()</code>.<br>简单的子图，基于顶点和边过滤。下面的列子展示了如何基于边和顶点过滤选择子图。<br>Scala代码：（0.6.0版本新增的API） <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends</span><br><span class="line">&#x2F;&#x2F; Select subgraph of users older than 30, and relationships of type &quot;friend&quot;.</span><br><span class="line">&#x2F;&#x2F; Drop isolated vertices (users) which are not contained in any edges (relationships).</span><br><span class="line">val g1 &#x3D; g.filterVertices(&quot;age &gt; 30&quot;).filterEdges(&quot;relationship &#x3D; &#39;friend&#39;&quot;).dropIsolatedVertices()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Select subgraph of users older than 30, and relationships of type &quot;friend&quot;.</span><br><span class="line"> # Drop isolated vertices (users) which are not contained in any edges (relationships).</span><br><span class="line">g1 &#x3D; g.filterVertices(&quot;age &gt; 30&quot;).filterEdges(&quot;relationship &#x3D; &#39;friend&#39;&quot;).dropIsolatedVertices()</span><br></pre></td></tr></table></figure>
+复杂的子图，基于triplet过滤。下面的这些例子展示了如何基于给出的triplet筛选一个子图，这个例子可以被扩展成除了triplet之外更复杂的模式查询<br>Scala代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Select subgraph based on edges &quot;e&quot; of type &quot;follow&quot;</span><br><span class="line">&#x2F;&#x2F; pointing from a younger user &quot;a&quot; to an older user &quot;b&quot;.</span><br><span class="line">val paths &#x3D; &#123; g.find(&quot;(a)-[e]-&gt;(b)&quot;)</span><br><span class="line">  .filter(&quot;e.relationship &#x3D; &#39;follow&#39;&quot;) </span><br><span class="line">  .filter(&quot;a.age &lt; b.age&quot;) &#125; </span><br><span class="line">&#x2F;&#x2F; &quot;paths&quot; contains vertex info. Extract the edges.</span><br><span class="line">val e2 &#x3D; paths.select(&quot;e.src&quot;, &quot;e.dst&quot;, &quot;e.relationship&quot;)</span><br><span class="line">&#x2F;&#x2F; In Spark 1.5+, the user may simplify this call:</span><br><span class="line">&#x2F;&#x2F;  val e2 &#x3D; paths.select(&quot;e.*&quot;) </span><br><span class="line">&#x2F;&#x2F; Construct the subgraph</span><br><span class="line">val g2 &#x3D; GraphFrame(g.vertices, e2)</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Select subgraph based on edges &quot;e&quot; of type &quot;follow&quot;</span><br><span class="line"> # pointing from a younger user &quot;a&quot; to an older user &quot;b&quot;.</span><br><span class="line">paths &#x3D; g.find(&quot;(a)-[e]-&gt;(b)&quot;)\</span><br><span class="line">  .filter(&quot;e.relationship &#x3D; &#39;follow&#39;&quot;)\ </span><br><span class="line">  .filter(&quot;a.age &lt; b.age&quot;) </span><br><span class="line"> # &quot;paths&quot; contains vertex info. Extract the edges.</span><br><span class="line">e2 &#x3D; paths.select(&quot;e.src&quot;, &quot;e.dst&quot;, &quot;e.relationship&quot;)</span><br><span class="line"> # In Spark 1.5+, the user may simplify this call:</span><br><span class="line"> #  val e2 &#x3D; paths.select(&quot;e.*&quot;) </span><br><span class="line"> # Construct the subgraph</span><br><span class="line">g2 &#x3D; GraphFrame(g.vertices, e2)</span><br></pre></td></tr></table></figure>
+<h3 id="图算法"><a href="#图算法" class="headerlink" title="图算法"></a>图算法</h3>GraphFrames提供了和Graphx一样的一套标准的图算法，或许可能更多一些，我们提供了简短的介绍和代码片段。目前一些算法是基于GraphX封装实现的，所以可能没有Graphx的扩展性高，在未来更多的算法将基于GraphFrames自身实现。</li>
+<li>BFS算法<br>BFS算法查找从一个或者多个顶点到另一个或者多个顶点的最短路径，起始点和终点在表达式中被指定。下面的代码段使用bfs算法查找名称为Esther的顶点到年龄小于32的一系列顶点的最短路径。<br>Scala代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Search from &quot;Esther&quot; for users of age &lt; 32.</span><br><span class="line">val paths &#x3D; g.bfs.fromExpr(&quot;name &#x3D; &#39;Esther&#39;&quot;).toExpr(&quot;age &lt; 32&quot;).run()</span><br><span class="line">paths.show()</span><br><span class="line">&#x2F;&#x2F; Specify edge filters or max path lengths.</span><br><span class="line">&#123; g.bfs.fromExpr(&quot;name &#x3D; &#39;Esther&#39;&quot;).toExpr(&quot;age &lt; 32&quot;)</span><br><span class="line">  .edgeFilter(&quot;relationship !&#x3D; &#39;friend&#39;&quot;) </span><br><span class="line">  .maxPathLength(3).run() &#125;</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Search from &quot;Esther&quot; for users of age &lt; 32.</span><br><span class="line">paths &#x3D; g.bfs(&quot;name &#x3D; &#39;Esther&#39;&quot;, &quot;age &lt; 32&quot;)</span><br><span class="line">paths.show()</span><br><span class="line"> # Specify edge filters or max path lengths.</span><br><span class="line">g.bfs(&quot;name &#x3D; &#39;Esther&#39;&quot;, &quot;age &lt; 32&quot;,\</span><br><span class="line">edgeFilter&#x3D;&quot;relationship !&#x3D; &#39;friend&#39;&quot;, maxPathLength&#x3D;3)</span><br></pre></td></tr></table></figure>
+<h3 id="连通图"><a href="#连通图" class="headerlink" title="连通图"></a>连通图</h3>对每一个顶点计算联通图的成员，返回一个返回一个图，图中的所有的顶点被赋予一个连通ID 。<br>注释：在GraphFrames0.3.0及其之后版本，默认的连通图算法要求设置一个spark检查点目录。用户可以通过设置connectedComponents.setAlgorithm(“graphx”)使用就的算法。<br>Scala代码 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">val result &#x3D; g.connectedComponents.run()</span><br><span class="line">result.select(&quot;id&quot;, &quot;component&quot;).orderBy(&quot;component&quot;).show()</span><br><span class="line">For API details, refer to the [API docs](api&#x2F;python&#x2F;graphframes.html#graphframes.GraphFrame.connectedComponents).</span><br></pre></td></tr></table></figure>
+PYthon代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line">result &#x3D; g.connectedComponents()</span><br><span class="line">result.select(&quot;id&quot;, &quot;component&quot;).orderBy(&quot;component&quot;).show()</span><br></pre></td></tr></table></figure>
+<h3 id="强连通图"><a href="#强连通图" class="headerlink" title="强连通图"></a>强连通图</h3><h3 id="Strongly-connected-components"><a href="#Strongly-connected-components" class="headerlink" title="Strongly connected components"></a>Strongly connected components</h3>计算每个顶点所属的强连通图，返回图中的每个顶点，顶点被赋予强连通图的ID 。<br>Scala代码 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">val result &#x3D; g.stronglyConnectedComponents.maxIter(10).run()</span><br><span class="line">result.select(&quot;id&quot;, &quot;component&quot;).orderBy(&quot;component&quot;).show()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line">result &#x3D; g.stronglyConnectedComponents(maxIter&#x3D;10)</span><br><span class="line">result.select(&quot;id&quot;, &quot;component&quot;).orderBy(&quot;component&quot;).show()</span><br></pre></td></tr></table></figure>
+<h3 id="标签传播算法"><a href="#标签传播算法" class="headerlink" title="标签传播算法"></a>标签传播算法</h3><h2 id="Label-Propagation-Algorithm-LPA"><a href="#Label-Propagation-Algorithm-LPA" class="headerlink" title="Label Propagation Algorithm (LPA)"></a>Label Propagation Algorithm (LPA)</h2>在网络中运行一个静态的LPA算法去探测社交关系，网络中的每个节点初始被赋予自己的社交圈，在每一步中，节点发送各自的社交圈给所有的相邻节点，更新他们的社交圈。<br>LPA是一个标准的图社交探测算法。它是非常廉价的由于（1）收敛性是不保证的（2）可以以无关紧要的结果结束。<br>Scala代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">val result &#x3D; g.labelPropagation.maxIter(5).run()</span><br><span class="line">result.select(&quot;id&quot;, &quot;label&quot;).show()</span><br></pre></td></tr></table></figure>
+Python代码 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line">result &#x3D; g.labelPropagation(maxIter&#x3D;5)</span><br><span class="line">result.select(&quot;id&quot;, &quot;label&quot;).show()</span><br></pre></td></tr></table></figure>
+<h3 id="PageRank"><a href="#PageRank" class="headerlink" title="PageRank"></a>PageRank</h3>有两种实现方法:</li>
+<li>第一种使用org.apache.spark.graphx.graph接口的aggregateMessage方法运行固定次数的迭代来实现，可以设置迭代次数。</li>
+<li>第二种实现使用接口org.apache.spark.graphx.Pregel运行直到收敛，可以设置容忍度<br>两种实现都支持自定义或非自定义的PageRank。<br>Scala代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Run PageRank until convergence to tolerance &quot;tol&quot;.</span><br><span class="line">val results &#x3D; g.pageRank.resetProbability(0.15).tol(0.01).run()</span><br><span class="line">&#x2F;&#x2F; Display resulting pageranks and final edge weights</span><br><span class="line">&#x2F;&#x2F; Note that the displayed pagerank may be truncated, e.g., missing the E notation.</span><br><span class="line">&#x2F;&#x2F; In Spark 1.5+, you can use show(truncate&#x3D;false) to avoid truncation.</span><br><span class="line">results.vertices.select(&quot;id&quot;, &quot;pagerank&quot;).show()</span><br><span class="line">results.edges.select(&quot;src&quot;, &quot;dst&quot;, &quot;weight&quot;).show()</span><br><span class="line">&#x2F;&#x2F; Run PageRank for a fixed number of iterations.</span><br><span class="line">val results2 &#x3D; g.pageRank.resetProbability(0.15).maxIter(10).run()</span><br><span class="line">&#x2F;&#x2F; Run PageRank personalized for vertex &quot;a&quot;</span><br><span class="line">val results3 &#x3D; g.pageRank.resetProbability(0.15).maxIter(10).sourceId(&quot;a&quot;).run()</span><br><span class="line">&#x2F;&#x2F; Run PageRank personalized for vertex [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;] in parallel</span><br><span class="line">val results3 &#x3D; g.parallelPersonalizedPageRank.resetProbability(0.15).maxIter(10).sourceIds(Array(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;)).run()</span><br></pre></td></tr></table></figure>
+Python代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Run PageRank until convergence to tolerance &quot;tol&quot;.</span><br><span class="line">results &#x3D; g.pageRank(resetProbability&#x3D;0.15, tol&#x3D;0.01)</span><br><span class="line"> # Display resulting pageranks and final edge weights</span><br><span class="line"> # Note that the displayed pagerank may be truncated, e.g., missing the E notation.</span><br><span class="line"> # In Spark 1.5+, you can use show(truncate&#x3D;False) to avoid truncation.</span><br><span class="line">results.vertices.select(&quot;id&quot;, &quot;pagerank&quot;).show()</span><br><span class="line">results.edges.select(&quot;src&quot;, &quot;dst&quot;, &quot;weight&quot;).show()</span><br><span class="line"> # Run PageRank for a fixed number of iterations.</span><br><span class="line">results2 &#x3D; g.pageRank(resetProbability&#x3D;0.15, maxIter&#x3D;10)</span><br><span class="line"> # Run PageRank personalized for vertex &quot;a&quot;</span><br><span class="line">results3 &#x3D; g.pageRank(resetProbability&#x3D;0.15, maxIter&#x3D;10, sourceId&#x3D;&quot;a&quot;)</span><br><span class="line"> # Run PageRank personalized for vertex [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;] in parallel</span><br><span class="line">results4 &#x3D; g.parallelPersonalizedPageRank(resetProbability&#x3D;0.15, sourceIds&#x3D;[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;], maxIter&#x3D;10)</span><br></pre></td></tr></table></figure>
+<h3 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h3><h2 id="Shortest-paths"><a href="#Shortest-paths" class="headerlink" title="Shortest paths"></a>Shortest paths</h2>计算给出的顶点之间的最短路径。<br>Scala代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">val results &#x3D; g.shortestPaths.landmarks(Seq(&quot;a&quot;, &quot;d&quot;)).run()</span><br><span class="line">results.select(&quot;id&quot;, &quot;distances&quot;).show()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line">results &#x3D; g.shortestPaths(landmarks&#x3D;[&quot;a&quot;, &quot;d&quot;])</span><br><span class="line">results.select(&quot;id&quot;, &quot;distances&quot;).show()</span><br></pre></td></tr></table></figure>
+<h3 id="三角形计数"><a href="#三角形计数" class="headerlink" title="三角形计数"></a>三角形计数</h3><h2 id="Triangle-count"><a href="#Triangle-count" class="headerlink" title="Triangle count"></a>Triangle count</h2>计算通过每个顶点的三角形的个数。<br>Scala代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">val results &#x3D; g.triangleCount.run()</span><br><span class="line">results.select(&quot;id&quot;, &quot;count&quot;).show()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line">results &#x3D; g.triangleCount()</span><br><span class="line">results.select(&quot;id&quot;, &quot;count&quot;).show()</span><br></pre></td></tr></table></figure>
+<h3 id="保存和加载GraphFrames"><a href="#保存和加载GraphFrames" class="headerlink" title="保存和加载GraphFrames"></a>保存和加载GraphFrames</h3><h1 id="Saving-and-loading-GraphFrames"><a href="#Saving-and-loading-GraphFrames" class="headerlink" title="Saving and loading GraphFrames"></a>Saving and loading GraphFrames</h1>由于GraphFrames是DataFrame创建的，自然就支持从相同的数据源保存和加载。下面的例子展示如何保存和加载一个图<br>Scala代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Save vertices and edges as Parquet to some location.</span><br><span class="line">g.vertices.write.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;vertices&quot;)</span><br><span class="line">g.edges.write.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;edges&quot;)</span><br><span class="line">&#x2F;&#x2F; Load the vertices and edges back.</span><br><span class="line">val sameV &#x3D; sqlContext.read.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;vertices&quot;)</span><br><span class="line">val sameE &#x3D; sqlContext.read.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;edges&quot;)</span><br><span class="line">&#x2F;&#x2F; Create an identical GraphFrame.</span><br><span class="line">val sameG &#x3D; GraphFrame(sameV, sameE)</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # Save vertices and edges as Parquet to some location.</span><br><span class="line">g.vertices.write.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;vertices&quot;)</span><br><span class="line">g.edges.write.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;edges&quot;)</span><br><span class="line"> # Load the vertices and edges back.</span><br><span class="line">sameV &#x3D; sqlContext.read.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;vertices&quot;)</span><br><span class="line">sameE &#x3D; sqlContext.read.parquet(&quot;hdfs:&#x2F;&#x2F;myLocation&#x2F;edges&quot;)</span><br><span class="line"> # Create an identical GraphFrame.</span><br><span class="line">sameG &#x3D; GraphFrame(sameV, sameE)</span><br></pre></td></tr></table></figure>
+<h3 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h3><h1 id="Message-passing-via-AggregateMessages"><a href="#Message-passing-via-AggregateMessages" class="headerlink" title="Message passing via AggregateMessages"></a>Message passing via AggregateMessages</h1>像GraphX一样，GraphFrames提供了开发图算法的能力，两个关键的组件如下： </li>
+</ul>
+<ul>
+<li><code>aggregateMessages</code>: Send messages between vertices, and aggregate messages for each vertex.<br>GraphFrames provides a native <code>aggregateMessages</code> method implemented using DataFrame operations.<br>This may be used analogously to the GraphX API。</li>
+<li>joins: Join message aggregates with the original graph。<br>下面的代码段展示了如何使用<code>aggregateMessages</code> 计算关联用户的年龄总和<br>Scala代码 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">import org.graphframes.lib.AggregateMessages</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; We will use AggregateMessages utilities later, so name it &quot;AM&quot; for short.</span><br><span class="line">val AM &#x3D; AggregateMessages</span><br><span class="line">&#x2F;&#x2F; For each user, sum the ages of the adjacent users.</span><br><span class="line">val msgToSrc &#x3D; AM.dst(&quot;age&quot;)</span><br><span class="line">val msgToDst &#x3D; AM.src(&quot;age&quot;)</span><br><span class="line">val agg &#x3D; &#123; g.aggregateMessages</span><br><span class="line">  .sendToSrc(msgToSrc)  &#x2F;&#x2F; send destination user&#39;s age to source </span><br><span class="line">  .sendToDst(msgToDst)  &#x2F;&#x2F; send source user&#39;s age to destination </span><br><span class="line">  .agg(sum(AM.msg).as(&quot;summedAges&quot;)) &#125; &#x2F;&#x2F; sum up ages, stored in AM.msg column </span><br><span class="line">agg.show()</span><br></pre></td></tr></table></figure>
+Python代码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from pyspark.sql.functions import sum as sqlsum</span><br><span class="line">from graphframes.lib import AggregateMessages as AM</span><br><span class="line">from graphframes.examples import Graphs</span><br><span class="line">g &#x3D; Graphs(sqlContext).friends()  # Get example graph </span><br><span class="line"> # For each user, sum the ages of the adjacent users.</span><br><span class="line">msgToSrc &#x3D; AM.dst[&quot;age&quot;]</span><br><span class="line">msgToDst &#x3D; AM.src[&quot;age&quot;]</span><br><span class="line">agg &#x3D; g.aggregateMessages(</span><br><span class="line">    sqlsum(AM.msg).alias(&quot;summedAges&quot;), </span><br><span class="line">    sendToSrc&#x3D;msgToSrc, </span><br><span class="line">    sendToDst&#x3D;msgToDst) </span><br><span class="line">agg.show()</span><br></pre></td></tr></table></figure>
+<h3 id="GraphX-to-GraphFrame"><a href="#GraphX-to-GraphFrame" class="headerlink" title="GraphX to GraphFrame"></a>GraphX to GraphFrame</h3>GraphFrame提供了两种转换方法。<br>第一种方法是将GrphX的图中的顶点和边的RDD转换成DataFrame，然后穿件GraphFrame<br>第二种转换方案更加复杂。<br>Scala代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.graphx.Graph</span><br><span class="line">import org.apache.spark.sql.Row</span><br><span class="line">import org.graphframes.&#123;examples,GraphFrame&#125;</span><br><span class="line">val g: GraphFrame &#x3D; examples.Graphs.friends  &#x2F;&#x2F; get example graph </span><br><span class="line">&#x2F;&#x2F; Convert to GraphX</span><br><span class="line">val gx: Graph[Row, Row] &#x3D; g.toGraphX</span><br><span class="line">&#x2F;&#x2F; Convert back to GraphFrame.</span><br><span class="line">&#x2F;&#x2F; Note that the schema is changed because of constraints in the GraphX API.</span><br><span class="line">val g2: GraphFrame &#x3D; GraphFrame.fromGraphX(gx)</span><br><span class="line">这些转换仅仅支持Scala因为GraphX没有Python的API </span><br><span class="line">These conversions are only supported in Scala since GraphX does not have a Python API.</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    dongfeiliu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://liudongfei.github.io/2021/02/26/7-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="Graphframe基础—使用手册">https://liudongfei.github.io/2021/02/26/7-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/Graphframe/Graphframe%E5%9F%BA%E7%A1%80%E2%80%94%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Airflow/Airflow%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/" rel="next" title="Airflow基础—安装">
+                <i class="fa fa-chevron-left"></i> Airflow基础—安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Dubbo/00Dubbo%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="prev" title="4-微服务技术/Dubbo/00Dubbo基础—知识图谱">
+                4-微服务技术/Dubbo/00Dubbo基础—知识图谱 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">dongfeiliu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">142</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建GraphFrames"><span class="nav-number">1.</span> <span class="nav-text">创建GraphFrames</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本的图和DataFrame查询"><span class="nav-number">2.</span> <span class="nav-text">基本的图和DataFrame查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模式查询"><span class="nav-number">3.</span> <span class="nav-text">模式查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子图"><span class="nav-number">4.</span> <span class="nav-text">子图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图算法"><span class="nav-number">5.</span> <span class="nav-text">图算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连通图"><span class="nav-number">6.</span> <span class="nav-text">连通图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强连通图"><span class="nav-number">7.</span> <span class="nav-text">强连通图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Strongly-connected-components"><span class="nav-number">8.</span> <span class="nav-text">Strongly connected components</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签传播算法"><span class="nav-number">9.</span> <span class="nav-text">标签传播算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label-Propagation-Algorithm-LPA"><span class="nav-number"></span> <span class="nav-text">Label Propagation Algorithm (LPA)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PageRank"><span class="nav-number">1.</span> <span class="nav-text">PageRank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最短路径"><span class="nav-number">2.</span> <span class="nav-text">最短路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shortest-paths"><span class="nav-number"></span> <span class="nav-text">Shortest paths</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三角形计数"><span class="nav-number">1.</span> <span class="nav-text">三角形计数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Triangle-count"><span class="nav-number"></span> <span class="nav-text">Triangle count</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#保存和加载GraphFrames"><span class="nav-number">1.</span> <span class="nav-text">保存和加载GraphFrames</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Saving-and-loading-GraphFrames"><span class="nav-number"></span> <span class="nav-text">Saving and loading GraphFrames</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息传递"><span class="nav-number">1.</span> <span class="nav-text">消息传递</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Message-passing-via-AggregateMessages"><span class="nav-number"></span> <span class="nav-text">Message passing via AggregateMessages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GraphX-to-GraphFrame"><span class="nav-number">1.</span> <span class="nav-text">GraphX to GraphFrame</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dongfeiliu</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
