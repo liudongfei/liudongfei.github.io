@@ -282,6 +282,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/01/06/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E2%80%94%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/01/06/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E2%80%94%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="url">Mysql—常见坑与解决方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:04+08:00">
+                2022-01-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-01-06T10:43:28+08:00">
+                2022-01-06
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>问题现象：日志中出现World-writable config file ‘/etc/mysql/my.cnf’ is ignored。<br> 问题本质：mysql配置文件不生效。<br> 解决方法：mysql配置文件权限过大777，任何用户都可修改。</p>
+<pre><code>使用`chmod 644 /etc/mysql/my.cnf`修改文件权限即可。</code></pre></li>
+<li><p>问题现象：mysql 1346错误，更新表记录报 “Field doesn’t have a default value” 错误。<br> 问题本质：mysql5.7版本以后默认增加了mysql的严格模式，在更新时会默认加入所有字段，严格模式定义即</p>
+<pre><code>sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;中的STRICT_TRANS_TABLES。</code></pre><p> 解决方法：修改sql-mode，修改为</p>
+<pre><code>sql-mode=&quot;NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;</code></pre></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/12/11/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E9%AB%98%E7%BA%A7%E2%80%94DockerCompose%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1048,160 +1208,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/" itemprop="url">Java核心—IO流</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/04Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1361,7 +1367,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1380,7 +1386,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">Java核心—并发编程</a></h1>
+                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/" itemprop="url">Java核心—IO流</a></h1>
         
 
         <div class="post-meta">
@@ -1408,8 +1414,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2021-03-12T16:49:29+08:00">
-                2021-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
               </time>
             
           </span>
@@ -1465,20 +1471,10 @@
 
       
         
-          <h2 id="并发编程知识图谱"><a href="#并发编程知识图谱" class="headerlink" title="并发编程知识图谱"></a>并发编程知识图谱</h2><p><img src="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15896137574903.jpg" alt></p>
-<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p>线程的生命周期有如下几个阶段：</p>
-<ul>
-<li>新建(New)</li>
-<li>就绪(Runnable)</li>
-<li>运行(Running)</li>
-<li>阻塞(Blocked)</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>// 正在整理中</p>
+
+          
         
       
     </div>
@@ -1683,7 +1679,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/07Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1702,7 +1698,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/07Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url">Java核心—虚拟机</a></h1>
+                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">Java核心—并发编程</a></h1>
         
 
         <div class="post-meta">
@@ -1730,8 +1726,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
+              <time title="Post modified" itemprop="dateModified" datetime="2021-03-12T16:49:29+08:00">
+                2021-03-12
               </time>
             
           </span>
@@ -1787,10 +1783,16 @@
 
       
         
-          <h2 id="Java运行时内存区域"><a href="#Java运行时内存区域" class="headerlink" title="Java运行时内存区域"></a>Java运行时内存区域</h2><h3 id="JDK1-8之前："><a href="#JDK1-8之前：" class="headerlink" title="JDK1.8之前："></a>JDK1.8之前：</h3>
+          <h2 id="并发编程知识图谱"><a href="#并发编程知识图谱" class="headerlink" title="并发编程知识图谱"></a>并发编程知识图谱</h2><p><img src="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15896137574903.jpg" alt></p>
+<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p>线程的生命周期有如下几个阶段：</p>
+<ul>
+<li>新建(New)</li>
+<li>就绪(Runnable)</li>
+<li>运行(Running)</li>
+<li>阻塞(Blocked)</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/07Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1878,7 +1880,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-count">144</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1937,7 +1939,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
