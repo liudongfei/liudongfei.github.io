@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E9%98%9F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/" itemprop="url">数据结构—堆</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E9%98%9F%E5%88%97/" itemprop="url">数据结构—队列</a></h1>
         
 
         <div class="post-meta">
@@ -387,12 +387,8 @@
       
         
           
-            <h3 id="堆的简介"><a href="#堆的简介" class="headerlink" title="堆的简介"></a>堆的简介</h3><p>堆是一种比较特殊的数据结构，可以被看做一棵树的数组对象，具有以下的性质：</p>
-<ul>
-<li>堆中某个节点的值总是不大于或不小于其父节点的值；</li>
-<li>堆总是一棵完全二叉树。<br>将根节点最大的堆叫做最大堆或大根堆，根节点最小的堆叫做最小堆或小根堆。常见的堆有二叉堆、斐波那契堆等。</li>
-</ul>
-<p>堆的定义如下：n个元素的序列{k1,k2,ki,…,kn}当且仅当满足下关系时，称之为堆。<br>(ki &lt;= k2i,ki &lt;= k2i+1)或者(ki &gt;= k2i,ki &gt;= k2i+1), (i = 1,2,3,4…n/2)，满足前者的表达式的成为小顶堆，满足后者表达式的为大顶堆，这两者的结构图可以用完全二叉树排列出来，示例图如下：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%A0%86/15881699518809.jpg" alt="-w953"><br>因为堆有序的特点，一般用来做数组中的排序，称为堆排序。</p>
+            <h3 id="队列的简介"><a href="#队列的简介" class="headerlink" title="队列的简介"></a>队列的简介</h3><p>队列与栈一样，也是一种线性表，不同的是队列可以在一端添加元素，在另一端取出元素，也就是：先进先出。从一端放入元素的操作称为入队，取出元素为出队。</p>
+<p>根据线性表可以分为顺序表和链表的特点，队列可以分为顺序队列和链队列。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E9%98%9F%E5%88%97/15881706818953.jpg" alt="-w473"><br><strong>适用场景</strong><br>因为队列先进先出的特点，在多线程阻塞队列管理中非常适用。</p>
 
           
         
@@ -441,7 +437,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%9B%BE/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -460,7 +456,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%9B%BE/" itemprop="url">数据结构—图</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/" itemprop="url">算法—倒排索引</a></h1>
         
 
         <div class="post-meta">
@@ -546,8 +542,37 @@
       
         
           
-            <h3 id="图的简介"><a href="#图的简介" class="headerlink" title="图的简介"></a>图的简介</h3><p>图是由结点的有穷集合V和边的集合E组成。其中，为了与树形结构加以区别，在图结构中常常将结点称为顶点，边是顶点的有序偶对，若两个顶点之间存在一条边，就表示这两个顶点具有相邻关系。</p>
-<p>按照顶点指向的方向可分为无向图和有向图：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%9B%BE/15881700760403.jpg" alt><br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E5%9B%BE/15881700840797.jpg" alt><br>图是一种比较复杂的数据结构，在存储数据上有着比较复杂和高效的算法，分别有邻接矩阵 、邻接表、十字链表、邻接多重表、边集数组等存储结构，这里不做展开，读者有兴趣可以自己学习深入。</p>
+            <p>在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合（实际上在搜索引擎索引库中，关键词也已经转换为关键词ID）。例如“文档1”经过分词，提取了20个关键词，每个关键词都会记录它在文档中的出现次数和出现位置。结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">“文档1”的ID &gt; 单词1：出现次数，出现位置列表；单词2：出现次数，出现位置列表；…………。</span><br><span class="line">“文档2”的ID &gt; 此文档出现的关键词列表。</span><br></pre></td></tr></table></figure>
+<p>这样的结构是正向索引。</p>
+<p>当用户在主页上搜索关键词“华为手机”时，假设只存在正向索引，那么就需要扫描索引库中的所有文档，找出所有包含关键词“华为手机”的文档，再根据打分模型进行打分，排出名次后呈现给用户。因为互联网上收录在搜索引擎中的文档的数目是个天文数字，这样的索引结构根本无法满足实时返回排名结果的要求。所以，搜索引擎会将正向索引重新构建为倒排索引，即把文件ID对应到关键词的映射转换为关键词到文件ID的映射，每个关键词都对应着一系列的文件，这些文件中都出现这个关键词。结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">“关键词1” &gt; “文档1”的ID，“文档2”的ID，…………。</span><br><span class="line">“关键词2” &gt; 带有此关键词的文档ID列表。</span><br></pre></td></tr></table></figure>
+<p>这样的结构就是倒排索引。</p>
+<h3 id="单词——文档矩阵"><a href="#单词——文档矩阵" class="headerlink" title="单词——文档矩阵"></a>单词——文档矩阵</h3><p>单词-文档矩阵是表达两者之间所具有的一种包含关系的概念模型，下图的每列代表一个文档，每行代表一个单词，打对勾的位置代表包含关系。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897844586829.png" alt><br>从纵向即文档这个维度来看，每列代表文档包含了哪些单词，比如文档1包含了词汇1和词汇4，而不包含其它单词。从横向即单词这个维度来看，每行代表了哪些文档包含了某个单词。比如对于词汇1来说，文档1和文档4中出现过单词1，而其它文档不包含词汇1。矩阵中其它的行列也可作此种解读。</p>
+<p>搜索引擎的索引其实就是实现“单词-文档矩阵”的具体数据结构。可以有不同的方式来实现上述概念模型，比如 “倒排索引”、“签名文件”、“后缀树”等方式。但是各项实验数据表明，“倒排索引”是实现单词到文档映射关系的最佳实现方式。</p>
+<h3 id="倒排索引基本概念"><a href="#倒排索引基本概念" class="headerlink" title="倒排索引基本概念"></a>倒排索引基本概念</h3><ul>
+<li>文档(Document)：一般搜索引擎的处理对象是互联网网页，而文档这个概念要更宽泛些，代表以文本形式存在的存储对象，相比网页来说，涵盖更多种形式，比如Word，PDF，html，XML等不同格式的文件都可以称之为文档。再比如一封邮件，一条短信，一条微博也可以称之为文档。在本书后续内容，很多情况下会使用文档来表征文本信息。</li>
+<li>文档集合(Document Collection)：由若干文档构成的集合称之为文档集合。比如海量的互联网网页或者说大量的电子邮件都是文档集合的具体例子。</li>
+<li>文档编号(Document ID)：在搜索引擎内部，会将文档集合内每个文档赋予一个唯一的内部编号，以此编号来作为这个文档的唯一标识，这样方便内部处理，每个文档的内部编号即称之为“文档编号”，后文有时会用DocID来便捷地代表文档编号。</li>
+<li>单词编号(Word ID)：与文档编号类似，搜索引擎内部以唯一的编号来表征某个单词，单词编号可以作为某个单词的唯一表征。</li>
+<li>倒排索引(Inverted Index)：倒排索引是实现“单词-文档矩阵”的一种具体存储形式，通过倒排索引，可以根据单词快速获取包含这个单词的文档列表。倒排索引主要由两个部分组成：“单词词典”和“倒排文件”。</li>
+<li>单词词典(Lexicon)：搜索引擎的通常索引单位是单词，单词词典是由文档集合中出现过的所有单词构成的字符串集合，单词词典内每条索引项记载单词本身的一些信息以及指向“倒排列表”的指针。</li>
+<li>倒排列表(PostingList)：倒排列表记载了出现过某个单词的所有文档的文档列表及单词在该文档中出现的位置信息，每条记录称为一个倒排项(Posting)。根据倒排列表，即可获知哪些文档包含某个单词。</li>
+<li>倒排文件(Inverted File)：所有单词的倒排列表往往顺序地存储在磁盘的某个文件里，这个文件即被称之为倒排文件，倒排文件是存储倒排索引的物理文件。<br>关于这些概念之间的关系，通过下图可以比较清晰的看出来。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897846072984.png" alt></li>
+</ul>
+<h3 id="倒排索引简单实例"><a href="#倒排索引简单实例" class="headerlink" title="倒排索引简单实例"></a>倒排索引简单实例</h3><p>倒排索引从逻辑结构和基本思路上来讲非常简单。下面通过具体实例来进行说明。假设文档集合包含五个文档，每个文档内容如下所示，左边是文档编号，右边是文档内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &gt; 谷歌地图之父跳槽FaceBook</span><br><span class="line">2 &gt; 谷歌地图之父加盟FaceBook</span><br><span class="line">3 &gt; 谷歌地图创始人拉斯离开谷歌加盟FaceBook</span><br></pre></td></tr></table></figure>
+<p>下面对这个文档集合建立倒排索引：<br>首先要用分词系统将文档自动切分成单词序列。这样每个文档就转换为由单词序列构成的数据流，为了系统后续处理方便，需要对每个不同的单词赋予唯一的单词编号，同时记录下哪些文档包含这个单词，在如此处理结束后 ，可以得到最简单的倒排索引，左边是单词编号，中间是单词，右边是文档倒排列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 &gt; 谷歌 &gt; 1,2,3</span><br><span class="line">2 &gt; 地图 &gt; 1,2,3</span><br><span class="line">3 &gt; 之父 &gt; 1,2</span><br><span class="line">4 &gt; 跳槽 &gt; 1</span><br><span class="line">5 &gt; FaceBook &gt; 1,2,3</span><br><span class="line">6 &gt; 加盟 &gt; 2,3</span><br><span class="line">7 &gt; 创始人 &gt; 3</span><br><span class="line">8 &gt; 拉斯 &gt; 3</span><br><span class="line">9 &gt; 离开 &gt; 3</span><br></pre></td></tr></table></figure>
+<p>比如单词“谷歌”，其单词编号为1，倒排列表为{1,2,3}。之所以说上面所示倒排索引是最简单的，是因为这个索引系统只记载了哪些文档包含某个单词，而事实上，索引系统还可以记录除此之外的更多信息。下面是一个相对复杂些的倒排索引，与上面的基本索引系统比，在单词对应的倒排列表中不仅记录了文档编号，还记载了单词频率信息（TF），即这个单词在某个文档中的出现次数，之所以要记录这个信息，是因为词频信息在搜索结果排序时，计算查询和文档相似度是很重要的一个计算因子，所以将其记录在倒排列表中，以方便后续排序时进行分值计算。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 &gt; 谷歌 &gt; (1:1),(2:1),(3:2)</span><br><span class="line">2 &gt; 地图 &gt; (1:1),(2:1),(3:1)</span><br><span class="line">3 &gt; 之父 &gt; (1:1),(2:1)</span><br><span class="line">4 &gt; 跳槽 &gt; (1:1)</span><br><span class="line">5 &gt; FaceBook &gt; (1:1),(2:1),(3:1)</span><br><span class="line">6 &gt; 加盟 &gt; (2:1),(3:1)</span><br><span class="line">7 &gt; 创始人 &gt; (3:1)</span><br><span class="line">8 &gt; 拉斯 &gt; (3:1)</span><br><span class="line">9 &gt; 离开 &gt; (3:1)</span><br></pre></td></tr></table></figure>
+<p>单词“创始人”的单词编号为7，对应的倒排列表内容为：(3:1)，其中的3代表文档编号为3的文档包含这个单词，数字1代表词频信息，即这个单词在3号文档中只出现过1次，其它单词对应的倒排列表所代表含义与此相同。</p>
+<p>实用的倒排索引还可以记载更多的信息，下面所示索引系统除了记录文档编号和单词频率信息外，额外记载了两类信息，即每个单词对应的“文档频率信息”（对应下面的第三栏）以及在倒排列表中记录单词在某个文档出现的位置信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 &gt; 谷歌 &gt;  3 &gt;(1:1:&lt;1&gt;),(2:1:&lt;1&gt;),(3:2:&lt;1,6&gt;)</span><br><span class="line">2 &gt; 地图 &gt; 3 &gt; (1:1:&lt;2&gt;),(2:1:&lt;2&gt;),(3:1:&lt;2&gt;)</span><br><span class="line">3 &gt; 之父 &gt; 2 &gt; (1:1:&lt;3&gt;),(2:1:&lt;3&gt;)</span><br><span class="line">4 &gt; 跳槽 &gt; 1 &gt; (1:1:&lt;4&gt;)</span><br><span class="line">5 &gt; FaceBook &gt;  3 &gt; (1:1: &lt;5&gt;),(2:1:&lt;5&gt;),(3:1:&lt;8&gt; )</span><br><span class="line">6 &gt; 加盟 &gt; 2 &gt; (2:1:&lt;4&gt;),(3:1:&lt;7&gt;)</span><br><span class="line">7 &gt; 创始人&gt; 1 &gt; (3:1:&lt;3&gt;)</span><br><span class="line">8 &gt; 拉斯 &gt; 1 &gt; (3:1:&lt;4&gt;)</span><br><span class="line">9 &gt; 离开 &gt; 1 &gt; (3:1&lt;5&gt;)</span><br></pre></td></tr></table></figure>
+<p>以单词“拉斯”为例，其单词编号为8，文档频率为1，代表整个文档集合中有一个文档包含这个单词，对应的倒排列表为：{(3;1;&lt;4&gt;)，其含义为在文档3出现过这个单词，单词频率都为1，单词“拉斯”在两个文档中的出现位置都是4，即文档中第四个单词是“拉斯”。</p>
+<p>上面所示的倒排索引已经是一个非常完备的索引系统，实际搜索系统的索引结构基本如此，区别无非是采取哪些具体的数据结构来实现上述逻辑结构。</p>
+<h3 id="单词词典"><a href="#单词词典" class="headerlink" title="单词词典"></a>单词词典</h3><p>单词词典是倒排索引中非常重要的组成部分，它用来维护文档集合中出现过的所有单词的相关信息，同时用来记载某个单词对应的倒排列表在倒排文件中的位置信息。在支持搜索时，根据用户的查询词，去单词词典里查询，就能够获得相应的倒排列表，并以此作为后续排序的基础。对于一个规模很大的文档集合来说，可能包含几十万甚至上百万的不同单词，能否快速定位某个单词，这直接影响搜索时的响应速度，所以需要高效的数据结构来对单词词典进行构建和查找，常用的数据结构包括哈希加链表结构和树形词典结构。<br><strong>哈希加链表</strong><br>下图图是这种词典结构的示意图。这种词典结构主要由两个部分构成：<br>主体部分是哈希表，每个哈希表项保存一个指针，指针指向冲突链表，在冲突链表里，相同哈希值的单词形成链表结构。之所以会有冲突链表，是因为两个不同单词获得相同的哈希值，如果是这样，在哈希方法里被称做是一次冲突，可以将相同哈希值的单词存储在链表里，以供后续查找。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897879973106.png" alt><br>在建立索引的过程中，词典结构也会相应地被构建出来。比如在解析一个新文档的时候，对于某个在文档中出现的单词T，首先利用哈希函数获得其哈希值，之后根据哈希值对应的哈希表项读取其中保存的指针，就找到了对应的冲突链表。如果冲突链表里已经存在这个单词，说明单词在之前解析的文档里已经出现过。如果在冲突链表里没有发现这个单词，说明该单词是首次碰到，则将其加入冲突链表里。通过这种方式，当文档集合内所有文档解析完毕时，相应的词典结构也就建立起来了。</p>
+<p>在响应用户查询请求时，其过程与建立词典类似，不同点在于即使词典里没出现过某个单词，也不会添加到词典内。以上图为例，假设用户输入的查询请求为单词3，对这个单词进行哈希，定位到哈希表内的2号槽，从其保留的指针可以获得冲突链表，依次将单词3和冲突链表内的单词比较，发现单词3在冲突链表内，于是找到这个单词，之后可以读出这个单词对应的倒排列表来进行后续的工作，如果没有找到这个单词，说明文档集合内没有任何文档包含单词，则搜索结果为空。<br><strong>树形结构</strong><br>B树（或者B+树）是另外一种高效查找结构，下图是一个 B树结构示意图。B树与哈希方式查找不同，需要字典项能够按照大小排序（数字或者字符序），而哈希方式则无须数据满足此项要求。<br>B树形成了层级查找结构，中间节点用于指出一定顺序范围的词典项目存储在哪个子树中，起到根据词典项比较大小进行导航的作用，最底层的叶子节点存储单词的地址信息，根据这个地址就可以提取出单词字符串。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/15897881312276.png" alt></p>
 
           
         
@@ -596,7 +621,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%95%B0%E7%BB%84/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -615,7 +640,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%95%B0%E7%BB%84/" itemprop="url">数据结构—数组</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" itemprop="url">算法—字符串匹配</a></h1>
         
 
         <div class="post-meta">
@@ -701,186 +726,177 @@
       
         
           
-            <h3 id="数组简介"><a href="#数组简介" class="headerlink" title="数组简介"></a>数组简介</h3><p>数组是可以在内存中连续存储多个元素的结构，在内存中的分配也是连续的，数组中的元素通过数组下标进行访问，数组下标从0开始。</p>
-<p>数组可以看作是线性表中的顺序表。<br><strong>优点：</strong></p>
-<ul>
-<li>按照索引查询元素速度快</li>
-<li>按照索引遍历数组方便</li>
-</ul>
-<p><strong>缺点：</strong></p>
-<ul>
-<li>数组大小固定后就无法扩容了</li>
-<li>数组只能存储一种类型的数据</li>
-<li>添加，删除操作慢，因为要移动其它元素</li>
-</ul>
-<p><strong>适用场景：</strong><br>频繁查询，堆存储空间要求不大，很少增加和删除的情况。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E6%A0%91/" itemprop="url">数据结构—树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构与算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="树的简介"><a href="#树的简介" class="headerlink" title="树的简介"></a>树的简介</h3><p>树是一种数据结构，它是由n（n&gt;=1）个有限节点组成一个具有层次关系的集合。把它叫做 “树” 是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：</p>
-<ul>
-<li>每个节点有零个或多个子节点；</li>
-<li>没有父节点的节点称为根节点；</li>
-<li>每一个非根节点有且只有一个父节点；</li>
-<li>除了根节点外，每个子节点可以分为多个不相交的子树；<br>在日常的应用中，我们讨论和用的更多的是树的其中一种结构，就是二叉树。 二叉树是树的特殊一种，具有如下特点：</li>
-</ul>
+            <p><strong>题目：</strong><br>给定两个字符串A和B，判断字符串B是否是A的子串，并返回B在A中第一次出现的位置。<br><strong>举个例子：</strong><br><code>字符串A：abcdefgh
+字符串B：cdef</code><br>在这个例子中，字符串B是A的子串，B在A中第一次出现的下标位置为2，所以返回为2。<br><strong>另一个例子：</strong><br><code>字符串A：abcdefgh
+字符串B：dcef</code><br>在这个例子中，字符串B在A中并不存在，返回-1。<br>在后文中，我们把字符串A称为主串，字符串B称为模式串。</p>
+<h3 id="BF算法"><a href="#BF算法" class="headerlink" title="BF算法"></a>BF算法</h3><p>BF算法是Brute Force（暴力算法）的缩写。它采用的最简单粗暴的方法：</p>
 <ol>
-<li>每个结点最多有两颗子树，结点的度最大为2。 </li>
-<li>左子树和右子树是有顺序的，次序不能颠倒。 </li>
-<li>即使某结点只有一个子树，也要区分左右子树。</li>
+<li>从主串的首字符位置开始，把主串和子串的字符依次比较。</li>
+<li>如果不匹配，则把模式串后移一位，从主串的第二位开始，把主串和子串的字符依次比较。</li>
+<li>如果不匹配，则把模式串继续后移一位，继续进行比较，直到找到匹配的位置或主串最后一位。</li>
 </ol>
-<p><strong>二叉树的优点</strong><br>二叉树是一种比较有用的折中方案，它添加，删除元素都很快，并且在查找方面也有很多的算法优化，所以，二叉树既有链表的好处，也有数组的好处，是两者的优化方案，在处理大批量的动态数据方面非常有用。<br><strong>扩展：</strong><br>二叉树有很多扩展的数据结构，包括平衡二叉树、红黑树、B+树等，这些数据结构二叉树的基础上衍生了很多的功能，在实际应用中广泛用到，例如mysql的数据库索引结构用的就是B+树，还有HashMap的底层源码中用到了红黑树。这些二叉树的功能强大，但算法上比较复杂，想学习的话还是需要花时间去深入的。</p>
+<p><strong>算法不足：</strong><br>在某些极端情况下，算法的效率过低。比如：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890974995745.jpg" alt><br>在上图中，两个字符串在每一轮都要白白比较4次，非常浪费。<br>如果主串的长度为m，模式串的长度为n，那么在这种极端情况下，BF算法的最坏时间复杂度为O(mn)。</p>
+<h3 id="RK算法"><a href="#RK算法" class="headerlink" title="RK算法"></a>RK算法</h3><p>RK算法是BF算法的改进，是Rabin-Karp，由两位发明者的名字命名的。和BF算法简单粗暴的依次比较两个字符串中的字符不同，RK算法比较的是两个字符串的hash值。<br>每一个字符串都可以通过某种哈希算法，转换成一个整型数，这个整型数就是hashcode：<br><code>hashcode = hash（string）</code><br>显然，相对于逐个字符比较两个字符串，仅比较两个字符串的hashcode要容易得多。<br>RK算法的工作原理如下：<br>给定主串和模式串如下（假定字符串只包含26个小写字母）：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890982466056.jpg" alt></p>
+<ol>
+<li>我们需要生成模式串的hashcode。生成hashcode的算法多种多样，比如：</li>
+</ol>
+<p><strong>按位相加</strong><br>这是最简单的方法，可以把a当做1，b当做2，c当做3……然后把字符串的所有字符相加，相加结果就是它的hashcode。<br><code>bce =  2 + 3 + 5 = 10</code><br>但是，这个算法虽然简单，却很可能产生hash冲突，比如bce、bec、cbe的hashcode是一样的。<br><strong>转换成26进制数</strong><br>既然字符串只包含26个小写字母，那么可以把每一个字符串当成一个26进制数来计算。<br><code>bce = 2*(26^2) + 3*26 + 5 = 1435</code><br>这样做的好处是大幅减少了hash冲突，缺点是计算量较大，而且有可能出现超出整型范围的情况，需要对计算结果进行取模。为了方便演示，后续采用的是按位相加的hash算法，所以bce的hashcode是10。<br>2. 生成主串当中第一个等长子串的hashcode。由于主串通常要长于模式串，把整个主串转化成hashcode是没有意义的，只有比较主串当中和模式串等长的子串才有意义。因此，首先生成主串中第一个和模式串等长的子串hashcode，即abb = 1 + 2 + 2 = 5。<br>3. 比较两个hashcode。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890984486210.jpg" alt><br>显然，5！=10，说明模式串和第一个子串不匹配，继续下一轮比较。<br>4. 生成主串当中第二个等长子串的hashcode。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890984956125.jpg" alt><br>5. 比较两个hashcode。<br>显然，7！=10，说明模式串和第二个子串不匹配，继续下一轮比较。<br>6. 生成主串当中第三个等长子串的hashcode。bce= 2 + 3 + 5 = 10：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890985466300.jpg" alt><br>7. 比较两个hashcode。显然，10 ==10，两个hash值相等！这是否说明两个字符串也相等呢？由于存在hash冲突的可能，还需要进一步验证。<br>8. 逐个字符比较两字符串。hashcode的比较只是初步验证，之后还需要像BF算法那样，对两个字符串逐个字符比较，最终判断出两个字符串匹配。<br><strong>问题：</strong><br>每次hash的时间复杂度是O(n)，如果把全部的子串都进行hash，总的时间复杂度不是和BF算法一样都是O(mn)吗？<br><strong>解答：</strong><br>从第二个子串的hash开始，每个子串的hash都是由上一个子串进行简单的增量计算得到：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890991091917.jpg" alt><br>上图中，已知子串abbcefg的hashcode是26，那么如何计算下一个子串，也就是bbcefgd的hashcode呢？<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890991244040.jpg" alt><br>由于新子串的前面少了一个a，后面多了一个d，所以：<br><code>新hashcode = 旧hashcode - 1 + 4 = 26-1+4 = 29</code><br><strong>算法优点：</strong><br>和BF算法相比，减少了许多字符的比较，时间复杂度大大提高了。RK算法计算单个子串hash的时间复杂度为O(n)，由于后续的hash计算都为增量计算，因此总的时间复杂度还是O(n)。<br><strong>算法不总：</strong><br>RK算法的不足在于哈希冲突，每次哈希冲突的时候，都要进行主串和模式串的字符逐个比较，如果冲突太多就变成了BF算法。</p>
+<h3 id="BM算法"><a href="#BM算法" class="headerlink" title="BM算法"></a>BM算法</h3><p>// 正在整理中</p>
+<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p>// 正在整理中</p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">算法—排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
           
         
       
@@ -1083,7 +1099,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/00%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1102,7 +1118,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/00%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/" itemprop="url">6-数据结构与算法/00数据结构与算法基础</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/" itemprop="url">算法—查找</a></h1>
         
 
         <div class="post-meta">
@@ -1130,139 +1146,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id><a href="#" class="headerlink" title></a></h1>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8/" itemprop="url">数据结构—表</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
+              <time title="Post modified" itemprop="dateModified" datetime="2022-01-06T11:36:36+08:00">
+                2022-01-06
               </time>
             
           </span>
@@ -1319,25 +1204,14 @@
       
         
           
-            <h3 id="表的简介"><a href="#表的简介" class="headerlink" title="表的简介"></a>表的简介</h3><p>表是一种重要的数据结构，又分为线性表和非线性表，在这里只介绍最常用到的线性表。</p>
-<p>线性表包括顺序表和链表。顺序表里面的元素地址是连续的，例如数组。而链表里面的节点是不连续的，而是通过指针关联起来的。</p>
-<h3 id="链表的简介"><a href="#链表的简介" class="headerlink" title="链表的简介"></a>链表的简介</h3><p>链表是物理存储单元上非连续的、非顺序的存储结构，数据元素的逻辑顺序是通过链表的指针地址实现，每个元素包含两个节点，一个是存储元素的数据域，另一个是指向下一个元素地址的指针域。根据指针的不同，链表能形成不同的结构：</p>
-<ol>
-<li>单链表</li>
-<li>双链表</li>
-<li>循环链表<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E8%A1%A8/15881683553949.jpg" alt></li>
+            <ol>
+<li>Trie 树实现搜索引擎自动联想<br> 使用背景：我们在使用搜索引擎的时候，只输入一部分关键字，它就会自动将包含该关键字的所有词条罗列出来供你选择。<br> <em>Trie 树（字典树）算法</em><br> Trie 树又被称为前缀树或者字典树。它的基本作用是用来存储一个字符串集合：{$W_1$, $W_2$, $W_3$, … $W_N$}，并且可以用来查询一个字符串 S 是不是在集合里。<br> 具体来说，Trie 一般支持两个操作：<pre><code>Trie.insert(W)：第一个操作是插入操作，就是将一个字符串 W 加入到集合中
+Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 是不是在集合中</code></pre> 由于 Trie 的特性，它还特别适合处理一些与前缀有关的查询，比如集合中有几个字符串与 S 有公共前缀这样的查询。<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414388965687.png" alt><br> 上面这棵 Trie 树包含的字符串集合是 {in, inn, int, tea, ten, to}。每个节点的编号是我们为了描述方便加上去的。树中的每一条边上都标识有一个字符。这些字符可以是任意一个字符集中的字符。比如对于都是小写字母的字符串，字符集就是 ‘a’-‘z’；对于都是数字的字符串，字符集就是 ‘0’-‘9’；对于二进制字符串，字符集就是 0 和 1。<br> 从一个节点连出去的边都必须标识不同的字符。所以一个节点最多有 | 字符集 | 这么多子节点。其中有一些节点是终结点，我们用黑色表示。对于每一个终结点，如果我们把从根到它的路径上的字符按顺序连起来，就对应着一个集合中的字符串。<br> 比如上图中 3 号节点对应的路径 0123 上的字符串是 inn，8 号节点对应的路径 0568 上的字符串是 ten。终结点与集合中的字符串是一一对应的。<br> <em>TRIE 插入</em><br> 假设我们要插入字符串 “in”。我们一开始位于根，也就是 0 号节点，我们用 P=0 表示。我们先看 P 是不是有一条标识着 “i” 的连向子节点的边。没有这条边，于是我们就新建一个节点，也就是 1 号节点，然后把 1 号节点设置为 P 也就是 0 号节点的子节点，并且将边标识为 “i”。最后我们移动到 1 号节点，也就是令 P=1<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414393448574.png" alt><br> 然后我们再插入字符 “n”，先找 P 也就是 1 号节点有没有标记为 “n” 的边。还是没有，于是再新建一个节点 2，设置为 P 也就是 1 号节点的子节点，并且把边标识为 “n”。最后再移动到 P=2。这样我们就把 “n” 也插入了。由于 “n” 是 “in” 的最后一个字符，所以我们还需要将 P=2 这个节点标记为终结点<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/5b3cc8f678ca3.png" alt="5b3cc8f678ca3"><br> 现在我们再插入字符串 “inn”。过程也是一样的，从 P=0 开始找标识为 “i” 的边，这次找到 1 号节点。于是我们就不用创建新节点了，直接移动到 1 号节点，也就是令 P=1。再插入字符 “n”，也是有 2 号节点存在，所以移动到 2 号节点，P=2。最后再插入字符 “n” 这时 P 没有标识为 “n” 的边了，所以新建 3 号节点作为 2 号节点的子节点，边标识为 “n”，同时将 3 号节点标记为终结点<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414394802326.png" alt><br> 综上所述，在 Trie 中插入一个字符串 $W$ 的伪代码如下： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Insert(W):</span><br><span class="line">    P &#x3D; root</span><br><span class="line">    For i &#x3D; 1...W.len</span><br><span class="line">        If P.thru(W[i]) &#x3D;&#x3D; NULL&#x2F;&#x2F;没有标识为W[i]的边</span><br><span class="line">            P.addChild(W[i],new Node())</span><br><span class="line">        P &#x3D; p.thru(W[i])</span><br><span class="line">    P.markEndPoint()&#x2F;&#x2F;标记P为终结点</span><br></pre></td></tr></table></figure>
+ <em>TRIE 查找</em><br> 查找其实比较简单。只要从根节点开始，沿着标识着 S[1] -&gt; S[2] -&gt; S[3] … -&gt; S[S.len] 的边移动，如果最后成功到达一个终结点，就说明 S 在 Trie 树中；如果最后无路可走，或者到达一个不是终结点的节点，就说明 S 不在 Trie 树中。<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414396630996.png" alt><br> 比如上图中查找 “inn”，就会从 0 号节点经过 1 号节点和 2 号节点，最后到达 3 号节点。3 号节点是终结点，所以 “inn” 在 Trie 树中。再比如查找 “ten”，就会从 0 号节点，经过 56 到达 8 号节点。8 号节点也是终结点，所以 “ten” 也在 Trie 树中。<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414396966670.png" alt><br> 如果是查找 “te”，就会从 0 开始经过 5 最后到达 6。但是 6 不是终结点，所以 “te” 没在 Trie 树中。如果查找的是 “too”，就会从 0 开始经过 5 和 9，然后发现之后无路可走：9 号节点没有标记为 o 的边连出去。所以 “too” 也不在 Trie 中。<br> 综上所述，在 Trie 树中查找一个字符串的伪代码如下： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Search(S):</span><br><span class="line">    P &#x3D; root</span><br><span class="line">    For i &#x3D; 1...S.len</span><br><span class="line">        If P.thru(S[i]) &#x3D;&#x3D; NULL</span><br><span class="line">            Return FALSE</span><br><span class="line">        P &#x3D; P.thru(S[i])</span><br><span class="line">    Return TRUE</span><br></pre></td></tr></table></figure>
+ <em>实际设计</em><br> 在设计算法之前，首先准备一个词库，里面包含了要查询的内容。<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414398477194.png" alt><br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414398789037.png" alt><br> 在访问页面的时候首先让 Trie 读入数据库中的所有内容，对每一条记录依次进行 insert 操作。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Node &#123;</span><br><span class="line">	public Map&lt;String, Node&gt; nexts; &#x2F;&#x2F; 子节点</span><br><span class="line">	public int end;</span><br><span class="line">	public Node() &#123;</span><br><span class="line">		this.nexts &#x3D; new HashMap&lt;String, Node&gt;();</span><br><span class="line">		this.end &#x3D; 0;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Node root &#x3D; new Node();</span><br><span class="line"></span><br><span class="line">public void insert(String word) &#123;</span><br><span class="line">	if (word &#x3D;&#x3D; null)</span><br><span class="line">		return;</span><br><span class="line">	Node node &#x3D; root;</span><br><span class="line">	for (int i &#x3D; 0; i &lt; word.length(); i++) &#123;</span><br><span class="line">		String str &#x3D; &quot;&quot; + word.charAt(i);</span><br><span class="line">		if (node.nexts.get(str) &#x3D;&#x3D; null)</span><br><span class="line">			node.nexts.put(str, new Node());</span><br><span class="line">		node &#x3D; node.nexts.get(str);</span><br><span class="line">	&#125;</span><br><span class="line">	node.end &#x3D; 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ 当 Trie 树建好之后，整体结果如下图所示：<br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/16414399765691.png" alt><br> 当系统获取输入框的值后，首先调用 Trie 树的 StartWith 方法，查看是否有以当前值为前缀的内容，如果没有就直接返回空，如果有，就需要进行 DFS 遍历，将以当前值作为前缀的所有值全部查询出来，然后返回给页面。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">    public boolean startWith(String preWord) &#123;</span><br><span class="line">	Node node &#x3D; root;</span><br><span class="line">	for (int i &#x3D; 0; i &lt; preWord.length(); i++) &#123;</span><br><span class="line">		String str &#x3D; &quot;&quot; + preWord.charAt(i);</span><br><span class="line">		if (node.nexts.get(str) &#x3D;&#x3D; null)</span><br><span class="line">			return false;</span><br><span class="line">		node &#x3D; node.nexts.get(str);</span><br><span class="line">	&#125;</span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br><span class="line">List&lt;String&gt; list &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">public List&lt;String&gt; getData(String preword) &#123;</span><br><span class="line">	list.clear();</span><br><span class="line">	if (!startWith(preword))</span><br><span class="line">    	return null;</span><br><span class="line">	else &#123;</span><br><span class="line">		StringBuilder str &#x3D; new StringBuilder(&quot;&quot;);</span><br><span class="line">		str.append(preword);</span><br><span class="line">		Node node &#x3D; root;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; preword.length(); i++)</span><br><span class="line">			node &#x3D; node.nexts.get(&quot;&quot; + preword.charAt(i));</span><br><span class="line">		dfs(node, str);</span><br><span class="line">	&#125;</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void dfs(Node root, StringBuilder str) &#123;</span><br><span class="line">	if (root.end &#x3D;&#x3D; 1) &#123;</span><br><span class="line">		list.add(str.toString());</span><br><span class="line">		if (root.nexts.size() &#x3D;&#x3D; 0)</span><br><span class="line">			return;</span><br><span class="line">	&#125;</span><br><span class="line">	Node node &#x3D; root;</span><br><span class="line">	for (String s : node.nexts.keySet()) &#123;</span><br><span class="line">		str.append(s);</span><br><span class="line">		dfs(node.nexts.get(s), str);</span><br><span class="line">		str.delete(str.length() - 1, str.length());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <em>最终效果展示</em><br> <img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/7d626b1e0b304548a228e4b5869ce3e9.gif" alt="7d626b1e0b304548a228e4b5869ce3e9"></li>
 </ol>
-<p><strong>链表的优点：</strong></p>
-<ul>
-<li>链表是很常用的一种数据结构，不需要初始化容量，可以任意加减元素。</li>
-<li>添加或者删除元素时，只需要改变前后两个元素节点的指针域指向地址即可，所以添加和删除很快。</li>
-</ul>
-<p><strong>链表的缺点：</strong></p>
-<ul>
-<li>因为含有大量的指针域，占用空间比较大。</li>
-<li>查找元素需要遍历链表，非常耗时。</li>
-</ul>
-<p><strong>适用场景：</strong><br>数据量较小，需要频繁增加、删除操作的场景。</p>
 
           
         
@@ -1386,7 +1260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E9%98%9F%E5%88%97/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1405,7 +1279,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E9%98%9F%E5%88%97/" itemprop="url">数据结构—队列</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/" itemprop="url">算法—算法复杂度</a></h1>
         
 
         <div class="post-meta">
@@ -1491,8 +1365,190 @@
       
         
           
-            <h3 id="队列的简介"><a href="#队列的简介" class="headerlink" title="队列的简介"></a>队列的简介</h3><p>队列与栈一样，也是一种线性表，不同的是队列可以在一端添加元素，在另一端取出元素，也就是：先进先出。从一端放入元素的操作称为入队，取出元素为出队。</p>
-<p>根据线性表可以分为顺序表和链表的特点，队列可以分为顺序队列和链队列。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E9%98%9F%E5%88%97/15881706818953.jpg" alt="-w473"><br><strong>适用场景</strong><br>因为队列先进先出的特点，在多线程阻塞队列管理中非常适用。</p>
+            <p>算法具有以下特性：</p>
+<ul>
+<li>有穷性：算法是由若干条指令组成的有穷序列，总是在执行若干次之后结束，不可能永不停止。</li>
+<li>确定性：每条语句都有确定的含义，无歧义。</li>
+<li>可行性：算法在当前环境条件下可以通过有限次运算实现。</li>
+<li>输入输出：有零个或多个输入，一个或多个输出。<br>“好”算法的标准如下：</li>
+</ul>
+<ol>
+<li>正确性：指算法能满足具体问题的需求，程序运行正常，能够通过典型的软件测试，达到预期的需求。</li>
+<li>易读性：算法遵循标识符命名规则，简洁易懂，注释语句恰当适量，方便后期调试和修改。</li>
+<li>健壮性：算法对非法数据及操作有较好的反应和处理。</li>
+<li>高效性：指算法运行效率高，即算法运行消耗的时间短。算法时间复杂度就是算法运行需要的时间。将算法基本运算的执行次数作为时间复杂度的衡量标准。</li>
+<li>低存储性：指算法所需的存储空间低。对于手机、平板这样的嵌入式设备，算法如果占用空间过大，则无法运行。算法占用的空间大小称为空间复杂度。<br>除了1～3中的基本标准外，我们对算法的评判标准就是高效率、低存储。<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3>时间复杂度是指算法运行所需要的时间，一般将算法的执行次数作为时间复杂度的度量标准。分析如下算法的复杂度：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sum &#x3D; 0;                                            &#x2F;&#x2F; 运行1次</span><br><span class="line">total &#x3D; 0;                                           &#x2F;&#x2F; 运行1次</span><br><span class="line">for (i &#x3D; 0; i &lt;&#x3D; n; i++) &#123;                   &#x2F;&#x2F; 运行n次</span><br><span class="line">    sum &#x3D; sum + i;                             &#x2F;&#x2F; 运行n次</span><br><span class="line">    for (j &#x3D; 0; j &lt;&#x3D; n; j++) &#123;               &#x2F;&#x2F; 运行n * n次</span><br><span class="line">        total &#x3D; total + i * j;                   &#x2F;&#x2F; 运行n * n次</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+把算法的所有语句加起来：1 + 1 + n + n + n * n + n * n，可以用一个函数T(n)表达：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900268369216.jpg" alt="-w322"><br>当n足够大的时候，算法运行的时间主要取决于第一项，后面的甚至可以忽略不计。用极限表示为：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900269497804.jpg" alt="-w566"><br>如果用时间复杂度的渐近上界表示，如图1-1，当n &gt; n0时 T(n) &lt; Cf(n)。当n足够大时，T(n) 和 f(n) 近似相等。因此，用O(f(n))来表示时间复杂度渐近上界。<br>还有渐近下界，如图1-2，当n &gt; n0时  T(n) &gt; Cf(n)。当n足够大时，T(n) 和 f(n) 近似相等。因此，用Ω(f(n))来表示时间复杂度渐近下界。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900275812842.jpg" alt="-w968"><br>通常使用时间复杂度的渐近上界O (f(n))来表示时间复杂度。<br>有些算法，如排序、查找、插入等算法很难计算程序中执行了多少次，可以分为最好、最坏和平均情况分别求算法的近似复杂度，但是衡量一个算法的好坏一般衡量的是最坏的情况，最坏情况对于衡量算法好坏有实际意义。<br>常见算法的时间复杂度有以下几类：</li>
+</ol>
+<ul>
+<li>常数阶：这类算法运行的次数是一个常数，如5、10、100。常数阶的算法复杂度通常用O(1)表示。</li>
+<li>多项式阶：很多算法的时间复杂度都是多项式阶，通常用O(n)、O(n * n)、O(n * n * n)等表示。</li>
+<li>指数阶：该类算法运行效率极差，使用这样的算法要慎重。</li>
+<li>对数阶：该类算法的运行效率较高，常见的有O(logn)、O(n * logn)等。<br>这些复杂度之间的大小关系如下：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900335421175.jpg" alt="-w912"></li>
+</ul>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>空间复杂度是指算法占用的空间大小，一般将算法的辅助空间作为衡量空间复杂度的标准，本意是指算法在运行过程中占用了多少存储空间。算法占用的存储空间包括：</p>
+<ol>
+<li>输入/输出数据；</li>
+<li>算法本身；</li>
+<li>额外需要的辅助空间。<br>输入/输出数据占用的空间是必需的，算法本身占用的空间可以通过精简算法来缩减，但是这个压缩量是很小的，可以忽略不计。而算法运行时需要的辅助空间是衡量空间复杂度的关键因素。</li>
+</ol>
+<p>分析如下递归算法的空间复杂度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fac(int n) &#123;</span><br><span class="line">    if (n &lt; 0) &#123;</span><br><span class="line">        printf(&quot;n &lt; 0，data error!&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125; else if (n &#x3D;&#x3D; 0 || n &#x3D;&#x3D; 1) &#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return n * fac(n - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>阶乘是典型的递归调用问题，递归包括递推和回归。递推是将原问题不断分解成子问题，直到达到结束条件，返回最近子问题的解；然后逆向逐一回归，最终达到递推开始的原问题，返回原问题的解。5的阶乘的递推和回归过程如下：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900304811215.jpg" alt="-w909"><br>计算机使用数据结构—栈来实现这个过程，后进先出。5的阶乘进栈过程如下图：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900306461483.jpg" alt="-w863"><br>5的阶乘出栈过程如下图：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900307209194.jpg" alt="-w857"><br>从阶乘的进栈和出栈过程中，使用了n个栈空间作为辅助空间，因此阶乘算法的空间复杂度为O(n)。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" itemprop="url">CM基础—安装和配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>创建启动cdh容器的命令<br><code>docker run --privileged=true --hostname=quickstart.cloudera --name cdh-liu -v /Users/liudongfei:/root/liudongfei -p 7180:7180  -p 8888:8888 -p 3306:3306 -t -i 4239cd2958c6 /usr/bin/docker-quickstart</code><br>启动cm的命令<br><code>/home/cloudera/cloudera-manager --force --express</code></p>
 
           
         
@@ -1699,7 +1755,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Idea%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1718,7 +1774,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" itemprop="url">算法—字符串匹配</a></h1>
+                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Idea%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%EF%BC%89/" itemprop="url">Idea常用快捷键（Mac）</a></h1>
         
 
         <div class="post-meta">
@@ -1765,8 +1821,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构与算法</span>
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -1804,23 +1860,82 @@
       
         
           
-            <p><strong>题目：</strong><br>给定两个字符串A和B，判断字符串B是否是A的子串，并返回B在A中第一次出现的位置。<br><strong>举个例子：</strong><br><code>字符串A：abcdefgh
-字符串B：cdef</code><br>在这个例子中，字符串B是A的子串，B在A中第一次出现的下标位置为2，所以返回为2。<br><strong>另一个例子：</strong><br><code>字符串A：abcdefgh
-字符串B：dcef</code><br>在这个例子中，字符串B在A中并不存在，返回-1。<br>在后文中，我们把字符串A称为主串，字符串B称为模式串。</p>
-<h3 id="BF算法"><a href="#BF算法" class="headerlink" title="BF算法"></a>BF算法</h3><p>BF算法是Brute Force（暴力算法）的缩写。它采用的最简单粗暴的方法：</p>
-<ol>
-<li>从主串的首字符位置开始，把主串和子串的字符依次比较。</li>
-<li>如果不匹配，则把模式串后移一位，从主串的第二位开始，把主串和子串的字符依次比较。</li>
-<li>如果不匹配，则把模式串继续后移一位，继续进行比较，直到找到匹配的位置或主串最后一位。</li>
-</ol>
-<p><strong>算法不足：</strong><br>在某些极端情况下，算法的效率过低。比如：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890974995745.jpg" alt><br>在上图中，两个字符串在每一轮都要白白比较4次，非常浪费。<br>如果主串的长度为m，模式串的长度为n，那么在这种极端情况下，BF算法的最坏时间复杂度为O(mn)。</p>
-<h3 id="RK算法"><a href="#RK算法" class="headerlink" title="RK算法"></a>RK算法</h3><p>RK算法是BF算法的改进，是Rabin-Karp，由两位发明者的名字命名的。和BF算法简单粗暴的依次比较两个字符串中的字符不同，RK算法比较的是两个字符串的hash值。<br>每一个字符串都可以通过某种哈希算法，转换成一个整型数，这个整型数就是hashcode：<br><code>hashcode = hash（string）</code><br>显然，相对于逐个字符比较两个字符串，仅比较两个字符串的hashcode要容易得多。<br>RK算法的工作原理如下：<br>给定主串和模式串如下（假定字符串只包含26个小写字母）：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890982466056.jpg" alt></p>
-<ol>
-<li>我们需要生成模式串的hashcode。生成hashcode的算法多种多样，比如：</li>
-</ol>
-<p><strong>按位相加</strong><br>这是最简单的方法，可以把a当做1，b当做2，c当做3……然后把字符串的所有字符相加，相加结果就是它的hashcode。<br><code>bce =  2 + 3 + 5 = 10</code><br>但是，这个算法虽然简单，却很可能产生hash冲突，比如bce、bec、cbe的hashcode是一样的。<br><strong>转换成26进制数</strong><br>既然字符串只包含26个小写字母，那么可以把每一个字符串当成一个26进制数来计算。<br><code>bce = 2*(26^2) + 3*26 + 5 = 1435</code><br>这样做的好处是大幅减少了hash冲突，缺点是计算量较大，而且有可能出现超出整型范围的情况，需要对计算结果进行取模。为了方便演示，后续采用的是按位相加的hash算法，所以bce的hashcode是10。<br>2. 生成主串当中第一个等长子串的hashcode。由于主串通常要长于模式串，把整个主串转化成hashcode是没有意义的，只有比较主串当中和模式串等长的子串才有意义。因此，首先生成主串中第一个和模式串等长的子串hashcode，即abb = 1 + 2 + 2 = 5。<br>3. 比较两个hashcode。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890984486210.jpg" alt><br>显然，5！=10，说明模式串和第一个子串不匹配，继续下一轮比较。<br>4. 生成主串当中第二个等长子串的hashcode。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890984956125.jpg" alt><br>5. 比较两个hashcode。<br>显然，7！=10，说明模式串和第二个子串不匹配，继续下一轮比较。<br>6. 生成主串当中第三个等长子串的hashcode。bce= 2 + 3 + 5 = 10：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890985466300.jpg" alt><br>7. 比较两个hashcode。显然，10 ==10，两个hash值相等！这是否说明两个字符串也相等呢？由于存在hash冲突的可能，还需要进一步验证。<br>8. 逐个字符比较两字符串。hashcode的比较只是初步验证，之后还需要像BF算法那样，对两个字符串逐个字符比较，最终判断出两个字符串匹配。<br><strong>问题：</strong><br>每次hash的时间复杂度是O(n)，如果把全部的子串都进行hash，总的时间复杂度不是和BF算法一样都是O(mn)吗？<br><strong>解答：</strong><br>从第二个子串的hash开始，每个子串的hash都是由上一个子串进行简单的增量计算得到：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890991091917.jpg" alt><br>上图中，已知子串abbcefg的hashcode是26，那么如何计算下一个子串，也就是bbcefgd的hashcode呢？<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890991244040.jpg" alt><br>由于新子串的前面少了一个a，后面多了一个d，所以：<br><code>新hashcode = 旧hashcode - 1 + 4 = 26-1+4 = 29</code><br><strong>算法优点：</strong><br>和BF算法相比，减少了许多字符的比较，时间复杂度大大提高了。RK算法计算单个子串hash的时间复杂度为O(n)，由于后续的hash计算都为增量计算，因此总的时间复杂度还是O(n)。<br><strong>算法不总：</strong><br>RK算法的不足在于哈希冲突，每次哈希冲突的时候，都要进行主串和模式串的字符逐个比较，如果冲突太多就变成了BF算法。</p>
-<h3 id="BM算法"><a href="#BM算法" class="headerlink" title="BM算法"></a>BM算法</h3><p>// 正在整理中</p>
-<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p>// 正在整理中</p>
+            <table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>command + d</td>
+<td>快速复制并在下一行插入当前行</td>
+</tr>
+<tr>
+<td>command + /</td>
+<td>注释当前行的代码</td>
+</tr>
+<tr>
+<td>command + y</td>
+<td>删除当前行的代码</td>
+</tr>
+<tr>
+<td>command + p</td>
+<td>方法参数提示</td>
+</tr>
+<tr>
+<td>command + j</td>
+<td>快速自动生成一些自动代码，如for循环</td>
+</tr>
+<tr>
+<td>command + b</td>
+<td>快速定位到变量的来源</td>
+</tr>
+<tr>
+<td>control + h</td>
+<td>查看类的继承关系</td>
+</tr>
+<tr>
+<td>command + o</td>
+<td>根据类名全局查看类</td>
+</tr>
+<tr>
+<td>command + shift + 8</td>
+<td>列编辑模式</td>
+</tr>
+<tr>
+<td>command + shift + ↑↓</td>
+<td>将选中的代码上下移动</td>
+</tr>
+<tr>
+<td>command + option + l</td>
+<td>格式化代码</td>
+</tr>
+<tr>
+<td>command + option + t</td>
+<td>把选中的代码放到try{}if{}里</td>
+</tr>
+<tr>
+<td>command + option + b</td>
+<td>导航到一个抽象方法的实现代码</td>
+</tr>
+<tr>
+<td>shift + enter</td>
+<td>切换到下一行</td>
+</tr>
+<tr>
+<td>option + enter</td>
+<td>快速导入包</td>
+</tr>
+<tr>
+<td>control + enter</td>
+<td>新建界面或getter，setter界面</td>
+</tr>
+<tr>
+<td>control + o</td>
+<td>快速覆写父类中的方法</td>
+</tr>
+</tbody></table>
 
           
         
@@ -1906,7 +2021,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">144</span>
+                  <span class="site-state-item-count">146</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1917,7 +2032,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
