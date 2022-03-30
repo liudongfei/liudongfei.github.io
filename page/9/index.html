@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EHive%E9%9B%86%E6%88%90/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EHive%E9%9B%86%E6%88%90/" itemprop="url">Hbase高级—Hbase与Hive集成</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/" itemprop="url">Spark基础—DF</a></h1>
         
 
         <div class="post-meta">
@@ -386,178 +386,11 @@
 
       
         
-          
-            <h2 id="与Hive的集成方式"><a href="#与Hive的集成方式" class="headerlink" title="#与Hive的集成方式"></a>#与Hive的集成方式</h2><p>表的数据存储在hbase中，元数据存储在hive中。两种方式：</p>
-<ul>
-<li>管理表：创建hive表的时候，指定数据存储在hbase中，此时删除hive表，对应的hbase表也会删除 </li>
-<li>外部表：现在已经存在Hbase表，需要对表中的数据进行分析 <h3 id="集成配置"><a href="#集成配置" class="headerlink" title="集成配置"></a>集成配置</h3>1）修改hive-site.xml配置文件，添加配置属<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    	&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">    	&lt;value&gt;mincdh:2181&lt;&#x2F;value&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
-2）修改hive-env.sh文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 添加一个环境变量</span><br><span class="line">export HIVE_CLASSPATH&#x3D;$HIVE_CLASSPATH:&#x2F;hadoop&#x2F;hbase&#x2F;lib&#x2F;*</span><br></pre></td></tr></table></figure>
-3）创建hbase表及插入数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create ‘hbase_hive’, ‘info’</span><br><span class="line">put ‘hbase_hive’, ‘001’, ‘info:name’, ‘zhao’</span><br><span class="line">put ‘hbase_hive’, ‘002’, ‘info:name’, ‘qian’</span><br><span class="line">put ‘hbase_hive’, ‘003’, ‘into:nmae’, ‘sun’</span><br></pre></td></tr></table></figure>
-4）创建并关联hive表<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   create EXTERNAL TABLE hive_hbase (</span><br><span class="line">rowkey string,</span><br><span class="line">name string</span><br><span class="line">   ) STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">   WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;:key,info:name&quot;)</span><br><span class="line">   TBLPROPERTIES (&quot;hbase.table.name&quot; &#x3D; &quot;hbase_hive&quot;);</span><br></pre></td></tr></table></figure>
-5）查询hive表，查看hbase中插入的数据<br><code>select * from hbase_hive</code><br>6）从hive表中插入数据<br><code>insert into hbase_hive select rowkey, name from test;</code><br>7）查询hbase，查看hive中插入的数据<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3></li>
-</ul>
-<ul>
-<li>日志文件利用正则表达式，存储在hive表中 </li>
-<li>创建hive和hbase关联表，将源日志表中的数据加工后 </li>
-<li>insert到hive和hbase的关联表中 </li>
-<li>使用hbase进行交互式查询 </li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/" itemprop="url">Hbase高级—Hbase与MR集成</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>第一步，classpath添加。<br>运行bin/hbase mapredcp命令，查看MR查询hbase时需要的依赖。<br>第二步，maven依赖添加。<br>POM文件中添加hbase-server依赖。Hbase 对 MapReduce 提供支持，它实现了 TableMapper 类和 TableReducer 类，我们只需要继 承这两个类即可。</p>
+          <h3 id="DataFrame的生成"><a href="#DataFrame的生成" class="headerlink" title="DataFrame的生成"></a>DataFrame的生成</h3><ul>
+<li>使用反射的方式生成<br>javaAPI仅支持简单的javabean方式，row形式的RDD。<br>注：java的row在从DF转换成RDD时，会发生数据列顺序的变化<br>scalaAPI支持复杂的javabean方式，row形式的RDD，需要使用SQLContext的隐式转换<br>注：scala的row在从DF转换成RDD时，会保持数据列的顺序</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E4%B8%8EMR%E9%9B%86%E6%88%90/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94DF/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -608,7 +441,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -627,7 +460,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%B7%A5%E5%85%B7%E7%B1%BB/" itemprop="url">Hbase高级—自带工具类</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/" itemprop="url">Spark基础—生态圈</a></h1>
         
 
         <div class="post-meta">
@@ -712,49 +545,18 @@
 
       
         
-          
-            <h3 id="HBase自带工具"><a href="#HBase自带工具" class="headerlink" title="HBase自带工具"></a>HBase自带工具</h3><p>查看hbase-server*.jar包含哪些工具：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_CLASSPATH&#x3D;·hbase mapredcp&#96; yarn jar $&#123;HBASE_HOME&#125;&#x2F;lib&#x2F;hbase-server*.jar</span><br><span class="line">	CellCounter: Count cells in HBase table.</span><br><span class="line">  	WALPlayer: Replay WAL files.</span><br><span class="line">  	completebulkload: Complete a bulk data load.</span><br><span class="line">  	copytable: Export a table from local cluster to peer cluster.</span><br><span class="line">  	export: Write table data to HDFS.</span><br><span class="line">  	exportsnapshot: Export the specific snapshot to a given FileSystem.</span><br><span class="line">  	import: Import data written by Export.</span><br><span class="line">  	importtsv: Import data in TSV format.</span><br><span class="line">  	rowcounter: Count rows in HBase table.</span><br><span class="line">  	verifyrep: Compare the data from tables in two different clusters.</span><br></pre></td></tr></table></figure>
-<h3 id="HBase自带压力测试"><a href="#HBase自带压力测试" class="headerlink" title="HBase自带压力测试"></a>HBase自带压力测试</h3><p><code>hbase pe org.apache.hadoop.hbase.PerformanceEvaluation &lt;OPTIONS&gt; [-D&lt;property=value&gt;]* &lt;command&gt; &lt;nclients&gt;</code><br>其中<br>Options:<br> <code>nomapred        采用MapReduce的方式启动多线程测试还是通过多线程的方式，如果没有安装MapReduce，或者不想用MapReduce，通常我们采用多线程的方式，因此一般在命令中加上--nomapred来表示不使用MapReduce。
- rows            每个客户端(线程)运行的行。默认值：一百万。注意这里的行数是指单线程的行数，如果rows=100， 线程数为10，那么在写测试中，写入HBase的将是 100 x 10 行
- size            总大小,单位GiB。与--rows互斥。默认值：1.0。
- sampleRate      样本比例:对总行数的一部分样本执行测试。只有randomRead支持。默认值：1.0
- traceRate      启用HTrace跨度。每N行启动一次跟踪。默认值：0
- table           测试表的名字，如果不设，默认为TestTable。
- multiGet        如果&gt; 0，则在执行RandomRead时，执行多次获取而不是单次获取。默认值：0
- compress        要使用的压缩类型（GZ，LZO，...）。默认值：&#39;无&#39;
- flushCommits    该参数用于确定测试是否应该刷新表。默认值：false
- writeToWAL      在puts上设置writeToWAL。默认值：True
- autoFlush       默认为false，即PE默认用的是BufferedMutator，BufferedMutator会把数据攒在内存里，达到一定的大小再向服务器发送，如果想明确测单行Put的写入性能，建议设置为true。个人觉得PE中引入autoFlush会影响统计的准确性，因为在没有攒够足够的数据时，put操作会立马返回，根本没产生RPC，但是相应的时间和次数也会被统计在最终结果里。
- oneCon          多线程运行测试时，底层使用一个还是多个链接。这个参数默认值为false，每个thread都会启一个Connection，建议把这个参数设为True
- presplit        表的预分裂region个数，在做性能测试时一定要设置region个数，不然所有的读写会落在一个region上，严重影响性能
- inmemory        试图尽可能保持CF内存的HFile。不保证始终从内存中提供读取。默认值：false
- usetags         与KV一起写标签。与HFile V3配合使用。默认值：false
- numoftags       指定所需的标签号。仅当usetags为true时才有效。
- filterAll       通过不将任何内容返回给客户端，帮助过滤掉服务器端的所有行。通过在内部使用FilterAllFilter,帮助检查服务器端性能。
- latency         设置为报告操作延迟。默认值：False
- bloomFilter      Bloom 过滤器类型，[NONE，ROW，ROWCOL]之一
- valueSize       写入HBase的value的size，单位是Byte，大家可以根据自己实际的场景设置这个Value的大小。默认值：1024
- valueRandom     设置是否应该在0和&#39;valueSize&#39;之间改变值大小;设置读取大小的统计信息：默认值: Not set.
- valueZipf       设置是否应该以zipf格式改变0和&#39;valueSize&#39;之间的值大小, 默认值: Not set.
- period          报告每个&#39;period&#39;行：默认值：opts.perClientRunRows / 10
- multiGet        批处理组合成N组。只有randomRead支持。默认值: disabled
- replicas        启用区域副本测试。默认值：1。
- splitPolicy     为表指定自定义RegionSplitPolicy。
- randomSleep     在每次获得0和输入值之前进行随机睡眠。默认值：0</code><br> Note: -D properties will be applied to the conf used.<br>  For example:<br>   -Dmapreduce.output.fileoutputformat.compress=true<br>   -Dmapreduce.task.timeout=60000</p>
-<p>Command:<br><code>filterScan      使用过滤器运行扫描测试，根据它的值查找特定行（确保使用--rows = 20） 
- randomRead      运行随机读取测试
- randomSeekScan  运行随机搜索和扫描100测试
- randomWrite     运行随机写测试
- scan            运行扫描测试（每行读取）
- scanRange10     使用开始和停止行（最多10行）运行随机搜索扫描
- scanRange100    使用开始和停止行运行随机搜索扫描（最多100行）
- scanRange1000   使用开始和停止行（最多1000行）运行随机搜索扫描
- scanRange10000  使用开始和停止行运行随机搜索扫描（最多10000行）
- sequentialRead  运行顺序读取测试
- sequentialWrite  运行顺序写入测试</code><br>Args:<br> nclients        整数。必须要有该参数。客户端总数（和HRegionServers）<br>running: 1 &lt;= value &lt;= 500</p>
-
-          
+          <h3 id="Spark生态圈介绍"><a href="#Spark生态圈介绍" class="headerlink" title="Spark生态圈介绍"></a>Spark生态圈介绍</h3><ul>
+<li>Spark Core：核心模块，基于Rdd处理数据</li>
+<li>Spark SQL：sql处理模块，基于dataframe的处理结构化数据</li>
+<li>Spark Streaming：流处理模块，用于处理流式数据的组件</li>
+<li>Spark MLLib：机器学习模块</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E5%9F%BA%E7%A1%80%E2%80%94%E7%94%9F%E6%80%81%E5%9C%88/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -801,7 +603,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -820,7 +622,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/" itemprop="url">Hbase高级—Hbase备份与恢复</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/" itemprop="url">Spark核心—任务提交</a></h1>
         
 
         <div class="post-meta">
@@ -905,10 +707,15 @@
 
       
         
-          
-            <p>//正在整理中</p>
-
-          
+          <h2 id="Spark的Shuffle过程原理剖析及源码分析"><a href="#Spark的Shuffle过程原理剖析及源码分析" class="headerlink" title="Spark的Shuffle过程原理剖析及源码分析"></a>Spark的Shuffle过程原理剖析及源码分析</h2><h3 id="什么情况下会发生shuffle"><a href="#什么情况下会发生shuffle" class="headerlink" title="什么情况下会发生shuffle"></a>什么情况下会发生shuffle</h3><p>在如下这些算子时会发生shuffle动作：reduceByKey、groupByKey、sortByKey、countByKey、join、corgroup等。总体来讲就是byKey类算子，join类算子。</p>
+<h3 id="默认情况下的shuffle原理剖析"><a href="#默认情况下的shuffle原理剖析" class="headerlink" title="默认情况下的shuffle原理剖析"></a>默认情况下的shuffle原理剖析</h3><p>默认情况下，Spark的shuffle原理图如下，如果该节点有2个cpu可用，三个shuffleMapTask：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94shuffle%E8%A7%A3%E6%9E%90/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -955,7 +762,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -974,7 +781,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" itemprop="url">Hbase高级—Hbase的负载均衡</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/" itemprop="url">Spark核心—任务提交</a></h1>
         
 
         <div class="post-meta">
@@ -1059,10 +866,14 @@
 
       
         
-          
-            <p>//正在整理中</p>
-
-          
+          <h2 id="Spark的spark-submit脚本详解"><a href="#Spark的spark-submit脚本详解" class="headerlink" title="Spark的spark-submit脚本详解"></a>Spark的spark-submit脚本详解</h2><p>需要将spark需要的第三方jar打入spark工程jar，将spark和hadoop的依赖配置成provided，仅仅在开发和编译时有效，打包时不会打入这些jar，集群管理器会提供这些jar。<br>spark-submit封装了spark-class，—verbose打印详细的配置及调试信息</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1109,7 +920,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E8%BF%90%E7%BB%B4/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1128,7 +939,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E8%BF%90%E7%BB%B4/" itemprop="url">Hbase高级—Hbase运维</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" itemprop="url">Spark核心—架构详解</a></h1>
         
 
         <div class="post-meta">
@@ -1213,10 +1024,14 @@
 
       
         
-          
-            <p>//正在整理中</p>
-
-          
+          <h2 id="Spark-Standalone模式的Master和Worker启动脚本详解"><a href="#Spark-Standalone模式的Master和Worker启动脚本详解" class="headerlink" title="Spark Standalone模式的Master和Worker启动脚本详解"></a>Spark Standalone模式的Master和Worker启动脚本详解</h2><p>为啥要单独启动？<br>在单独启动两个进程的时候可以通过命令行参数为进程配置独特的参数。启动顺序，先启动Master，后启动Worker。Master启动后，要观察是否会将master的URL（Spark://host:port）打印。Worker使用URL进行向master注册，都启动后可以访问web ui查看集群状态</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1263,7 +1078,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1282,7 +1097,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/01-Hbase%E6%95%B0%E6%8D%AE%E5%BA%93/Hbase%E9%AB%98%E7%BA%A7%E2%80%94Hbase%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/" itemprop="url">Hbase高级—Hbase系统调优</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/" itemprop="url">Hive核心—分区和分桶</a></h1>
         
 
         <div class="post-meta">
@@ -1367,10 +1182,14 @@
 
       
         
-          
-            <p>//正在整理中</p>
-
-          
+          <h3 id="分区-Partition"><a href="#分区-Partition" class="headerlink" title="分区(Partition)"></a>分区(Partition)</h3><p>在Hive Select查询中一般会扫描整个表内容，会消耗很多时间做没必要的工作。有时候只需要扫描表中关心的一部分数据，因此建表时引入了partition概念。分区表指的是在创建表时指定的partition的分区空间。 Hive可以对数据按照某列或者某些列进行分区管理，所谓分区我们可以拿下面的例子进行解释。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94%E5%88%86%E5%8C%BA%E5%92%8C%E5%88%86%E6%A1%B6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1417,7 +1236,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1436,7 +1255,168 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/03-Kafka%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Kafka基础—知识图谱</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/" itemprop="url">Hive核心—join语句</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Hive的join类型"><a href="#Hive的join类型" class="headerlink" title="Hive的join类型"></a>Hive的join类型</h3><ul>
+<li>内连接 inner join </li>
+<li>左连接 left join </li>
+<li>右连接 right join</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/00-Hadoop%E7%94%9F%E6%80%81%E5%9C%88/Hive%E6%A0%B8%E5%BF%83%E2%80%94join%E8%AF%AD%E5%8F%A5/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/02-Spark%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/Spark%E6%A0%B8%E5%BF%83%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" itemprop="url">Spark核心—高级特性</a></h1>
         
 
         <div class="post-meta">
@@ -1522,7 +1502,25 @@
       
         
           
-            
+            <h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>默认情况下，算子的函数内使用到的外部变量，都会被拷贝一份副本到每一个task中，如果某个变量特别大就会占用网络传输和内存空间，如果使用共享变量，则变量在每个节点只有一个副本，各个task共享这个变量。累加器的值只能在Driver中取出 </p>
+<h3 id="CheckPoint"><a href="#CheckPoint" class="headerlink" title="CheckPoint"></a>CheckPoint</h3><p>Checkpoint是spark提供的比较高级的功能，比如在比较复杂的app中，某个rdd要经常用到，某个任务经常失败，重试时需要父RDD的数据，此时数据由于数据丢失需要重新进行计算，此时需要用到checkpoint，将需要的rdd持久化到一个高可用文件系统中。<br>如何进行checkpoint：<br><code>SparkContext.setCheckpointDir()
+Rdd.checkpoint()</code></p>
+<h4 id="Checkpoint原理"><a href="#Checkpoint原理" class="headerlink" title="Checkpoint原理"></a>Checkpoint原理</h4><p>一个RDD如果要checkpoint，则会在该RDD所在的job结束后，单独起一个job沿着当前job的lineage向上查找每个需要checkpoint的RDD，将数据写入指定的文件系统路径中，写入成功后，会将该rdd的所有依赖全部删除，将父Rdd设置为CheckpointRDD。 将一个RDDcheckpoint时，要先设置该RDD的持久化persist到磁盘，如果没有persist那么后面进行checkpoint时需要重新计算一次rdd。 </p>
+<h4 id="checkpoint与persist的区别"><a href="#checkpoint与persist的区别" class="headerlink" title="checkpoint与persist的区别"></a>checkpoint与persist的区别</h4><p>与持久化的区别，持久化只是将数据保存BM中，依赖关系时不变的，但是RDD的依赖改变了，其次是持久化的数据是可能丢失的，但是checkpoint的数据丢失的可能性非常低。 </p>
+<h3 id="动态资源调度"><a href="#动态资源调度" class="headerlink" title="动态资源调度"></a>动态资源调度</h3><p>（standalone模式需要启动shuffleservice）<br>yarn模式需要拷贝jar<br>修改yarn的配置文件，配置yarn的shuffle service<br>重启集群<br>一个app中的多个job的资源调度策略</p>
+<ul>
+<li>FIFO调度 </li>
+<li>公平调度：spark.scheduler.mode，fair<br>可以对线程中不同的job放置不同的池，不同池可以配置不同的调度，不同的优先级，池子配置可以通过spark/conf/fairscheduler.xml进行配置 <h3 id="spark2-0的新版本特性"><a href="#spark2-0的新版本特性" class="headerlink" title="spark2.0的新版本特性"></a>spark2.0的新版本特性</h3></li>
+<li>新增StructurtedStreaming模块，整合流计算和批处理 </li>
+<li>将spark1.X中的Volcano Iterator Model升级到第二代Whole-stage code generation，性能更加快速<br>使用vectorization（即向量化）技术处理parquet文件扫描等任务，也就是避免避免每次仅处理一条数据，而是将数据通过列的方式组织为一个个的batch，进行迭代处理 </li>
+<li>cpu密集型应用可以通过spark2.X进行一个数量级的速度提升，IO密集型的性能提高不大 </li>
+<li>Spark通过rest方式使用curl进行集群任务监控 </li>
+<li>通过metrics的sink机制进行集群监控 </li>
+<li>SparkSql的thriftserver服务</li>
+<li>启动了该服务， 可以通过hive下的beeline直接通过sparksql查询hive中的数据 </li>
+<li>用http的方式启动该服务时，可以通过java的jdbc的方式访问hive     </li>
+</ul>
+
           
         
       
