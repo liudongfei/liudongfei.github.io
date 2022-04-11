@@ -282,6 +282,253 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/04/11/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/005-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/04/11/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/005-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Linux运维—常用命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-04-11T23:31:20+08:00">
+                2022-04-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-04-12T00:12:54+08:00">
+                2022-04-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="基础命令操作"><a href="#基础命令操作" class="headerlink" title="基础命令操作"></a>基础命令操作</h2><ul>
+<li>显示日期与时间的命令：date</li>
+<li>显示日历的命令：cal</li>
+<li>简单好用的计算器：bc<h2 id="在线求助命令man-page"><a href="#在线求助命令man-page" class="headerlink" title="在线求助命令man page"></a>在线求助命令man page</h2>命令类别代号：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>代号</th>
+<th>代表内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>用户在shell环境中可以执行的命令或者可执行文件</td>
+</tr>
+<tr>
+<td>2</td>
+<td>系统内核可调用的函数与工具等</td>
+</tr>
+<tr>
+<td>3</td>
+<td>一些常用的C函数库（libc）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>设备文件说明，在/dev下面</td>
+</tr>
+<tr>
+<td>5</td>
+<td>配置文件或者是某些文件的格式</td>
+</tr>
+<tr>
+<td>6</td>
+<td>游戏（games）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>惯例与协议，例如Linux文件系统、网络协议等说明</td>
+</tr>
+<tr>
+<td>8</td>
+<td>系统管理员可用的管理命令</td>
+</tr>
+<tr>
+<td>9</td>
+<td>跟kernel有关的文件</td>
+</tr>
+</tbody></table>
+<p>命令目录说明：</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NAME</td>
+<td>简短的命令、数据名称说明</td>
+</tr>
+<tr>
+<td>SYNOPSIS</td>
+<td>简短的命令执行语法简介</td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>较为完成的说明，仔细看看</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>针对SYNOPSIS部分中，可用选项说明</td>
+</tr>
+<tr>
+<td>SEE ALSO</td>
+<td>这个命令或者数据有相关的其他说明</td>
+</tr>
+<tr>
+<td>EXAMPLE</td>
+<td>一些可以参考的范例</td>
+</tr>
+</tbody></table>
+<h2 id="关机命令"><a href="#关机命令" class="headerlink" title="关机命令"></a>关机命令</h2><ul>
+<li>数据同步写入磁盘sync：</li>
+<li>关机命令shutdown：</li>
+<li>重启reboot：</li>
+<li>切换执行等级init：<br>常用的四种执行等级：</li>
+</ul>
+<ul>
+<li>run level 0: 关机</li>
+<li>run level 3: 纯命令行模式</li>
+<li>run level 5: 含有图形界面模式</li>
+<li>run level 6: 重启</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/03/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/004-%E4%B8%BB%E5%BC%95%E5%AF%BC%E6%B5%81%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1610,7 +1857,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/01Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1629,7 +1876,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/01Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/" itemprop="url">Java基础—Java易错点总结</a></h1>
+                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/" itemprop="url">Java核心—IO流</a></h1>
         
 
         <div class="post-meta">
@@ -1657,8 +1904,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2021-03-12T14:58:37+08:00">
-                2021-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
               </time>
             
           </span>
@@ -1714,176 +1961,10 @@
 
       
         
-          <h3 id="JVM、JDK和JRE的区别"><a href="#JVM、JDK和JRE的区别" class="headerlink" title="JVM、JDK和JRE的区别"></a>JVM、JDK和JRE的区别</h3><ul>
-<li>JVM是运行Java字节码的虚拟机。</li>
-<li>JDK是运行已编译的Java程序的所有内容的集合，包含JVM、java类库、java命令和一些基础构件。</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/01Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/02Java%E5%9F%BA%E7%A1%80%E2%80%94%E9%9B%86%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/02Java%E5%9F%BA%E7%A1%80%E2%80%94%E9%9B%86%E5%90%88/" itemprop="url">Java基础—集合</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-11-19T17:22:01+08:00">
-                2021-11-19
-              </time>
-            
-          </span>
+          
+            <p>// 正在整理中</p>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Arraylist-、LinkedList-区别"><a href="#Arraylist-、LinkedList-区别" class="headerlink" title="Arraylist 、LinkedList 区别"></a>Arraylist 、LinkedList 区别</h3><ul>
-<li>是否保证线程安全： ArrayList 和 LinkedList 都是不同步的，也就是不保证线程安全。</li>
-<li>底层数据结构： Arraylist 底层使用的是 Object 数组；LinkedList 底层使用的是双向链表数据结构。</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/02Java%E5%9F%BA%E7%A1%80%E2%80%94%E9%9B%86%E5%90%88/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1967,7 +2048,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">148</span>
+                  <span class="site-state-item-count">149</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

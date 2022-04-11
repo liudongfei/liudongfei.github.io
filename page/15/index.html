@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94Mysql%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94Mysql%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" itemprop="url">Mysql优化—分页查询优化</a></h1>
+                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/" itemprop="url">Mysql基础—Mysql安装</a></h1>
         
 
         <div class="post-meta">
@@ -386,47 +386,17 @@
 
       
         
-          
-            <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。</p>
-<ul>
-<li>表名：order_history</li>
-<li>描述：某个业务的订单历史表</li>
-<li>主要字段：unsigned int id，tinyint(4) int type</li>
-<li>字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。</li>
-<li>数据量：5709294</li>
-<li>MySQL版本：5.7.16</li>
-<li>线下找一张百万级的测试表可不容易，如果需要自己测试的话，可以写shell脚本什么的插入数据进行测试。<br>以下的 sql 所有语句执行的环境没有发生改变，下面是基本测试结果：<br><code>select count(*) from orders_history;</code><br>返回结果：5709294<br>三次查询时间分别为：<br><code>8903 ms
-8323 ms
-8401 ms</code><h3 id="一般分页查询"><a href="#一般分页查询" class="headerlink" title="一般分页查询"></a>一般分页查询</h3>一般的分页查询使用简单的 limit 子句就可以实现。limit 子句声明如下：<br><code>SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</code><br>LIMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</li>
-<li>第一个参数指定第一个返回记录行的偏移量，注意从0开始</li>
-<li>第二个参数指定返回记录行的最大数目</li>
-<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
-<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
-<li>初始记录行的偏移量是 0(而不是 1)</li>
-</ul>
-<p>针对这种查询方式，下面测试查询记录量对时间的影响：<br><code>select * from orders_history where type=8 limit 10000,1;
-select * from orders_history where type=8 limit 10000,10;
-select * from orders_history where type=8 limit 10000,100;
-select * from orders_history where type=8 limit 10000,1000;
-select * from orders_history where type=8 limit 10000,10000;</code><br>三次查询时间如下：<br><code>查询1条记录：3072ms 3092ms 3002ms
-查询10条记录：3081ms 3077ms 3032ms
-查询100条记录：3118ms 3200ms 3128ms
-查询1000条记录：3412ms 3468ms 3394ms
-查询10000条记录：3749ms 3802ms 3696ms</code><br>随着查询偏移的增大，尤其查询偏移大于10万以后，查询时间急剧增加。这种分页查询方式会从数据库第一条记录开始扫描，所以越往后，查询速度越慢，而且查询的数据越多，也会拖慢总查询速度。</p>
-<h3 id="使用子查询优化"><a href="#使用子查询优化" class="headerlink" title="使用子查询优化"></a>使用子查询优化</h3><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。<br><code>select * from orders_history where type=8 limit 100000,1;
-select id from orders_history where type=8 limit 100000,1;
-select * from orders_history where type=8 and id&gt;=(select id from orders_history where type=8 limit 100000,1) limit 100;
-select * from orders_history where type=8 limit 100000,100;</code><br>4条语句的查询时间如下：<br><code>第1条语句：3674ms
-第2条语句：1315ms
-第3条语句：1327ms
-第4条语句：3710ms</code><br>针对上面的查询需要注意：<br>比较第1条语句和第2条语句：使用 select id 代替 select * 速度增加了3倍<br>比较第2条语句和第3条语句：速度相差几十毫秒<br>比较第3条语句和第4条语句：得益于 select id 速度增加，第3条语句查询速度增加了3倍<br>这种方式相较于原始一般的查询方法，将会增快数倍。</p>
-<h3 id="使用-id-限定优化"><a href="#使用-id-限定优化" class="headerlink" title="使用 id 限定优化"></a>使用 id 限定优化</h3><p>这种方式假设数据表的id是 连续递增 的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：<br><code>select * from orders_history where type=2 and id between 1000000 and 1000100 limit 100;</code><br>查询时间：15ms 12ms 9ms</p>
-<p>这种查询方式能够极大地优化查询速度，基本能够在几十毫秒之内完成。限制是只能使用于明确知道id的情况，不过一般建立表的时候，都会添加基本的id字段，这为分页查询带来很多便利。</p>
-<p>当然还可以使用 in 的方式来进行查询，这种方式经常用在多表关联的时候进行查询，使用其他表查询的id集合，来进行查询：<br><code>select * from orders_history where id in (select order_id from trade_2 where goods = &#39;pen&#39;) limit 100;</code><br>这种 in 查询的方式要注意：某些 mysql 版本不支持在 in 子句中使用 limit。</p>
-<h3 id="使用临时表优化"><a href="#使用临时表优化" class="headerlink" title="使用临时表优化"></a>使用临时表优化</h3><p>这种方式已经不属于查询优化，这儿附带提一下。</p>
-<p>对于使用 id 限定优化中的问题，需要 id 是连续递增的，但是在一些场景下，比如使用历史表的时候，或者出现过数据缺失问题时，可以考虑使用临时存储的表来记录分页的id，使用分页的id来进行 in 查询。这样能够极大的提高传统的分页查询速度，尤其是数据量上千万的时候。</p>
-
-          
+          <h3 id="安装mysql5-7"><a href="#安装mysql5-7" class="headerlink" title="安装mysql5.7"></a>安装mysql5.7</h3><ol>
+<li>下载并安装Mysql官方的yum repo<br><code>[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</code><br><code>[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</code></li>
+<li>开始安装mysql服务器<br><code>[root@localhost ~]# yum -y install mysql-community-server</code></li>
+<li>mysql数据库配置</li></ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -826,6 +796,197 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94Mysql%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94Mysql%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" itemprop="url">Mysql优化—分页查询优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>为了对下面列举的一些优化进行测试，下面针对已有的一张表进行说明。</p>
+<ul>
+<li>表名：order_history</li>
+<li>描述：某个业务的订单历史表</li>
+<li>主要字段：unsigned int id，tinyint(4) int type</li>
+<li>字段情况：该表一共37个字段，不包含text等大型数据，最大为varchar(500)，id字段为索引，且为递增。</li>
+<li>数据量：5709294</li>
+<li>MySQL版本：5.7.16</li>
+<li>线下找一张百万级的测试表可不容易，如果需要自己测试的话，可以写shell脚本什么的插入数据进行测试。<br>以下的 sql 所有语句执行的环境没有发生改变，下面是基本测试结果：<br><code>select count(*) from orders_history;</code><br>返回结果：5709294<br>三次查询时间分别为：<br><code>8903 ms
+8323 ms
+8401 ms</code><h3 id="一般分页查询"><a href="#一般分页查询" class="headerlink" title="一般分页查询"></a>一般分页查询</h3>一般的分页查询使用简单的 limit 子句就可以实现。limit 子句声明如下：<br><code>SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</code><br>LIMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</li>
+<li>第一个参数指定第一个返回记录行的偏移量，注意从0开始</li>
+<li>第二个参数指定返回记录行的最大数目</li>
+<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
+<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
+<li>初始记录行的偏移量是 0(而不是 1)</li>
+</ul>
+<p>针对这种查询方式，下面测试查询记录量对时间的影响：<br><code>select * from orders_history where type=8 limit 10000,1;
+select * from orders_history where type=8 limit 10000,10;
+select * from orders_history where type=8 limit 10000,100;
+select * from orders_history where type=8 limit 10000,1000;
+select * from orders_history where type=8 limit 10000,10000;</code><br>三次查询时间如下：<br><code>查询1条记录：3072ms 3092ms 3002ms
+查询10条记录：3081ms 3077ms 3032ms
+查询100条记录：3118ms 3200ms 3128ms
+查询1000条记录：3412ms 3468ms 3394ms
+查询10000条记录：3749ms 3802ms 3696ms</code><br>随着查询偏移的增大，尤其查询偏移大于10万以后，查询时间急剧增加。这种分页查询方式会从数据库第一条记录开始扫描，所以越往后，查询速度越慢，而且查询的数据越多，也会拖慢总查询速度。</p>
+<h3 id="使用子查询优化"><a href="#使用子查询优化" class="headerlink" title="使用子查询优化"></a>使用子查询优化</h3><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。<br><code>select * from orders_history where type=8 limit 100000,1;
+select id from orders_history where type=8 limit 100000,1;
+select * from orders_history where type=8 and id&gt;=(select id from orders_history where type=8 limit 100000,1) limit 100;
+select * from orders_history where type=8 limit 100000,100;</code><br>4条语句的查询时间如下：<br><code>第1条语句：3674ms
+第2条语句：1315ms
+第3条语句：1327ms
+第4条语句：3710ms</code><br>针对上面的查询需要注意：<br>比较第1条语句和第2条语句：使用 select id 代替 select * 速度增加了3倍<br>比较第2条语句和第3条语句：速度相差几十毫秒<br>比较第3条语句和第4条语句：得益于 select id 速度增加，第3条语句查询速度增加了3倍<br>这种方式相较于原始一般的查询方法，将会增快数倍。</p>
+<h3 id="使用-id-限定优化"><a href="#使用-id-限定优化" class="headerlink" title="使用 id 限定优化"></a>使用 id 限定优化</h3><p>这种方式假设数据表的id是 连续递增 的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：<br><code>select * from orders_history where type=2 and id between 1000000 and 1000100 limit 100;</code><br>查询时间：15ms 12ms 9ms</p>
+<p>这种查询方式能够极大地优化查询速度，基本能够在几十毫秒之内完成。限制是只能使用于明确知道id的情况，不过一般建立表的时候，都会添加基本的id字段，这为分页查询带来很多便利。</p>
+<p>当然还可以使用 in 的方式来进行查询，这种方式经常用在多表关联的时候进行查询，使用其他表查询的id集合，来进行查询：<br><code>select * from orders_history where id in (select order_id from trade_2 where goods = &#39;pen&#39;) limit 100;</code><br>这种 in 查询的方式要注意：某些 mysql 版本不支持在 in 子句中使用 limit。</p>
+<h3 id="使用临时表优化"><a href="#使用临时表优化" class="headerlink" title="使用临时表优化"></a>使用临时表优化</h3><p>这种方式已经不属于查询优化，这儿附带提一下。</p>
+<p>对于使用 id 限定优化中的问题，需要 id 是连续递增的，但是在一些场景下，比如使用历史表的时候，或者出现过数据缺失问题时，可以考虑使用临时存储的表来记录分页的id，使用分页的id来进行 in 查询。这样能够极大的提高传统的分页查询速度，尤其是数据量上千万的时候。</p>
+
+          
         
       
     </div>
@@ -1343,165 +1504,6 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/" itemprop="url">Redis核心—优化及性能提升</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Redis降低内存占用"><a href="#Redis降低内存占用" class="headerlink" title="Redis降低内存占用"></a>Redis降低内存占用</h3><h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><p>Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。</p>
-<p>压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1650,6 +1652,165 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/" itemprop="url">Redis核心—优化及性能提升</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Redis降低内存占用"><a href="#Redis降低内存占用" class="headerlink" title="Redis降低内存占用"></a>Redis降低内存占用</h3><h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><p>Redis为列表、集合、散列和有序集合提供了一组配置选项，可以让Redis以更节约空间的方式存储长度较短的结构。</p>
+<p>压缩列表是列表、散列和有序集合这3种不同类型的对象的一种非结构化表示，压缩列表以序列化的方式存储数据，这些数据每次被读取的时候都要进行解码，每次被写入的时候也要进行局部的重新编码。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%BC%98%E5%8C%96%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1700,7 +1861,7 @@ select * from orders_history where type=8 limit 100000,100;</code><br>4条语句
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">148</span>
+                  <span class="site-state-item-count">149</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

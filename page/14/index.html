@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/Spark%E5%92%8CFlink%E5%AF%B9%E6%AF%94/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/Spark%E5%92%8CFlink%E5%AF%B9%E6%AF%94/" itemprop="url">Spark和Flink对比</a></h1>
+                <a class="post-title-link" href="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" itemprop="url">乐观锁和悲观锁</a></h1>
         
 
         <div class="post-meta">
@@ -387,653 +387,259 @@
       
         
           
-            <h3 id="从Spark-Streaming迁移到Flink的效果总结"><a href="#从Spark-Streaming迁移到Flink的效果总结" class="headerlink" title="从Spark Streaming迁移到Flink的效果总结"></a>从Spark Streaming迁移到Flink的效果总结</h3><p>从 Spark Streaming 迁移到 Flink 流式计算在经过一段时间的合作优化后，提供了一些使用效果小结，其中有几个关键点：</p>
+            <h2 id="乐观锁、悲观锁"><a href="#乐观锁、悲观锁" class="headerlink" title="乐观锁、悲观锁"></a>乐观锁、悲观锁</h2><p>###悲观锁<br>总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁（共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程）。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。Java中synchronized和ReentrantLock等独占锁就是悲观锁思想的实现。<br>###乐观锁<br>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。</p>
+<h3 id="两种锁的使用场景"><a href="#两种锁的使用场景" class="headerlink" title="两种锁的使用场景"></a>两种锁的使用场景</h3><p>从上面对两种锁的介绍，我们知道两种锁各有优缺点，不可认为一种好于另一种，像乐观锁适用于写比较少的情况下（多读场景），即冲突真的很少发生的时候，这样可以省去了锁的开销，加大了系统的整个吞吐量。但如果是多写的情况，一般会经常产生冲突，这就会导致上层应用会不断的进行retry，这样反倒是降低了性能，所以一般多写的场景下用悲观锁就比较合适。</p>
+<h2 id="乐观锁常见的两种实现方式"><a href="#乐观锁常见的两种实现方式" class="headerlink" title="乐观锁常见的两种实现方式"></a>乐观锁常见的两种实现方式</h2><ol>
+<li>版本号机制<br>一般是在数据表中加上一个数据版本号version字段，表示数据被修改的次数，当数据被修改时，version值会加一。当线程A要更新数据值时，在读取数据的同时也会读取version值，在提交更新时，若刚才读取到的version值为当前数据库中的version值相等时才更新，否则重试更新操作，直到更新成功。</li>
+<li>CAS算法<br>即compare and swap（比较与交换），是一种有名的无锁算法。无锁编程，即不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步（Non-blocking Synchronization）。CAS算法涉及到三个操作数<br> ▪    需要读写的内存值 V<br> ▪    进行比较的值 A<br> ▪    拟写入的新值 B<br>当且仅当 V 的值等于 A时，CAS通过原子方式用新值B来更新V的值，否则不会执行任何操作（比较和替换是一个原子操作）。一般情况下是一个自旋操作，即不断的重试。<br>###乐观锁的缺点<br>####1 ABA 问题<br>如果一个变量V初次读取的时候是A值，并且在准备赋值的时候检查到它仍然是A值，那我们就能说明它的值没有被其他线程修改过了吗？很明显是不能的，因为在这段时间它的值可能被改为其他值，然后又改回A，那CAS操作就会误认为它从来没有被修改过。这个问题被称为CAS操作的 “ABA”问题。<br>JDK 1.5 以后的 AtomicStampedReference 类就提供了此种能力，其中的 compareAndSet 方法就是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志，如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。<h4 id="2-循环时间长开销大"><a href="#2-循环时间长开销大" class="headerlink" title="2 循环时间长开销大"></a>2 循环时间长开销大</h4>自旋CAS（也就是不成功就一直循环执行直到成功）如果长时间不成功，会给CPU带来非常大的执行开销。 如果JVM能支持处理器提供的pause指令那么效率会有一定的提升，pause指令有两个作用，第一它可以延迟流水线执行指令（de-pipeline）,使CPU不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零。第二它可以避免在退出循环的时候因内存顺序冲突（memory order violation）而引起CPU流水线被清空（CPU pipeline flush），从而提高CPU的执行效率。<h4 id="3-只能保证一个共享变量的原子操作"><a href="#3-只能保证一个共享变量的原子操作" class="headerlink" title="3 只能保证一个共享变量的原子操作"></a>3 只能保证一个共享变量的原子操作</h4>CAS 只对单个共享变量有效，当操作涉及跨多个共享变量时 CAS 无效。但是从 JDK 1.5开始，提供了AtomicReference类来保证引用对象之间的原子性，你可以把多个变量放在一个对象里来进行 CAS 操作.所以我们可以使用锁或者利用AtomicReference类把多个共享变量合并成一个共享变量来操作。<h4 id="4-CAS与synchronized的使用情景"><a href="#4-CAS与synchronized的使用情景" class="headerlink" title="4 CAS与synchronized的使用情景"></a>4 CAS与synchronized的使用情景</h4>简单的来说CAS适用于写比较少的情况下（多读场景，冲突一般较少），synchronized适用于写比较多的情况下（多写场景，冲突一般较多）<ol>
+<li>对于资源竞争较少（线程冲突较轻）的情况，使用synchronized同步锁进行线程阻塞和唤醒切换以及用户态内核态间的切换操作额外浪费消耗cpu资源；而CAS基于硬件实现，不需要进入内核，不需要切换线程，操作自旋几率较少，因此可以获得更高的性能。</li>
+<li>对于资源竞争严重（线程冲突严重）的情况，CAS自旋的概率会比较大，从而浪费更多的CPU资源，效率低于synchronized。<br>补充： Java并发编程这个领域中synchronized关键字一直都是元老级的角色，很久之前很多人都会称它为 “重量级锁” 。但是，在JavaSE 1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的 偏向锁 和 轻量级锁 以及其它各种优化之后变得在某些情况下并不是那么重了。synchronized的底层实现主要依靠 Lock-Free 的队列，基本思路是 自旋后阻塞，竞争切换后继续竞争锁，稍微牺牲了公平性，但获得了高吞吐量。在线程冲突较少的情况下，可以获得和CAS类似的性能；而线程冲突严重的情况下，性能远高于CAS。</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/" itemprop="url">RPC详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>RPC（Remote Procedure Call）：远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的思想。</p>
+<p>RPC 是一种技术思想而非一种规范或协议，常见 RPC 技术和框架有：</p>
 <ul>
-<li>对于无状态作业，数据处理的延迟由之前 Spark Streaming 的 16129ms 降低到 Flink 的 926ms，有 94.2% 的显著提升（有状态作业也有提升，但是和具体业务逻辑有关，不做介绍）；</li>
-<li>对后端存储系统的写入延迟从 80ms 降低到了 20ms 左右，如下图（这是因为 Spark Streaming 的 mini batch 模式会在 batch 最后有批量写存储系统的操作，从而造成写请求尖峰，Flink 则没有类似问题）:</li>
-<li>对于简单的从消息队列 Talos 到存储系统 HDFS 的数据清洗作业（ETL），由之前 Spark Streaming 的占用 210 个 CPU Core 降到了 Flink 的 32 个 CPU Core，资源利用率提高了 84.8%；<h3 id="调度计算-VS-调度数据"><a href="#调度计算-VS-调度数据" class="headerlink" title="调度计算 VS 调度数据"></a>调度计算 VS 调度数据</h3>对于任何一个分布式计算框架而言，如果“数据”和“计算”不在同一个节点上，那么它们中必须有一个需要移动到另一个所在的节点。如果把计算调度到数据所在的节点，那就是“调度计算”，反之则是“调度数据”；在这一点上 Spark Streaming 和 Flink 的实现是不同的。Spark 在调度该分片的计算的时候，会尽量把该分片的计算调度到数据所在的节点，从而提高计算效率。</li>
+<li>应用级的服务框架：阿里的 Dubbo/Dubbox、Google gRPC、Spring Boot/Spring Cloud。</li>
+<li>远程通信协议：RMI、Socket、SOAP(HTTP XML)、REST(HTTP JSON)。</li>
+<li>通信框架：MINA 和 Netty。</li>
 </ul>
-<p>“调度计算”的方法在批处理中有很大的优势，因为”计算”相比于”数据”来讲一般信息量比较小，如果“计算”可以在“数据”所在的节点执行的话，会省去大量网络传输，节省带宽的同时提高了计算效率。</p>
-<p>但是在流式计算中，以 Spark Streaming 的调度方法为例，由于需要频繁的调度”计算“，则会有一些效率上的损耗。首先，每次”计算“的调度都是要消耗一些时间的，比如“计算”信息的序列化 → 传输 → 反序列化 → 初始化相关资源 → 计算执行→执行完的清理和结果上报等，这些都是一些”损耗”。另外，用户的计算中一般会有一些资源的初始化逻辑，比如初始化外部系统的客户端（类似于 Kafka Producer 或 Consumer)；每次计算的重复调度容易导致这些资源的重复初始化，需要用户对执行逻辑有一定的理解，才能合理地初始化资源，避免资源的重复创建；这就提高了使用门槛，容易埋下隐患；通过业务支持发现，在实际生产过程中，经常会遇到大并发的 Spark Streaming 作业给 Kafka 或 HBase 等存储系统带来巨大连接压力的情况，就是因为用户在计算逻辑中一直重复创建连接。</p>
-<p>Flink 和 Storm 类似，都是通过“调度数据”来完成计算的，也就是“计算逻辑”初始化并启动后，如果没有异常会一直执行，源源不断地消费上游的数据，处理后发送到下游；有点像工厂里的流水线，货物在传送带上一直传递，每个工人专注完成自己的处理逻辑即可。</p>
-<p>虽然“调度数据”和“调度计算”有各自的优势，但是在流式计算的实际生产场景中，“调度计算”很可能“有力使不出来”；比如一般流式计算都是消费消息队列 Kafka或 Talos 的数据进行处理，而实际生产环境中为了保证消息队列的低延迟和易维护，一般不会和计算节点（比如 Yarn 服务的节点）混布，而是有各自的机器（不过很多时候是在同一机房）；所以无论是 Spark 还是 Flink，都无法避免消息队列数据的跨网络传输。所以从实际使用体验上讲，Flink 的调度数据模式，显然更容易减少损耗，提高计算效率，同时在使用上更符合用户“直觉”，不易出现重复创建资源的情况。</p>
-<p>不过这里不得不提的一点是，Spark Streaming 的“调度计算”模式，对于处理计算系统中的“慢节点”或“异常节点”有天然的优势。比如如果 Yarn 集群中有一台节点磁盘存在异常，导致计算不停地失败，Spark 可以通过 blacklist 机制停止调度计算到该节点，从而保证整个作业的稳定性。或者有一台计算节点的 CPU Load 偏高，导致处理比较慢，Spark 也可以通过 speculation 机制及时把同一计算调度到其他节点，避免慢节点拖慢整个作业；而以上特性在 Flink 中都是缺失的。</p>
-<h3 id="Mini-batch-VS-streaming"><a href="#Mini-batch-VS-streaming" class="headerlink" title="Mini batch VS streaming"></a>Mini batch VS streaming</h3><p>Spark Streaming 并不是真正意义上的流式计算，而是从批处理衍生出来的 mini batch 计算。Spark 根据 RDD 依赖关系中的 shuffle dependency 进行作业的 Stage 划分，每个 Stage 根据 RDD 的 partition 信息切分成不同的分片；在实际执行的时候，只有当每个分片对应的计算结束之后，整个 Stage 才算计算完成。这种模式容易出现“长尾效应”，比如如果某个分片数据量偏大，那么其他分片也必须等这个分片计算完成后，才能进行下一轮的计算(Spark speculation对这种情况也没有好的作用，因为这个是由于分片数据不均匀导致的），这样既增加了其他分片的数据处理延迟，也浪费了资源。</p>
-<p>而 Flink 则是为真正的流式计算而设计的（并且把批处理抽象成有限流的数据计算），上游数据是持续发送到下游的，这样就避免了某个长尾分片导致其他分片计算“空闲”的情况，而是持续在处理数据，这在一定程度上提高了计算资源的利用率，降低了延迟。</p>
-<p>这里说一下 mini batch 的优点了，那就在异常恢复的时候，可以以比较低的代价把缺失的分片数据恢复过来，这个主要归功于 RDD 的依赖关系抽象；如上图所示，如果黑色块表示的数据丢失（比如节点异常），Spark 仅需要通过重放“Good-Replay”表示的数据分片就可以把丢失的数据恢复，这个恢复效率是很高的。而 Flink 的话则需要停止整个“流水线”上的算子，并从 Checkpoint 恢复和重放数据；虽然 Flink 对这一点有一些优化，比如可以配置 failover strategy 为 region 来减少受影响的算子，不过相比于 Spark 只需要从上个 Stage 的数据恢复受影响的分片来讲，代价还是有点大。</p>
-<h3 id="数据序列化"><a href="#数据序列化" class="headerlink" title="数据序列化"></a>数据序列化</h3><p>简单来说，数据的序列化是指把一个 object 转化为 byte stream，反序列化则相反。序列化主要用于对象的持久化或者网络传输。常见的序列化格式有 binary、json、xml、yaml 等；常见的序列化框架有 Java 原生序列化、Kryo、Thrift、Protobuf、Avro等。</p>
-<p>对于分布式计算来讲，数据的传输效率非常重要。好的序列化框架可以通过较低    的序列化时间和较低的内存占用大大提高计算效率和作业稳定性。在数据序列化上，Flink 和 Spark 采用了不同的方式；Spark 对于所有数据默认采用 Java 原生序列化方式，用户也可以配置使用 Kryo；而 Flink 则是自己实现了一套高效率的序列化方法。</p>
-<p>首先说一下 Java 原生的序列化方式，这种方式的好处是比较简单通用，只要对象实现了 Serializable 接口即可；缺点就是效率比较低，而且如果用户没有指定 serialVersionUID 的话，很容易出现作业重新编译后，之前的数据无法反序列化出来的情况（这也是 Spark Streaming Checkpoint 的一个痛点，在业务使用中经常出现修改了代码之后，无法从 Checkpoint 恢复的问题）；当然Java原生序列化还有一些其他弊端，这里不做深入讨论。</p>
-<p>相比于 Java 原生序列化方式，无论是在序列化效率还是序列化结果的内存占用上，Kryo 则更好一些（Spark 声称一般 Kryo 会比 Java 原生节省 10x 内存占用）；Spark 文档中表示它们之所以没有把 Kryo 设置为默认序列化框架的唯一原因是因为 Kryo 需要用户自己注册需要序列化的类，并且建议用户通过配置开启 Kryo。<br>虽然如此，根据 Flink 的测试，Kryo 依然比 Flink 自己实现的序列化方式效率要低一些；如图所示是 Flink 序列化器（PojoSerializer、RowSerializer、TupleSerializer）和 Kryo 等其他序列化框架的对比，可以看出 Flink 序列化器还是比较占优势的：</p>
-<p>那么 Flink 到底是怎么做的呢？网上关于 Flink 序列化的文章已经很多了，这里我简单地说一下我的理解。<br>像 Kryo 这种序列化方式，在序列化数据的时候，除了数据中的“值”信息本身，还需要把一些数据的 meta 信息也写进去（比如对象的 Class 信息；如果是已经注册过的 Class，则写一个更节省内存的 ID）。<br>但是在 Flink 场景中则完全不需要这样，因为在一个 Flink 作业 DAG 中，上游和下游之间传输的数据类型是固定且已知的，所以在序列化的时候只需要按照一定的排列规则把“值”信息写入即可（当然还有一些其他信息，比如是否为 null）。</p>
-<p>凡事都有两面性，自己实现序列化方式也是有一些劣势，比如状态数据的格式兼容性(State Schema Evolution)；如果你使用 Flink 自带的序列化框架序进行状态保存，那么修改状态数据的类信息后，可能在恢复状态时出现不兼容问题（目前 Flink仅支持 POJO 和 Avro 的格式兼容升级）。</p>
+<p>目前流行的开源 RPC 框架还是比较多的，有阿里巴巴的 Dubbo、Facebook 的 Thrift、Google 的 gRPC、Twitter 的 Finagle 等。</p>
+<p>下面重点介绍三种：<br>gRPC：是 Google 公布的开源软件，基于最新的 HTTP 2.0 协议，并支持常见的众多编程语言。RPC 框架是基于 HTTP 协议实现的，底层使用到了 Netty 框架的支持。<br>Thrift：是 Facebook 的开源 RPC 框架，主要是一个跨语言的服务开发框架。<br>用户只要在其之上进行二次开发就行，应用对于底层的 RPC 通讯等都是透明的。不过这个对于用户来说需要学习特定领域语言这个特性，还是有一定成本的。<br>Dubbo：是阿里集团开源的一个极为出名的 RPC 框架，在很多互联网公司和企业应用中广泛使用。协议和序列化框架都可以插拔是极其鲜明的特色。</p>
+<h3 id="完整的RPC框架"><a href="#完整的RPC框架" class="headerlink" title="完整的RPC框架"></a>完整的RPC框架</h3><p>在一个典型 RPC 的使用场景中，包含了服务发现、负载、容错、网络传输、序列化等组件，其中“RPC 协议”就指明了程序如何进行网络传输和序列化。<br><img src="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871224938478.jpg" alt><br>如下是 Dubbo 的设计架构图，分层清晰，功能复杂：<br><img src="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871226078157.jpg" alt></p>
+<h3 id="RPC核心功能"><a href="#RPC核心功能" class="headerlink" title="RPC核心功能"></a>RPC核心功能</h3><p>一个 RPC 的核心功能主要有 5 个部分组成，分别是：客户端、客户端 Stub、网络传输模块、服务端 Stub、服务端等。<br><img src="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871227051907.jpg" alt><br>下面分别介绍核心 RPC 框架的重要组成：</p>
+<ul>
+<li>客户端（Client）：服务调用方。</li>
+<li>客户端存根（Client Stub）：存放服务端地址信息，将客户端的请求参数数据信息打包成网络消息，再通过网络传输发送给服务端。</li>
+<li>服务端存根（Server Stub）：接收客户端发送过来的请求消息并进行解包，然后再调用本地服务进行处理。</li>
+<li>服务端（Server）：服务的真正提供者。</li>
+<li>Network Service：底层传输，可以是 TCP 或 HTTP。</li>
+</ul>
+<h3 id="RPC之核心功能实现"><a href="#RPC之核心功能实现" class="headerlink" title="RPC之核心功能实现"></a>RPC之核心功能实现</h3><p>RPC 的核心功能主要由 5 个模块组成，如果想要自己实现一个 RPC，最简单的方式要实现三个技术点，分别是：</p>
+<ul>
+<li>服务寻址</li>
+<li>数据流的序列化和反序列化</li>
+<li>网络传输<h3 id="服务寻址"><a href="#服务寻址" class="headerlink" title="服务寻址"></a>服务寻址</h3>服务寻址可以使用 Call ID 映射。在本地调用中，函数体是直接通过函数指针来指定的，但是在远程调用中，函数指针是不行的，因为两个进程的地址空间是完全不一样的。所以在 RPC 中，所有的函数都必须有自己的一个 ID。这个 ID 在所有进程中都是唯一确定的。</li>
+</ul>
+<p>客户端在做远程过程调用时，必须附上这个 ID。然后我们还需要在客户端和服务端分别维护一个函数和Call ID的对应表。当客户端需要进行远程调用时，它就查一下这个表，找出相应的 Call ID，然后把它传给服务端，服务端也通过查表，来确定客户端需要调用的函数，然后执行相应函数的代码。</p>
+<p>实现方式：服务注册中心。</p>
+<p>要调用服务，首先你需要一个服务注册中心去查询对方服务都有哪些实例。Dubbo 的服务注册中心是可以配置的，官方推荐使用 Zookeeper。</p>
+<p>实现案例：RMI（Remote Method Invocation，远程方法调用）也就是 RPC 本身的实现方式。</p>
+<p><img src="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RPC%E8%AF%A6%E8%A7%A3/15871966549825.jpg" alt></p>
+<p>Registry(服务发现)：借助 JNDI 发布并调用了 RMI 服务。实际上，JNDI 就是一个注册表，服务端将服务对象放入到注册表中，客户端从注册表中获取服务对象。</p>
+<p>RMI 服务在服务端实现之后需要注册到 RMI Server 上，然后客户端从指定的 RMI 地址上 Lookup 服务，调用该服务对应的方法即可完成远程方法调用。</p>
+<p>Registry 是个很重要的功能，当服务端开发完服务之后，要对外暴露，如果没有服务注册，则客户端是无从调用的，即使服务端的服务就在那里。</p>
+<h3 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h3><p>客户端怎么把参数值传给远程的函数呢？在本地调用中，我们只需要把参数压到栈里，然后让函数自己去栈里读就行。但是在远程过程调用时，客户端跟服务端是不同的进程，不能通过内存来传递参数。</p>
+<p>这时候就需要客户端把参数先转成一个字节流，传给服务端后，再把字节流转成自己能读取的格式。<br>只有二进制数据才能在网络中传输，序列化和反序列化的定义是：</p>
+<ul>
+<li>将对象转换成二进制流的过程叫做序列化</li>
+<li>将二进制流转换成对象的过程叫做反序列化</li>
+</ul>
+<p>这个过程叫序列化和反序列化。同理，从服务端返回的值也需要序列化反序列化的过程。</p>
+<h3 id="网络传输"><a href="#网络传输" class="headerlink" title="网络传输"></a>网络传输</h3><p>网络传输：远程调用往往用在网络上，客户端和服务端是通过网络连接的。</p>
+<p>所有的数据都需要通过网络传输，因此就需要有一个网络传输层。网络传输层需要把 Call ID 和序列化后的参数字节流传给服务端，然后再把序列化后的调用结果传回客户端。</p>
+<p>只要能完成这两者的，都可以作为传输层使用。因此，它所使用的协议其实是不限的，能完成传输就行。尽管大部分 RPC 框架都使用 TCP 协议，但其实 UDP 也可以，而 gRPC 干脆就用了 HTTP2。</p>
+<p>TCP 的连接是最常见的，简要分析基于 TCP 的连接：通常 TCP 连接可以是按需连接（需要调用的时候就先建立连接，调用结束后就立马断掉），也可以是长连接（客户端和服务器建立起连接之后保持长期持有，不管此时有无数据包的发送，可以配合心跳检测机制定期检测建立的连接是否存活有效），多个远程过程调用共享同一个连接。</p>
+<p>所以，要实现一个 RPC 框架，只需要把以下三点实现了就基本完成了：</p>
+<ul>
+<li>Call ID 映射：可以直接使用函数字符串，也可以使用整数 ID。映射表一般就是一个哈希表。</li>
+<li>序列化反序列化：可以自己写，也可以使用 Protobuf 或者 FlatBuffers 之类的。</li>
+<li>网络传输库：可以自己写 Socket，或者用 Asio，ZeroMQ，Netty 之类。</li>
+</ul>
+<h3 id="RPC-核心之网络传输协议"><a href="#RPC-核心之网络传输协议" class="headerlink" title="RPC 核心之网络传输协议"></a>RPC 核心之网络传输协议</h3><p>在 RPC 中可选的网络传输方式有多种，可以选择 TCP 协议、UDP 协议、HTTP 协议。每一种协议对整体的性能和效率都有不同的影响，如何选择一个正确的网络传输协议呢？首先要搞明白各种传输协议在 RPC 中的工作方式。</p>
+<h4 id="基于-TCP-协议的-RPC-调用"><a href="#基于-TCP-协议的-RPC-调用" class="headerlink" title="基于 TCP 协议的 RPC 调用"></a>基于 TCP 协议的 RPC 调用</h4><p>由服务的调用方与服务的提供方建立 Socket 连接，并由服务的调用方通过 Socket 将需要调用的接口名称、方法名称和参数序列化后传递给服务的提供方，服务的提供方反序列化后再利用反射调用相关的方法。</p>
+<p>最后将结果返回给服务的调用方，整个基于 TCP 协议的 RPC 调用大致如此。</p>
+<p>但是在实例应用中则会进行一系列的封装，如 RMI 便是在 TCP 协议上传递可序列化的 Java 对象。</p>
+<h4 id="基于-HTTP-协议的-RPC-调用"><a href="#基于-HTTP-协议的-RPC-调用" class="headerlink" title="基于 HTTP 协议的 RPC 调用"></a>基于 HTTP 协议的 RPC 调用</h4><p>该方法更像是访问网页一样，只是它的返回结果更加单一简单。其大致流程为：由服务的调用者向服务的提供者发送请求，这种请求的方式可能是 GET、POST、PUT、DELETE 等中的一种，服务的提供者可能会根据不同的请求方式做出不同的处理，或者某个方法只允许某种请求方式。</p>
+<p>而调用的具体方法则是根据 URL 进行方法调用，而方法所需要的参数可能是对服务调用方传输过去的 XML 数据或者 JSON 数据解析后的结果，最后返回 JOSN 或者 XML 的数据结果。</p>
+<p>由于目前有很多开源的 Web 服务器，如 Tomcat，所以其实现起来更加容易，就像做 Web 项目一样。</p>
+<h4 id="两种方式对比"><a href="#两种方式对比" class="headerlink" title="两种方式对比"></a>两种方式对比</h4><p>基于 TCP 的协议实现的 RPC 调用，由于 TCP 协议处于协议栈的下层，能够更加灵活地对协议字段进行定制，减少网络开销，提高性能，实现更大的吞吐量和并发数。</p>
+<p>但是需要更多关注底层复杂的细节，实现的代价更高。同时对不同平台，如安卓，iOS 等，需要重新开发出不同的工具包来进行请求发送和相应解析，工作量大，难以快速响应和满足用户需求。</p>
+<p>基于 HTTP 协议实现的 RPC 则可以使用 JSON 和 XML 格式的请求或响应数据。</p>
+<p>而 JSON 和 XML 作为通用的格式标准（使用 HTTP 协议也需要序列化和反序列化，不过这不是该协议下关心的内容，成熟的 Web 程序已经做好了序列化内容），开源的解析工具已经相当成熟，在其上进行二次开发会非常便捷和简单。</p>
+<p>但是由于 HTTP 协议是上层协议，发送包含同等内容的信息，使用 HTTP 协议传输所占用的字节数会比使用 TCP 协议传输所占用的字节数更高。</p>
+<p>因此在同等网络下，通过 HTTP 协议传输相同内容，效率会比基于 TCP 协议的数据效率要低，信息传输所占用的时间也会更长，当然压缩数据，能够缩小这一差距。</p>
+<h3 id="简单对比-RPC-和-Restful-API"><a href="#简单对比-RPC-和-Restful-API" class="headerlink" title="简单对比 RPC 和 Restful API"></a>简单对比 RPC 和 Restful API</h3><p>RESTful API 架构<br>REST 最大的几个特点为：资源、统一接口、URI 和无状态。</p>
+<p>①资源<br>所谓”资源”，就是网络上的一个实体，或者说是网络上的一个具体信息。它可以是一段文本、一张图片、一首歌曲、一种服务，就是一个具体的实在。</p>
+<p>②统一接口<br>RESTful 架构风格规定，数据的元操作，即 CRUD(Create，Read，Update 和 Delete，即数据的增删查改)操作，分别对应于 HTTP 方法：GET 用来获取资源，POST 用来新建资源（也可以用于更新资源），PUT 用来更新资源，DELETE 用来删除资源，这样就统一了数据操作的接口，仅通过 HTTP 方法，就可以完成对数据的所有增删查改工作。</p>
+<p>③URL<br>可以用一个 URI（统一资源定位符）指向资源，即每个 URI 都对应一个特定的资源。<br>要获取这个资源，访问它的 URI 就可以，因此 URI 就成了每一个资源的地址或识别符。</p>
+<p>④无状态<br>所谓无状态的，即所有的资源，都可以通过 URI 定位，而且这个定位与其他资源无关，也不会因为其他资源的变化而改变。有状态和无状态的区别，举个简单的例子说明一下。</p>
+<p>如查询员工的工资，如果查询工资是需要登录系统，进入查询工资的页面，执行相关操作后，获取工资的多少，则这种情况是有状态的。因为查询工资的每一步操作都依赖于前一步操作，只要前置操作不成功，后续操作就无法执行。</p>
+<p>如果输入一个 URI 即可得到指定员工的工资，则这种情况是无状态的，因为获取工资不依赖于其他资源或状态。且这种情况下，员工工资是一个资源，由一个 URI 与之对应，可以通过 HTTP 中的 GET 方法得到资源，这是典型的 RESTful 风格。</p>
+<h4 id="RPC-和-Restful-API-对比"><a href="#RPC-和-Restful-API-对比" class="headerlink" title="RPC 和 Restful API 对比"></a>RPC 和 Restful API 对比</h4><p>面对对象不同：</p>
+<ul>
+<li>RPC 更侧重于动作。</li>
+<li>REST 的主体是资源。<br>RESTful 是面向资源的设计架构，但在系统中有很多对象不能抽象成资源，比如登录，修改密码等而 RPC 可以通过动作去操作资源。所以在操作的全面性上 RPC 大于 RESTful。</li>
+</ul>
+<p>传输效率：</p>
+<ul>
+<li>RPC 效率更高。RPC，使用自定义的 TCP 协议，可以让请求报文体积更小，或者使用 HTTP2 协议，也可以很好的减少报文的体积，提高传输效率。</li>
+</ul>
+<p>复杂度：</p>
+<ul>
+<li>RPC 实现复杂，流程繁琐。</li>
+<li>REST 调用及测试都很方便。<br>RPC 实现（参见第一节）需要实现编码，序列化，网络传输等。而 RESTful 不要关注这些，RESTful 实现更简单。</li>
+</ul>
+<p>灵活性：</p>
+<ul>
+<li>HTTP 相对更规范，更标准，更通用，无论哪种语言都支持 HTTP 协议。</li>
+<li>RPC 可以实现跨语言调用，但整体灵活性不如 RESTful。</li>
+</ul>
 
           
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Apache概述和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Tomcat概述和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/" itemprop="url">Spring基础—概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="什么是Spring"><a href="#什么是Spring" class="headerlink" title="什么是Spring"></a>什么是Spring</h2><p>Spring框架是Java应用最广的框架，它的成功来源于理念，而不是技术本身，它的理念包括IoC (Inversion of Control，控制反转) 和 AOP(Aspect Oriented Programming，面向切面编程)。</p>
-<p>Spring 是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作 《Expert one on one J2EE design and development》 中阐述的部分理念和原型衍生而来。Spring提倡以“最少侵入” 的方式来管理应用中的代码，这意味着我们可以随时安装或者卸载 Spring。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Nginx概述和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1193,159 +799,6 @@
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/000Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/000Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Mysql基础—知识图谱</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
         
       
     </div>
@@ -1552,6 +1005,784 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Apache%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Apache概述和使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Nginx概述和使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Nginx的基本概述"><a href="#Nginx的基本概述" class="headerlink" title="Nginx的基本概述"></a>Nginx的基本概述</h2><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/" itemprop="url">Spring基础—概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="什么是Spring"><a href="#什么是Spring" class="headerlink" title="什么是Spring"></a>什么是Spring</h2><p>Spring框架是Java应用最广的框架，它的成功来源于理念，而不是技术本身，它的理念包括IoC (Inversion of Control，控制反转) 和 AOP(Aspect Oriented Programming，面向切面编程)。</p>
+<p>Spring 是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作 《Expert one on one J2EE design and development》 中阐述的部分理念和原型衍生而来。Spring提倡以“最少侵入” 的方式来管理应用中的代码，这意味着我们可以随时安装或者卸载 Spring。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E5%9F%BA%E7%A1%80%E2%80%94%E6%A6%82%E8%BF%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">Tomcat概述和使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/000Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/000Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">Mysql基础—知识图谱</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/003Mysql%E6%A0%B8%E5%BF%83%E2%80%94Mysql%E4%BA%8B%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1705,167 +1936,6 @@ show variables like &#39;transaction_isolation&#39;;</code><br>修改隔离级�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/" itemprop="url">Mysql基础—Mysql安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="安装mysql5-7"><a href="#安装mysql5-7" class="headerlink" title="安装mysql5.7"></a>安装mysql5.7</h3><ol>
-<li>下载并安装Mysql官方的yum repo<br><code>[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</code><br><code>[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</code></li>
-<li>开始安装mysql服务器<br><code>[root@localhost ~]# yum -y install mysql-community-server</code></li>
-<li>mysql数据库配置</li></ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1916,7 +1986,7 @@ show variables like &#39;transaction_isolation&#39;;</code><br>修改隔离级�
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">148</span>
+                  <span class="site-state-item-count">149</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
