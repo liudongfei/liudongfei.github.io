@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Feign/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Feign/" itemprop="url">SpringCloud核心—Feign</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E6%A0%B8%E5%BF%83%E2%80%94ES%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98/" itemprop="url">ES核心—系统调优</a></h1>
         
 
         <div class="post-meta">
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -387,8 +387,7 @@
       
         
           
-            <p>// 正在整理中</p>
-
+            
           
         
       
@@ -436,7 +435,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Hystrix/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/07-RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -455,7 +454,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Hystrix/" itemprop="url">SpringCloud核心—Hystrix</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/07-RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/" itemprop="url">RabbitMQ基础—知识结构概述</a></h1>
         
 
         <div class="post-meta">
@@ -502,8 +501,166 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h3><p>常用命令<br>rabbitmqctl list_queues name messages_ready messages_unacknowledged #列出当前队列、队列信息数量、队列未确认信息数量<br>rabbitmqctl list_exchanges  #列出当前交换机</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/07-RabbitMQ%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E9%AB%98%E7%BA%A7%E2%80%94ES%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E4%B8%8E%E6%81%A2%E5%A4%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/05-ElasticSearch%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/ES%E9%AB%98%E7%BA%A7%E2%80%94ES%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E4%B8%8E%E6%81%A2%E5%A4%8D/" itemprop="url">ES高级—数据迁移与恢复</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -541,8 +698,7 @@
       
         
           
-            <p>// 正在整理中</p>
-
+            
           
         
       
@@ -590,7 +746,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Rabbin/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -609,7 +765,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Rabbin/" itemprop="url">SpringCloud核心—Rabbin</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url">Flink基础—编程模型</a></h1>
         
 
         <div class="post-meta">
@@ -656,8 +812,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -694,10 +850,18 @@
 
       
         
-          
-            <p>// 正在整理中</p>
-
-          
+          <h2 id="Flink的数据类型"><a href="#Flink的数据类型" class="headerlink" title="Flink的数据类型"></a>Flink的数据类型</h2><ul>
+<li>原生数据类型</li>
+<li>Java Tuples类型</li>
+<li>Scala Case Class类型</li>
+<li>POJOs类型</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E5%9F%BA%E7%A1%80%E2%80%94%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -744,7 +908,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Config/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/09-Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -763,7 +927,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Config/" itemprop="url">SpringCloud核心—Config</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/09-Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" itemprop="url">Sqoop基础—基本使用</a></h1>
         
 
         <div class="post-meta">
@@ -810,8 +974,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -848,10 +1012,21 @@
 
       
         
-          
-            <p>// 正在整理中</p>
-
-          
+          <h3 id="Sqoop的安装"><a href="#Sqoop的安装" class="headerlink" title="Sqoop的安装"></a>Sqoop的安装</h3><ol>
+<li>配置HADOOP_COMMON_HOME </li>
+<li>配置HADOOP_MAPRED_HOME </li>
+<li>配置HIVE_HOME <h3 id="Sqoop使用"><a href="#Sqoop使用" class="headerlink" title="Sqoop使用"></a>Sqoop使用</h3></li>
+</ol>
+<ul>
+<li>HDFS端：path，文件导入或导出路径 </li>
+<li>HIVE端：tablename，要导入或导出的表</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/09-Sqoop%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/Sqoop%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -898,7 +1073,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Zuul/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -917,7 +1092,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Zuul/" itemprop="url">SpringCloud核心—Zuul</a></h1>
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/" itemprop="url">Flink核心—WaterMark和Window</a></h1>
         
 
         <div class="post-meta">
@@ -964,8 +1139,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -1002,164 +1177,18 @@
 
       
         
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Stream/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/SpringCloud/SpringCloud%E6%A0%B8%E5%BF%83%E2%80%94Stream/" itemprop="url">SpringCloud核心—Stream</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
+          <h2 id="Flink的Time类型"><a href="#Flink的Time类型" class="headerlink" title="Flink的Time类型"></a>Flink的Time类型</h2><ul>
+<li>事件时间</li>
+<li>接入时间</li>
+<li>处理时间<h2 id="Flink的WaterMark机制"><a href="#Flink的WaterMark机制" class="headerlink" title="Flink的WaterMark机制"></a>Flink的WaterMark机制</h2><h3 id="WaterMark的类型"><a href="#WaterMark的类型" class="headerlink" title="WaterMark的类型"></a>WaterMark的类型</h3></li>
+<li>Periodic WaterMark：根据固定的时间间隔，周期性的生成WaterMark</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/06-Flink%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/Flink%E6%A0%B8%E5%BF%83%E2%80%94WaterMark%E5%92%8CWindow/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1365,6 +1394,332 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Sentry/Sentry%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Sentry/Sentry%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">Sentry基础—安装配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Sentry简介"><a href="#Sentry简介" class="headerlink" title="Sentry简介"></a>Sentry简介</h3><p>Apache Sentry 是Cloudera公司发布的一个Hadoop开源组件，截止目前还是Apache的孵化项目，它提供了细粒度级、基于角色的授权以及多租户的管理模式。Sentry当前可以和Hive/Hcatalog、Apache Solr 和Cloudera Impala集成，未来会扩展到其他的Hadoop组件，例如HDFS和HBase.</p>
+<h3 id="Sentry安装"><a href="#Sentry安装" class="headerlink" title="Sentry安装"></a>Sentry安装</h3><p>安装准备</p>
+<ol>
+<li>采用rpm包的安装方式</li>
+<li>使用sudo权限的普通用户或者root</li>
+<li>已经安装了java、cdh、hive、impala、mysql等</li>
+<li>下载安装包：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sentry-xxx+cdh-xxx.rpm</span><br><span class="line">sentry-hdfs-plugin-xxx+cdh-xxx.rpm</span><br><span class="line">sentry-store-xxx+cdh-xxx.rpm</span><br></pre></td></tr></table></figure>
+开始安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh --nodeps sentry-xxx+cdh-xxx.rpm</span><br><span class="line">rpm -ivh --nodeps sentry-hdfs-plugin-xxx+cdh-xxx.rpm</span><br><span class="line">rpm -ivh --nodeps sentry-store-xxx+cdh-xxx.rpm</span><br></pre></td></tr></table></figure>
+替换jar包<br>替换/usr/lib/sentry/lib/内的Hadoop、Hive、Impala、Hbase、Zookeeper、Parquet、Avro等jar包，分别在Hadoop、Hive、Hbase等里的安装目录里一一找到的拷贝mysql驱动到sentry的lib目录内。</li>
+</ol>
+<p>配置sentry</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;sentry&#x2F;conf&#x2F;sentry-site.xml</span><br><span class="line">&lt;?xmlversion&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.service.security.mode&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;none&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.service.admin.group&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;impala,hive&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.service.allow.connect&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;impala,hive&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;sentry.verify.schema.version&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;true&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">   &lt;name&gt;sentry.service.server.rpc-address&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;hostname&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">   &lt;name&gt;sentry.service.server.rpc-port&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;value&gt;8038&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.store.jdbc.url&lt;&#x2F;name&gt;</span><br><span class="line">       &lt;value&gt;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;sentry&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.store.jdbc.driver&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;com.mysql.jdbc.Driver&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.store.jdbc.user&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;sentry&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.store.jdbc.password&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;sentry&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.hive.server&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hostname&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;sentry.store.group.mapping&lt;&#x2F;name&gt;</span><br><span class="line">       &lt;value&gt;org.apache.sentry.provider.common.HadoopGroupMappingService&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;Configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>初始化Sentry元数据<br><code>sentry --command schema-tool --conffile/etc/sentry/conf/sentry-site.xml --dbType mysql --initSchema</code></p>
+<h3 id="管理sentry"><a href="#管理sentry" class="headerlink" title="管理sentry"></a>管理sentry</h3><p>启动sentry<br><code>sudo service sentry-store start</code></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Kerberos/Keerberos%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Kerberos/Keerberos%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" itemprop="url">Kerberos基础—安装配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ul>
+<li>创建kerberos的principle和keytab文件<br>创建kerberos的principle，登陆kadmin</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E5%AE%89%E5%85%A8%E4%B8%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/Kerberos/Keerberos%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Airflow/Airflow%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1475,326 +1830,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Airflow/Airflow%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Oozie/Oozie%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Oozie/Oozie%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Oozie基础—基本概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Hadoop的调度框架"><a href="#Hadoop的调度框架" class="headerlink" title="Hadoop的调度框架"></a>Hadoop的调度框架</h3><ul>
-<li>crontab </li>
-<li>Azkaban </li>
-<li>Oozie：由Cloudera开源 </li>
-<li>Zeus：由阿里开源</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Oozie/Oozie%E5%9F%BA%E7%A1%80%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/" itemprop="url">Quartz基础—基本概述</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Quartz概要介绍"><a href="#Quartz概要介绍" class="headerlink" title="Quartz概要介绍"></a>Quartz概要介绍</h3><p>Quartz是OpenSymphony开源组织在Job scheduling领域又一个开源项目，是完全由java开发的一个开源的任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/Quartz/Quartz%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
