@@ -282,6 +282,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" itemprop="url">算法—字符串匹配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>题目：</strong><br>给定两个字符串A和B，判断字符串B是否是A的子串，并返回B在A中第一次出现的位置。<br><strong>举个例子：</strong><br><code>字符串A：abcdefgh
+字符串B：cdef</code><br>在这个例子中，字符串B是A的子串，B在A中第一次出现的下标位置为2，所以返回为2。<br><strong>另一个例子：</strong><br><code>字符串A：abcdefgh
+字符串B：dcef</code><br>在这个例子中，字符串B在A中并不存在，返回-1。<br>在后文中，我们把字符串A称为主串，字符串B称为模式串。</p>
+<h3 id="BF算法"><a href="#BF算法" class="headerlink" title="BF算法"></a>BF算法</h3><p>BF算法是Brute Force（暴力算法）的缩写。它采用的最简单粗暴的方法：</p>
+<ol>
+<li>从主串的首字符位置开始，把主串和子串的字符依次比较。</li>
+<li>如果不匹配，则把模式串后移一位，从主串的第二位开始，把主串和子串的字符依次比较。</li>
+<li>如果不匹配，则把模式串继续后移一位，继续进行比较，直到找到匹配的位置或主串最后一位。</li>
+</ol>
+<p><strong>算法不足：</strong><br>在某些极端情况下，算法的效率过低。比如：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890974995745.jpg" alt><br>在上图中，两个字符串在每一轮都要白白比较4次，非常浪费。<br>如果主串的长度为m，模式串的长度为n，那么在这种极端情况下，BF算法的最坏时间复杂度为O(mn)。</p>
+<h3 id="RK算法"><a href="#RK算法" class="headerlink" title="RK算法"></a>RK算法</h3><p>RK算法是BF算法的改进，是Rabin-Karp，由两位发明者的名字命名的。和BF算法简单粗暴的依次比较两个字符串中的字符不同，RK算法比较的是两个字符串的hash值。<br>每一个字符串都可以通过某种哈希算法，转换成一个整型数，这个整型数就是hashcode：<br><code>hashcode = hash（string）</code><br>显然，相对于逐个字符比较两个字符串，仅比较两个字符串的hashcode要容易得多。<br>RK算法的工作原理如下：<br>给定主串和模式串如下（假定字符串只包含26个小写字母）：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890982466056.jpg" alt></p>
+<ol>
+<li>我们需要生成模式串的hashcode。生成hashcode的算法多种多样，比如：</li>
+</ol>
+<p><strong>按位相加</strong><br>这是最简单的方法，可以把a当做1，b当做2，c当做3……然后把字符串的所有字符相加，相加结果就是它的hashcode。<br><code>bce =  2 + 3 + 5 = 10</code><br>但是，这个算法虽然简单，却很可能产生hash冲突，比如bce、bec、cbe的hashcode是一样的。<br><strong>转换成26进制数</strong><br>既然字符串只包含26个小写字母，那么可以把每一个字符串当成一个26进制数来计算。<br><code>bce = 2*(26^2) + 3*26 + 5 = 1435</code><br>这样做的好处是大幅减少了hash冲突，缺点是计算量较大，而且有可能出现超出整型范围的情况，需要对计算结果进行取模。为了方便演示，后续采用的是按位相加的hash算法，所以bce的hashcode是10。<br>2. 生成主串当中第一个等长子串的hashcode。由于主串通常要长于模式串，把整个主串转化成hashcode是没有意义的，只有比较主串当中和模式串等长的子串才有意义。因此，首先生成主串中第一个和模式串等长的子串hashcode，即abb = 1 + 2 + 2 = 5。<br>3. 比较两个hashcode。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890984486210.jpg" alt><br>显然，5！=10，说明模式串和第一个子串不匹配，继续下一轮比较。<br>4. 生成主串当中第二个等长子串的hashcode。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890984956125.jpg" alt><br>5. 比较两个hashcode。<br>显然，7！=10，说明模式串和第二个子串不匹配，继续下一轮比较。<br>6. 生成主串当中第三个等长子串的hashcode。bce= 2 + 3 + 5 = 10：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890985466300.jpg" alt><br>7. 比较两个hashcode。显然，10 ==10，两个hash值相等！这是否说明两个字符串也相等呢？由于存在hash冲突的可能，还需要进一步验证。<br>8. 逐个字符比较两字符串。hashcode的比较只是初步验证，之后还需要像BF算法那样，对两个字符串逐个字符比较，最终判断出两个字符串匹配。<br><strong>问题：</strong><br>每次hash的时间复杂度是O(n)，如果把全部的子串都进行hash，总的时间复杂度不是和BF算法一样都是O(mn)吗？<br><strong>解答：</strong><br>从第二个子串的hash开始，每个子串的hash都是由上一个子串进行简单的增量计算得到：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890991091917.jpg" alt><br>上图中，已知子串abbcefg的hashcode是26，那么如何计算下一个子串，也就是bbcefgd的hashcode呢？<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/15890991244040.jpg" alt><br>由于新子串的前面少了一个a，后面多了一个d，所以：<br><code>新hashcode = 旧hashcode - 1 + 4 = 26-1+4 = 29</code><br><strong>算法优点：</strong><br>和BF算法相比，减少了许多字符的比较，时间复杂度大大提高了。RK算法计算单个子串hash的时间复杂度为O(n)，由于后续的hash计算都为增量计算，因此总的时间复杂度还是O(n)。<br><strong>算法不总：</strong><br>RK算法的不足在于哈希冲突，每次哈希冲突的时候，都要进行主串和模式串的字符逐个比较，如果冲突太多就变成了BF算法。</p>
+<h3 id="BM算法"><a href="#BM算法" class="headerlink" title="BM算法"></a>BM算法</h3><p>// 正在整理中</p>
+<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p>// 正在整理中</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%9F%A5%E6%89%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -443,7 +613,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RestFul%E6%9E%B6%E6%9E%84/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -462,7 +632,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/RestFul%E6%9E%B6%E6%9E%84/" itemprop="url">RestFul架构</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" itemprop="url">算法—布隆过滤器</a></h1>
         
 
         <div class="post-meta">
@@ -509,8 +679,8 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
                   </a>
                 </span>
 
@@ -547,322 +717,10 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
 
       
         
-          
-            <p>REST，即Representational State Transfer的缩写，这个词组的翻译：”表现层状态转化”。要理解RESTful架构，最好的方法就是去理解Representational State Transfer这个词组到底是什么意思。<br><strong>资源（Resources）</strong><br>REST的名称”表现层状态转化”中，省略了主语。”表现层”其实指的是”资源”（Resources）的”表现层”。</p>
-<p>所谓”资源”，就是网络上的一个实体，或者说是网络上的一个具体信息。它可以是一段文本、一张图片、一首歌曲、一种服务，总之就是一个具体的实在。可以用一个URI（统一资源定位符）指向它，每种资源对应一个特定的URI。要获取这个资源，访问它的URI就可以，因此URI就成了每一个资源的地址或独一无二的识别符。<br><strong>表现层（Representation）</strong><br>“资源”是一种信息实体，它可以有多种外在表现形式。把”资源”具体呈现出来的形式，叫做它的”表现层”。比如，文本可以用txt格式表现，也可以用HTML格式、XML格式、JSON格式表现，甚至可以采用二进制格式；图片可以用JPG格式表现，也可以用PNG格式表现。</p>
-<p>URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的”.html”后缀名是不必要的，因为这个后缀名表示格式，属于”表现层”范畴，而URI应该只代表”资源”的位置。它的具体表现形式，应该在HTTP请求的头信息中用Accept和Content-Type字段指定，这两个字段才是对”表现层”的描述。<br><strong>状态转化（State Transfer）</strong><br>访问一个网站，就代表了客户端和服务器的一个互动过程。在这个过程中，势必涉及到数据和状态的变化。<br>互联网通信协议HTTP协议，是一个无状态协议。这意味着，所有的状态都保存在服务器端。因此，如果客户端想要操作服务器，必须通过某种手段，让服务器端发生”状态转化”。而这种转化是建立在表现层之上的，所以就是”表现层状态转化”。</p>
-<p>客户端用到的手段，只能是HTTP协议。具体来说，就是HTTP协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。分别对应四种基本操作：GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源。</p>
-<p>综合上面的解释，我们总结一下什么是RESTful架构：<br>　　（1）每一个URI代表一种资源；<br>　　（2）客户端和服务器之间，传递这种资源的某种表现层；<br>　　（3）客户端通过四个HTTP动词，对服务器端资源进行操作，实现”表现层状态转化”。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/CM%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" itemprop="url">CM基础—安装和配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>创建启动cdh容器的命令<br><code>docker run --privileged=true --hostname=quickstart.cloudera --name cdh-liu -v /Users/liudongfei:/root/liudongfei -p 7180:7180  -p 8888:8888 -p 3306:3306 -t -i 4239cd2958c6 /usr/bin/docker-quickstart</code><br>启动cm的命令<br><code>/home/cloudera/cloudera-manager --force --express</code></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Emacs%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Emacs%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Emacs常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>C-v    翻到下一页<br>M-v    翻到上一页<br>C-l    光标移动到页面中间<br>C-b    光标左移动一位</p>
+          <h3 id="什么是布隆过滤器"><a href="#什么是布隆过滤器" class="headerlink" title="什么是布隆过滤器"></a>什么是布隆过滤器</h3><p>布隆过滤器（Bloom Filter）是一个叫做 Bloom 的老哥于1970年提出的。我们可以把它看作由二进制向量（或者说位数组）和一系列随机映射函数（哈希函数）两部分组成的数据结构。相比于我们平时常用的的 List、Map 、Set 等数据结构，它占用空间更少并且效率更高，但是缺点是其返回的结果是概率性的，而不是非常准确的。理论情况下添加到集合中的元素越多，误报的可能性就越大。并且，存放在布隆过滤器的数据不容易删除。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Emacs%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -913,7 +771,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -932,7 +790,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Git常用命令</a></h1>
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/" itemprop="url">算法—算法复杂度</a></h1>
         
 
         <div class="post-meta">
@@ -979,8 +837,8 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
                   </a>
                 </span>
 
@@ -1017,15 +875,192 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
 
       
         
-          <h2 id="git的四部分构成"><a href="#git的四部分构成" class="headerlink" title="git的四部分构成"></a>git的四部分构成</h2><p><img src="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg" alt></p>
-<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><p>初始化仓库：<code>git init</code><br>从远程仓库克隆项目到本地：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>算法具有以下特性：</p>
+<ul>
+<li>有穷性：算法是由若干条指令组成的有穷序列，总是在执行若干次之后结束，不可能永不停止。</li>
+<li>确定性：每条语句都有确定的含义，无歧义。</li>
+<li>可行性：算法在当前环境条件下可以通过有限次运算实现。</li>
+<li>输入输出：有零个或多个输入，一个或多个输出。<br>“好”算法的标准如下：</li>
+</ul>
+<ol>
+<li>正确性：指算法能满足具体问题的需求，程序运行正常，能够通过典型的软件测试，达到预期的需求。</li>
+<li>易读性：算法遵循标识符命名规则，简洁易懂，注释语句恰当适量，方便后期调试和修改。</li>
+<li>健壮性：算法对非法数据及操作有较好的反应和处理。</li>
+<li>高效性：指算法运行效率高，即算法运行消耗的时间短。算法时间复杂度就是算法运行需要的时间。将算法基本运算的执行次数作为时间复杂度的衡量标准。</li>
+<li>低存储性：指算法所需的存储空间低。对于手机、平板这样的嵌入式设备，算法如果占用空间过大，则无法运行。算法占用的空间大小称为空间复杂度。<br>除了1～3中的基本标准外，我们对算法的评判标准就是高效率、低存储。<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3>时间复杂度是指算法运行所需要的时间，一般将算法的执行次数作为时间复杂度的度量标准。分析如下算法的复杂度：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sum &#x3D; 0;                                            &#x2F;&#x2F; 运行1次</span><br><span class="line">total &#x3D; 0;                                           &#x2F;&#x2F; 运行1次</span><br><span class="line">for (i &#x3D; 0; i &lt;&#x3D; n; i++) &#123;                   &#x2F;&#x2F; 运行n次</span><br><span class="line">    sum &#x3D; sum + i;                             &#x2F;&#x2F; 运行n次</span><br><span class="line">    for (j &#x3D; 0; j &lt;&#x3D; n; j++) &#123;               &#x2F;&#x2F; 运行n * n次</span><br><span class="line">        total &#x3D; total + i * j;                   &#x2F;&#x2F; 运行n * n次</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+把算法的所有语句加起来：1 + 1 + n + n + n * n + n * n，可以用一个函数T(n)表达：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900268369216.jpg" alt="-w322"><br>当n足够大的时候，算法运行的时间主要取决于第一项，后面的甚至可以忽略不计。用极限表示为：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900269497804.jpg" alt="-w566"><br>如果用时间复杂度的渐近上界表示，如图1-1，当n &gt; n0时 T(n) &lt; Cf(n)。当n足够大时，T(n) 和 f(n) 近似相等。因此，用O(f(n))来表示时间复杂度渐近上界。<br>还有渐近下界，如图1-2，当n &gt; n0时  T(n) &gt; Cf(n)。当n足够大时，T(n) 和 f(n) 近似相等。因此，用Ω(f(n))来表示时间复杂度渐近下界。<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900275812842.jpg" alt="-w968"><br>通常使用时间复杂度的渐近上界O (f(n))来表示时间复杂度。<br>有些算法，如排序、查找、插入等算法很难计算程序中执行了多少次，可以分为最好、最坏和平均情况分别求算法的近似复杂度，但是衡量一个算法的好坏一般衡量的是最坏的情况，最坏情况对于衡量算法好坏有实际意义。<br>常见算法的时间复杂度有以下几类：</li>
+</ol>
+<ul>
+<li>常数阶：这类算法运行的次数是一个常数，如5、10、100。常数阶的算法复杂度通常用O(1)表示。</li>
+<li>多项式阶：很多算法的时间复杂度都是多项式阶，通常用O(n)、O(n * n)、O(n * n * n)等表示。</li>
+<li>指数阶：该类算法运行效率极差，使用这样的算法要慎重。</li>
+<li>对数阶：该类算法的运行效率较高，常见的有O(logn)、O(n * logn)等。<br>这些复杂度之间的大小关系如下：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900335421175.jpg" alt="-w912"></li>
+</ul>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>空间复杂度是指算法占用的空间大小，一般将算法的辅助空间作为衡量空间复杂度的标准，本意是指算法在运行过程中占用了多少存储空间。算法占用的存储空间包括：</p>
+<ol>
+<li>输入/输出数据；</li>
+<li>算法本身；</li>
+<li>额外需要的辅助空间。<br>输入/输出数据占用的空间是必需的，算法本身占用的空间可以通过精简算法来缩减，但是这个压缩量是很小的，可以忽略不计。而算法运行时需要的辅助空间是衡量空间复杂度的关键因素。</li>
+</ol>
+<p>分析如下递归算法的空间复杂度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fac(int n) &#123;</span><br><span class="line">    if (n &lt; 0) &#123;</span><br><span class="line">        printf(&quot;n &lt; 0，data error!&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125; else if (n &#x3D;&#x3D; 0 || n &#x3D;&#x3D; 1) &#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return n * fac(n - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>阶乘是典型的递归调用问题，递归包括递推和回归。递推是将原问题不断分解成子问题，直到达到结束条件，返回最近子问题的解；然后逆向逐一回归，最终达到递推开始的原问题，返回原问题的解。5的阶乘的递推和回归过程如下：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900304811215.jpg" alt="-w909"><br>计算机使用数据结构—栈来实现这个过程，后进先出。5的阶乘进栈过程如下图：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900306461483.jpg" alt="-w863"><br>5的阶乘出栈过程如下图：<br><img src="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/15900307209194.jpg" alt="-w857"><br>从阶乘的进栈和出栈过程中，使用了n个栈空间作为辅助空间，因此阶乘算法的空间复杂度为O(n)。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E2%80%94%E6%8E%92%E5%BA%8F/" itemprop="url">算法—排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
         
       
     </div>
@@ -1301,7 +1336,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Markdown%20syntax%20guide/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1320,7 +1355,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Markdown%20syntax%20guide/" itemprop="url">Markdown syntax guide</a></h1>
+                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Git常用命令</a></h1>
         
 
         <div class="post-meta">
@@ -1405,12 +1440,169 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
 
       
         
-          <h1 id="Markdown-syntax-guide-and-writing-on-MWeb"><a href="#Markdown-syntax-guide-and-writing-on-MWeb" class="headerlink" title="Markdown syntax guide and writing on MWeb"></a>Markdown syntax guide and writing on MWeb</h1><h2 id="Philosophy"><a href="#Philosophy" class="headerlink" title="Philosophy"></a>Philosophy</h2><blockquote>
-<p>Markdown is intended to be as easy-to-read and easy-to-write as is feasible.<br>Readability, however, is emphasized above all else. A Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions.<br>Markdown’s syntax is intended for one purpose: to be used as a format for <em>writing</em> for the web. </p>
-</blockquote>
+          <h2 id="git的四部分构成"><a href="#git的四部分构成" class="headerlink" title="git的四部分构成"></a>git的四部分构成</h2><p><img src="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/15839440333469.jpg" alt></p>
+<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><p>初始化仓库：<code>git init</code><br>从远程仓库克隆项目到本地：</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Markdown%20syntax%20guide/#more" rel="contents">
+            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Linux常用命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
+                2021-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-12-29T17:17:43+08:00">
+                2021-12-29
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/util/" itemprop="url" rel="index">
+                    <span itemprop="name">util</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsof -i :3306 #查看3306端口</span><br><span class="line">nc -lk 9999 #创建一个socket端口，端口9999</span><br><span class="line">wget http:&#x2F;&#x2F;ipecho.net&#x2F;plain -O - -q ; echo #使用wget命令查看本机公网IP</span><br><span class="line">curl icanhazip.com #使用curl命令查询本机公网IP</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1573,164 +1765,6 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/ShadowSocks%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Linux常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-12-29T17:17:43+08:00">
-                2021-12-29
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsof -i :3306 #查看3306端口</span><br><span class="line">nc -lk 9999 #创建一个socket端口，端口9999</span><br><span class="line">wget http:&#x2F;&#x2F;ipecho.net&#x2F;plain -O - -q ; echo #使用wget命令查看本机公网IP</span><br><span class="line">curl icanhazip.com #使用curl命令查询本机公网IP</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -2009,7 +2043,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/">&gt;</a>
   </nav>
 
 
@@ -2055,7 +2089,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">149</span>
+                  <span class="site-state-item-count">153</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2066,7 +2100,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2077,7 +2111,7 @@ Trie.search(S)：第二个操作是查询操作，就是查询一个字符串 S 
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
