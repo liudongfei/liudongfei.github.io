@@ -87,7 +87,7 @@
 <meta property="og:description" content="Nginx的基本概述Nginx是一款轻量级的Web 服务器&#x2F;反向代理服务器及电子邮件(IMAP&#x2F;POP3)代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。">
 <meta property="og:image" content="https://liudongfei.github.io/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/15841870935903.jpg">
 <meta property="article:published_time" content="2021-02-26T08:08:32.000Z">
-<meta property="article:modified_time" content="2021-02-26T08:08:32.000Z">
+<meta property="article:modified_time" content="2023-02-06T07:24:18.403Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
+              <time title="Post modified" itemprop="dateModified" datetime="2023-02-06T15:24:18+08:00">
+                2023-02-06
               </time>
             
           </span>
@@ -399,9 +399,8 @@
 <ul>
 <li>作为 Web 服务器：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.</li>
 <li>作为负载均衡服务器：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。</li>
-<li>作为邮件代理服务器: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。<br>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。</li>
+<li>作为邮件代理服务器: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。<br>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。<br>Nginx一般用户七层负载均衡，其吞吐量有一定的限制。为了提高整体的吞吐量，会在DNS和Nginx之间引入LVS（软件负载均衡器）、F5（硬负载均衡器） 可以做四层负载均衡，首先DNS解析到LVS(F5)，让后LVS(F5)转发给Nginx，在有Nginx转发给真实的服务器。</li>
 </ul>
-<p>Nginx一般用户七层负载均衡，其吞吐量有一定的限制。为了提高整体的吞吐量，会在DNS和Nginx之间引入LVS（软件负载均衡器）、F5（硬负载均衡器） 可以做四层负载均衡，首先DNS解析到LVS(F5)，让后LVS(F5)转发给Nginx，在有Nginx转发给真实的服务器。</p>
 <h2 id="Nginx的应用场景"><a href="#Nginx的应用场景" class="headerlink" title="Nginx的应用场景"></a>Nginx的应用场景</h2><ul>
 <li>Http服务器：使用Nginx做静态服务器、图片服务器</li>
 <li>虚拟主机配置：讲一个服务器，拆分成多个网站部署</li>
@@ -508,8 +507,8 @@ keepalive指令，keepalive指令出现在版本1.1.4。<figure class="highlight
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/Spring/Spring%E6%A0%B8%E5%BF%83%E2%80%94AOP/" rel="next" title="Spring核心—AOP">
-                <i class="fa fa-chevron-left"></i> Spring核心—AOP
+              <a href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/000Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="next" title="Mysql基础—知识图谱">
+                <i class="fa fa-chevron-left"></i> Mysql基础—知识图谱
               </a>
             
           </div>
@@ -518,8 +517,8 @@ keepalive指令，keepalive指令出现在版本1.1.4。<figure class="highlight
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/02/26/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF/" rel="prev" title="零拷贝技术">
-                零拷贝技术 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/02/26/2-J2EE%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/Tomcat%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" rel="prev" title="Tomcat概述和使用">
+                Tomcat概述和使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -597,7 +596,7 @@ keepalive指令，keepalive指令出现在版本1.1.4。<figure class="highlight
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">153</span>
+                  <span class="site-state-item-count">162</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -619,7 +618,7 @@ keepalive指令，keepalive指令出现在版本1.1.4。<figure class="highlight
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -672,7 +671,7 @@ keepalive指令，keepalive指令出现在版本1.1.4。<figure class="highlight
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

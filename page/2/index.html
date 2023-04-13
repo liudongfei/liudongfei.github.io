@@ -282,6 +282,1549 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/11/23/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E5%B8%B8%E7%94%A8%E6%9F%A5%E8%AF%A2%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/11/23/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E5%B8%B8%E7%94%A8%E6%9F%A5%E8%AF%A2%E8%AF%A6%E8%A7%A3/" itemprop="url">ES常用查询详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-11-23T10:56:39+08:00">
+                2022-11-23
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-11-24T11:18:49+08:00">
+                2022-11-24
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/elasticsearch/" itemprop="url" rel="index">
+                    <span itemprop="name">elasticsearch</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>es中主要使用的两个查询：term和match，这里总结一下两者的区别：</p>
+<ul>
+<li>term：代表精确查询，搜索前不会再对搜索词进行分词解析，直接对搜索词进行查找；</li>
+<li>match：代表模糊查询，搜索前会对搜索词进行分词解析，然后再进行搜索词匹配查询；</li>
+</ul>
+<h2 id="term-query查询"><a href="#term-query查询" class="headerlink" title="term_query查询"></a>term_query查询</h2><p>例如，从索引member中精确搜索“张三”这个词，则不会对“张三”进行分词。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;term&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>term查询只能进行单个词的查询。如果想通过term匹配多个词，可以使用terms实现。</p>
+<h2 id="terms-query查询"><a href="#terms-query查询" class="headerlink" title="terms_query查询"></a>terms_query查询</h2><p>例如，查询“张”和“三”两个词：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;terms&quot;: &#123;</span><br><span class="line">                &quot;name&quot;: [&quot;张&quot;, &quot;三&quot;]</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，这里terms中的[]多个搜索词之间是or关系，只要满足其中一个词即可。<br>如果想要同事满足两个词精确匹配，就要使用bool的must来处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;bool&quot;: &#123;</span><br><span class="line">            &quot;must&quot;: [</span><br><span class="line">                &quot;term&quot;: &#123;</span><br><span class="line">                    &quot;name&quot;: &quot;张&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;term&quot;: &#123;</span><br><span class="line">                    &quot;name&quot;: &quot;三&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="match查询"><a href="#match查询" class="headerlink" title="match查询"></a>match查询</h2><p>例如，查询姓名中含“张三”这个词的数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>“张三”这个词被解析为“张”和“三”两个词，因此name字段中包含“张”或“三”的数据都能够匹配上。<br>注意，match查询时，解析出的搜索词之间是or关系，如果想要“张”和“三”同时匹配到的话，那么可以使用match_phrase查询。<br>如果想要在多个字段中查询则使用multi_match查询。</p>
+<h2 id="multi-match查询"><a href="#multi-match查询" class="headerlink" title="multi_match查询"></a>multi_match查询</h2><p>例如，在姓名和描述两个字段中查询“张三”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;multi_match&quot;: &#123;</span><br><span class="line">            &quot;query&quot;: &quot;张三&quot;</span><br><span class="line">            &quot;fields&quot;: [&quot;name&quot;,&quot;desc&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="match-phrase查询"><a href="#match-phrase查询" class="headerlink" title="match_phrase查询"></a>match_phrase查询</h2><p>match_phrase称为短语查询，要求所有的分词必须同事出现在文档中，同时位置必须紧邻一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match_phrase&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="multi-match-phrase查询"><a href="#multi-match-phrase查询" class="headerlink" title="multi_match_phrase查询"></a>multi_match_phrase查询</h2><p>同理，multi_match_phrase查询适合多个字段查询。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/05/07/2-J2EE%E6%8A%80%E6%9C%AF/Spring/SpringBoot%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/05/07/2-J2EE%E6%8A%80%E6%9C%AF/Spring/SpringBoot%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" itemprop="url">2-J2EE技术/Spring/SpringBoot使用常见问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-07T18:02:23+08:00">
+                2022-05-07
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-05-07T18:02:23+08:00">
+                2022-05-07
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id><a href="#" class="headerlink" title></a></h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/04/29/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/04/29/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" itemprop="url">ES使用常见问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-04-29T13:38:58+08:00">
+                2022-04-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-04-30T23:58:52+08:00">
+                2022-04-30
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/elasticsearch/" itemprop="url" rel="index">
+                    <span itemprop="name">elasticsearch</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="elasticsearch中max-result-window有上限限制"><a href="#elasticsearch中max-result-window有上限限制" class="headerlink" title="elasticsearch中max_result_window有上限限制"></a>elasticsearch中max_result_window有上限限制</h2><p>场景：做分野查询，当分野达到一定量的时候报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result window is too large, from + size must be less than or equal to:[10000] but was [xxx] . See the ...</span><br></pre></td></tr></table></figure>
+<p>原因分析：es对from + size 的大小进行限制，必须小于等于10000。<br>解决方案：<br>1、在业务中限制分页大小，使from+size&lt;=10000；<br>2、动态更改索引设置，为max_result_window参数赋值足够大的值；<br>3、使用scroll方法进行分页。</p>
+<h2 id="bulk批量更新es的文档"><a href="#bulk批量更新es的文档" class="headerlink" title="bulk批量更新es的文档"></a>bulk批量更新es的文档</h2><p>场景：对es的大量文档进行更新时，如果一个个文档进行更新，速度会很慢。<br>原因分析：每次更新文档都要与es进行网络连接，所有更新一起时，网络连接耗时占很多时间<br>解决方案：<br>1、使用bulk方法批量进行更新。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/04/11/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/005-Linux%E7%9A%84%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/04/11/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/005-Linux%E7%9A%84%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/" itemprop="url">Linux运维—磁盘分区</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-04-11T23:31:20+08:00">
+                2022-04-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:03:16+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="磁盘分区操作"><a href="#磁盘分区操作" class="headerlink" title="磁盘分区操作"></a>磁盘分区操作</h2><ul>
+<li>查看磁盘分区：fdisk -l</li>
+<li>添加磁盘分区：fdisk 磁盘设备名称</li>
+<li>删除磁盘分区：fdisk 磁盘设备名称</li>
+<li>格式化磁盘分区：mkfs</li>
+<li>磁盘分区检查：fsck</li>
+<li>磁盘分区挂载：mount  分区名称 挂载点</li>
+<li>磁盘分区卸载：unmount 挂载点</li>
+<li>设置开机挂载：编辑/etc/fstab</li>
+</ul>
+<h2 id="构建内存交换空间（swap）"><a href="#构建内存交换空间（swap）" class="headerlink" title="构建内存交换空间（swap）"></a>构建内存交换空间（swap）</h2><ul>
+<li>添加磁盘分区：fdisk 磁盘设备名称</li>
+<li>格式化磁盘分区为swap格式：mkswap 磁盘分区名称</li>
+<li>查看原本swap使用量：free</li>
+<li>开启新的swap：swapon 磁盘分区名称</li>
+<li>查看当前所有的swap设备：swapon -s </li>
+</ul>
+<h2 id="常见的磁盘阵列"><a href="#常见的磁盘阵列" class="headerlink" title="常见的磁盘阵列"></a>常见的磁盘阵列</h2><p>RAID的常见等级：</p>
+<ul>
+<li>RAID-0：性能最佳，安全性最差，任意一块磁盘损坏都会导致文件丢失。总容量等于所有磁盘的容量之和；</li>
+<li>RAID-1：最大的优点就是数据的备份，总容量等于所有磁盘的容量之和的一半；</li>
+<li>RAID-5：至少需要三块磁盘才可以组成这种类型的磁盘阵列，通过使用同位检查码，确保任何一块磁盘损坏都会通过其他磁盘的检查码来恢复数据。总容量等于整体磁盘的数量减去一块；这种类型的磁盘阵列只能允许一块磁盘损坏；</li>
+</ul>
+<h2 id="Linux的逻辑卷管理器（Logical-Volume-Manager）"><a href="#Linux的逻辑卷管理器（Logical-Volume-Manager）" class="headerlink" title="Linux的逻辑卷管理器（Logical Volume Manager）"></a>Linux的逻辑卷管理器（Logical Volume Manager）</h2><p>LVM的重点在于可以弹性调整文件系统的容量。</p>
+<ul>
+<li>PV：物理卷，实际的物理分区，是LVM的最底层；</li>
+<li>PE：物理扩展块，类似文件系统的block，默认为4M；</li>
+<li>VG：卷用户组，由PE组成了VG，最大可以有256G的容量；</li>
+<li>LV：逻辑卷，由VG切分出来成为LV。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/03/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/004-Linux%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/03/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/004-Linux%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" itemprop="url">Linux运维—文件系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-03-13T01:00:40+08:00">
+                2022-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T21:52:41+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="文件系统Ext2"><a href="#文件系统Ext2" class="headerlink" title="文件系统Ext2"></a>文件系统Ext2</h2><h3 id="文件系统Ext2的介绍"><a href="#文件系统Ext2的介绍" class="headerlink" title="文件系统Ext2的介绍"></a>文件系统Ext2的介绍</h3><p>操作系统Ext2中的文件除了文件除了文件的实际内容外，通常含有更多的属性，如文件权限（rwx）与文件属性（所有者、群组、时间属性）等。<br>文件系统通常会将这两部分不同的数据存放在不同的块，权限与属性存放到inode中，至于实际数据则放置到data block块中。此外还有一个super block记录整个文件系统的使用数据，包括inode与block的总量、使用量、剩余量等。<br>总体上，文件系统包含如下三部分：</p>
+<ul>
+<li>super block：记录文件系统的整体信息，包括indoe与block的总量、使用量、剩余量，以及文件系统的格式与相关信息等；</li>
+<li>inode：记录文件的属性，一个文件占用一个inode，，同时记录此文件的数据所在block号码；</li>
+<li>block：记录文件的实际内容，若文件过大，会占用多个block。block的大小有1kb，2kb，4kb三种。</li>
+</ul>
+<p>###Ext2和FAT文件系统的区别<br>在文件系统Ext2中，每一个文件都会占用一个inode，inode里面则有文件存放的block号码。系统读取文件时会先找到inode，然后分析inode记录的权限与用户是否符合，若符合才能实际读取block的数据内容。这种方法被称为索引式文件系统。<br>U盘的文件系统一般是FAT，这种文件系统没有inode在，因此FAT没有办法将这个文件的所有block块一次性都读出来，因此下一个block块的号码存放在前一个block块中，因此如果一个文件数据写入的block块过于分散，则磁盘读取到这个文件的效率就会过低。所谓的“碎片整理”就是文件写入的block块过于分散了，要将同一个文件的block汇总到一起。</p>
+<h3 id="Ext2的block属性"><a href="#Ext2的block属性" class="headerlink" title="Ext2的block属性"></a>Ext2的block属性</h3><ul>
+<li>block的大小与数量在格式化完成就不能够再改变了；</li>
+<li>每个block内最多只能够放置一个文件的数据，如果文件大于block的大小，则一个文件会占用多个block块。</li>
+</ul>
+<h3 id="Ext2的inode属性"><a href="#Ext2的inode属性" class="headerlink" title="Ext2的inode属性"></a>Ext2的inode属性</h3><ul>
+<li>每个inode的大小均固定为128btyes；</li>
+<li>每个文件都只会占用一个inode，每个inode记录block号码的区域分为12个直接、1个间接、一个双间接、一个三间接。</li>
+</ul>
+<h3 id="Ext2的Superblock属性"><a href="#Ext2的Superblock属性" class="headerlink" title="Ext2的Superblock属性"></a>Ext2的Superblock属性</h3><ul>
+<li><p>block与inode的总量；</p>
+</li>
+<li><p>未使用与已使用的inode/block数量；</p>
+</li>
+<li><p>block与inode的大小；</p>
+</li>
+<li><p>block对照表；</p>
+</li>
+<li><p>inode对照表；</p>
+</li>
+<li><p>文件系统描述。</p>
+<h3 id="文件系统的查看操作"><a href="#文件系统的查看操作" class="headerlink" title="文件系统的查看操作"></a>文件系统的查看操作</h3></li>
+<li><p>df：列出文件系统的整体磁盘使用量</p>
+</li>
+<li><p>du：评估文件系统的磁盘使用量，常用于评估目录所占的容量。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/03/08/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/003-Linux%E7%9A%84%E7%9B%AE%E5%BD%95%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/03/08/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/003-Linux%E7%9A%84%E7%9B%AE%E5%BD%95%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/" itemprop="url">Linux运维—目录与文件权限</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-03-08T00:01:37+08:00">
+                2022-03-08
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T21:52:41+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="目录与文件权限的意义"><a href="#目录与文件权限的意义" class="headerlink" title="目录与文件权限的意义"></a>目录与文件权限的意义</h2><p> Linux系统内文件的三种身份：所有者、用户组和其他人。每种身份都有三种权限（r、w、x），用数字4、2、1表示。<br>对于文件：</p>
+<ul>
+<li>r：可读取此文件的实际内容。</li>
+<li>w：可以编辑、新增或者修改该文件的内容（但是不含删除该文件）。</li>
+<li>x：该文件具有可以被系统执行的权限。</li>
+</ul>
+<p>总而言之，对于文件的r、w、x权限来说，主要都是针对该文件的内容而言，与文件的存在与否没有关系。</p>
+<p>对于目录：</p>
+<ul>
+<li>r：表示具有读取目录结构列表的权限。可以利用ls这个命令将这个目录的内容列表显示出来。</li>
+<li>w：表示具有更改该目录结构列表的权限。主要包含：新建新的文件与目录；删除已经存在的文件与目录（不论该文件的权限为何）；将以存在的文件或目录进行重命名；转移该目录内的文件、目录位置。</li>
+<li>x：表示进入该目录的权限。可以使用cd这个命令切换到这个目录中。</li>
+</ul>
+<p>总之，要开放目录给任何人浏览时，至少要给与x和r的权限，如果只有r权限就只能查询到目录下的文件名称，并不能切换到这个目录中。<br>默认情况下，用户创建文件是没有可执行（x）权限的，只有r、w两项，也就是最大为666。用户新建目录，则x与是否可进入此目录有关，因此默认所有权限都开放，即为777。<br>用户新建文件或目录时默认的权限由umask命令的后面三个数字控制，umask的分数指的是“该默认值需要减掉的权限”。<br>root用户的umask一般是0022，后三位即022，所有者拥有全部权限，用户组去除写权限，其他去除写权限。在这种情况下，用户创建的文件权限默认为644，目录的默认权限为755。普通用户的umask是0002。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/02/27/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/002-Linux%E7%9A%84%E7%94%B1%E6%9D%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/02/27/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/002-Linux%E7%9A%84%E7%94%B1%E6%9D%A5/" itemprop="url">Linux运维—Linux的由来</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-02-27T21:47:14+08:00">
+                2022-02-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-03-07T23:55:38+08:00">
+                2022-03-07
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Linux之前UNIX的历史"><a href="#Linux之前UNIX的历史" class="headerlink" title="Linux之前UNIX的历史"></a>Linux之前UNIX的历史</h2><ul>
+<li>1969年以前，输入设备只有卡片阅读机，输出设备只有打印机，用户无法与操作系统进行互动。后来设备更新和操作系统的改良，可以使用键盘进行输入。此时，如果多人使用一台主机，则需要等待。后来麻省理工学院开发了分时操作系统，可以使大型主机通过提供多个终端连接进入主机，利用主机资源进行运算工作，但是终端只具备输入/输出的功能，本身不具有任何运算或软件安装的能力，同时比较先进的主机也只能链接30台左右的终端机。后来为了增加大型主机的功能，在1965年前后由贝尔实验室、麻省理工学院及通用电气公司共同发起了Multics项目，为了让大型主机同时提供300台以上的终端连接机使用的目的。在1969年前后，由于项目进度落后，资金短缺，贝尔实验室推出了该项目。</li>
+<li>1969年，原本参与Multics项目的成员Thompson，为了自己需要，以汇编语言(Assemler)写出来一组内核程序，同时包括一些内核工具程序及一个小的文件系统。该系统就是UNIX的原型。</li>
+<li>1973年，UNIX正式诞生。由于Thompson写的那个操作系统太好用了，在贝尔实验室内部广为流传，但是，由于是由汇编语言编写的，和计算机架构的兼容性太差，因此Thompson和Ritchie合作用C语言重新改写和编译，最后发行出了UNIX的正式版本。</li>
+<li>1977年，重要的UNIX分支—BSD诞生。贝尔实验室属于AT&amp;T公司，对于UNIX采取较为开放的态度，在1973年后UNIX便得以与学术界合作开发，最重要的就是与加州柏克莱（Berkeley）大学合作。柏克莱大学的BillJoy在取得UNIX的源码后，着手修改为舍和自己机器的版本，同时增加了很多工具软件与编译程序，最终将它命名为Berkeley Software Dsitribution（BSD）。这个BSD是UNIX很重要的一个分支，Bill Joy也是Sun这家公司的创办者。Sun公司即是以BSD开发的内核进行自己的商业UNIX版本的开发的。</li>
+<li>1979年，由于UNIX的高度可移植性与强大的性能，加上当时并没有版权的纠纷，所以很多公司开始了UNIX操作系统的开发，例如AT&amp;T的System V、IBM的AIX等。而在早期每家生产计算机硬件的公司还没有“协议”的概念，所以每一家计算机公司生产的硬件自然就不相同，因此需要为自己的计算机硬件开发合适的UNIX系统，而且仅能与自身的硬件支持，这种情况在1979年AT&amp;T推出System V第七版UNIX后有所改善，这个版本的System V支持x86架构的个人计算机。由于商业原因，AT&amp;T在第七版的UNIX中，特别提到“不可对学生提供源码”的严格限制</li>
+<li>1984年，Richard Mathew Stallman（史托曼）发起了GNU项目，对于当今自由软件风潮具有不可磨灭的地位。这个项目是创建一个自由、开放的UNIX操作系统(Free UNIX)，著名的GNU C Compiler（GCC）、Emacs以及常用的C函数库、bash shell等都是他完成的。为了避免GNU开发的自由软件被其他所利用成为专利软件，他与律师草拟了有名的通用公共许可证（GPL）。</li>
+<li>1991年，芬兰的赫尔辛基大学的Linus Torvalds以bash，gcc等工具写了一个小小的内核程序，这个内核程序可以在Intel的386机器上运行。</li>
+</ul>
+<h2 id="Linux的内核版本"><a href="#Linux的内核版本" class="headerlink" title="Linux的内核版本"></a>Linux的内核版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2.6.18-92.e15</span><br><span class="line">主版本.次版本.释出版本-修改版本</span><br></pre></td></tr></table></figure>
+<ul>
+<li>主、次版本为奇数：开发中版本。主要在测试和开发新功能。</li>
+<li>主、次版本为偶数：稳定版本</li>
+</ul>
+<h2 id="Linux的Distributions"><a href="#Linux的Distributions" class="headerlink" title="Linux的Distributions"></a>Linux的Distributions</h2><ul>
+<li>Linux的Distributions包括“Kernel + Software + Tools”</li>
+<li>一般Distribution主要分为两大系统，一种使用RPM方式安装软件的系统，如Red Hat，Fedora，SuSE等；一种则是使用Debian的dpkg方式，如Debian，Ubuntu，B2D等。</li>
+<li>如何选择Distribution？如果装在个人计算机上，建议使用团队版Fedora，Ubuntu，OpenSuSE等。如果用在服务器上建议使用商业版本，如Red Hat，SuSE。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/02/19/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/001-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/02/19/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/001-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BB%8B%E7%BB%8D/" itemprop="url">Linux运维—计算机概论</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-02-19T21:40:27+08:00">
+                2022-02-19
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:00:07+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="常用的计算单位"><a href="#常用的计算单位" class="headerlink" title="常用的计算单位"></a>常用的计算单位</h2><ul>
+<li>大小单位：0/1的单位称为bit。存储数据时每份简单的数据都会使用到8个bit的大小来记录，称之为Byte；1Byte=8bit。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>进制位</th>
+<th>K</th>
+<th>M</th>
+<th align="left">G</th>
+<th align="left">T</th>
+<th align="left">P</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二进制</td>
+<td>1024</td>
+<td>1024K</td>
+<td align="left">1024M</td>
+<td align="left">1024G</td>
+<td align="left">1024T</td>
+</tr>
+<tr>
+<td>十进制</td>
+<td>1000</td>
+<td>1000K</td>
+<td align="left">1000M</td>
+<td align="left">1000G</td>
+<td align="left">1000T</td>
+</tr>
+</tbody></table>
+<ul>
+<li>速度单位：Hz是秒分之一。网络传输方面往往采用bit为单位，如网络常使用Mbit/s，即每秒多少Mbit，如果转成文件容量Byte时，其实需要除以8。</li>
+</ul>
+<h2 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h2><ul>
+<li>CPU的种类：按照指令集的分类，分为精简指令集（RISC）与复杂指令集（CISC）。</li>
+<li>CPU的频率：频率即CPU每秒钟可以进行的工作次数。如频率为3.0GHz，表示CPU再一秒钟之内可以进行3.0 * 10的9次方次工作。</li>
+<li>CPU的外频与倍频：外频指的是CPU与外部组件（内存）进行数据传输/运算时的速度，倍频则是CPU内部用来加速工作性能的一个倍数，两者相乘是CPU的频率。</li>
+<li>CPU的32位与64位：内存与CPU的通信速度考的是外部频率，那么每次工作可以传送的数据量有多大就是总线的功能。一般主板芯片组分为北桥和南桥，北桥的总线成为系统总线，因为内存传输的主要信道，所以速度较快；南桥就是所谓的输入输出总线。北桥所支持的频率称为前端总线速度（FSB），而每次传送的位数则是总线宽度，总线频宽=FSB * 总线宽度，常见的总线宽度有32/64位（bit）。与总线宽度相似，CPU每次能够处理的数据量称为字组大小，字组大小依据CPU的设计而有32位与64位。现在所称的计算机是32位或者64位主要是依据CPU解析的字组大小而来。</li>
+</ul>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><ul>
+<li>DRAM：动态随机访问内存。通电才记录与使用，断电数据消失。就是常用的与CPU交互的主要数据内存。</li>
+<li>SRAM：静态随机访问内存。用于CPU高速缓存，一般集成到CPU内</li>
+<li>ROM：只读存储器。通常用于BIOS程序写入。</li>
+</ul>
+<h2 id="显卡"><a href="#显卡" class="headerlink" title="显卡"></a>显卡</h2><p>显卡又称为VGA，显卡上会有一个内存容量，这个显卡内存将会影响到最终的屏幕分辨率和色彩深度。除了内存外，由于3D动画的流行，因此显卡的运算能力也越来越重要。一般会在显卡嵌入3D加速的芯片，这就是GPU的由来。</p>
+<h2 id="硬盘与存储设备"><a href="#硬盘与存储设备" class="headerlink" title="硬盘与存储设备"></a>硬盘与存储设备</h2><ul>
+<li>硬盘：由盘片、机械手臂、磁头与主轴马达所组成。盘片上由圆心以放射的方式分隔出磁盘的最小存储单位—扇区，每个扇区的最小单位为512bytes，这个值不可变。扇区组成一个圆就是一个磁道，在所有的盘片上同一个磁道可以组成一个柱面，柱面也是我们分隔硬盘的最小单位。</li>
+<li>计算硬盘的存储容量：磁头的数量*每次磁头负责的柱面数量 * 每个柱面所含有的扇区数量 * 扇区的容量</li>
+</ul>
+<h2 id="文字编码系统"><a href="#文字编码系统" class="headerlink" title="文字编码系统"></a>文字编码系统</h2><ul>
+<li>常用的英文编码表为ASCII系统，每个字符占1B的容量，因此总共会有2的8次方256个字符。至于中文编码最常用的就是gb2312系统，每个字符占2B的容量，因此总共会有2的16次方65536个字符。</li>
+<li>由于中文编码对某些些数据库系统来说会出现误判和乱码问题，同时其他非英语系国家同样出现了这些问题，为了解决这个问题，由国际组织ISO/IEC制定了所谓的Unicode编码系统，即我们常称呼的UTF8。</li>
+</ul>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><ul>
+<li>操作系统的组成：操作系统由下到上分别由硬件、内核、系统调用和应用程序4个层面构成。</li>
+<li>硬件层：计算机系统主要由硬件组成。包含上面的CPU、内存、显卡等</li>
+<li>内核层：主要在于管理计算机的所有活动，驱动硬件，提供合理的计算机系统资源分配，因此硬件不同，内核就要进行修改。内核的主要功能有：系统调用接口；程序管理；内存管理；文件系统管理；设备驱动。</li>
+<li>系统调用层：为了保护内核，同时为了更方面程序员比较容易开发软件，会提供一整组的开发接口，这就是系统调用层。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/01/06/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/01/06/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="url">Mysql高级—常见坑与解决方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:04+08:00">
+                2022-01-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-12-12T09:51:41+08:00">
+                2022-12-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>问题现象：日志中出现World-writable config file ‘/etc/mysql/my.cnf’ is ignored。<br> 问题本质：mysql配置文件不生效。<br> 解决方法：mysql配置文件权限过大777，任何用户都可修改。</p>
+<pre><code>使用`chmod 644 /etc/mysql/my.cnf`修改文件权限即可。</code></pre></li>
+<li><p>问题现象：mysql 1346错误，更新表记录报 “Field doesn’t have a default value” 错误。<br> 问题本质：mysql5.7版本以后默认增加了mysql的严格模式，在更新时会默认加入所有字段，严格模式定义即</p>
+<pre><code>sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;中的STRICT_TRANS_TABLES。</code></pre><p> 解决方法：修改sql-mode，修改为</p>
+<pre><code>sql-mode=&quot;NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;</code></pre></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/12/11/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E9%AB%98%E7%BA%A7%E2%80%94DockerCompose%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -423,1416 +1966,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/12/10/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E9%AB%98%E7%BA%A7%E2%80%94%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/12/10/4-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8A%80%E6%9C%AF/Docker/Docker%E9%AB%98%E7%BA%A7%E2%80%94%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6/" itemprop="url">Docker高级—容器资源限制</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-10T16:46:12+08:00">
-                2021-12-10
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-12-10T17:08:12+08:00">
-                2021-12-10
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>–cpu-shares参数<br>默认值：1024<br>解释：CPU共享权重，权重越大，cpu使用比例越高，但是并不能保证一定能获得cpu资源。</p>
-</li>
-<li><p>–cpus参数<br>默认值：无<br>解释：指定容器可以使用多少cpu资源。例如宿主机是2核cpu，设定–cpus 1.5，则容器保证可以最多获取一个半的cpu数量。</p>
-</li>
-<li><p>–cpuset-cpus参数<br>默认值：无<br>解释：指定容器可以使用的cpu集合，例如宿主机是4核cpu，可以使用cat /proc/stat命令查看cpu数量和配置，设定–cpuset-cpus “0-2”，则限制容器使用第1个, 第2个, 第3个CPU核。</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/00Java%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/00Java%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url">1-Java技术/00Java基础—知识图谱</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/03Java%E6%A0%B8%E5%BF%83%E2%80%94IO%E6%B5%81/" itemprop="url">Java核心—IO流</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>// 正在整理中</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/04Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/04Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/" itemprop="url">Java核心—J8新特性</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Java8新特性"><a href="#Java8新特性" class="headerlink" title="Java8新特性"></a>Java8新特性</h2><h3 id="接口的默认方法-Default-Methods-for-Interfaces"><a href="#接口的默认方法-Default-Methods-for-Interfaces" class="headerlink" title="接口的默认方法(Default Methods for Interfaces)"></a>接口的默认方法(Default Methods for Interfaces)</h3><p>Java 8使我们能够通过使用 default 关键字向接口添加非抽象方法实现。</p>
-<h3 id="Lambda表达式-Lambda-expressions"><a href="#Lambda表达式-Lambda-expressions" class="headerlink" title="Lambda表达式(Lambda expressions)"></a>Lambda表达式(Lambda expressions)</h3><p>在Java 8中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/04Java%E6%A0%B8%E5%BF%83%E2%80%94J8%E6%96%B0%E7%89%B9%E6%80%A7/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/01Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/01Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/" itemprop="url">Java基础—Java易错点总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-03-12T14:58:37+08:00">
-                2021-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="JVM、JDK和JRE的区别"><a href="#JVM、JDK和JRE的区别" class="headerlink" title="JVM、JDK和JRE的区别"></a>JVM、JDK和JRE的区别</h3><ul>
-<li>JVM是运行Java字节码的虚拟机。</li>
-<li>JDK是运行已编译的Java程序的所有内容的集合，包含JVM、java类库、java命令和一些基础构件。</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/01Java%E5%9F%BA%E7%A1%80%E2%80%94%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">Java核心—并发编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-03-12T16:49:29+08:00">
-                2021-03-12
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="并发编程知识图谱"><a href="#并发编程知识图谱" class="headerlink" title="并发编程知识图谱"></a>并发编程知识图谱</h2><p><img src="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/15896137574903.jpg" alt></p>
-<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p>线程的生命周期有如下几个阶段：</p>
-<ul>
-<li>新建(New)</li>
-<li>就绪(Runnable)</li>
-<li>运行(Running)</li>
-<li>阻塞(Blocked)</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/05Java%E6%A0%B8%E5%BF%83%E2%80%94%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/06Java%E6%A0%B8%E5%BF%83%E2%80%94%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/06Java%E6%A0%B8%E5%BF%83%E2%80%94%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url">Java核心—网络编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="OSI与TCP-IP各个层的结构与功能"><a href="#OSI与TCP-IP各个层的结构与功能" class="headerlink" title="OSI与TCP/IP各个层的结构与功能"></a>OSI与TCP/IP各个层的结构与功能</h2><p>TCP/IP七层协议结构与功能如下所示：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/06Java%E6%A0%B8%E5%BF%83%E2%80%94%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/02Java%E5%9F%BA%E7%A1%80%E2%80%94%E9%9B%86%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/02Java%E5%9F%BA%E7%A1%80%E2%80%94%E9%9B%86%E5%90%88/" itemprop="url">Java基础—集合</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-11-19T17:22:01+08:00">
-                2021-11-19
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Arraylist-、LinkedList-区别"><a href="#Arraylist-、LinkedList-区别" class="headerlink" title="Arraylist 、LinkedList 区别"></a>Arraylist 、LinkedList 区别</h3><ul>
-<li>是否保证线程安全： ArrayList 和 LinkedList 都是不同步的，也就是不保证线程安全。</li>
-<li>底层数据结构： Arraylist 底层使用的是 Object 数组；LinkedList 底层使用的是双向链表数据结构。</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/02Java%E5%9F%BA%E7%A1%80%E2%80%94%E9%9B%86%E5%90%88/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/07Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/07Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url">Java核心—虚拟机</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:33+08:00">
-                2021-02-26
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Java运行时内存区域"><a href="#Java运行时内存区域" class="headerlink" title="Java运行时内存区域"></a>Java运行时内存区域</h2><h3 id="JDK1-8之前："><a href="#JDK1-8之前：" class="headerlink" title="JDK1.8之前："></a>JDK1.8之前：</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/02/26/1-Java%E6%8A%80%E6%9C%AF/07Java%E6%A0%B8%E5%BF%83%E2%80%94%E8%99%9A%E6%8B%9F%E6%9C%BA/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
   </nav>
 
 
@@ -1878,7 +2016,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">153</span>
+                  <span class="site-state-item-count">162</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1900,7 +2038,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -1937,7 +2075,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

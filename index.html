@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/11/23/%E8%8D%89%E7%A8%BF/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/012-Linux%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2022/11/23/%E8%8D%89%E7%A8%BF/" itemprop="url">草稿</a></h1>
+                <a class="post-title-link" href="/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/012-Linux%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" itemprop="url">Linux运维—启动流程</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-11-23T10:57:28+08:00">
-                2022-11-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-13T22:17:18+08:00">
+                2023-04-13
               </time>
             
 
@@ -329,629 +329,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2022-11-23T11:06:44+08:00">
-                2022-11-23
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>自营产品收益统计表<br>        母产品ID<br>        母产品名称<br>        统计日期<br>        产品资产净值<br>        产品实收资本<br>        产品银行存款</p>
-<pre><code>子产品（策略）ID
-子产品（策略）名称
-子产品（策略）累计收益
-子产品（策略）当日收益
-
-自营持仓母产品份额占比
-自营持仓母产品市值
-自营持仓母产品银行存款
-
-自营持仓子产品（策略）本周收益
-自营持仓子产品（策略）本月收益
-自营持仓子产品（策略）本年收益
-
-自营持仓子产品（策略）年初规模
-自营持仓子产品（策略）当前规模
-
-外部持仓母产品份额占比
-自营持仓母产品市值
-自营持仓母产品银行存款
-
-自营持仓子产品（策略）本周收益
-自营持仓子产品（策略）本月收益
-自营持仓子产品（策略）本年收益
-
-自营持仓子产品（策略）年初规模
-自营持仓子产品（策略）当前规模</code></pre><p>1、添加年初到上周五的收益<br>2、标签使用投后300标签<br>3、每日（周、月、年）收益率收益率<br>4、自营单个大类资产的收益率<br>5、估值日期</p>
-<p>11月21日讨论结论<br>1、更新策略标签<br>2、每列加日均市值，日均市值=sum（子产品日市值）/count（持仓不为0的日期）<br>3、计算本周、本月、本年收益率。<br>各期间收益率=product(每日收益率)<br>每日收益率=当日收益/昨日市值<br>4、增加大类策略本周、本月、本年收益率（系统功能，不加入数据底表）<br>大类策略各期间收益率=product(大类策略每日收益率)<br>大类策略每日收益率=sum（大类下子产品收益和）/sum（大类下子产品昨日市值）<br>5、策略收益底表加入今年以来到上周五的收益合集，字段名为“本年收益（截止xx月xx日）”每周计算过程中需要对上周五数据持续更新<br>6、更新日期修改为估值日期<br>7、读取子龙填写的银行账户资金</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/11/23/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E5%B8%B8%E7%94%A8%E6%9F%A5%E8%AF%A2%E8%AF%A6%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/11/23/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E5%B8%B8%E7%94%A8%E6%9F%A5%E8%AF%A2%E8%AF%A6%E8%A7%A3/" itemprop="url">ES常用查询详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-11-23T10:56:39+08:00">
-                2022-11-23
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2022-11-24T11:18:49+08:00">
-                2022-11-24
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/elasticsearch/" itemprop="url" rel="index">
-                    <span itemprop="name">elasticsearch</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>es中主要使用的两个查询：term和match，这里总结一下两者的区别：</p>
-<ul>
-<li>term：代表精确查询，搜索前不会再对搜索词进行分词解析，直接对搜索词进行查找；</li>
-<li>match：代表模糊查询，搜索前会对搜索词进行分词解析，然后再进行搜索词匹配查询；</li>
-</ul>
-<h2 id="term-query查询"><a href="#term-query查询" class="headerlink" title="term_query查询"></a>term_query查询</h2><p>例如，从索引member中精确搜索“张三”这个词，则不会对“张三”进行分词。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;term&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>term查询只能进行单个词的查询。如果想通过term匹配多个词，可以使用terms实现。</p>
-<h2 id="terms-query查询"><a href="#terms-query查询" class="headerlink" title="terms_query查询"></a>terms_query查询</h2><p>例如，查询“张”和“三”两个词：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;terms&quot;: &#123;</span><br><span class="line">                &quot;name&quot;: [&quot;张&quot;, &quot;三&quot;]</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意，这里terms中的[]多个搜索词之间是or关系，只要满足其中一个词即可。<br>如果想要同事满足两个词精确匹配，就要使用bool的must来处理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;bool&quot;: &#123;</span><br><span class="line">            &quot;must&quot;: [</span><br><span class="line">                &quot;term&quot;: &#123;</span><br><span class="line">                    &quot;name&quot;: &quot;张&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;term&quot;: &#123;</span><br><span class="line">                    &quot;name&quot;: &quot;三&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="match查询"><a href="#match查询" class="headerlink" title="match查询"></a>match查询</h2><p>例如，查询姓名中含“张三”这个词的数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>“张三”这个词被解析为“张”和“三”两个词，因此name字段中包含“张”或“三”的数据都能够匹配上。<br>注意，match查询时，解析出的搜索词之间是or关系，如果想要“张”和“三”同时匹配到的话，那么可以使用match_phrase查询。<br>如果想要在多个字段中查询则使用multi_match查询。</p>
-<h2 id="multi-match查询"><a href="#multi-match查询" class="headerlink" title="multi_match查询"></a>multi_match查询</h2><p>例如，在姓名和描述两个字段中查询“张三”。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;multi_match&quot;: &#123;</span><br><span class="line">            &quot;query&quot;: &quot;张三&quot;</span><br><span class="line">            &quot;fields&quot;: [&quot;name&quot;,&quot;desc&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="match-phrase查询"><a href="#match-phrase查询" class="headerlink" title="match_phrase查询"></a>match_phrase查询</h2><p>match_phrase称为短语查询，要求所有的分词必须同事出现在文档中，同时位置必须紧邻一致。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;member&#x2F;info&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match_phrase&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="multi-match-phrase查询"><a href="#multi-match-phrase查询" class="headerlink" title="multi_match_phrase查询"></a>multi_match_phrase查询</h2><p>同理，multi_match_phrase查询适合多个字段查询。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/05/07/2-J2EE%E6%8A%80%E6%9C%AF/Spring/SpringBoot%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/05/07/2-J2EE%E6%8A%80%E6%9C%AF/Spring/SpringBoot%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" itemprop="url">2-J2EE技术/Spring/SpringBoot使用常见问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-07T18:02:23+08:00">
-                2022-05-07
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2022-05-07T18:02:23+08:00">
-                2022-05-07
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id><a href="#" class="headerlink" title></a></h1>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/04/29/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/04/29/9-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2/ElasticSearch/ES%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" itemprop="url">ES使用常见问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-04-29T13:38:58+08:00">
-                2022-04-29
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2022-04-30T23:58:52+08:00">
-                2022-04-30
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/elasticsearch/" itemprop="url" rel="index">
-                    <span itemprop="name">elasticsearch</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="elasticsearch中max-result-window有上限限制"><a href="#elasticsearch中max-result-window有上限限制" class="headerlink" title="elasticsearch中max_result_window有上限限制"></a>elasticsearch中max_result_window有上限限制</h2><p>场景：做分野查询，当分野达到一定量的时候报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result window is too large, from + size must be less than or equal to:[10000] but was [xxx] . See the ...</span><br></pre></td></tr></table></figure>
-<p>原因分析：es对from + size 的大小进行限制，必须小于等于10000。<br>解决方案：<br>1、在业务中限制分页大小，使from+size&lt;=10000；<br>2、动态更改索引设置，为max_result_window参数赋值足够大的值；<br>3、使用scroll方法进行分页。</p>
-<h2 id="bulk批量更新es的文档"><a href="#bulk批量更新es的文档" class="headerlink" title="bulk批量更新es的文档"></a>bulk批量更新es的文档</h2><p>场景：对es的大量文档进行更新时，如果一个个文档进行更新，速度会很慢。<br>原因分析：每次更新文档都要与es进行网络连接，所有更新一起时，网络连接耗时占很多时间<br>解决方案：<br>1、使用bulk方法批量进行更新。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/04/11/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/005-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/04/11/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/005-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">Linux运维—常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-04-11T23:31:20+08:00">
-                2022-04-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2022-04-12T00:12:54+08:00">
-                2022-04-12
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:21:34+08:00">
+                2023-04-13
               </time>
             
           </span>
@@ -1008,268 +387,16 @@
       
         
           
-            <h2 id="基础命令操作"><a href="#基础命令操作" class="headerlink" title="基础命令操作"></a>基础命令操作</h2><ul>
-<li>显示日期与时间的命令：date</li>
-<li>显示日历的命令：cal</li>
-<li>简单好用的计算器：bc<h2 id="在线求助命令man-page"><a href="#在线求助命令man-page" class="headerlink" title="在线求助命令man page"></a>在线求助命令man page</h2>命令类别代号：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>代号</th>
-<th>代表内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>用户在shell环境中可以执行的命令或者可执行文件</td>
-</tr>
-<tr>
-<td>2</td>
-<td>系统内核可调用的函数与工具等</td>
-</tr>
-<tr>
-<td>3</td>
-<td>一些常用的C函数库（libc）</td>
-</tr>
-<tr>
-<td>4</td>
-<td>设备文件说明，在/dev下面</td>
-</tr>
-<tr>
-<td>5</td>
-<td>配置文件或者是某些文件的格式</td>
-</tr>
-<tr>
-<td>6</td>
-<td>游戏（games）</td>
-</tr>
-<tr>
-<td>7</td>
-<td>惯例与协议，例如Linux文件系统、网络协议等说明</td>
-</tr>
-<tr>
-<td>8</td>
-<td>系统管理员可用的管理命令</td>
-</tr>
-<tr>
-<td>9</td>
-<td>跟kernel有关的文件</td>
-</tr>
-</tbody></table>
-<p>命令目录说明：</p>
-<table>
-<thead>
-<tr>
-<th>目录</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>NAME</td>
-<td>简短的命令、数据名称说明</td>
-</tr>
-<tr>
-<td>SYNOPSIS</td>
-<td>简短的命令执行语法简介</td>
-</tr>
-<tr>
-<td>DESCRIPTION</td>
-<td>较为完成的说明，仔细看看</td>
-</tr>
-<tr>
-<td>OPTIONS</td>
-<td>针对SYNOPSIS部分中，可用选项说明</td>
-</tr>
-<tr>
-<td>SEE ALSO</td>
-<td>这个命令或者数据有相关的其他说明</td>
-</tr>
-<tr>
-<td>EXAMPLE</td>
-<td>一些可以参考的范例</td>
-</tr>
-</tbody></table>
-<h2 id="关机命令"><a href="#关机命令" class="headerlink" title="关机命令"></a>关机命令</h2><ul>
-<li>数据同步写入磁盘sync：</li>
-<li>关机命令shutdown：</li>
-<li>重启reboot：</li>
-<li>切换执行等级init：<br>常用的四种执行等级：</li>
-</ul>
-<ul>
-<li>run level 0: 关机</li>
-<li>run level 3: 纯命令行模式</li>
-<li>run level 5: 含有图形界面模式</li>
-<li>run level 6: 重启</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/03/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/004-%E4%B8%BB%E5%BC%95%E5%AF%BC%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dongfeiliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="琅琊的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/03/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/004-%E4%B8%BB%E5%BC%95%E5%AF%BC%E6%B5%81%E7%A8%8B/" itemprop="url">Linux运维—主引导分区（MBR）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-03-13T01:00:40+08:00">
-                2022-03-13
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2022-03-13T01:26:18+08:00">
-                2022-03-13
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="BIOS与CMOS"><a href="#BIOS与CMOS" class="headerlink" title="BIOS与CMOS"></a>BIOS与CMOS</h2><ul>
-<li>CMOS是记录各项硬件参数且嵌入在主板上面的存储器。</li>
-<li>BIOS是一个写入到主板上的一个韧体，即写入到硬件上的一个软件程序。<br>这个BIOS就是在开机的时候计算机主动执行的第一个程序。BIOS会分析计算机里面有哪些存储设备，以硬盘为例，BIOS会根据用户设定的开机硬盘，到该硬盘里读取第一个扇区的MBR位置，MBR这个仅有446bytes的硬盘容量里会放置最基本的引导加载程序（Boot loader），此时BIOS就功成圆满，接下来就是引导加载程序的工作了。<h2 id="开机流程与主引导分区"><a href="#开机流程与主引导分区" class="headerlink" title="开机流程与主引导分区"></a>开机流程与主引导分区</h2>这个主引导加载程序（Boot loader）的目的是加载内核文件，由于引导加载程序是操作系统在安装的时候所提供的，因此会识别硬盘内的文件系统格式，读取内核文件后引导加载程序的工作也就结束了。<br>整个开机流程到操作系统之前的操作动作：</li>
-</ul>
-<ol>
-<li>BIOS：开机主动执行的韧体，会认识第一个可开机的设备。</li>
-<li>MBR：第一个可开机设备的第一个扇区内的主引导分区块，内包含引导加载程序。</li>
-<li>引导加载程序（Boot loader）：一支可读取内核文件来执行的软件。</li>
-<li>内核文件：开始操作系统功能。<h2 id="引导加载程序"><a href="#引导加载程序" class="headerlink" title="引导加载程序"></a>引导加载程序</h2>引导加载程序的作用：</li>
+            <ol>
+<li>加载BIOS的硬件信息与进行自我测试，并依据设置取得第一个可启动的设备；</li>
+<li>读取并执行第一个可启动设备内MBR的bootloader（即是grub.spfdisk等程序）;</li>
+<li>依据bootloader的设计加载Kernel，Kernel会开始检测硬件与加载驱动程序；</li>
+<li>在硬件驱动成功后，Kernel会主动调用init进程，而init会取得run-level信息；</li>
+<li>init执行/etc/rc.d/rc.sysinit 文件来准备软件执行的操作环境（如网络、时区等）；</li>
+<li>init执行run-level的各个服务的启动（script方式）；</li>
+<li>init执行/etc/rc.d/rc.local文件；</li>
+<li>init执行终端机模拟程序mingetty来启动login进程，等待用户登陆；</li>
 </ol>
-<ul>
-<li>提供菜单：用户可以选择不同的开机选项，这也是多重引导的重要功能。</li>
-<li>载入内核文件：直接指向可开机的程序区段来开始操作系统。</li>
-<li>转交其他loader：将引导加载的功能转交给其他loader负责。<br>在一个计算机系统引导加载程序里可以具有两个以上的引导加载程序。引导加载程序除了可以安装在MBR，还可以安装在每个分区的引导扇区（boot sector）。分区的启动扇区特色造就了“多重引导”的功能。</li>
-</ul>
 
           
         
@@ -1318,7 +445,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/03/08/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/003-%E4%B8%BB%E6%9C%BA%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/011-Linux%E7%9A%84%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1337,7 +464,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2022/03/08/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/003-%E4%B8%BB%E6%9C%BA%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/" itemprop="url">Linux运维—磁盘分区</a></h1>
+                <a class="post-title-link" href="/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/011-Linux%E7%9A%84%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86/" itemprop="url">Linux运维—软件管理</a></h1>
         
 
         <div class="post-meta">
@@ -1349,8 +476,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-03-08T00:01:37+08:00">
-                2022-03-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-13T22:16:14+08:00">
+                2023-04-13
               </time>
             
 
@@ -1365,8 +492,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2022-03-13T00:54:50+08:00">
-                2022-03-13
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:19:56+08:00">
+                2023-04-13
               </time>
             
           </span>
@@ -1423,22 +550,40 @@
       
         
           
-            <h2 id="磁盘连接的方式与设备名称的关系"><a href="#磁盘连接的方式与设备名称的关系" class="headerlink" title="磁盘连接的方式与设备名称的关系"></a>磁盘连接的方式与设备名称的关系</h2><ul>
-<li>常见的磁盘接口有两种IDE和SATA接口，当前主流接口为SATA接口。IDE接口在Linux内的文件名为/dev/hd[a-p]；SATA接口在Linux内的文件名为/dev/sd[a-p]。</li>
-<li>SATA/USB接口的磁盘没有一定的顺序，是根据Linux内检测到磁盘的顺序。<h2 id="磁盘分区表"><a href="#磁盘分区表" class="headerlink" title="磁盘分区表"></a>磁盘分区表</h2>整块磁盘的第一扇区（512bytes）特别重要，因为它记录了整块磁盘的两个重要信息：</li>
-<li>主引导分区（Master Boot Record，MBR）：可以安装引导加载程序的地方，有446bytes。</li>
-<li>分区表（partition table）：记录整块磁盘分区的状态，有64bytes，总共分为4组记录区，每组记录区记录了该区段的起始与结束的柱面号码。<br>由于分区表只有64bytes，最多只能容纳4个分区，这4个分区被称为主（Primary）或扩展（Extended）分区。通过分析可以得到几个重要信息：</li>
-<li>其实所谓的“分区”只是针对那个64bytes的分区表进行设置而已。</li>
-<li>硬盘默认的分区表仅能写入4组分区信息。</li>
-<li>这4组分区信息我们称为主或扩展分区。</li>
-<li>分区的最小单位是柱面，是以柱面为单位的“连续”磁盘空间<br>第一个扇区只能记录4条数据，那是否可以利用额外的扇区来记录更多的分区信息呢？</li>
-<li>扩展分区的目的是使用额外的扇区来记录分区信息，扩展分区本身不能被拿来格式化，可以通过扩展分区指向的区块继续作分区的记录，由扩展分区继续切出来的分区，称为逻辑分区（logical partition）。逻辑分区可以使用的柱面范围就是扩展分区所设定的范围。</li>
-<li>主分区与扩展分区总共最多可以有4个（硬盘限制）。</li>
-<li>扩展分区最多只能有一个（操作系统限制）。</li>
-<li>逻辑分区是由扩展分区持续切割出来的分区。</li>
-<li>能够被格式化后作为数据访问的分区为主分区与逻辑分区。扩展分区无法格式化。</li>
-<li>逻辑分区的数量依据操作系统而不同，Linux的SATA硬盘有11个逻辑分区。</li>
+            <p>两大主流软件管理工具：RPM（Redhat/Fedora）和DRPM（Debian/Ubuntu）<br>RPM默认安装的路径：</p>
+<ul>
+<li>/usr/bin：一些可执行文件；</li>
+<li>/usr/lib：一些程序使用的动态函数库；</li>
+<li>/usr/share/doc：一些基本的软件使用手册和帮助文档；</li>
+<li>/usr/share/man：一些man page文件；</li>
 </ul>
+<p>RPM常用的操作命令：</p>
+<ul>
+<li>rpm -ivh pk_name：安装软件；</li>
+<li>rpm -Uvh pk_name：安装或升级软件；</li>
+<li>rpm -Fuh pk_name：更新软件；</li>
+<li>rpm -q pk_name：查询软件是否安装；</li>
+<li>rpm -qa：列出所有的已经安装在本机系统上的软件；</li>
+<li>rpm -qi pk_name：列出该软件的所有信息；</li>
+<li>rpm -ql pk_name：列出该软件的所有文件和目录所在的完成文件名；</li>
+<li>rpm -qc pk_name：列出该软件的所有配置文件；</li>
+<li>rpm -qd pk_name：列出该软件的所有帮助文件；</li>
+<li>rpm -qR pk_name：列出该软件有关的所有依赖软件所含的文件；</li>
+<li>rpm -e pk_name：卸载该软件；</li>
+</ul>
+<p>YUM是通过解决RPM的安装/删除/更新的依赖工具:</p>
+<ul>
+<li>yum search  pk_name：搜索该软件；</li>
+<li>yum list：列出yum server上提供的所有软件名称；</li>
+<li>yum info pk_name：查看该软件的功能信息介绍；</li>
+<li>yum list updates：列出目前yum server上可供本机进行更新的软件；</li>
+<li>yum provides command_name：列出提供该命令的软件有哪些；</li>
+<li>yum install pk_name：安装该软件；</li>
+<li>yum update pk_name：更新该软件；</li>
+<li>yum remove pk_name：卸载该软件；</li>
+<li>yum repolist all：列出所有的yum server</li>
+</ul>
+<p>YUM的配置文件：/etc/yum.repos.d/*.repo</p>
 
           
         
@@ -1487,7 +632,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/02/27/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/002-Linux%E7%9A%84%E7%94%B1%E6%9D%A5/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/010-Linux%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1506,7 +651,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2022/02/27/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/002-Linux%E7%9A%84%E7%94%B1%E6%9D%A5/" itemprop="url">Linux运维—Linux的由来</a></h1>
+                <a class="post-title-link" href="/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/010-Linux%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" itemprop="url">Linux运维—进程管理</a></h1>
         
 
         <div class="post-meta">
@@ -1518,8 +663,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-02-27T21:47:14+08:00">
-                2022-02-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-13T22:13:06+08:00">
+                2023-04-13
               </time>
             
 
@@ -1534,8 +679,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2022-03-07T23:55:38+08:00">
-                2022-03-07
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:17:39+08:00">
+                2023-04-13
               </time>
             
           </span>
@@ -1592,24 +737,13 @@
       
         
           
-            <h2 id="Linux之前UNIX的历史"><a href="#Linux之前UNIX的历史" class="headerlink" title="Linux之前UNIX的历史"></a>Linux之前UNIX的历史</h2><ul>
-<li>1969年以前，输入设备只有卡片阅读机，输出设备只有打印机，用户无法与操作系统进行互动。后来设备更新和操作系统的改良，可以使用键盘进行输入。此时，如果多人使用一台主机，则需要等待。后来麻省理工学院开发了分时操作系统，可以使大型主机通过提供多个终端连接进入主机，利用主机资源进行运算工作，但是终端只具备输入/输出的功能，本身不具有任何运算或软件安装的能力，同时比较先进的主机也只能链接30台左右的终端机。后来为了增加大型主机的功能，在1965年前后由贝尔实验室、麻省理工学院及通用电气公司共同发起了Multics项目，为了让大型主机同时提供300台以上的终端连接机使用的目的。在1969年前后，由于项目进度落后，资金短缺，贝尔实验室推出了该项目。</li>
-<li>1969年，原本参与Multics项目的成员Thompson，为了自己需要，以汇编语言(Assemler)写出来一组内核程序，同时包括一些内核工具程序及一个小的文件系统。该系统就是UNIX的原型。</li>
-<li>1973年，UNIX正式诞生。由于Thompson写的那个操作系统太好用了，在贝尔实验室内部广为流传，但是，由于是由汇编语言编写的，和计算机架构的兼容性太差，因此Thompson和Ritchie合作用C语言重新改写和编译，最后发行出了UNIX的正式版本。</li>
-<li>1977年，重要的UNIX分支—BSD诞生。贝尔实验室属于AT&amp;T公司，对于UNIX采取较为开放的态度，在1973年后UNIX便得以与学术界合作开发，最重要的就是与加州柏克莱（Berkeley）大学合作。柏克莱大学的BillJoy在取得UNIX的源码后，着手修改为舍和自己机器的版本，同时增加了很多工具软件与编译程序，最终将它命名为Berkeley Software Dsitribution（BSD）。这个BSD是UNIX很重要的一个分支，Bill Joy也是Sun这家公司的创办者。Sun公司即是以BSD开发的内核进行自己的商业UNIX版本的开发的。</li>
-<li>1979年，由于UNIX的高度可移植性与强大的性能，加上当时并没有版权的纠纷，所以很多公司开始了UNIX操作系统的开发，例如AT&amp;T的System V、IBM的AIX等。而在早期每家生产计算机硬件的公司还没有“协议”的概念，所以每一家计算机公司生产的硬件自然就不相同，因此需要为自己的计算机硬件开发合适的UNIX系统，而且仅能与自身的硬件支持，这种情况在1979年AT&amp;T推出System V第七版UNIX后有所改善，这个版本的System V支持x86架构的个人计算机。由于商业原因，AT&amp;T在第七版的UNIX中，特别提到“不可对学生提供源码”的严格限制</li>
-<li>1984年，Richard Mathew Stallman（史托曼）发起了GNU项目，对于当今自由软件风潮具有不可磨灭的地位。这个项目是创建一个自由、开放的UNIX操作系统(Free UNIX)，著名的GNU C Compiler（GCC）、Emacs以及常用的C函数库、bash shell等都是他完成的。为了避免GNU开发的自由软件被其他所利用成为专利软件，他与律师草拟了有名的通用公共许可证（GPL）。</li>
-<li>1991年，芬兰的赫尔辛基大学的Linus Torvalds以bash，gcc等工具写了一个小小的内核程序，这个内核程序可以在Intel的386机器上运行。</li>
-</ul>
-<h2 id="Linux的内核版本"><a href="#Linux的内核版本" class="headerlink" title="Linux的内核版本"></a>Linux的内核版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2.6.18-92.e15</span><br><span class="line">主版本.次版本.释出版本-修改版本</span><br></pre></td></tr></table></figure>
-<ul>
-<li>主、次版本为奇数：开发中版本。主要在测试和开发新功能。</li>
-<li>主、次版本为偶数：稳定版本</li>
-</ul>
-<h2 id="Linux的Distributions"><a href="#Linux的Distributions" class="headerlink" title="Linux的Distributions"></a>Linux的Distributions</h2><ul>
-<li>Linux的Distributions包括“Kernel + Software + Tools”</li>
-<li>一般Distribution主要分为两大系统，一种使用RPM方式安装软件的系统，如Red Hat，Fedora，SuSE等；一种则是使用Debian的dpkg方式，如Debian，Ubuntu，B2D等。</li>
-<li>如何选择Distribution？如果装在个人计算机上，建议使用团队版Fedora，Ubuntu，OpenSuSE等。如果用在服务器上建议使用商业版本，如Red Hat，SuSE。</li>
+            <ul>
+<li>查看系统进程：ps aux</li>
+<li>动态查看进程的变化：top</li>
+<li>查看进程数：pstree</li>
+<li>进程管理：kill -signal PID，signal取值1（重新启动读取配置文件）；9（强制终止）；15（正常终止）</li>
+<li>系统 资源查看：free查看内存使用情况；uname查看系统与内核相关信息；dmesg分析内核产生的信息</li>
+<li>找出系统上监听的网络及其PID：netstat -tlnp</li>
 </ul>
 
           
@@ -1659,7 +793,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/02/19/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/001-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%AE%BA/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/009-Linux%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1678,7 +812,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2022/02/19/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/001-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%AE%BA/" itemprop="url">Linux运维—计算机概论</a></h1>
+                <a class="post-title-link" href="/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/009-Linux%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/" itemprop="url">Linux运维—系统日志</a></h1>
         
 
         <div class="post-meta">
@@ -1690,8 +824,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-02-19T21:40:27+08:00">
-                2022-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-13T22:11:34+08:00">
+                2023-04-13
               </time>
             
 
@@ -1706,8 +840,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2022-03-12T23:59:56+08:00">
-                2022-03-12
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:13:06+08:00">
+                2023-04-13
               </time>
             
           </span>
@@ -1764,65 +898,16 @@
       
         
           
-            <h2 id="计算机常用的计算单位"><a href="#计算机常用的计算单位" class="headerlink" title="计算机常用的计算单位"></a>计算机常用的计算单位</h2><ul>
-<li>大小单位：0/1的单位称为bit。存储数据时每份简单的数据都会使用到8个bit的大小来记录，称之为Byte；1Byte=8bit。</li>
+            <h2 id="系统常见的日志文件名"><a href="#系统常见的日志文件名" class="headerlink" title="系统常见的日志文件名"></a>系统常见的日志文件名</h2><ul>
+<li>/var/log/dmesg：系统启动时内核检测日志，dmesg命令利用的就是这个文件；</li>
+<li>/var/log/lastlog：记录系统上所有的帐号最近一次登陆的相关信息，lastlog命令利用的是这个文件；</li>
+<li>/var/log/messages：记录系统发生的所有错误信息，这个文件非常重要，发生错误一定要查这个文件；</li>
+<li>/var/log/secure：记录涉及到帐号密码登陆的信息都会记录在这个文件中；</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>进制位</th>
-<th>K</th>
-<th>M</th>
-<th align="left">G</th>
-<th align="left">T</th>
-<th align="left">P</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>二进制</td>
-<td>1024</td>
-<td>1024K</td>
-<td align="left">1024M</td>
-<td align="left">1024G</td>
-<td align="left">1024T</td>
-</tr>
-<tr>
-<td>十进制</td>
-<td>1000</td>
-<td>1000K</td>
-<td align="left">1000M</td>
-<td align="left">1000G</td>
-<td align="left">1000T</td>
-</tr>
-</tbody></table>
-<ul>
-<li>速度单位：Hz是秒分之一。网络传输方面往往采用bit为单位，如网络常使用Mbit/s，即每秒多少Mbit，如果转成文件容量Byte时，其实需要除以8。</li>
-</ul>
-<h2 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h2><ul>
-<li>CPU的种类：按照指令集的分类，分为精简指令集（RISC）与复杂指令集（CISC）。</li>
-<li>CPU的频率：频率即CPU每秒钟可以进行的工作次数。如频率为3.0GHz，表示CPU再一秒钟之内可以进行3.0 * 10的9次方次工作。</li>
-<li>CPU的外频与倍频：外频指的是CPU与外部组件（内存）进行数据传输/运算时的速度，倍频则是CPU内部用来加速工作性能的一个倍数，两者相乘是CPU的频率。</li>
-<li>CPU的32位与64位：内存与CPU的通信速度考的是外部频率，那么每次工作可以传送的数据量有多大就是总线的功能。一般主板芯片组分为北桥和南桥，北桥的总线成为系统总线，因为内存传输的主要信道，所以速度较快；南桥就是所谓的输入输出总线。北桥所支持的频率称为前端总线速度（FSB），而每次传送的位数则是总线宽度，总线频宽=FSB * 总线宽度，常见的总线宽度有32/64位（bit）。与总线宽度相似，CPU每次能够处理的数据量称为字组大小，字组大小依据CPU的设计而有32位与64位。现在所称的计算机是32位或者64位主要是依据CPU解析的字组大小而来。</li>
-</ul>
-<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><ul>
-<li>DRAM：动态随机访问内存。通电才记录与使用，断电数据消失。就是常用的与CPU交互的主要数据内存。</li>
-<li>SRAM：静态随机访问内存。用于CPU高速缓存，一般集成到CPU内</li>
-<li>ROM：只读存储器。通常用于BIOS程序写入。</li>
-</ul>
-<h2 id="显卡"><a href="#显卡" class="headerlink" title="显卡"></a>显卡</h2><p>显卡又称为VGA，显卡上会有一个内存容量，这个显卡内存将会影响到最终的屏幕分辨率和色彩深度。除了内存外，由于3D动画的流行，因此显卡的运算能力也越来越重要。一般会在显卡嵌入3D加速的芯片，这就是GPU的由来。</p>
-<h2 id="硬盘与存储设备"><a href="#硬盘与存储设备" class="headerlink" title="硬盘与存储设备"></a>硬盘与存储设备</h2><ul>
-<li>硬盘：由盘片、机械手臂、磁头与主轴马达所组成。盘片上由圆心以放射的方式分隔出磁盘的最小存储单位—扇区，每个扇区的最小单位为512bytes，这个值不可变。扇区组成一个圆就是一个磁道，在所有的盘片上同一个磁道可以组成一个柱面，柱面也是我们分隔硬盘的最小单位。</li>
-<li>计算硬盘的存储容量：磁头的数量*每次磁头负责的柱面数量 * 每个柱面所含有的扇区数量 * 扇区的容量</li>
-</ul>
-<h2 id="文字编码系统"><a href="#文字编码系统" class="headerlink" title="文字编码系统"></a>文字编码系统</h2><ul>
-<li>常用的英文编码表为ASCII系统，每个字符占1B的容量，因此总共会有2的8次方256个字符。至于中文编码最常用的就是gb2312系统，每个字符占2B的容量，因此总共会有2的16次方65536个字符。</li>
-<li>由于中文编码对某些些数据库系统来说会出现误判和乱码问题，同时其他非英语系国家同样出现了这些问题，为了解决这个问题，由国际组织ISO/IEC制定了所谓的Unicode编码系统，即我们常称呼的UTF8。</li>
-</ul>
-<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><ul>
-<li>操作系统的组成：操作系统由下到上分别由硬件、内核、系统调用和应用程序4个层面构成。</li>
-<li>硬件层：计算机系统主要由硬件组成。包含上面的CPU、内存、显卡等</li>
-<li>内核层：主要在于管理计算机的所有活动，驱动硬件，提供合理的计算机系统资源分配，因此硬件不同，内核就要进行修改。内核的主要功能有：系统调用接口；程序管理；内存管理；文件系统管理；设备驱动。</li>
-<li>系统调用层：为了保护内核，同时为了更方面程序员比较容易开发软件，会提供一整组的开发接口，这就是系统调用层。</li>
+<h2 id="系统的日志记录相关的进程"><a href="#系统的日志记录相关的进程" class="headerlink" title="系统的日志记录相关的进程"></a>系统的日志记录相关的进程</h2><ul>
+<li>syslogd：主要记录系统与网络等服务的信息，配置文件/etc/syslog.conf；</li>
+<li>klogd：主要记录内核产生的各项信息,；</li>
+<li>logrotate：主要进行日志文件的轮替功能，配置文件/etc/logrotate.conf。</li>
 </ul>
 
           
@@ -1872,7 +957,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/01/06/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E2%80%94%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/008-Linux%E7%9A%84%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dongfeiliu">
@@ -1891,7 +976,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2022/01/06/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E2%80%94%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="url">Mysql—常见坑与解决方案</a></h1>
+                <a class="post-title-link" href="/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/008-Linux%E7%9A%84%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" itemprop="url">Linux运维—用户管理</a></h1>
         
 
         <div class="post-meta">
@@ -1903,8 +988,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:04+08:00">
-                2022-01-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-13T22:07:23+08:00">
+                2023-04-13
               </time>
             
 
@@ -1919,8 +1004,527 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2022-01-06T10:43:28+08:00">
-                2022-01-06
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:11:05+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="用户ID的范围"><a href="#用户ID的范围" class="headerlink" title="用户ID的范围"></a>用户ID的范围</h2><ul>
+<li>0：为系统管理员。</li>
+<li>1～499：为保留给系统使用的ID。这些系统帐号通常是不可登陆的。</li>
+<li>500～65535：为普通用户使用的ID。</li>
+</ul>
+<h2 id="用户相关的配置文件"><a href="#用户相关的配置文件" class="headerlink" title="用户相关的配置文件"></a>用户相关的配置文件</h2><p>/etc/passwd：用户帐号文件<br>/etc/shadow：用户密码文件<br>/etc/group：用户组文件</p>
+<h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><p>添加用户：<br>useradd     username：添加用户<br>passwd     username：用户密码<br>userdel -r username：删除用户</p>
+<h2 id="用户身份切换"><a href="#用户身份切换" class="headerlink" title="用户身份切换"></a>用户身份切换</h2><ul>
+<li>su - username：切换身份，使用login-shell的变量文件读取方式登陆，如果不加“-”则使用nologin-shell的方式登陆，此时bash的环境变量不会改变，如果username省略，则代表切换为root命令，切换命令需要密码；-c代表用切换的身份执行的命令；</li>
+<li>sudo -u username：欲切换的用户，若没有这个参数u代表切换的身份为root用户；-c代表用切换的身份执行的命令；</li>
+</ul>
+<p>通过编辑/etc/sudoers文件，添加可以执行sudo权限的用户，或者用户组（最左边加%）。<br>文件格式：用户帐号     来源主机名=（可切换的身份）     可执行的命令</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/007-Linux%E7%9A%84bash%20shell%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/04/13/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/007-Linux%E7%9A%84bash%20shell%E5%8A%9F%E8%83%BD/" itemprop="url">Linux运维—Bash Shell的常见功能</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-13T22:04:04+08:00">
+                2023-04-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:07:23+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="bash-shell的变量功能"><a href="#bash-shell的变量功能" class="headerlink" title="bash shell的变量功能"></a>bash shell的变量功能</h2><ul>
+<li>环境变量：用env查看环境变量</li>
+<li>自定义变量：用set查看所有变量</li>
+</ul>
+<p>环境变量和自定义变量的区别在于，环境变量可以被子进程继承，自定义变量则不可以。可以使用export将自定义变量转为环境变量。ulimit限制用户所使用的资源限制，ulimit -a列出目前用户的资源限制。</p>
+<h2 id="bash-shell的环境配置"><a href="#bash-shell的环境配置" class="headerlink" title="bash shell的环境配置"></a>bash shell的环境配置</h2><p>login-shell的环境配置文件加载流程依次如下：</p>
+<ul>
+<li>/etc/profile：系统整体的设置，不建议修改这个文件</li>
+<li>～/.bash_profile：用户个人配置</li>
+<li>～/.bash_login：用户个人配置</li>
+<li>～/.profile：用户个人配置</li>
+</ul>
+<h2 id="bash-shell的数据流重定向"><a href="#bash-shell的数据流重定向" class="headerlink" title="bash shell的数据流重定向"></a>bash shell的数据流重定向</h2><ul>
+<li>标准输入（stdin）：代码为0，使用&lt;或&lt;&lt;。&lt;是将原本需要键盘输入的数据改由文件内容来替代，&lt;&lt;是代表结束输入的意思，例如，&lt;&lt; “eof”表示当由键盘输入eof时，该次输入就结束；</li>
+<li>标准输出（stdout）：代码为1，使用&gt;或&gt;&gt;。&gt;是以覆盖的方式将正确的数据输出到指定的文件或者设备上，&gt;&gt;是以追加的方式将正确的数据输出到指定的文件或者设备上；</li>
+<li>标准错误输出（stderr）：代码为2，使用2&gt;或2&gt;&gt;。2&gt;是以覆盖的方式将错误的数据输出到指定的文件或者设备上，2&gt;&gt;是以追加的方式将正确的数据输出到指定的文件或者设备上；</li>
+<li>/dev/null 垃圾桶黑洞设备</li>
+</ul>
+<h2 id="bash-shell多命令执行的判断依据"><a href="#bash-shell多命令执行的判断依据" class="headerlink" title="bash shell多命令执行的判断依据"></a>bash shell多命令执行的判断依据</h2><ul>
+<li><p>cmd1 ; cmd2：命令1和2之间没有相关性依据；</p>
+</li>
+<li><p>cmd1 &amp;&amp; cmd2：命令1执行成功，命令2才会执行，命令1执行失败，命令2不执行；</p>
+</li>
+<li><p>cmd1 || cmd2：命令1执行成功，命令2不执行，命令1执行失败，命令2才会执行；</p>
+</li>
+<li><p>命令回传码$?：命令执行成功则为0，命令执行失败则不为0。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/12/16/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/006-Linux%E7%9A%84%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D(Quota)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/12/16/8-Linux%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/006-Linux%E7%9A%84%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D(Quota)/" itemprop="url">Linux运维—磁盘配额（Quota）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-16T16:53:56+08:00">
+                2022-12-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2023-04-13T22:00:49+08:00">
+                2023-04-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Quota功能需要文件系统的支持。</p>
+<ul>
+<li>mount -o remount,usrquota,grpquota 文件系统名：文件系统手动加入quota支持，如果需要一直生效，则需要修改/etc/fstab文件；</li>
+<li>quotacheck -avug 文件系统名：构建文件系统的quota配置文件,构建的配置文件会放到指定的文件系统下面；</li>
+<li>quotaon -avug 文件系统名：启动指定文件系统的quota功能；</li>
+<li>quotaoff -aug 文件系统名：关闭指定文件系统的quota功能；</li>
+<li>edquota [-u username] [-g groupname]：修改指定用户或用户组的限值和宽限时间；</li>
+<li>quota [-uvs username] [-gvs groupname]：查询指定用户或用户组的quota限额；</li>
+<li>repquota -augvs：查看所有启用quota功能的文件系统的所有用户和用户组的quota限额；</li>
+</ul>
+<p>quota限额设置的七个字段：</p>
+<ul>
+<li>文件系统名称：表示该quota限额是针对哪个文件系统的；</li>
+<li>已使用的block（磁盘容量）：这个数值是quota自己算出来的，不用修改；</li>
+<li>soft：block的soft限制值；</li>
+<li>hard：block的hard限制值；</li>
+<li>已使用的inode（文件数量）：这个数值是quota自己算出来的，不用修改；</li>
+<li>soft：inode的soft限制值；</li>
+<li>hard：inode的hard限制值；</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/12/12/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%B6%85%E6%97%B6%E5%8F%82%E6%95%B0%E7%9A%84%E5%90%AB%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/12/12/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/Mysql%E9%AB%98%E7%BA%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%B6%85%E6%97%B6%E5%8F%82%E6%95%B0%E7%9A%84%E5%90%AB%E4%B9%89/" itemprop="url">Mysql高级—常见超时参数的含义</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-12T09:50:53+08:00">
+                2022-12-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-12-12T10:54:49+08:00">
+                2022-12-12
               </time>
             
           </span>
@@ -1977,14 +1581,356 @@
       
         
           
-            <ol>
-<li><p>问题现象：日志中出现World-writable config file ‘/etc/mysql/my.cnf’ is ignored。<br> 问题本质：mysql配置文件不生效。<br> 解决方法：mysql配置文件权限过大777，任何用户都可修改。</p>
-<pre><code>使用`chmod 644 /etc/mysql/my.cnf`修改文件权限即可。</code></pre></li>
-<li><p>问题现象：mysql 1346错误，更新表记录报 “Field doesn’t have a default value” 错误。<br> 问题本质：mysql5.7版本以后默认增加了mysql的严格模式，在更新时会默认加入所有字段，严格模式定义即</p>
-<pre><code>sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;中的STRICT_TRANS_TABLES。</code></pre><p> 解决方法：修改sql-mode，修改为</p>
-<pre><code>sql-mode=&quot;NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;</code></pre></li>
-</ol>
+            <h2 id="查询mysql中的各种超时参数"><a href="#查询mysql中的各种超时参数" class="headerlink" title="查询mysql中的各种超时参数"></a>查询mysql中的各种超时参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">MySQL [(none)]&gt; show variables like &#39;%timeout%&#39;;</span><br><span class="line">+------------------------------+----------+</span><br><span class="line">| Variable_name                | Value    |</span><br><span class="line">+------------------------------+----------+</span><br><span class="line">| connect_timeout              | 10       |</span><br><span class="line">| delayed_insert_timeout       | 300      |</span><br><span class="line">| innodb_flush_log_at_timeout  | 1        |</span><br><span class="line">| innodb_lock_wait_timeout     | 120      |</span><br><span class="line">| innodb_rollback_on_timeout   | ON       |</span><br><span class="line">| interactive_timeout          | 172800   |</span><br><span class="line">| lock_wait_timeout            | 31536000 |</span><br><span class="line">| net_read_timeout             | 30       |</span><br><span class="line">| net_write_timeout            | 60       |</span><br><span class="line">| rpl_semi_sync_master_timeout | 10000    |</span><br><span class="line">| rpl_stop_slave_timeout       | 31536000 |</span><br><span class="line">| slave_net_timeout            | 10       |</span><br><span class="line">| wait_timeout                 | 172800   |</span><br><span class="line">+------------------------------+----------+</span><br><span class="line">13 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h2 id="连接、网络类超时"><a href="#连接、网络类超时" class="headerlink" title="连接、网络类超时"></a>连接、网络类超时</h2><p>列表如下：<br>    - connect_timeout: 默认为10秒<br>    - wait_timeout: 默认是28800秒，8小时<br>    - interactive_timeout: 默认是28800秒，8小时<br>    - net_read_timeout: 默认是30秒<br>    - net_write_timeout: 默认是60秒</p>
+<h3 id="connect-timeout"><a href="#connect-timeout" class="headerlink" title="connect_timeout"></a>connect_timeout</h3><p>在获取连接阶段起作用，</p>
+<ul>
+<li>获取MySQL连接是多次握手的结果，除了用户名和密码的匹配校验外，还有IP-&gt;HOST-&gt;DNS-&gt;IP验证，任何一步都可能因为网络问题导致线程阻塞。为了防止线程浪费在不必要的校验等待上，超过connect_timeout的连接请求将会被拒绝。</li>
+</ul>
+<h3 id="interactive-timeout和wait-timeout"><a href="#interactive-timeout和wait-timeout" class="headerlink" title="interactive_timeout和wait_timeout"></a>interactive_timeout和wait_timeout</h3><p>在连接空闲阶段（sleep）起作用</p>
+<ul>
+<li>即使没有网络问题，也不能允许客户端一直占用连接。对于保持sleep状态超过了wait_timeout（或interactive_timeout，取决于client_interactive标志）的客户端，MySQL会主动断开连接。</li>
+</ul>
+<h3 id="net-read-timeout和net-write-timeout"><a href="#net-read-timeout和net-write-timeout" class="headerlink" title="net_read_timeout和net_write_timeout"></a>net_read_timeout和net_write_timeout</h3><p>在连接查询阶段（query）起作用</p>
+<ul>
+<li>客户端忙于计算或者存储数据，MySQL也选择了有条件的等待。在数据包的分发过程中，客户端可能来不及响应（发送、接收、或者处理数据包太慢）。</li>
+</ul>
+<h3 id="连接参数生效过程"><a href="#连接参数生效过程" class="headerlink" title="连接参数生效过程"></a>连接参数生效过程</h3><p>在TCP三次握手的基础之上，简历MySQL通讯协议的连接，这个连接建立过程受connect_timeout参数控制<br>——————–TCP established——————–<br>MySQL Server(10.10.20.96)——-&gt;Client(10.10.20.51)<br>Client(10.10.20.51)——-&gt;MySQL Server(10.10.20.96)<br>MySQL Server(10.10.20.96)——-&gt;Client(10.10.20.51)<br>——————–established——————–</p>
+<p>在MySQL通讯协议建立连接之后，此时客户端连接的超时受wait_timeout和interactive_timeout参数控制<br>建立连接后无交互：MySQL server —wait_timeout— Client<br>建立连接交互后：MySQL server —interactive_timeout— Client</p>
+<p>在如果客户端有数据包传输，那么这个数据包的传输超时由net_read_timeout和net_write_timeout参数控制<br>——————-client与server端有数据传输时——————-<br>client —–&gt;MySQL Server(net_read_timeout)<br>client &lt;—–MySQL Server(net_write_timeout)</p>
+<h2 id="锁类超时"><a href="#锁类超时" class="headerlink" title="锁类超时"></a>锁类超时</h2><p>列表如下：<br>    - innodb_lock_wait_timeout<br>    - innodb_rollback_on_timeout<br>    - lock_wait_timeout</p>
+<h3 id="innodb-lock-wait-timeout"><a href="#innodb-lock-wait-timeout" class="headerlink" title="innodb_lock_wait_timeout"></a>innodb_lock_wait_timeout</h3><p>innodb使用这个参数能够有效避免在资源有限的情况下产生太多的锁等待；指的是事务等待获取资源时等待的最长时间，超过这个时间还未分配到资源则会返回应用失败；参数的时间单位是秒，最小可设置为1s(一般不会设置得这么小)，最大可设置1073741824秒（34年，一条语句锁等待超过30分钟估计业务该有反馈了），默认安装时这个值是50s，超过这个时间会报 ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction</p>
+<h3 id="innodb-rollback-on-timeout"><a href="#innodb-rollback-on-timeout" class="headerlink" title="innodb_rollback_on_timeout"></a>innodb_rollback_on_timeout</h3><p>默认情况下innodb_lock_wait_timeout 超时后只是sql执行失败，整个事务并不回滚不提交，如需要事务在超时的时候回滚，则需设置，innodb_rollback_on_timeout =ON，默认为OFF，这个参数控制回滚时间</p>
+<h3 id="lock-wait-timeout"><a href="#lock-wait-timeout" class="headerlink" title="lock_wait_timeout"></a>lock_wait_timeout</h3><p>凡需要获取MDL锁的操作都受到这个超时参数的影响，不单单是DDL语句，包含在表上的DML、DDL操作，以及视图、存储过程、存储函数、lock table，flush table with read lock语句等。但不适用于隐式访问系统表的语句，如：grant和revoke等</p>
+<h2 id="复制类超时"><a href="#复制类超时" class="headerlink" title="复制类超时"></a>复制类超时</h2><p>列表如下：<br>    - slave_net_timeout</p>
+<h3 id="slave-net-timeout"><a href="#slave-net-timeout" class="headerlink" title="slave_net_timeout"></a>slave_net_timeout</h3><p>Slave判断主库是否挂掉的超时设置，在设定时间内依然没有获取到Master的回应就认为Master已经挂掉了，后续根据超时重连参数设置进行重连主库的操作。默认值：3600S</p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/12/05/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/DS/Dolphinscheduler%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/12/05/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/DS/Dolphinscheduler%E5%9F%BA%E7%A1%80%E2%80%94%E9%85%8D%E7%BD%AE/" itemprop="url">Dolphinscheduler基础—配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-05T15:33:25+08:00">
+                2022-12-05
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-12-05T15:51:04+08:00">
+                2022-12-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="工作流传参"><a href="#工作流传参" class="headerlink" title="工作流传参"></a>工作流传参</h2><ul>
+<li><p>本地参数<br>  作用于工作流的当前任务节点，在任务定义节点进行配置。</p>
+</li>
+<li><p>全局参数<br>  作用于工作流的所有任务节点，在保存工作流的时候进行配置。</p>
+</li>
+<li><p>内置参数</p>
+<ul>
+<li><p>基础内置参数</p>
+<pre><code>| 变量名              | 声明方式               | 含义                                            |
+|---------------------|------------------------|-------------------------------------------------|
+| system.biz.date     | ${system.biz.date}     | 日常调度实例定时的定时时间前一天，格式为yyyyMMdd  |
+| system.biz.curdate  | ${system.biz.curdate}  | 日常调度实例定时的定时时间，格式为yyyyMMdd       |
+| system.biz.datetime | ${system.biz.datetime} | 日常调度实例定时的定时时间，格式为yyyyMMddHHmmss |</code></pre></li>
+</ul>
+</li>
+</ul>
+<pre><code>* 衍生内置参数
+    - 使用add_months()函数，该函数用于加减月份，第一个入口参数为[yyyyMMdd]，表示返回时间的格式，第二个入口参数为月份偏移量，表示加减多少个月
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">后N年：$[add_months(yyyyMMdd,12*N)]</span><br><span class="line">前N年：$[add_months(yyyyMMdd,-12*N)]</span><br><span class="line">后N月：$[add_months(yyyyMMdd,N)]</span><br><span class="line">前N月：$[add_months(yyyyMMdd,-N)]</span><br></pre></td></tr></table></figure>
+    - 在自定义格式后直接“+/-”数字，单位为天
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">后N周：$[yyyyMMdd+7*N]</span><br><span class="line">前N周：$[yyyyMMdd-7*N]</span><br><span class="line">后N天：$[yyyyMMdd+N]</span><br><span class="line">前N天：$[yyyyMMdd-N]</span><br><span class="line">后N小时：$[yyyyMMdd+N&#x2F;24]</span><br><span class="line">前N小时：$[yyyyMMdd-N&#x2F;24]</span><br><span class="line">后N分钟：$[yyyyMMdd+7&#x2F;24&#x2F;60]</span><br><span class="line">前N分钟：$[yyyyMMdd-7&#x2F;24&#x2F;60]</span><br></pre></td></tr></table></figure></code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liudongfei.github.io/2022/12/05/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/DS/Dolphinscheduler%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dongfeiliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="琅琊的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/12/05/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B7%A5%E5%85%B7/DS/Dolphinscheduler%E5%9F%BA%E7%A1%80%E2%80%94%E5%AE%89%E8%A3%85/" itemprop="url">Dolphinscheduler基础—安装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-05T15:31:02+08:00">
+                2022-12-05
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2022-12-05T15:33:25+08:00">
+                2022-12-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="待更新"><a href="#待更新" class="headerlink" title="待更新"></a>待更新</h1>
           
         
       
@@ -2023,7 +1969,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
   </nav>
 
 
@@ -2069,7 +2015,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">153</span>
+                  <span class="site-state-item-count">162</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2091,7 +2037,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -2128,7 +2074,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
