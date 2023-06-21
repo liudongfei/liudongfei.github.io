@@ -87,7 +87,7 @@
 <meta property="og:description" content="安装mysql5.7 下载并安装Mysql官方的yum repo[root@localhost ~]# wget -i -c http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-10.noarch.rpm[root@localhost ~]# yum -y install mysql57-community-release-el7-10.n">
 <meta property="og:image" content="https://liudongfei.github.io/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/15841830146221.jpg">
 <meta property="article:published_time" content="2021-02-26T08:08:32.000Z">
-<meta property="article:modified_time" content="2021-02-26T08:08:32.000Z">
+<meta property="article:modified_time" content="2023-05-12T16:07:05.105Z">
 <meta property="article:author" content="dongfeiliu">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2021-02-26T16:08:32+08:00">
-                2021-02-26
+              <time title="Post modified" itemprop="dateModified" datetime="2023-05-13T00:07:05+08:00">
+                2023-05-13
               </time>
             
           </span>
@@ -397,7 +397,7 @@
         <h3 id="安装mysql5-7"><a href="#安装mysql5-7" class="headerlink" title="安装mysql5.7"></a>安装mysql5.7</h3><ol>
 <li>下载并安装Mysql官方的yum repo<br><code>[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</code><br><code>[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</code></li>
 <li>开始安装mysql服务器<br><code>[root@localhost ~]# yum -y install mysql-community-server</code></li>
-<li>mysql数据库配置 <a id="more"></a><br>启动mysql：<br><code>[root@localhost ~]# systemctl start mysqld.service</code><br><code>[root@localhost ~]# systemctl status mysqld.service</code><br>通过如下命令在日志文件中找出密码：<br><code>[root@localhost ~]# grep &quot;password&quot; /var/log/mysqld.log</code><br>进入mysql，修改密码和初始密码规则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global validate_password_policy&#x3D;0; </span><br><span class="line">mysql&gt; set global validate_password_length&#x3D;1;</span><br><span class="line">mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new password&#39;;</span><br></pre></td></tr></table></figure>
+<li>mysql数据库配置 <a id="more"></a><br>启动mysql：<br><code>[root@localhost ~]# systemctl start mysqld.service</code><br><code>[root@localhost ~]# systemctl status mysqld.service</code><br>备注：<br>出现“Failed to start mysqld.service: Unit not found”时代表安装失败，查看安装输出包含“”MySQL 5.7 Community Server” 的 GPG 密钥已安装,但是不适用于此软件包”错误，修复方法：<br>先执行:<br><code>rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022</code><br>再执行第2步安装命令。<br>通过如下命令在日志文件中找出密码：<br><code>[root@localhost ~]# grep &quot;password&quot; /var/log/mysqld.log</code><br>进入mysql，修改密码和初始密码规则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global validate_password_policy&#x3D;0; </span><br><span class="line">mysql&gt; set global validate_password_length&#x3D;1;</span><br><span class="line">mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new password&#39;;</span><br><span class="line">mysql&gt; UPDATE user set Host&#x3D;&#39;%&#39; WHERE User&#x3D;&#39;root&#39;;</span><br></pre></td></tr></table></figure>
 修改编码：<br>在[mysqld]标签下加上以下内容：<br><code>character_set_server = utf8</code><br>在[client]标签下加上以下内容：<br><code>default-character-set = utf8</code><br>重启mysql，查看编码：<br><img src="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/002Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E5%AE%89%E8%A3%85/15841830146221.jpg" alt></li>
 <li>卸载yum repo<br><code>[root@localhost ~]# yum -y remove mysql57-community-release-el7-10.noarch</code><h2 id="配置mysql主从"><a href="#配置mysql主从" class="headerlink" title="配置mysql主从"></a>配置mysql主从</h2></li>
 <li>配置主库，在master上操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">log-bin&#x3D;mysql-bin   &#x2F;&#x2F;[必须]启用二进制日志</span><br><span class="line">server-id&#x3D;145      &#x2F;&#x2F;[必须]服务器唯一ID,一般取IP最后一段</span><br></pre></td></tr></table></figure></li>
@@ -476,8 +476,8 @@ Slave_SQL_Running: Yes</code></li>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/001Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E8%A7%84%E8%8C%83/" rel="next" title="Mysql基础—Mysql规范">
-                <i class="fa fa-chevron-left"></i> Mysql基础—Mysql规范
+              <a href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/01-Redis/Redis%E6%A0%B8%E5%BF%83%E2%80%94%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" rel="next" title="Redis核心—主从复制">
+                <i class="fa fa-chevron-left"></i> Redis核心—主从复制
               </a>
             
           </div>
@@ -486,8 +486,8 @@ Slave_SQL_Running: Yes</code></li>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/000Mysql%E5%9F%BA%E7%A1%80%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="prev" title="Mysql基础—知识图谱">
-                Mysql基础—知识图谱 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/02/26/5-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF/00-Mysql/001Mysql%E5%9F%BA%E7%A1%80%E2%80%94Mysql%E8%A7%84%E8%8C%83/" rel="prev" title="Mysql基础—Mysql规范">
+                Mysql基础—Mysql规范 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -565,7 +565,7 @@ Slave_SQL_Running: Yes</code></li>
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">162</span>
+                  <span class="site-state-item-count">163</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
